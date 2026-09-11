@@ -17,25 +17,34 @@ export function About() {
             <span className="text-gradient">saral for Bharat.</span>
           </>
         }
-        lede={
-          <>
-            Saralya was founded in 2026 by two operators who spent two decades each inside Indian banking
-            infrastructure. Across 200+ deployments we saw the same pattern: small and mid-sized lenders paying
-            multi-crore upfront fees for legacy stacks, living with rigidity, long change cycles and Excel as the
-            real system of record.
-            <br />
-            <br />
-            We are building the alternative — modular, API-first, priced per loan — so that a small bank or NBFC
-            gets the same compliance backbone as a ₹50,000 Cr listed lender, without paying for it upfront.
-          </>
-        }
+        lede="Founded in 2026 by two operators who spent two decades each inside Indian banking infrastructure."
       />
 
       <Section tight>
         <Container>
-          <FadeIn>
-            <img src="/img/ledger.jpg" alt="" className="mb-20 aspect-[21/9] w-full rounded-[32px] object-cover shadow-lg" />
-          </FadeIn>
+          {/* Story: portrait with a floating stat, text alongside */}
+          <div className="mb-24 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+            <FadeIn className="relative">
+              <img src="/img/ledger.jpg" alt="" className="aspect-[4/5] w-full rounded-[32px] object-cover shadow-lg" />
+              <div className="absolute -bottom-6 -right-4 rounded-3xl bg-white p-5 shadow-lg sm:-right-8">
+                <div className="display text-[40px] text-accent">200+</div>
+                <div className="text-[13px] text-muted">deployments, one pattern</div>
+              </div>
+              <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink2 backdrop-blur">
+                Excel is still the system of record
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.15}>
+              <p className="display text-[clamp(26px,3vw,38px)] leading-tight">
+                Small and mid-sized lenders pay multi-crore upfront fees for legacy stacks — and live with rigidity, long
+                change cycles and Excel as the real system of record.
+              </p>
+              <p className="mt-6 text-[17px] leading-relaxed text-muted">
+                We are building the alternative — modular, API-first, priced per loan — so that a small bank or NBFC gets
+                the same compliance backbone as a ₹50,000 Cr listed lender, without paying for it upfront.
+              </p>
+            </FadeIn>
+          </div>
           <SectionHead eyebrow="What we believe" title="Three convictions." />
           <Stagger className="grid gap-4 md:grid-cols-3">
             {CONVICTIONS.map((c) => (
