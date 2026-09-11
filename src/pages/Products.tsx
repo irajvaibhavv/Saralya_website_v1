@@ -22,7 +22,7 @@ export function Products() {
             <span className="text-gradient">One stack.</span>
           </>
         }
-        lede="Run it all as your LOS + LMS, or plug one module into the core you already have."
+        lede="Run the full stack, or plug in one module."
       >
         <div className="flex flex-wrap gap-2">
           {MODULES.map((m, i) => (

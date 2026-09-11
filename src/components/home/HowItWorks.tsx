@@ -22,7 +22,7 @@ export function HowItWorks() {
               Plug in once. <span className="text-accent">Decide in minutes.</span>
             </>
           }
-          lede="Send the application. Saralya pulls the data, scores it, runs 600+ compliance checks and returns a decision — through one endpoint."
+          lede="One endpoint in. Scored, checked, decided — out."
         />
 
         <FadeIn>

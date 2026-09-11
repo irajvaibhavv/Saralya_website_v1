@@ -31,7 +31,7 @@ export function Cta() {
                 Get a free tech &amp; compliance read for your NBFC.
               </h2>
               <p className="mx-auto mt-5 max-w-lg text-[16px] text-white/60">
-                Tell us who you are. We come back with what we'd fix first — no commitment.
+                Public data only. No commitment.
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic%20for%20our%20NBFC`} variant="white" size="lg" arrow>

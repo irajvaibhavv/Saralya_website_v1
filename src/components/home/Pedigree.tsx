@@ -27,8 +27,7 @@ export function Pedigree() {
               <span className="text-accent">200+ banks of pedigree.</span>
             </h2>
             <p className="mt-5 max-w-md text-[16px] text-muted">
-              Built by operators who shipped core banking and payment switches across PSU, private and cooperative
-              banks — not lending tourists.
+              Banking-technology veterans, not lending tourists.
             </p>
             <div className="mt-7">
               <ButtonLink to="/about" variant="ghost" arrow>

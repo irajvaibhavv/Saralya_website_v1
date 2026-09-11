@@ -16,7 +16,7 @@ export function ModulesPreview() {
               Six modules. <span className="text-accent">One stack.</span>
             </>
           }
-          lede="Run the full stack as your LOS + LMS, or plug a single module into the core you already have."
+          lede="Run the full stack, or plug in one module."
         />
         <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {MODULES.map((m) => (
