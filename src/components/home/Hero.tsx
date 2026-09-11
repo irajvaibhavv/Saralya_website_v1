@@ -26,7 +26,7 @@ export function Hero() {
       />
 
       <Container>
-        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.3fr_0.7fr] lg:gap-12">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -103,7 +103,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
-            className="relative mx-auto w-full max-w-[420px] lg:max-w-none"
+            className="relative mx-auto w-full max-w-[340px] lg:mx-0 lg:justify-self-end"
           >
             <TapToLend />
           </motion.div>
@@ -158,13 +158,13 @@ function TapToLend() {
   return (
     <div className="relative">
       {/* floating source chips */}
-      <FloatingChip className="left-0 -translate-x-1/2 -top-4" delay={0}>
+      <FloatingChip className="left-4 -top-4" delay={0}>
         Inference stays in India
       </FloatingChip>
-      <FloatingChip className="right-0 translate-x-1/2 top-[46%]" delay={1.2}>
+      <FloatingChip className="right-0 translate-x-[55%] top-[44%]" delay={1.2}>
         RBI + DPDP aligned
       </FloatingChip>
-      <FloatingChip className="left-0 -translate-x-1/2 bottom-24" delay={2.1}>
+      <FloatingChip className="left-0 -translate-x-1/3 -bottom-5" delay={2.1}>
         Trained on BFSI data
       </FloatingChip>
 
@@ -172,7 +172,7 @@ function TapToLend() {
       <div className="absolute inset-x-6 -bottom-3 h-full rounded-[32px] bg-white/50 shadow-sm" />
       <div className="absolute inset-x-3 -bottom-1.5 h-full rounded-[32px] bg-white/70 shadow-sm" />
 
-      <div className="relative overflow-hidden rounded-[32px] bg-white p-6 shadow-lg md:p-7">
+      <div className="relative overflow-hidden rounded-[28px] bg-white p-5 shadow-lg">
         {/* header */}
         <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.08em] text-muted">
           <span className="flex items-center gap-2 text-accent">
@@ -182,12 +182,12 @@ function TapToLend() {
           <span>APP-2841</span>
         </div>
 
-        <div className="mt-5 flex items-end justify-between">
+        <div className="mt-3 flex items-end justify-between">
           <div>
-            <div className="display text-[38px] md:text-[42px]">
-              <span className="mr-1 text-[24px] font-semibold text-muted">₹</span>4,50,000
+            <div className="display text-[30px]">
+              <span className="mr-0.5 text-[18px] font-semibold text-muted">₹</span>4,50,000
             </div>
-            <div className="mt-1 text-[13px] text-muted">MSME · Working capital · 36 mo · Coimbatore</div>
+            <div className="mt-0.5 text-[12px] text-muted">MSME · Working capital · 36 mo · Coimbatore</div>
           </div>
           <div className="text-right">
             <Timer running={phase === 'processing'} done={phase === 'done'} />
@@ -195,7 +195,7 @@ function TapToLend() {
         </div>
 
         {/* body — swaps by phase */}
-        <div className="relative mt-6 h-[268px]">
+        <div className="relative mt-4 h-[212px]">
           <AnimatePresence mode="wait">
             {(phase === 'idle' || phase === 'tap') && (
               <motion.div
@@ -206,16 +206,16 @@ function TapToLend() {
                 transition={{ duration: 0.3 }}
                 className="absolute inset-0 flex flex-col"
               >
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1.5">
                   {[
                     ['Applicant', 'Rahul Kumar'],
                     ['GSTIN', '33AAXPK…1ZQ'],
                     ['Tenure', '36 months'],
                     ['Channel', 'Partner LSP'],
                   ].map(([k, v]) => (
-                    <div key={k} className="rounded-2xl bg-bg px-3.5 py-3">
+                    <div key={k} className="rounded-xl bg-bg px-3 py-2">
                       <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-hint">{k}</div>
-                      <div className="mt-0.5 text-[13px] font-semibold">{v}</div>
+                      <div className="text-[12.5px] font-semibold">{v}</div>
                     </div>
                   ))}
                 </div>
@@ -223,7 +223,7 @@ function TapToLend() {
                   <motion.div
                     animate={phase === 'tap' ? { scale: 0.96 } : { scale: 1 }}
                     transition={{ duration: 0.15 }}
-                    className="relative flex items-center justify-center gap-2.5 overflow-hidden rounded-2xl bg-ink py-4 text-[15px] font-bold text-white"
+                    className="relative flex items-center justify-center gap-2.5 overflow-hidden rounded-xl bg-ink py-3 text-[14px] font-bold text-white"
                   >
                     <Fingerprint className="size-5 text-[#c4b5fd]" />
                     Tap to decide
@@ -236,7 +236,7 @@ function TapToLend() {
                       />
                     )}
                   </motion.div>
-                  <div className="mt-3 text-center font-mono text-[11px] text-hint">One API call. That's the whole integration.</div>
+                  <div className="mt-2 text-center font-mono text-[10px] text-hint">One API call. That's the whole integration.</div>
                 </div>
               </motion.div>
             )}
@@ -252,14 +252,14 @@ function TapToLend() {
               >
                 <div className="relative pl-7">
                   {/* progress rail */}
-                  <div className="absolute left-[9px] top-2 bottom-2 w-0.5 rounded-full bg-line" />
+                  <div className="absolute left-[9px] top-1 bottom-1 w-0.5 rounded-full bg-line" />
                   <motion.div
-                    className="absolute left-[9px] top-2 w-0.5 origin-top rounded-full bg-gradient-to-b from-accent3 to-accent"
-                    style={{ height: 'calc(100% - 16px)' }}
+                    className="absolute left-[9px] top-1 w-0.5 origin-top rounded-full bg-gradient-to-b from-accent3 to-accent"
+                    style={{ height: 'calc(100% - 8px)' }}
                     animate={{ scaleY: pct }}
                     transition={{ duration: 0.6, ease: EASE }}
                   />
-                  <ul className="space-y-[13px]">
+                  <ul className="space-y-2">
                     {STEPS.map((s, i) => {
                       const done = i < step
                       const now = i === step
@@ -274,10 +274,10 @@ function TapToLend() {
                             {now && <span className="size-2 rounded-full bg-accent animate-pulse-ring" />}
                           </span>
                           <div className="flex-1">
-                            <div className={`text-[13.5px] font-semibold transition-colors ${done || now ? 'text-ink' : 'text-hint'}`}>
+                            <div className={`text-[12.5px] font-semibold leading-tight transition-colors ${done || now ? 'text-ink' : 'text-hint'}`}>
                               {s.name}
                             </div>
-                            <div className="font-mono text-[10.5px] text-hint">{s.src}</div>
+                            <div className="font-mono text-[9.5px] text-hint">{s.src}</div>
                           </div>
                           <span className="font-mono text-[11px] text-muted">{done ? '✓' : now ? '…' : ''}</span>
                         </li>
@@ -301,7 +301,7 @@ function TapToLend() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 18, delay: 0.1 }}
-                  className="relative grid size-16 place-items-center rounded-full bg-green text-white shadow-[0_16px_32px_-12px_rgba(20,160,107,0.6)]"
+                  className="relative grid size-14 place-items-center rounded-full bg-green text-white shadow-[0_16px_32px_-12px_rgba(20,160,107,0.6)]"
                 >
                   <motion.span
                     className="absolute inset-0 rounded-full border-2 border-green"
@@ -309,11 +309,11 @@ function TapToLend() {
                     animate={{ scale: 1.9, opacity: 0 }}
                     transition={{ duration: 1.1, delay: 0.2 }}
                   />
-                  <Check className="size-8" strokeWidth={3} />
+                  <Check className="size-7" strokeWidth={3} />
                 </motion.div>
-                <div className="display mt-5 text-[26px]">Sanctioned</div>
+                <div className="display mt-4 text-[22px]">Sanctioned</div>
                 <div className="mt-1 text-[13px] text-muted">Straight-through · no manual touch</div>
-                <div className="mt-5 flex gap-2">
+                <div className="mt-4 flex flex-wrap justify-center gap-1.5 px-3">
                   {['e-Agreement sent', 'NACH registered', 'KFS delivered'].map((t, i) => (
                     <motion.span
                       key={t}
@@ -331,7 +331,7 @@ function TapToLend() {
           </AnimatePresence>
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-dashed border-line pt-4 font-mono text-[11px] text-muted">
+        <div className="mt-4 flex items-center justify-between border-t border-dashed border-line pt-3 font-mono text-[10px] text-muted">
           <span>SLA · straight-through</span>
           <span>
             <b className="font-medium text-accent">&lt; 5 min</b> end-to-end
