@@ -35,19 +35,29 @@ export function Hero() {
               className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[12.5px] font-semibold text-ink2 shadow-sm"
             >
               <span className="size-1.5 rounded-full bg-accent animate-pulse-ring" />
-              Making lending saral for Bharat
+              Lending infrastructure for India's banks &amp; NBFCs
             </motion.div>
 
-            <h1 className="display mt-6 text-[clamp(44px,7.2vw,88px)]">
-              {['Lending,', 'as easy', 'as UPI.'].map((line, i) => (
-                <span key={line} className="block overflow-hidden">
+            <h1 className="display mt-6 text-[clamp(40px,6.4vw,80px)]">
+              {[
+                ['Making Lending'],
+                ['Saral', ' for Bharat.'],
+              ].map((parts, i) => (
+                <span key={i} className="block overflow-hidden">
                   <motion.span
-                    className={`block ${i === 2 ? 'text-gradient' : ''}`}
+                    className="block"
                     initial={{ y: '110%' }}
                     animate={{ y: 0 }}
                     transition={{ duration: 0.9, ease: EASE, delay: 0.1 + i * 0.09 }}
                   >
-                    {line}
+                    {parts.length === 2 ? (
+                      <>
+                        <span className="text-gradient">{parts[0]}</span>
+                        {parts[1]}
+                      </>
+                    ) : (
+                      parts[0]
+                    )}
                   </motion.span>
                 </span>
               ))}
@@ -59,8 +69,8 @@ export function Hero() {
               transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}
               className="mt-6 max-w-lg text-[17px] leading-relaxed text-muted md:text-[19px]"
             >
-              Saralya is the lending infrastructure India's banks and NBFCs run on. Approve a loan in under five
-              minutes — one API call, RBI-compliant by design.
+              Lending, as easy as UPI. Approve a loan in under five minutes — one API call, RBI-compliant by
+              design.
             </motion.p>
 
             <motion.div

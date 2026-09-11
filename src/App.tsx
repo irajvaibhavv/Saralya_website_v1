@@ -10,7 +10,7 @@ import { Products } from './pages/Products'
 import { Technology } from './pages/Technology'
 
 const TITLES: Record<string, string> = {
-  '/': 'Saralya — Lending, as easy as UPI',
+  '/': 'Saralya — Making Lending Saral for Bharat',
   '/products': 'Products — Saralya',
   '/technology': 'Technology — Saralya',
   '/about': 'About us — Saralya',
