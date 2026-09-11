@@ -17,45 +17,36 @@ export function About() {
             <span className="text-gradient">saral for Bharat.</span>
           </>
         }
-        lede="Founded in 2026 by two banking-infrastructure operators."
+        lede="Founded in 2026 by two banking-infrastructure operators. Smaller lenders pay crores upfront for legacy stacks — and still run on Excel. We build the alternative: modular, API-first, priced per loan."
       />
 
       <Section tight>
         <Container>
-          {/* Story: portrait with a floating stat, text alongside */}
-          <div className="mb-24 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="grid items-stretch gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <FadeIn className="relative">
-              <img src="/img/ledger.jpg" alt="" className="aspect-[4/5] w-full rounded-[32px] object-cover shadow-lg" />
-              <div className="absolute -bottom-6 -right-4 rounded-3xl bg-white p-5 shadow-lg sm:-right-8">
-                <div className="display text-[40px] text-accent">200+</div>
-                <div className="text-[13px] text-muted">deployments, one pattern</div>
-              </div>
+              <img src="/img/ledger.jpg" alt="" className="h-full min-h-[380px] w-full rounded-[32px] object-cover shadow-lg" />
               <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink2 backdrop-blur">
                 Excel is still the system of record
               </div>
+              <div className="absolute bottom-5 left-5 rounded-3xl bg-white p-4 shadow-lg">
+                <div className="display text-[34px] text-accent">200+</div>
+                <div className="text-[12.5px] text-muted">deployments, one pattern</div>
+              </div>
             </FadeIn>
-            <FadeIn delay={0.15}>
-              <p className="display text-[clamp(26px,3vw,38px)] leading-tight">
-                Smaller lenders pay crores upfront for legacy stacks — and still run on Excel.
-              </p>
-              <p className="mt-6 text-[17px] leading-relaxed text-muted">
-                Modular, API-first, priced per loan — the same compliance backbone as a ₹50,000 Cr lender, without the
-                upfront bill.
-              </p>
-            </FadeIn>
+            <Stagger className="grid gap-4">
+              {CONVICTIONS.map((c) => (
+                <Item key={c.n}>
+                  <div className="flex h-full gap-6 rounded-3xl bg-white p-6 shadow-sm transition hover:shadow-lg">
+                    <div className="display text-[44px] leading-none text-wash">{c.n}</div>
+                    <div>
+                      <h3 className="text-[20px] font-extrabold tracking-[-0.02em] leading-snug">{c.title}</h3>
+                      <p className="mt-2 text-[14px] leading-relaxed text-muted">{c.body}</p>
+                    </div>
+                  </div>
+                </Item>
+              ))}
+            </Stagger>
           </div>
-          <SectionHead eyebrow="What we believe" title="Three convictions." />
-          <Stagger className="grid gap-4 md:grid-cols-3">
-            {CONVICTIONS.map((c) => (
-              <Item key={c.n}>
-                <div className="relative h-full overflow-hidden rounded-3xl bg-white p-7 shadow-sm transition hover:shadow-lg">
-                  <div className="display text-[64px] leading-none text-wash">{c.n}</div>
-                  <h3 className="mt-4 text-[21px] font-extrabold tracking-[-0.02em] leading-snug">{c.title}</h3>
-                  <p className="mt-3 text-[14px] leading-relaxed text-muted">{c.body}</p>
-                </div>
-              </Item>
-            ))}
-          </Stagger>
         </Container>
       </Section>
 
