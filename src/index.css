@@ -1,6 +1,128 @@
 @import "tailwindcss";
-@import "./styles/legacy.css";
 
-:root {
-  color-scheme: light;
+/* ---------------------------------------------------------------------------
+   Design tokens. Tailwind v4 reads these from @theme, so `bg-accent`,
+   `text-ink`, `font-mono`, `shadow-glow` etc. all work as utilities.
+   --------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --color-bg: #eef0fb;
+  --color-bg2: #e3e6f8;
+  --color-ink: #16123d;
+  --color-ink2: #363073;
+  --color-muted: #6a6499;
+  --color-hint: #9d97be;
+  --color-line: #dcd8f2;
+  --color-line2: #c5bfe6;
+
+  --color-accent: #5b3df5;
+  --color-accent2: #4629d6;
+  --color-accent3: #7f63ff;
+  --color-wash: #e6e1ff;
+  --color-wash2: #f1eeff;
+
+  --color-amber: #e08700;
+  --color-amber-w: #fff2dc;
+  --color-red: #e0435c;
+  --color-red-w: #ffe6ea;
+  --color-blue: #0d8fd9;
+  --color-blue-w: #e0f2fd;
+  --color-purple: #c034e8;
+  --color-purple-w: #fbe6ff;
+  --color-green: #14a06b;
+  --color-green-w: #dff6ec;
+
+  --shadow-sm: 0 2px 8px -2px rgba(22, 18, 61, 0.06), 0 1px 3px -1px rgba(22, 18, 61, 0.04);
+  --shadow-md: 0 12px 28px -12px rgba(22, 18, 61, 0.14), 0 4px 10px -4px rgba(22, 18, 61, 0.06);
+  --shadow-lg: 0 32px 64px -24px rgba(22, 18, 61, 0.2), 0 12px 24px -12px rgba(22, 18, 61, 0.1);
+  --shadow-glow: 0 20px 44px -18px rgba(91, 61, 245, 0.45);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-dash: dash 1.2s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(91, 61, 245, 0.55); }
+    100% { box-shadow: 0 0 0 10px rgba(91, 61, 245, 0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes dash {
+    to { stroke-dashoffset: -24; }
+  }
+}
+
+:root { color-scheme: light; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Soft ambient colour wash behind every page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 900px 600px at 12% -5%, rgba(127, 99, 255, 0.14), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 92% 8%, rgba(13, 143, 217, 0.1), transparent 60%),
+    radial-gradient(ellipse 800px 600px at 50% 105%, rgba(192, 52, 232, 0.07), transparent 60%);
+}
+
+/* Things Tailwind can't express cleanly ---------------------------------- */
+@utility text-gradient {
+  background: linear-gradient(115deg, #7f63ff, #5b3df5 42%, #c034e8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility grid-paper {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+@utility mask-fade-radial {
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
+}
+
+@utility eyebrow {
+  @apply font-mono text-[11px] uppercase tracking-[0.14em] text-accent;
+}
+
+@utility display {
+  @apply font-extrabold tracking-[-0.04em] leading-[1.02];
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
