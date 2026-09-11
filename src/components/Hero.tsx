@@ -127,7 +127,7 @@ export function Hero() {
             </div>
             <h1 className="hero-h1">
               Loan decisions in
-              <span className="l2">
+              <span className="hero-line2">
                 <span className="rot">
                   {ROTATOR_ITEMS.map((text, i) => (
                     <span key={text} className={i === idx ? 'on' : i === outIdx ? 'out' : ''}>

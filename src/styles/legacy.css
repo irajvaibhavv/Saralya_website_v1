@@ -329,7 +329,7 @@ footer { padding: 28px 0; border-top: 1px solid var(--line); }
 .hero-pill .counter { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
 
 .hero-h1 { font-size: clamp(42px, 4.9vw, 68px); font-weight: 800; line-height: 1.0; letter-spacing: -0.045em; margin-bottom: 0; }
-.hero-h1 .l2 { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+.hero-h1 .hero-line2 { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
 .rot { display: inline-grid; height: 1.05em; overflow: hidden; position: relative; }
 .rot span { grid-area: 1/1; color: var(--accent); opacity: 0; transform: translateY(70%); transition: opacity .45s ease, transform .55s cubic-bezier(.22,1,.36,1); white-space: nowrap; }
 .rot span.on { opacity: 1; transform: none; }
@@ -371,9 +371,13 @@ footer { padding: 28px 0; border-top: 1px solid var(--line); }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
 @media (max-width: 940px) {
-  .hero { padding: 44px 0 56px; }
+  .hero { padding: 44px 0 56px; overflow: hidden; }
   .hero-split { grid-template-columns: 1fr; gap: 44px; }
-  .hero-h1 { font-size: 38px; }
+  .hero-split > * { min-width: 0; }
+  .hero-h1 { font-size: clamp(30px, 8.5vw, 38px); }
+  .rot { font-size: 0.78em; max-width: 100%; }
+  .hero-btns { flex-wrap: wrap; }
+  .hero-cta, .hero-cta2 { white-space: nowrap; padding-left: 24px; padding-right: 24px; }
   .hcard-ghost { display: none; }
   .hchip.c1 { left: -6px; } .hchip.c2 { right: -6px; } .hchip.c3 { display: none; }
   .hero-meta { gap: 20px; }
@@ -418,6 +422,9 @@ footer { padding: 28px 0; border-top: 1px solid var(--line); }
 .orbit-spin { position: absolute; inset: 6%; animation: spin360 44s linear infinite; }
 .orbit-spin.rev { inset: 24%; animation: spin360 34s linear infinite reverse; }
 @keyframes spin360 { to { transform: rotate(360deg); } }
+/* counter-rotate so labels stay upright while they orbit */
+.orbit-spin .on-node { animation: spin360 44s linear infinite reverse; }
+.orbit-spin.rev .on-node { animation: spin360 34s linear infinite; }
 .on-node { position: absolute; background: var(--white); border: none; border-radius: 12px; padding: 8px 13px; font-size: 11.5px; font-weight: 600; white-space: nowrap; box-shadow: var(--sh); }
 .on-node span { display: block; font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--hint); font-weight: 400; }
 .orbit-legend { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
@@ -488,6 +495,7 @@ details.faq[open] summary::after { transform: rotate(45deg); color: var(--accent
   .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
   .b-w3 { grid-column: span 2; }
   .orbit-wrap { grid-template-columns: 1fr; }
+  .orbit { max-width: 270px; }
   .roi-shell { grid-template-columns: 1fr; }
   .roi-in { border-right: none; border-bottom: 1.5px solid var(--line); }
   .voices { grid-template-columns: 1fr; }
