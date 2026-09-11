@@ -33,6 +33,9 @@ export function About() {
 
       <Section tight>
         <Container>
+          <FadeIn>
+            <img src="/img/ledger.jpg" alt="" className="mb-20 aspect-[21/9] w-full rounded-[32px] object-cover shadow-lg" />
+          </FadeIn>
           <SectionHead eyebrow="What we believe" title="Three convictions." />
           <Stagger className="grid gap-4 md:grid-cols-3">
             {CONVICTIONS.map((c) => (
