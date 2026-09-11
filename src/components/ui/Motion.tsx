@@ -12,20 +12,18 @@ export function FadeIn({
   className,
   delay = 0,
   y = 22,
-  once = true,
 }: {
   children: ReactNode
   className?: string
   delay?: number
   y?: number
-  once?: boolean
 }) {
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: '-10% 0px' }}
+      viewport={{ once: true, margin: '-10% 0px' }}
       transition={{ duration: 0.7, ease: EASE, delay }}
     >
       {children}

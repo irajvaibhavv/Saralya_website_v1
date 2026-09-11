@@ -51,8 +51,6 @@ src/
   components/products/     ModuleVisuals — one bespoke looping animation per
                            module, used by the sticky showcase on /products
   pages/                   Home, Products, Technology, About, Demo, Privacy
-legacy-source/saralya-v5.html   Original prototype, reference only — never
-                                edit or import it
 ```
 
 ## Styling
@@ -60,7 +58,6 @@ legacy-source/saralya-v5.html   Original prototype, reference only — never
 Everything is Tailwind v4 utilities + `motion/react` (Framer Motion) +
 `lucide-react` icons. Tokens live in the `@theme` block in `src/index.css`
 (`bg-accent`, `text-ink`, `text-muted`, `shadow-glow`, `font-mono`, …).
-The old `legacy.css` has been removed.
 
 Conventions:
 - Scroll reveals: wrap in `<FadeIn>` or `<Stagger>`/`<Item>` from
