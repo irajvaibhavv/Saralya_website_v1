@@ -62,21 +62,11 @@ export function Hero() {
               ))}
             </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}
-              className="mt-6 max-w-lg text-[17px] leading-relaxed text-muted md:text-[19px]"
-            >
-              Lending, as easy as UPI. Approve a loan in under five minutes — one API call, RBI-compliant by
-              design.
-            </motion.p>
-
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.55 }}
-              className="mt-8 flex flex-wrap items-center gap-3"
+              transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}
+              className="mt-10 flex flex-wrap items-center gap-3"
             >
               <ButtonLink to="/demo" variant="ink" size="lg" arrow>
                 Try a live decision
