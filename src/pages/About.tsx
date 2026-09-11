@@ -17,7 +17,7 @@ export function About() {
             <span className="text-gradient">saral for Bharat.</span>
           </>
         }
-        lede="Founded in 2026 by two operators who spent two decades each inside Indian banking infrastructure."
+        lede="Founded in 2026 by two banking-infrastructure operators."
       />
 
       <Section tight>
@@ -36,12 +36,11 @@ export function About() {
             </FadeIn>
             <FadeIn delay={0.15}>
               <p className="display text-[clamp(26px,3vw,38px)] leading-tight">
-                Small and mid-sized lenders pay multi-crore upfront fees for legacy stacks — and live with rigidity, long
-                change cycles and Excel as the real system of record.
+                Smaller lenders pay crores upfront for legacy stacks — and still run on Excel.
               </p>
               <p className="mt-6 text-[17px] leading-relaxed text-muted">
-                We are building the alternative — modular, API-first, priced per loan — so that a small bank or NBFC gets
-                the same compliance backbone as a ₹50,000 Cr listed lender, without paying for it upfront.
+                Modular, API-first, priced per loan — the same compliance backbone as a ₹50,000 Cr lender, without the
+                upfront bill.
               </p>
             </FadeIn>
           </div>
@@ -69,7 +68,7 @@ export function About() {
                 Banking-technology veterans, <span className="text-accent">not lending tourists.</span>
               </>
             }
-            lede="Together, Vikas and Vishal have led platform decisions across more than 200 Indian financial institutions — PSU banks, listed private banks, cooperative banks, RRBs and NBFCs."
+            lede="Platform decisions across 200+ Indian financial institutions — PSU, private, cooperative, RRBs and NBFCs."
           />
           <div className="grid gap-5 lg:grid-cols-2">
             {FOUNDERS.map((f, i) => (

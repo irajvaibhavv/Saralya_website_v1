@@ -30,7 +30,7 @@ export function Technology() {
             <span className="text-gradient">underneath.</span>
           </>
         }
-        lede="Architecture decisions are visible to your CTO from day one. No black boxes. No vendor lock-in disguised as proprietary tech. Indian data residency. Inspection-grade audit trail end to end."
+        lede="No black boxes. No lock-in. Indian data residency. Audit trail end to end."
       />
 
       {/* Layer diagram */}
@@ -130,7 +130,7 @@ export function Technology() {
                 Built for <span className="text-accent">inspection.</span>
               </>
             }
-            lede="Compliance is not a feature shipped after MVP. It is the architecture of the platform — every module is built against current RBI Master Directions and the DPDP Act 2023."
+            lede="Every module is built against current RBI Master Directions and the DPDP Act 2023."
           />
           <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {COMPLIANCE.map((c) => (

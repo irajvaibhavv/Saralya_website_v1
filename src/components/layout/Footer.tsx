@@ -38,8 +38,7 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-muted">
-              Lending infrastructure for the institutions that lend to under-banked India. Built by banking-technology
-              veterans, in India, for India.
+              Lending infrastructure for under-banked India. Built in India, for India.
             </p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="mt-5 inline-block font-mono text-[13px] text-accent hover:underline">
               {CONTACT_EMAIL}

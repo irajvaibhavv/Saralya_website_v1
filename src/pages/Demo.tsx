@@ -81,7 +81,7 @@ export function Demo() {
             <span className="text-gradient">Watch the report build.</span>
           </>
         }
-        lede="Sample data is pre-loaded. Hit run and see what an NBFC's credit officer sees — in seconds, not days."
+        lede="Sample data pre-loaded. Hit run."
       />
 
       <Container className="pb-8">

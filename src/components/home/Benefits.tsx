@@ -25,23 +25,23 @@ export function Benefits() {
           <Item className="md:col-span-7">
             <Card
               title="Built ground-up for Digital Lending."
-              body="Trained on BFSI data, so analyses are accurate to your reality — not a generic model with a lending skin."
+              body="Trained on BFSI data, not a generic model."
             >
               <Bars />
             </Card>
           </Item>
           <Item className="md:col-span-5">
-            <Card title="Approve loans through STP in under 5 minutes." body="Straight-through processing from application to sanction.">
+            <Card title="Approve loans through STP in under 5 minutes." body="Application to sanction, no manual touch.">
               <Stopwatch />
             </Card>
           </Item>
           <Item className="md:col-span-5">
-            <Card title="Works with existing systems." body="Keep your core banking, CBS and LOS. Saralya plugs in beside them.">
+            <Card title="Works with existing systems." body="Keep your CBS and LOS. Saralya plugs in beside them.">
               <Plugs />
             </Card>
           </Item>
           <Item className="md:col-span-7">
-            <Card title="Compliance is the architecture." body="600+ checks mapped to RBI Master Directions and DPDP, running on every loan — not bolted on later.">
+            <Card title="Compliance is the architecture." body="600+ RBI and DPDP checks on every loan.">
               <Checks />
             </Card>
           </Item>
