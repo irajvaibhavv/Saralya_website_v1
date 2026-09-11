@@ -34,52 +34,51 @@ npx tsc -p tsconfig.app.json --noEmit   # typecheck only
 
 ```
 src/
-  App.tsx               Router + Nav/Footer shell + ScrollProgress
-  pages/Home.tsx        Assembles home sections in order
-  components/           One file per section (Hero, StatsMarquee, LivePipeline,
-                        Bento, Personas, Demo, UpiComparison, Modules, Orbit,
-                        Roi, Architecture, Lifecycle, Compliance,
-                        DeployTimeline, Voices, Faq, Partners, Cta, Footer)
-  components/Reveal.tsx Wrapper that fades a block in on scroll
-  components/icons.tsx  Shared tiny SVG icons (Check, ArrowRight)
-  hooks/useReveal.ts    IntersectionObserver behind <Reveal>
-  styles/legacy.css     Design tokens (CSS vars) + all prototype styles
-  index.css             `@import "tailwindcss"` + legacy.css
-legacy-source/saralya-v5.html   The original single-file prototype, kept for
-                                reference only — never edit or import it
+  App.tsx                  Router (/, /products, /technology, /about, /demo,
+                           /privacy) + Nav/Footer shell + scroll-to-top/title
+  index.css                `@import "tailwindcss"` + @theme design tokens +
+                           the few @utility helpers Tailwind can't express
+                           (text-gradient, grid-paper, mask-fade-*, eyebrow)
+  content/site.ts          All copy/data: MODULES, PILLARS, COMPLIANCE,
+                           CONVICTIONS, FOUNDERS, INTEGRATIONS, CONTACT_EMAIL
+  components/ui/           Primitives: Button/ButtonLink, Section/Container/
+                           SectionHead, Motion (FadeIn, Stagger/Item, Counter)
+  components/layout/       Nav (active pill, mobile menu), Footer, PageHero,
+                           Cta (dark closing block used on every page)
+  components/home/         Hero (looping tap→sanction card), IntegrationsMarquee,
+                           HowItWorks (beams + core), UpiAnalogy, ModulesPreview,
+                           Benefits (bento w/ mini visuals), Pedigree
+  components/products/     ModuleVisuals — one bespoke looping animation per
+                           module, used by the sticky showcase on /products
+  pages/                   Home, Products, Technology, About, Demo, Privacy
+legacy-source/saralya-v5.html   Original prototype, reference only — never
+                                edit or import it
 ```
 
-## How styling works right now
+## Styling
 
-The site was ported from a single-file HTML prototype (`saralya-v5.html`).
-Its CSS was moved verbatim into `src/styles/legacy.css` so the visual
-design carried over pixel-for-pixel; components use those class names.
+Everything is Tailwind v4 utilities + `motion/react` (Framer Motion) +
+`lucide-react` icons. Tokens live in the `@theme` block in `src/index.css`
+(`bg-accent`, `text-ink`, `text-muted`, `shadow-glow`, `font-mono`, …).
+The old `legacy.css` has been removed.
 
-Going forward:
-- New/redesigned work uses Tailwind utilities.
-- Delete rules from `legacy.css` as the sections they belong to are rebuilt.
-- Keep things in `legacy.css` only when Tailwind can't express them cleanly
-  (keyframes, pseudo-elements, gradient text, range-input thumbs).
-- Design tokens live as CSS custom properties on `:root` in `legacy.css`
-  (`--accent`, `--ink`, `--muted`, `--sh-glow`, etc). Reuse them via
-  `var(--x)` or Tailwind arbitrary values until they're promoted to a
-  Tailwind `@theme` block.
-
-Gotcha already hit: the architecture layer colours are `.l1`–`.l5`; don't
-reuse those class names anywhere else (the hero originally used `.l2` and
-got a blue box painted behind the headline).
+Conventions:
+- Scroll reveals: wrap in `<FadeIn>` or `<Stagger>`/`<Item>` from
+  `components/ui/Motion` — never hand-roll IntersectionObservers.
+- Looping visuals use `repeat: Infinity` with `repeatDelay` and respect
+  `prefers-reduced-motion` (global CSS kill-switch + `useReducedMotion`).
+- Keep copy short: headline, one line, chips. The lead's standing complaint
+  is "too text heavy"; prefer a visual over a paragraph.
+- Each page ends with `<Cta />`.
 
 ## Interactions (all React state, no DOM scripting)
 
-- Hero: rotating headline phrase, live "decisions today" counter, animated
-  decision-card step loop (respects `prefers-reduced-motion`)
-- LivePipeline: approved/flagged/rejected counters tick up
-- Bento: random sparkbars, uptime ring animates on scroll-in
-- Personas: tab state selects panel; content is data-driven (`PANELS`)
-- Demo: `empty → loading → report` state machine; gauge/bars animate
-- Roi: four sliders, derived outputs, flash on change
-- Lifecycle: gradient line fills on scroll-in
-- Everything else: static, wrapped in `<Reveal>` for fade-up
+- Home hero: looping state machine idle → tap → processing → sanctioned
+- HowItWorks: applicant cards cycle, packets travel along beams, lanes tick up
+- Products: sticky left stage swaps visual via `useInView` on each module block
+- Demo: `empty → loading → report`; the run button keeps the `.demo-run` class
+  for the screenshot harness
+- Counters: `<Counter to=… />` animates when scrolled into view
 
 ## Verifying UI changes
 
