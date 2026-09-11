@@ -6,7 +6,7 @@ import { FadeIn } from '../ui/Motion'
 export function IntegrationsMarquee() {
   const row = [...INTEGRATIONS, ...INTEGRATIONS]
   return (
-    <FadeIn className="py-6 md:py-10">
+    <FadeIn className="py-4 md:py-6">
       <div className="mb-5 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-hint">
         Plugs into the rails you already use
       </div>

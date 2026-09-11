@@ -17,7 +17,7 @@ export function Section({
   tight?: boolean
 }) {
   return (
-    <section id={id} className={`relative ${tight ? 'py-16 md:py-20' : 'py-20 md:py-28'} ${className}`}>
+    <section id={id} className={`relative ${tight ? 'py-10 md:py-14' : 'py-14 md:py-20'} ${className}`}>
       {children}
     </section>
   )
@@ -39,7 +39,7 @@ export function SectionHead({
 }) {
   const centred = align === 'center'
   return (
-    <FadeIn className={`${centred ? 'mx-auto text-center' : ''} max-w-2xl mb-12 md:mb-16 ${className}`}>
+    <FadeIn className={`${centred ? 'mx-auto text-center' : ''} max-w-2xl mb-10 md:mb-12 ${className}`}>
       {eyebrow && (
         <div className={`eyebrow mb-4 flex items-center gap-3 ${centred ? 'justify-center' : ''}`}>
           {centred && <span className="h-px w-6 bg-accent" />}

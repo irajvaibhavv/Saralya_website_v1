@@ -8,7 +8,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-14 pb-16 md:pt-24 md:pb-28">
+    <section className="relative overflow-hidden pt-12 pb-12 md:pt-20 md:pb-16">
       {/* backdrop */}
       <div className="absolute inset-0 -z-10 grid-paper opacity-40 mask-fade-radial" />
       <motion.div
