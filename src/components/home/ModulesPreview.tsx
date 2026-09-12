@@ -36,7 +36,7 @@ export function ModulesPreview() {
                   <div className="text-[19px] font-extrabold tracking-[-0.02em]">{m.name}</div>
                   <div className="mt-1 text-[14px] text-muted">{m.short}</div>
                 </div>
-                <div className="relative mt-auto flex items-center gap-1 pt-6 text-[13px] font-semibold text-accent opacity-0 transition-all duration-300 group-hover:opacity-100">
+                <div className="relative mt-auto flex items-center gap-1 pt-5 text-[13px] font-semibold text-accent transition-all duration-300 lg:opacity-0 lg:group-hover:opacity-100">
                   Learn more <ArrowUpRight className="size-4" />
                 </div>
               </Link>
