@@ -33,7 +33,7 @@ function Photo() {
   const y = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
   return (
     <div ref={ref} className="relative mt-6 h-[60vh] overflow-hidden">
-      <motion.img src="/img/market.jpg" alt="" style={{ y }} className="absolute inset-0 h-[124%] w-full object-cover" />
+      <motion.img src="/img/market.jpg" alt="" loading="lazy" decoding="async" style={{ y }} className="absolute inset-0 h-[124%] w-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
       <Container className="absolute inset-x-0 bottom-12 text-white">
         <h2 className="display max-w-3xl text-[clamp(32px,5vw,64px)]">

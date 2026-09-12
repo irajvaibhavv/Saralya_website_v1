@@ -47,7 +47,7 @@ export function Hero() {
                     className="block"
                     initial={{ y: '110%' }}
                     animate={{ y: 0 }}
-                    transition={{ duration: 0.9, ease: EASE, delay: 0.1 + i * 0.09 }}
+                    transition={{ duration: 0.6, ease: EASE, delay: 0.05 + i * 0.06 }}
                   >
                     {parts.length === 2 ? (
                       <>
@@ -65,7 +65,7 @@ export function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.25 }}
               className="mt-10 flex flex-wrap items-center gap-3"
             >
               <ButtonLink to="/demo" variant="ink" size="lg" arrow>
@@ -79,7 +79,7 @@ export function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
               className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-[12px] uppercase tracking-[0.08em] text-hint"
             >
               <span>&lt; 5 min STP approval</span>
@@ -91,7 +91,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
             className="relative w-full"
           >
             <HeroOrbit />
