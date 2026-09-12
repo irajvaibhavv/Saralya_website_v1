@@ -31,7 +31,7 @@ export function HeroOrbit() {
   }, [reduce])
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[460px] select-none [container-type:inline-size]">
+    <div className="relative mx-auto aspect-square w-full max-w-[300px] select-none [container-type:inline-size] sm:max-w-[460px]">
       {/* soft glow */}
       <div className="absolute inset-[18%] rounded-full bg-accent3/25 blur-[70px]" />
 
@@ -59,10 +59,10 @@ export function HeroOrbit() {
               >
                 <motion.div
                   animate={{ rotate: -n.a }}
-                  className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-ink2 shadow-md"
+                  className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white p-1.5 text-[12px] font-semibold text-ink2 shadow-md sm:px-3"
                 >
                   <span className="size-1.5 rounded-full bg-accent" />
-                  {n.l}
+                  <span className="hidden sm:inline">{n.l}</span>
                 </motion.div>
               </motion.div>
             </div>
@@ -96,7 +96,7 @@ export function HeroOrbit() {
         <motion.div
           animate={fire ? { scale: [1, 0.92, 1.04, 1] } : { scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative grid size-24 place-items-center rounded-full bg-gradient-to-br from-accent3 via-accent to-purple text-white shadow-glow md:size-28"
+          className="relative grid size-20 place-items-center rounded-full bg-gradient-to-br from-accent3 via-accent to-purple text-white shadow-glow sm:size-24 md:size-28"
         >
           <AnimatePresence mode="wait" initial={false}>
             {fire ? (
@@ -129,7 +129,7 @@ export function HeroOrbit() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -14 }}
             transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-            className="absolute left-1/2 top-[14%] -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[13px] font-bold text-white shadow-lg"
+            className="absolute left-1/2 top-[8%] -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[12px] font-bold text-white shadow-lg sm:top-[14%] sm:text-[13px]"
           >
             ₹4,50,000 sanctioned <span className="ml-1 font-mono text-[11px] font-medium text-[#c4b5fd]">4m 12s</span>
           </motion.div>
