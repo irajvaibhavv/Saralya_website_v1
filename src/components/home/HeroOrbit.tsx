@@ -10,7 +10,7 @@ const RINGS = [
   { r: 37, dur: 52, dir: -1, nodes: [{ a: 80, l: 'CIBIL', s: 1 }, { a: 260, l: 'Account Aggregator', s: 3 }] },
   { r: 49, dur: 70, dir: 1, nodes: [{ a: 140, l: 'NPCI · NACH', s: 5 }, { a: 320, l: 'MCA21', s: 4 }] },
 ]
-const PULSES = [15, 75, 135, 195, 255, 315]
+const PULSES = [15, 105, 195, 285]
 const STEPS = 6
 const STEP_MS = 240
 
@@ -67,7 +67,7 @@ export function HeroOrbit() {
 
       <div className="relative aspect-square w-full select-none [container-type:inline-size]">
         {/* soft glow */}
-        <div className="absolute inset-[18%] rounded-full bg-accent3/25 blur-[70px]" />
+        <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle,rgba(127,99,255,0.32),transparent_70%)]" />
 
         {/* rings with orbiting nodes */}
         {RINGS.map((ring) => (
@@ -110,8 +110,8 @@ export function HeroOrbit() {
           <div key={a} className="absolute left-1/2 top-1/2 h-0 w-0" style={{ transform: `rotate(${a}deg)` }}>
             <motion.span
               className="absolute size-2 rounded-full bg-accent shadow-[0_0_10px_2px_rgba(91,61,245,0.55)]"
-              style={{ x: '-50%', y: '-50%' }}
-              animate={{ top: ['-46cqw', '-9cqw'], opacity: [0, 1, 1, 0], scale: [0.6, 1, 1, 0.4] }}
+              style={{ x: '-50%' }}
+              animate={{ y: ['-46cqw', '-9cqw'], opacity: [0, 1, 1, 0], scale: [0.6, 1, 1, 0.4] }}
               transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.45, ease: 'easeIn', times: [0, 0.15, 0.85, 1] }}
             />
           </div>
