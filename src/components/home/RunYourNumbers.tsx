@@ -1,4 +1,4 @@
-import { useMotionValueEvent, useReducedMotion, useSpring } from 'motion/react'
+import { motion, useMotionValueEvent, useReducedMotion, useSpring } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
@@ -10,6 +10,8 @@ import { Container, Section } from '../ui/Section'
    their inputs — nothing is claimed about other lenders. */
 
 const PER_LOAN = 75 // ₹/loan, mid-point of the pay-per-loan band
+// TODO: founders to confirm or replace before launch — see CLAUDE.md open content flags.
+const PEER_TAT_DAYS = 7
 
 function crore(n: number) {
   if (n >= 1e7) return `₹${(n / 1e7).toFixed(n < 1e8 ? 1 : 0)} Cr`
@@ -42,6 +44,19 @@ export function RunYourNumbers() {
                 <Slider label="Loans decided / month" value={loans} min={250} max={50000} step={250} display={count(loans)} onChange={setLoans} />
                 <Slider label="Average ticket" value={ticket} min={25000} max={2500000} step={25000} display={crore(ticket)} onChange={setTicket} />
                 <Slider label="Turnaround today" value={tat} min={1} max={21} step={1} display={`${tat} ${tat === 1 ? 'day' : 'days'}`} onChange={setTat} />
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-wash2 p-5">
+                <div className="space-y-3">
+                  <Gauge label={`You — ${tat} ${tat === 1 ? 'day' : 'days'}`} pct={tat / 21} tone="bg-ink" />
+                  <Gauge label={`Median NBFC — ${PEER_TAT_DAYS} days`} pct={PEER_TAT_DAYS / 21} tone="bg-line2" />
+                  <Gauge label="With Saralya — under 5 min" pct={0.02} tone="bg-accent" />
+                </div>
+                <p className="mt-4 text-[13px] text-muted">
+                  {tat <= PEER_TAT_DAYS
+                    ? `Ahead of the median — and still ${tat} ${tat === 1 ? 'day' : 'days'} behind minutes.`
+                    : `${tat - PEER_TAT_DAYS} days slower than the median.`}
+                </p>
               </div>
             </div>
 
@@ -122,6 +137,20 @@ function Tile({
       <div className={`font-mono text-[10.5px] uppercase tracking-[0.12em] ${accent ? 'text-[#c4b5fd]' : 'text-hint'}`}>{label}</div>
       <div className={`mt-2 font-extrabold tracking-[-0.03em] tabular-nums ${big ? 'text-[26px] text-accent' : 'text-[28px]'}`}>{value}</div>
       <div className={`mt-1 text-[13px] ${accent ? 'text-white/70' : 'text-muted'}`}>{note}</div>
+    </div>
+  )
+}
+
+/** One row of the turnaround comparison. */
+function Gauge({ label, pct, tone }: { label: string; pct: number; tone: string }) {
+  return (
+    <div>
+      <div className="mb-1.5 flex items-baseline justify-between gap-3 font-mono text-[11px]">
+        <span className="text-ink2">{label}</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-white">
+        <motion.div className={`h-full rounded-full ${tone}`} initial={{ width: 0 }} animate={{ width: `${Math.max(pct * 100, 2)}%` }} transition={{ type: 'spring', stiffness: 160, damping: 24 }} />
+      </div>
     </div>
   )
 }
