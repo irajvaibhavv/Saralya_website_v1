@@ -5,6 +5,7 @@ import { HowItWorks } from '../components/home/HowItWorks'
 import { IntegrationsMarquee } from '../components/home/IntegrationsMarquee'
 import { ModulesPreview } from '../components/home/ModulesPreview'
 import { Pedigree } from '../components/home/Pedigree'
+import { ReadinessCheck } from '../components/home/ReadinessCheck'
 import { RunYourNumbers } from '../components/home/RunYourNumbers'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
 import { Cta } from '../components/layout/Cta'
@@ -23,6 +24,7 @@ export function Home() {
       <UpiAnalogy />
       <ModulesPreview />
       <BoardReview />
+      <ReadinessCheck />
       <Benefits />
       <Pedigree />
       <Cta />
