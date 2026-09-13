@@ -138,10 +138,12 @@ function Beam({ side }: { side: 'left' | 'right' }) {
       {[0, 1].map((k) => (
         <motion.span
           key={k}
-          className="absolute -top-[3px] size-2 rounded-full bg-accent shadow-[0_0_12px_2px_rgba(91,61,245,0.6)]"
-          animate={{ left: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
+          className="absolute -top-[3px] left-0 block w-full"
+          animate={{ x: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, delay: k * 0.9, ease: 'easeInOut' }}
-        />
+        >
+          <span className="block size-2 rounded-full bg-accent shadow-[0_0_12px_2px_rgba(91,61,245,0.6)]" />
+        </motion.span>
       ))}
     </div>
   )
