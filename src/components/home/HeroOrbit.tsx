@@ -1,6 +1,6 @@
 import { Check, Fingerprint } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /* Hero visual: data rails orbit a single "tap" button; pulses stream inward and
    every few seconds a tap fires and a sanction pops out. Pure CSS/motion. */
@@ -11,24 +11,38 @@ const RINGS = [
   { r: 49, dur: 70, dir: 1, nodes: [{ a: 140, l: 'NPCI · NACH' }, { a: 320, l: 'MCA21' }] },
 ]
 const PULSES = [15, 75, 135, 195, 255, 315]
+const SHOTS = [
+  { amt: '4,50,000', t: '4m 12s' },
+  { amt: '12,00,000', t: '3m 48s' },
+  { amt: '85,000', t: '2m 31s' },
+  { amt: '28,50,000', t: '4m 55s' },
+]
 
 export function HeroOrbit() {
   const reduce = useReducedMotion()
   const [fire, setFire] = useState(false)
+  const [tick, setTick] = useState(0)
+  const off = useRef(0)
 
-  // tap → sanction loop
+  // one decision: bumps the amount, holds the sanction on screen for a beat
+  const run = useCallback(() => {
+    setTick((t) => t + 1)
+    setFire(true)
+    window.clearTimeout(off.current)
+    off.current = window.setTimeout(() => setFire(false), 2600)
+  }, [])
+
+  // runs itself until the visitor taps it
   useEffect(() => {
     if (reduce) return
-    let on: number
-    const id = window.setInterval(() => {
-      setFire(true)
-      on = window.setTimeout(() => setFire(false), 2600)
-    }, 5200)
+    const id = window.setInterval(run, 5200)
     return () => {
       clearInterval(id)
-      clearTimeout(on)
+      clearTimeout(off.current)
     }
-  }, [reduce])
+  }, [reduce, run])
+
+  const shot = SHOTS[tick % SHOTS.length]
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[300px] select-none [container-type:inline-size] sm:max-w-[460px]">
@@ -93,10 +107,15 @@ export function HeroOrbit() {
             transition={{ duration: 2.6, repeat: Infinity, delay: k * 1.3, ease: 'easeOut' }}
           />
         ))}
-        <motion.div
+        <motion.button
+          type="button"
+          aria-label="Run a decision"
+          onClick={run}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
           animate={fire ? { scale: [1, 0.92, 1.04, 1] } : { scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative grid size-20 place-items-center rounded-full bg-gradient-to-br from-accent3 via-accent to-purple text-white shadow-glow sm:size-24 md:size-28"
+          className="relative grid size-20 cursor-pointer place-items-center rounded-full bg-gradient-to-br from-accent3 via-accent to-purple text-white shadow-glow focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/40 sm:size-24 md:size-28"
         >
           <AnimatePresence mode="wait" initial={false}>
             {fire ? (
@@ -115,9 +134,9 @@ export function HeroOrbit() {
               </motion.span>
             )}
           </AnimatePresence>
-        </motion.div>
+        </motion.button>
         <div className="absolute inset-x-0 -bottom-7 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-          {fire ? 'Sanctioned' : 'One tap'}
+          {fire ? 'Sanctioned' : 'Tap to decide'}
         </div>
       </div>
 
@@ -131,7 +150,7 @@ export function HeroOrbit() {
             transition={{ type: 'spring', stiffness: 320, damping: 22 }}
             className="absolute left-1/2 top-[8%] -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[12px] font-bold text-white shadow-lg sm:top-[14%] sm:text-[13px]"
           >
-            ₹4,50,000 sanctioned <span className="ml-1 font-mono text-[11px] font-medium text-[#c4b5fd]">4m 12s</span>
+            ₹{shot.amt} sanctioned <span className="ml-1 font-mono text-[11px] font-medium text-[#c4b5fd]">{shot.t}</span>
           </motion.div>
         )}
       </AnimatePresence>
