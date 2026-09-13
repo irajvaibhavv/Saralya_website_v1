@@ -1,5 +1,4 @@
 import { motion } from 'motion/react'
-import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
 import { Container } from '../ui/Section'
 import { HeroOrbit } from './HeroOrbit'
@@ -71,8 +70,8 @@ export function Hero() {
               <ButtonLink to="/demo" variant="ink" size="lg" arrow>
                 Try a live decision
               </ButtonLink>
-              <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="ghost" size="lg">
-                Book demo
+              <ButtonLink to="/#numbers" variant="ghost" size="lg">
+                Run your numbers
               </ButtonLink>
             </motion.div>
 

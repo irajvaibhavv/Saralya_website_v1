@@ -1,9 +1,11 @@
 import { Benefits } from '../components/home/Benefits'
+import { BoardReview } from '../components/home/BoardReview'
 import { Hero } from '../components/home/Hero'
 import { HowItWorks } from '../components/home/HowItWorks'
 import { IntegrationsMarquee } from '../components/home/IntegrationsMarquee'
 import { ModulesPreview } from '../components/home/ModulesPreview'
 import { Pedigree } from '../components/home/Pedigree'
+import { RunYourNumbers } from '../components/home/RunYourNumbers'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
 import { Cta } from '../components/layout/Cta'
 import { Container } from '../components/ui/Section'
@@ -14,11 +16,13 @@ export function Home() {
   return (
     <>
       <Hero />
+      <RunYourNumbers />
       <IntegrationsMarquee />
       <Photo />
       <HowItWorks />
       <UpiAnalogy />
       <ModulesPreview />
+      <BoardReview />
       <Benefits />
       <Pedigree />
       <Cta />
