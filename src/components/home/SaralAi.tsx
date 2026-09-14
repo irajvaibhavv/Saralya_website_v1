@@ -35,6 +35,13 @@ export function SaralAi() {
   const [size, setSize] = useState('')
   const [q, setQ] = useState('')
   const [ready, setReady] = useState(false) // note revealed once its intro finishes typing
+  const [thinking, setThinking] = useState(false) // dots before a reply starts typing
+  useEffect(() => {
+    if (msgs.length === 1) return
+    setThinking(true)
+    const id = window.setTimeout(() => setThinking(false), 700)
+    return () => window.clearTimeout(id)
+  }, [msgs.length])
 
   const say = (you: string, ai: string) => {
     setMsgs((m) => [...m, { from: 'you', text: you }, { from: 'ai', text: ai }])
@@ -91,10 +98,10 @@ export function SaralAi() {
           <div className="grid lg:grid-cols-[300px_1fr]">
             {/* who you're talking to */}
             <div className="border-b border-line bg-wash2 p-7 md:p-9 lg:border-b-0 lg:border-r">
-              <div className="relative grid size-14 place-items-center rounded-2xl bg-accent text-white shadow-glow">
+              <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="relative grid size-14 place-items-center rounded-2xl bg-accent text-white shadow-glow">
                 <Sparkles className="size-6" />
                 <span className="absolute -right-1 -top-1 size-3 rounded-full bg-green ring-2 ring-white animate-pulse-ring" />
-              </div>
+              </motion.div>
               <div className="mt-5 text-[22px] font-extrabold tracking-tight">Saral AI</div>
               <p className="mt-1 text-[14px] text-muted">An AI built for BFSI. Ask it about lending ops, RBI norms or your own bottleneck.</p>
               <ol className="mt-7 space-y-2 font-mono text-[10.5px] uppercase tracking-[0.12em]">
@@ -103,7 +110,11 @@ export function SaralAi() {
                   return (
                     <li key={s} className={`flex items-center gap-2 ${i === idx ? 'text-accent' : done ? 'text-ink' : 'text-hint'}`}>
                       <span className={`grid size-4 place-items-center rounded-full border ${done ? 'border-green bg-green text-white' : i === idx ? 'border-accent' : 'border-line2'}`}>
-                        {done && <Check className="size-2.5" strokeWidth={4} />}
+                        {done && (
+                          <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 18 }}>
+                            <Check className="size-2.5" strokeWidth={4} />
+                          </motion.span>
+                        )}
                       </span>
                       {STEP_LABELS[i]}
                     </li>
@@ -117,9 +128,13 @@ export function SaralAi() {
             <div className="p-5 sm:p-7 md:p-9">
               <div className="space-y-3">
                 {msgs.map((m, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={`flex ${m.from === 'you' ? 'justify-end' : ''}`}>
+                  <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex ${m.from === 'you' ? 'justify-end' : ''}`}>
                     <div className={`max-w-[80%] rounded-3xl px-4 py-2.5 text-[15px] leading-snug ${m.from === 'you' ? 'rounded-br-md bg-ink text-white' : 'rounded-bl-md bg-wash2 text-ink'}`}>
-                      {m.from === 'ai' && i === msgs.length - 1 ? <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} /> : m.text}
+                      {m.from === 'ai' && i === msgs.length - 1 ? (
+                        thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
+                      ) : (
+                        m.text
+                      )}
                     </div>
                   </motion.div>
                 ))}
@@ -151,7 +166,9 @@ export function SaralAi() {
                       type="button"
                       disabled={!picked.length}
                       onClick={doneChallenges}
-                      animate={{ opacity: picked.length ? 1 : 0.4 }}
+                      variants={chip}
+                      whileTap={{ scale: 0.96 }}
+                      style={{ opacity: picked.length ? 1 : 0.4 }}
                       className="rounded-full bg-accent px-5 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
                     >
                       That’s it →
@@ -215,7 +232,7 @@ function Note({ who, chosen, mail }: { who: string; chosen: (typeof CHALLENGES)[
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.06 }}
-              className={`rounded-xl px-2 py-2.5 text-center text-[12.5px] font-semibold ${hot.has(i) ? 'bg-accent text-white shadow-glow' : 'bg-white text-hint'}`}
+              className={`rounded-xl px-2 py-2.5 text-center text-[12.5px] font-semibold ${hot.has(i) ? 'bg-accent text-white shadow-glow animate-pulse-ring' : 'bg-white text-hint'}`}
             >
               {s}
             </motion.div>
@@ -299,18 +316,34 @@ function Explainer() {
   )
 }
 
+const chip = { hidden: { opacity: 0, y: 8, scale: 0.94 }, show: { opacity: 1, y: 0, scale: 1 } }
+
 function Chips({ children }: { children: ReactNode }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="mt-4 flex flex-wrap gap-2">
+    <motion.div initial="hidden" animate="show" exit={{ opacity: 0, transition: { duration: 0.15 } }} transition={{ staggerChildren: 0.045 }} className="mt-4 flex flex-wrap gap-2">
       {children}
     </motion.div>
   )
 }
 
+/* Three dots that breathe while Saral AI thinks. */
+function Dots() {
+  return (
+    <span className="flex h-[21px] items-center gap-1">
+      {[0, 1, 2].map((i) => (
+        <motion.span key={i} className="size-1.5 rounded-full bg-accent" animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }} transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }} />
+      ))}
+    </span>
+  )
+}
+
 function Chip({ children, on, onClick }: { children: ReactNode; on?: boolean; onClick: () => void }) {
   return (
-    <button
+    <motion.button
       type="button"
+      variants={chip}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.96 }}
       onClick={onClick}
       aria-pressed={on}
       className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[14px] font-medium ring-1 transition-colors ${
@@ -318,7 +351,7 @@ function Chip({ children, on, onClick }: { children: ReactNode; on?: boolean; on
       }`}
     >
       {children}
-    </button>
+    </motion.button>
   )
 }
 
