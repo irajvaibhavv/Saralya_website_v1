@@ -264,9 +264,14 @@ function Note({ who, chosen, mail }: { who: string; chosen: (typeof CHALLENGES)[
             </motion.li>
           ))}
         </ol>
-        <ButtonLink to={mail} variant="primary" size="lg" arrow className="mt-4">
-          Start with the walkthrough
-        </ButtonLink>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <ButtonLink to={mail} variant="primary" size="lg" arrow>
+            Start with the walkthrough
+          </ButtonLink>
+          <ButtonLink to="/home" variant="ghost" size="lg">
+            Explore Saralya
+          </ButtonLink>
+        </div>
       </div>
     </motion.div>
   )
@@ -283,11 +288,11 @@ function Explainer() {
         </motion.div>
       ))}
       <div className="flex flex-wrap gap-3 pt-2">
-        <ButtonLink to="/about" variant="ink" arrow>
-          Who’s behind it
+        <ButtonLink to="/home" variant="ink" arrow>
+          Explore Saralya
         </ButtonLink>
-        <ButtonLink to="/demo" variant="ghost">
-          Watch a decision
+        <ButtonLink to="/about" variant="ghost">
+          Who’s behind it
         </ButtonLink>
       </div>
     </motion.div>
