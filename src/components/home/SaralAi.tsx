@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BOOK_SIZES, CHALLENGES, CONTACT_EMAIL, CONVICTIONS, DEPARTMENTS, MODULES, ONBOARDING, STAGES, type ChallengeId, type DeptId } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
-import { FadeIn } from '../ui/Motion'
-import { Container, Section } from '../ui/Section'
 
 /* Saral AI: a guided diagnostic that ends in a personal note — where it hurts
    on the lending lifecycle, one vendor-neutral fix per challenge, where
@@ -105,19 +103,21 @@ export function SaralAi() {
   const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note — 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
   const idx = STEPS.indexOf(step)
   const answers = [who, [picked.length + custom.length, 'picked'].join(' '), size]
-  const end = useRef<HTMLDivElement>(null)
+  const pane = useRef<HTMLDivElement>(null) // the scrolling part of the chat; scrolled directly so the page never moves
   useEffect(() => {
-    if (msgs.length > 1) end.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    const el = pane.current
+    if (!el || msgs.length === 1) return
+    const note = el.querySelector<HTMLElement>('#your-note')
+    el.scrollTo({ top: ready && note ? note.offsetTop - el.offsetTop - 8 : el.scrollHeight, behavior: 'smooth' })
   }, [msgs.length, typing, ready])
 
   return (
-    <Section id="saral-ai" tight>
-      <Container>
-        <FadeIn className="overflow-hidden rounded-[32px] bg-white shadow-lg">
-          <div className="grid lg:grid-cols-[300px_1fr]">
+    <div id="saral-ai" className="mx-auto h-full w-full max-w-[1240px] px-5 sm:px-8 lg:px-10">
+      <div className="h-full overflow-hidden rounded-[32px] bg-white shadow-lg">
+          <div className="grid h-full grid-rows-[auto_1fr] lg:grid-cols-[300px_1fr] lg:grid-rows-1">
             {/* who you're talking to */}
             <div className="border-b border-line bg-wash2 lg:border-b-0 lg:border-r">
-            <div className="flex items-center gap-4 p-5 lg:sticky lg:top-20 lg:block lg:p-9">
+            <div className="flex items-center gap-4 p-5 lg:block lg:p-9">
               <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="relative grid size-11 shrink-0 place-items-center rounded-2xl bg-accent text-white shadow-glow lg:size-14">
                 <Sparkles className="size-5 lg:size-6" />
                 <span className="absolute -right-1 -top-1 size-3 rounded-full bg-green ring-2 ring-white animate-pulse-ring" />
@@ -162,7 +162,8 @@ export function SaralAi() {
             </div>
 
             {/* the conversation */}
-            <div className="flex flex-col p-5 sm:p-7 md:p-9 lg:min-h-[540px]">
+            <div className="flex min-h-0 flex-col p-5 sm:p-7 md:p-9">
+              <div ref={pane} className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain">
               <div className="space-y-3">
                 {msgs.map((m, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-end gap-2 ${m.from === 'you' ? 'justify-end' : ''}`}>
@@ -236,9 +237,9 @@ export function SaralAi() {
 
               {ready && (dept === 'other' ? <Explainer /> : <Note who={`${who} · ${size} book`} chosen={chosen} custom={custom} mail={mail} />)}
 
-              <div ref={end} className="flex-1" />
+              </div>
               {!typing && (
-                <form onSubmit={submitQ} className="mt-6 flex items-center gap-2 rounded-full bg-wash2 p-1.5 pl-5 ring-1 ring-line focus-within:ring-accent/50">
+                <form onSubmit={submitQ} className="mt-4 flex items-center gap-2 rounded-full bg-wash2 p-1.5 pl-5 ring-1 ring-line focus-within:ring-accent/50">
                   <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-hint" />
                   <button type="submit" aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-white hover:bg-accent">
                     <ArrowUp className="size-4" />
@@ -250,9 +251,8 @@ export function SaralAi() {
               )}
             </div>
           </div>
-        </FadeIn>
-      </Container>
-    </Section>
+      </div>
+    </div>
   )
 }
 
@@ -267,7 +267,7 @@ function Note({ who, chosen, custom, mail }: { who: string; chosen: (typeof CHAL
   const hot = new Set<number>(chosen.map((c) => c.stage))
   const mods = MODULES.filter((m) => chosen.some((c) => c.module === m.code))
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mt-6 space-y-6 rounded-3xl bg-bg p-5 ring-1 ring-line md:p-7">
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} id="your-note" className="mt-6 space-y-6 rounded-3xl bg-bg p-5 ring-1 ring-line md:p-7">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div className="text-[17px] font-extrabold tracking-tight">Your note</div>
         <div className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">{who}</div>
