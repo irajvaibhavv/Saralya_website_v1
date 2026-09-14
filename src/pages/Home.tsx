@@ -1,6 +1,7 @@
 import { Benefits } from '../components/home/Benefits'
 import { BoardReview } from '../components/home/BoardReview'
 import { Hero } from '../components/home/Hero'
+import { SaralAi } from '../components/home/SaralAi'
 import { HowItWorks } from '../components/home/HowItWorks'
 import { IntegrationsMarquee } from '../components/home/IntegrationsMarquee'
 import { ModulesPreview } from '../components/home/ModulesPreview'
@@ -17,6 +18,7 @@ export function Home() {
   return (
     <>
       <Hero />
+      <SaralAi />
       <RunYourNumbers />
       <IntegrationsMarquee />
       <Photo />

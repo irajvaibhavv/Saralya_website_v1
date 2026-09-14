@@ -45,7 +45,8 @@ src/
                            SectionHead, Motion (FadeIn, Stagger/Item, Counter)
   components/layout/       Nav (active pill, mobile menu), Footer, PageHero,
                            Cta (dark closing block used on every page)
-  components/home/         Hero (looping tap→sanction card), IntegrationsMarquee,
+  components/home/         Hero (looping tap→sanction card), SaralAi (guided
+                           diagnostic → note; `ask()` is the model seam), IntegrationsMarquee,
                            HowItWorks (beams + core), UpiAnalogy, ModulesPreview,
                            Benefits (bento w/ mini visuals), Pedigree
   components/products/     ModuleVisuals — one bespoke looping animation per
@@ -71,6 +72,11 @@ Conventions:
 ## Interactions (all React state, no DOM scripting)
 
 - Home hero: looping state machine idle → tap → processing → sanctioned
+- Saral AI: dept → challenges (multi) → book size → note (lifecycle rail,
+  one tip per challenge, module fit, 30-day onboarding, mailto). Script data
+  lives in `content/site.ts` (DEPARTMENTS, CHALLENGES, BOOK_SIZES,
+  ONBOARDING). Free-text `ask()` is a stub until the model endpoint exists;
+  captured notes go by mailto until an email/lead backend is added.
 - HowItWorks: applicant cards cycle, packets travel along beams, lanes tick up
 - Products: sticky left stage swaps visual via `useInView` on each module block
 - Demo: `empty → loading → report`; the run button keeps the `.demo-run` class
