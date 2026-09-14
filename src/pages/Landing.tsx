@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import { SaralAi } from '../components/home/SaralAi'
+import { SARAL_AI_TOPICS } from '../content/site'
 
 /* The front door is a conversation. Everything else lives at /home. */
 const EASE = [0.22, 1, 0.36, 1] as const
@@ -41,6 +42,19 @@ export function Landing() {
       </div>
       <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}>
         <SaralAi />
+      </motion.div>
+      {/* what it speaks */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10">
+        <div className="mb-3 text-center font-mono text-[10.5px] uppercase tracking-[0.14em] text-hint">Speaks the language of Indian lending</div>
+        <div className="mask-fade-x overflow-hidden">
+          <div className="flex w-max animate-marquee gap-2 hover:[animation-play-state:paused]">
+            {[...SARAL_AI_TOPICS, ...SARAL_AI_TOPICS].map((t, i) => (
+              <span key={`${t}-${i}`} className="whitespace-nowrap rounded-full bg-white/70 px-3.5 py-1.5 font-mono text-[11.5px] text-ink2 ring-1 ring-line">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
       </motion.div>
     </div>
   )

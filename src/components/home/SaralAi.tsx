@@ -1,7 +1,7 @@
 import { ArrowRight, ArrowUp, Check, RotateCcw, Sparkles } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BOOK_SIZES, CHALLENGES, CONTACT_EMAIL, CONVICTIONS, DEPARTMENTS, MODULES, ONBOARDING, STAGES, type ChallengeId, type DeptId } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
@@ -104,6 +104,11 @@ export function SaralAi() {
   const note = [`Who: ${who}`, `Book: ${size}`, `Challenges: ${[...chosen.map((c) => c.label), ...custom].join('; ')}`].join('\n')
   const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note — 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
   const idx = STEPS.indexOf(step)
+  const answers = [who, [picked.length + custom.length, 'picked'].join(' '), size]
+  const end = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (msgs.length > 1) end.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }, [msgs.length, typing, ready])
 
   return (
     <Section id="saral-ai" tight>
@@ -111,39 +116,62 @@ export function SaralAi() {
         <FadeIn className="overflow-hidden rounded-[32px] bg-white shadow-lg">
           <div className="grid lg:grid-cols-[300px_1fr]">
             {/* who you're talking to */}
-            <div className="border-b border-line bg-wash2 p-7 md:p-9 lg:border-b-0 lg:border-r">
-              <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="relative grid size-14 place-items-center rounded-2xl bg-accent text-white shadow-glow">
-                <Sparkles className="size-6" />
+            <div className="border-b border-line bg-wash2 lg:border-b-0 lg:border-r">
+            <div className="flex items-center gap-4 p-5 lg:sticky lg:top-20 lg:block lg:p-9">
+              <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="relative grid size-11 shrink-0 place-items-center rounded-2xl bg-accent text-white shadow-glow lg:size-14">
+                <Sparkles className="size-5 lg:size-6" />
                 <span className="absolute -right-1 -top-1 size-3 rounded-full bg-green ring-2 ring-white animate-pulse-ring" />
               </motion.div>
-              <div className="mt-5 text-[22px] font-extrabold tracking-tight">Saral AI</div>
-              <p className="mt-1 text-[14px] text-muted">An AI built for BFSI. Ask it about lending ops, RBI norms or your own bottleneck.</p>
-              <ol className="mt-7 space-y-2 font-mono text-[10.5px] uppercase tracking-[0.12em]">
+              <div className="min-w-0 flex-1 lg:mt-5">
+                <div className="text-[18px] font-extrabold tracking-tight lg:text-[22px]">Saral AI</div>
+                <p className="mt-1 hidden text-[14px] text-muted lg:block">An AI built for BFSI. Ask it about lending ops, RBI norms or your own bottleneck.</p>
+              </div>
+              {/* phones: four dots */}
+              <div className="flex gap-1.5 lg:hidden">
+                {STEPS.map((s, i) => (
+                  <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />
+                ))}
+              </div>
+              {/* desktop: steps, and their answers as they come in */}
+              <ol className="mt-7 hidden space-y-3 font-mono text-[10.5px] uppercase tracking-[0.12em] lg:block">
                 {STEPS.map((s, i) => {
                   const done = i < idx
                   return (
-                    <li key={s} className={`flex items-center gap-2 ${i === idx ? 'text-accent' : done ? 'text-ink' : 'text-hint'}`}>
-                      <span className={`grid size-4 place-items-center rounded-full border ${done ? 'border-green bg-green text-white' : i === idx ? 'border-accent' : 'border-line2'}`}>
-                        {done && (
-                          <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 18 }}>
-                            <Check className="size-2.5" strokeWidth={4} />
-                          </motion.span>
-                        )}
-                      </span>
-                      {STEP_LABELS[i]}
+                    <li key={s} className={i === idx ? 'text-accent' : done ? 'text-ink' : 'text-hint'}>
+                      <div className="flex items-center gap-2">
+                        <span className={`grid size-4 place-items-center rounded-full border ${done ? 'border-green bg-green text-white' : i === idx ? 'border-accent' : 'border-line2'}`}>
+                          {done && (
+                            <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 18 }}>
+                              <Check className="size-2.5" strokeWidth={4} />
+                            </motion.span>
+                          )}
+                        </span>
+                        {STEP_LABELS[i]}
+                      </div>
+                      {done && answers[i] && (
+                        <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="ml-6 mt-1 truncate font-sans text-[13px] font-medium normal-case tracking-normal text-ink2">
+                          {answers[i]}
+                        </motion.div>
+                      )}
                     </li>
                   )
                 })}
               </ol>
-              <p className="mt-7 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">Nothing leaves your browser</p>
+              <p className="mt-7 hidden font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint lg:block">Nothing leaves your browser</p>
+            </div>
             </div>
 
             {/* the conversation */}
-            <div className="p-5 sm:p-7 md:p-9">
+            <div className="flex flex-col p-5 sm:p-7 md:p-9 lg:min-h-[540px]">
               <div className="space-y-3">
                 {msgs.map((m, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex ${m.from === 'you' ? 'justify-end' : ''}`}>
-                    <div className={`max-w-[80%] rounded-3xl px-4 py-2.5 text-[15px] leading-snug ${m.from === 'you' ? 'rounded-br-md bg-ink text-white' : 'rounded-bl-md bg-wash2 text-ink'}`}>
+                  <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-end gap-2 ${m.from === 'you' ? 'justify-end' : ''}`}>
+                    {m.from === 'ai' && (
+                      <span className="mb-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-accent text-white">
+                        <Sparkles className="size-3" />
+                      </span>
+                    )}
+                    <div className={`max-w-[82%] rounded-3xl px-4 py-2.5 text-[15px] leading-snug ${m.from === 'you' ? 'rounded-br-md bg-ink text-white' : 'rounded-bl-md bg-wash2 text-ink'}`}>
                       {m.from === 'ai' && i === msgs.length - 1 ? (
                         thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
                       ) : (
@@ -191,7 +219,7 @@ export function SaralAi() {
                       style={{ opacity: picked.length || custom.length ? 1 : 0.4 }}
                       className="rounded-full bg-accent px-5 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
                     >
-                      That’s it →
+                      Continue{picked.length + custom.length ? ` with ${picked.length + custom.length}` : ''} →
                     </motion.button>
                   </Chips>
                 )}
@@ -208,6 +236,7 @@ export function SaralAi() {
 
               {ready && (dept === 'other' ? <Explainer /> : <Note who={`${who} · ${size} book`} chosen={chosen} custom={custom} mail={mail} />)}
 
+              <div ref={end} className="flex-1" />
               {!typing && (
                 <form onSubmit={submitQ} className="mt-6 flex items-center gap-2 rounded-full bg-wash2 p-1.5 pl-5 ring-1 ring-line focus-within:ring-accent/50">
                   <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-hint" />
