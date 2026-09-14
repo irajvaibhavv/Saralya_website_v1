@@ -261,6 +261,10 @@ export type ChallengeId = (typeof CHALLENGES)[number]['id']
 
 export const BOOK_SIZES = ['Under ₹100 Cr', '₹100–500 Cr', '₹500–2,000 Cr', '₹2,000 Cr+'] as const
 
+/* What Saral AI speaks — shown as a strip under the landing card. Every item is
+   a regulation, ruling or rail already named elsewhere on the site. */
+export const SARAL_AI_TOPICS = ['RBI MD-FRM 2024', 'DLD 2025 · KFS', 'DPDP 2023', 'SMA-0 tagging', 'CRILC · NBS-9', 'Account Aggregator', 'GSTN · MCA21', 'CERSAI', 'NPCI · CIMS', 'SBI vs. Rajesh Agarwal', 'JLG · LAP · MSME']
+
 /* What the NBFC's first 30 days look like — the onboarding journey. */
 export const ONBOARDING = [
   { day: 'Day 1', title: '20-minute walkthrough', body: 'On your book, your products, your core. No deck.' },
