@@ -33,6 +33,8 @@ export function SaralAi() {
   const [dept, setDept] = useState<DeptId>('credit')
   const [picked, setPicked] = useState<ChallengeId[]>([])
   const [size, setSize] = useState('')
+  const [who, setWho] = useState('')
+  const [custom, setCustom] = useState<string[]>([]) // challenges in their own words
   const [q, setQ] = useState('')
   const [ready, setReady] = useState(false) // note revealed once its intro finishes typing
   const [thinking, setThinking] = useState(false) // dots before a reply starts typing
@@ -53,22 +55,25 @@ export function SaralAi() {
     setTyping(true)
     setPicked([])
     setSize('')
+    setWho('')
+    setCustom([])
     setQ('')
     setReady(false)
   }
 
-  const chooseDept = (d: (typeof DEPARTMENTS)[number]) => {
+  const chooseDept = (d: (typeof DEPARTMENTS)[number], label: string = d.label) => {
     setDept(d.id)
+    setWho(label)
     if (d.id === 'other') {
-      say(d.label, 'Good — then here’s the shortest honest version of what we believe about Indian credit.')
+      say(label, 'Good — then here’s the shortest honest version of what we believe about Indian credit.')
       setStep('note')
     } else {
-      say(d.label, `${d.ask} Pick as many as you like.`)
+      say(label, `${d.ask} Pick as many as you like, or type your own.`)
       setStep('challenges')
     }
   }
   const doneChallenges = () => {
-    say(CHALLENGES.filter((c) => picked.includes(c.id)).map((c) => c.label).join(' · '), 'And roughly how big is the book?')
+    say([...CHALLENGES.filter((c) => picked.includes(c.id)).map((c) => c.label), ...custom].join(' · '), 'And roughly how big is the book?')
     setStep('size')
   }
   const chooseSize = (s: string) => {
@@ -81,13 +86,22 @@ export function SaralAi() {
     const text = q.trim()
     if (!text) return
     setQ('')
-    say(text, await ask(text))
+    if (step === 'dept') chooseDept(DEPARTMENTS.find((d) => d.id === 'leadership')!, text)
+    else if (step === 'challenges') setCustom((c) => [...c, text])
+    else if (step === 'size') chooseSize(text)
+    else say(text, await ask(text))
+  }
+  const PLACEHOLDER: Record<Step, string> = {
+    dept: 'Or tell me in your own words…',
+    challenges: 'Something else? Type it and press enter',
+    size: 'Or type it…',
+    note: 'Ask Saral AI anything about lending…',
   }
 
   const me = DEPARTMENTS.find((d) => d.id === dept)!
   const ordered = [...CHALLENGES].sort((a, b) => rank(me.first, a.id) - rank(me.first, b.id))
   const chosen = ordered.filter((c) => picked.includes(c.id))
-  const note = [`Department: ${me.label}`, `Book: ${size}`, `Challenges: ${chosen.map((c) => c.label).join('; ')}`].join('\n')
+  const note = [`Who: ${who}`, `Book: ${size}`, `Challenges: ${[...chosen.map((c) => c.label), ...custom].join('; ')}`].join('\n')
   const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note — 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
   const idx = STEPS.indexOf(step)
 
@@ -162,13 +176,19 @@ export function SaralAi() {
                         </Chip>
                       )
                     })}
+                    {custom.map((t) => (
+                      <Chip key={t} on onClick={() => setCustom((c) => c.filter((x) => x !== t))}>
+                        <Check className="size-3.5" strokeWidth={3} />
+                        {t}
+                      </Chip>
+                    ))}
                     <motion.button
                       type="button"
-                      disabled={!picked.length}
+                      disabled={!picked.length && !custom.length}
                       onClick={doneChallenges}
                       variants={chip}
                       whileTap={{ scale: 0.96 }}
-                      style={{ opacity: picked.length ? 1 : 0.4 }}
+                      style={{ opacity: picked.length || custom.length ? 1 : 0.4 }}
                       className="rounded-full bg-accent px-5 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
                     >
                       That’s it →
@@ -186,11 +206,11 @@ export function SaralAi() {
                 )}
               </AnimatePresence>
 
-              {ready && (dept === 'other' ? <Explainer /> : <Note who={`${me.label} · ${size} book`} chosen={chosen} mail={mail} />)}
+              {ready && (dept === 'other' ? <Explainer /> : <Note who={`${who} · ${size} book`} chosen={chosen} custom={custom} mail={mail} />)}
 
-              {step === 'note' && (
+              {!typing && (
                 <form onSubmit={submitQ} className="mt-6 flex items-center gap-2 rounded-full bg-wash2 p-1.5 pl-5 ring-1 ring-line focus-within:ring-accent/50">
-                  <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask Saral AI anything about lending…" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-hint" />
+                  <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-hint" />
                   <button type="submit" aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-white hover:bg-accent">
                     <ArrowUp className="size-4" />
                   </button>
@@ -214,7 +234,7 @@ function rank(first: readonly string[], id: string) {
   return i === -1 ? first.length : i
 }
 
-function Note({ who, chosen, mail }: { who: string; chosen: (typeof CHALLENGES)[number][]; mail: string }) {
+function Note({ who, chosen, custom, mail }: { who: string; chosen: (typeof CHALLENGES)[number][]; custom: string[]; mail: string }) {
   const hot = new Set<number>(chosen.map((c) => c.stage))
   const mods = MODULES.filter((m) => chosen.some((c) => c.module === m.code))
   return (
@@ -252,6 +272,12 @@ function Note({ who, chosen, mail }: { who: string; chosen: (typeof CHALLENGES)[
                   {c.next.label} <ArrowRight className="size-3.5" />
                 </Link>
               )}
+            </motion.li>
+          ))}
+          {custom.map((t, i) => (
+            <motion.li key={t} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + (chosen.length + i) * 0.12 }} className="rounded-2xl bg-white p-4 text-[14px] leading-snug ring-1 ring-accent/30">
+              <div className="mb-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-accent">In your words</div>
+              “{t}” — this one we take up on the walkthrough; it goes to the founders with your note.
             </motion.li>
           ))}
         </ul>
