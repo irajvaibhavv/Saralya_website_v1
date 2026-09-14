@@ -1,4 +1,4 @@
-import { ArrowUp, Check, RotateCcw, Sparkles } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, RotateCcw, Sparkles } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
@@ -56,7 +56,7 @@ export function SaralAi() {
       say(d.label, 'Good — then here’s the shortest honest version of what we believe about Indian credit.')
       setStep('note')
     } else {
-      say(d.label, 'What’s eating your week? Pick as many as you like.')
+      say(d.label, `${d.ask} Pick as many as you like.`)
       setStep('challenges')
     }
   }
@@ -77,8 +77,10 @@ export function SaralAi() {
     say(text, await ask(text))
   }
 
-  const chosen = CHALLENGES.filter((c) => picked.includes(c.id))
-  const note = [`Department: ${DEPARTMENTS.find((d) => d.id === dept)?.label}`, `Book: ${size}`, `Challenges: ${chosen.map((c) => c.label).join('; ')}`].join('\n')
+  const me = DEPARTMENTS.find((d) => d.id === dept)!
+  const ordered = [...CHALLENGES].sort((a, b) => rank(me.first, a.id) - rank(me.first, b.id))
+  const chosen = ordered.filter((c) => picked.includes(c.id))
+  const note = [`Department: ${me.label}`, `Book: ${size}`, `Challenges: ${chosen.map((c) => c.label).join('; ')}`].join('\n')
   const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note — 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
   const idx = STEPS.indexOf(step)
 
@@ -136,7 +138,7 @@ export function SaralAi() {
                 )}
                 {!typing && step === 'challenges' && (
                   <Chips key="ch">
-                    {CHALLENGES.map((c) => {
+                    {ordered.map((c) => {
                       const on = picked.includes(c.id)
                       return (
                         <Chip key={c.id} on={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== c.id) : [...p, c.id]))}>
@@ -167,7 +169,7 @@ export function SaralAi() {
                 )}
               </AnimatePresence>
 
-              {ready && (dept === 'other' ? <Explainer /> : <Note chosen={chosen} mail={mail} />)}
+              {ready && (dept === 'other' ? <Explainer /> : <Note who={`${me.label} · ${size} book`} chosen={chosen} mail={mail} />)}
 
               {step === 'note' && (
                 <form onSubmit={submitQ} className="mt-6 flex items-center gap-2 rounded-full bg-wash2 p-1.5 pl-5 ring-1 ring-line focus-within:ring-accent/50">
@@ -190,11 +192,20 @@ export function SaralAi() {
 
 /* The note: lifecycle rail with hot stages, one tip per challenge, module
    fit, and the 30-day journey. */
-function Note({ chosen, mail }: { chosen: (typeof CHALLENGES)[number][]; mail: string }) {
+function rank(first: readonly string[], id: string) {
+  const i = first.indexOf(id)
+  return i === -1 ? first.length : i
+}
+
+function Note({ who, chosen, mail }: { who: string; chosen: (typeof CHALLENGES)[number][]; mail: string }) {
   const hot = new Set<number>(chosen.map((c) => c.stage))
   const mods = MODULES.filter((m) => chosen.some((c) => c.module === m.code))
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mt-6 space-y-6 rounded-3xl bg-bg p-5 ring-1 ring-line md:p-7">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <div className="text-[17px] font-extrabold tracking-tight">Your note</div>
+        <div className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">{who}</div>
+      </div>
       <div>
         <div className="eyebrow mb-3">Where it hurts</div>
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
@@ -219,6 +230,11 @@ function Note({ chosen, mail }: { chosen: (typeof CHALLENGES)[number][]; mail: s
             <motion.li key={c.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + i * 0.12 }} className="rounded-2xl bg-white p-4 text-[14px] leading-snug">
               <div className="mb-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">{c.label}</div>
               {c.tip}
+              {'next' in c && (
+                <Link to={c.next.to} className="mt-2 flex w-fit items-center gap-1 text-[13px] font-semibold text-accent hover:underline">
+                  {c.next.label} <ArrowRight className="size-3.5" />
+                </Link>
+              )}
             </motion.li>
           ))}
         </ul>

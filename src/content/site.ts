@@ -231,13 +231,15 @@ export const FOUNDERS = [
    free-text box is the seam where the model plugs in.
    --------------------------------------------------------------------------- */
 
+/* `first` = the challenges this department feels first; they lead the list
+   and `ask` is the question in their words. */
 export const DEPARTMENTS = [
-  { id: 'credit', label: 'Credit / Risk' },
-  { id: 'collections', label: 'Collections' },
-  { id: 'tech', label: 'Tech / Product' },
-  { id: 'compliance', label: 'Compliance' },
-  { id: 'leadership', label: 'CEO / Leadership' },
-  { id: 'other', label: 'Investor / Just curious' },
+  { id: 'credit', label: 'Credit / Risk', ask: 'Where does a file lose the most time today?', first: ['tat', 'tabs', 'fraud'] },
+  { id: 'collections', label: 'Collections', ask: 'What do you find out too late?', first: ['stress', 'field', 'mis'] },
+  { id: 'tech', label: 'Tech / Product', ask: 'What are you being asked to build that you shouldn’t have to?', first: ['core', 'tabs', 'tat'] },
+  { id: 'compliance', label: 'Compliance', ask: 'What would an inspector ask about first?', first: ['inspect', 'fraud', 'stress'] },
+  { id: 'leadership', label: 'CEO / Leadership', ask: 'What’s between you and the next ₹100 Cr of book?', first: ['tat', 'stress', 'mis'] },
+  { id: 'other', label: 'Investor / Just curious', ask: '', first: [] },
 ] as const
 export type DeptId = (typeof DEPARTMENTS)[number]['id']
 
@@ -246,14 +248,14 @@ export const STAGES = ['Appraise', 'Screen', 'Watch', 'Recover', 'Report', 'Comp
 /* Each challenge maps to a lifecycle stage, a module, and one vendor-neutral
    tip the visitor can act on without buying anything. */
 export const CHALLENGES = [
-  { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
+  { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', next: { to: '/#numbers', label: 'Run your own book' }, tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
   { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types — stop asking borrowers for PDF statements.' },
-  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person — and build the 21-day SCN step in before you need it.' },
+  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', next: { to: '/demo', label: 'Watch a decision run' }, tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person — and build the 21-day SCN step in before you need it.' },
   { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M3', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
   { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M4', tip: 'Log every visit with time and location, and route the day by promise-to-pay date — not by who shouted loudest.' },
   { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M5', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
-  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M6', tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
-  { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
+  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M6', next: { to: '/#readiness', label: 'Tick your six inspection checks' }, tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
+  { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, next: { to: '/technology', label: 'See how it plugs into your core' }, tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
 ] as const
 export type ChallengeId = (typeof CHALLENGES)[number]['id']
 
