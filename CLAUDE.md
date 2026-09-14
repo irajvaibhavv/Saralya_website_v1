@@ -34,8 +34,8 @@ npx tsc -p tsconfig.app.json --noEmit   # typecheck only
 
 ```
 src/
-  App.tsx                  Router (/, /products, /technology, /about, /demo,
-                           /privacy) + Nav/Footer shell + scroll-to-top/title
+  App.tsx                  Router (/ = Saral AI landing, /home = full site,
+                           /products, /technology, /about, /demo, /privacy) + Nav/Footer shell + scroll-to-top/title
   index.css                `@import "tailwindcss"` + @theme design tokens +
                            the few @utility helpers Tailwind can't express
                            (text-gradient, grid-paper, mask-fade-*, eyebrow)
@@ -51,7 +51,7 @@ src/
                            Benefits (bento w/ mini visuals), Pedigree
   components/products/     ModuleVisuals — one bespoke looping animation per
                            module, used by the sticky showcase on /products
-  pages/                   Home, Products, Technology, About, Demo, Privacy
+  pages/                   Landing (headline + SaralAi only), Home, Products, Technology, About, Demo, Privacy
 ```
 
 ## Styling

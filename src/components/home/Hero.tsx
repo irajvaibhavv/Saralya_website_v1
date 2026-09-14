@@ -61,7 +61,7 @@ export function Hero() {
               <ButtonLink to="/demo" variant="ink" size="lg" arrow>
                 Try a live decision
               </ButtonLink>
-              <ButtonLink to="/#saral-ai" variant="ghost" size="lg">
+              <ButtonLink to="/" variant="ghost" size="lg">
                 Ask Saral AI
               </ButtonLink>
             </motion.div>

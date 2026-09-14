@@ -2,9 +2,10 @@ import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from './components/layout/Footer'
 import { Nav } from './components/layout/Nav'
-import { Home } from './pages/Home'
+import { Landing } from './pages/Landing'
 
-// Only Home ships in the first bundle; other pages load on navigation.
+// Only the landing ships in the first bundle; other pages load on navigation.
+const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
 const Products = lazy(() => import('./pages/Products').then((m) => ({ default: m.Products })))
 const Technology = lazy(() => import('./pages/Technology').then((m) => ({ default: m.Technology })))
 const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })))
@@ -12,7 +13,8 @@ const Demo = lazy(() => import('./pages/Demo').then((m) => ({ default: m.Demo })
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
 
 const TITLES: Record<string, string> = {
-  '/': 'Saralya — Making Lending Saral for Bharat',
+  '/': 'Saral AI — Saralya',
+  '/home': 'Saralya — Making Lending Saral for Bharat',
   '/products': 'Products — Saralya',
   '/technology': 'Technology — Saralya',
   '/about': 'About us — Saralya',
@@ -26,11 +28,14 @@ function RouteEffects() {
   useEffect(() => {
     document.title = TITLES[pathname] ?? 'Saralya'
     if (hash) {
-      const el = document.querySelector(hash)
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' })
-        return
-      }
+      // Lazy pages mount a beat after the URL changes; poll briefly for the target.
+      let tries = 0
+      const id = window.setInterval(() => {
+        const el = document.querySelector(hash)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        if (el || ++tries > 20) window.clearInterval(id)
+      }, 50)
+      return () => window.clearInterval(id)
     }
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [pathname, hash])
@@ -45,13 +50,14 @@ function App() {
       <main>
         <Suspense fallback={<div className="min-h-screen" />}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/technology" element={<Technology />} />
             <Route path="/about" element={<About />} />
             <Route path="/demo" element={<Demo />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>
       </main>

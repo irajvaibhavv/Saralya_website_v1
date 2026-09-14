@@ -6,6 +6,7 @@ import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
 
 const LINKS = [
+  { to: '/home', label: 'Overview' },
   { to: '/products', label: 'Products' },
   { to: '/technology', label: 'Technology' },
   { to: '/about', label: 'About' },
@@ -72,7 +73,7 @@ export function Nav() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
-            <ButtonLink to="/#saral-ai" variant="ghost">
+            <ButtonLink to="/" variant="ghost">
               Get diagnostic
             </ButtonLink>
             <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
@@ -112,7 +113,7 @@ export function Nav() {
                 </NavLink>
               ))}
               <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
-                <ButtonLink to="/#saral-ai" variant="ghost">
+                <ButtonLink to="/" variant="ghost">
                   Get diagnostic
                 </ButtonLink>
                 <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
