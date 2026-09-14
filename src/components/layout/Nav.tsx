@@ -72,7 +72,7 @@ export function Nav() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
-            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic%20for%20our%20NBFC`} variant="ghost">
+            <ButtonLink to="/#saral-ai" variant="ghost">
               Get diagnostic
             </ButtonLink>
             <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
@@ -112,7 +112,7 @@ export function Nav() {
                 </NavLink>
               ))}
               <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
-                <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic`} variant="ghost">
+                <ButtonLink to="/#saral-ai" variant="ghost">
                   Get diagnostic
                 </ButtonLink>
                 <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
