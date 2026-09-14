@@ -61,8 +61,8 @@ export function Hero() {
               <ButtonLink to="/demo" variant="ink" size="lg" arrow>
                 Try a live decision
               </ButtonLink>
-              <ButtonLink to="/#numbers" variant="ghost" size="lg">
-                Run your numbers
+              <ButtonLink to="/#saral-ai" variant="ghost" size="lg">
+                Ask Saral AI
               </ButtonLink>
             </motion.div>
 
