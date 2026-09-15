@@ -3,10 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Cta } from '../components/layout/Cta'
 import { PageHero } from '../components/layout/PageHero'
 import { VISUALS } from '../components/products/ModuleVisuals'
-import { ButtonLink } from '../components/ui/Button'
-import { FadeIn } from '../components/ui/Motion'
-import { Container, Section } from '../components/ui/Section'
-import { CONTACT_EMAIL, MODULES } from '../content/site'
+import { Container } from '../components/ui/Section'
+import { MODULES } from '../content/site'
 
 export function Products() {
   const [active, setActive] = useState(0)
@@ -79,43 +77,6 @@ export function Products() {
           </div>
         </div>
       </Container>
-
-      {/* Pricing */}
-      <Section tight>
-        <Container>
-          <FadeIn>
-            <div className="relative grid items-center gap-8 overflow-hidden rounded-[32px] bg-ink p-8 text-white md:grid-cols-[1fr_auto] md:p-12">
-              <motion.div
-                aria-hidden
-                className="absolute -right-20 -top-20 size-80 rounded-full bg-accent3/40 blur-[80px]"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <div className="relative">
-                <div className="eyebrow text-[#c4b5fd]">Pricing</div>
-                <div className="display mt-3 text-[clamp(34px,5vw,60px)]">
-                  ₹50–100 <span className="text-white/50">per loan.</span>
-                </div>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {['Slabbed by volume', 'No upfront', 'No exit penalty'].map((t) => (
-                    <span key={t} className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[13px] font-semibold">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="relative flex flex-col gap-3">
-                <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Pricing%20for%20our%20NBFC`} variant="white" size="lg" arrow>
-                  Talk pricing
-                </ButtonLink>
-                <ButtonLink to="/demo" variant="primary" size="lg">
-                  See it decide a loan
-                </ButtonLink>
-              </div>
-            </div>
-          </FadeIn>
-        </Container>
-      </Section>
 
       <Cta />
     </>

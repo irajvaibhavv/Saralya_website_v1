@@ -6,7 +6,6 @@ import { IntegrationsMarquee } from '../components/home/IntegrationsMarquee'
 import { ModulesPreview } from '../components/home/ModulesPreview'
 import { Pedigree } from '../components/home/Pedigree'
 import { ReadinessCheck } from '../components/home/ReadinessCheck'
-import { RunYourNumbers } from '../components/home/RunYourNumbers'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
 import { Cta } from '../components/layout/Cta'
 import { Container } from '../components/ui/Section'
@@ -17,7 +16,6 @@ export function Home() {
   return (
     <>
       <Hero />
-      <RunYourNumbers />
       <IntegrationsMarquee />
       <Photo />
       <HowItWorks />
