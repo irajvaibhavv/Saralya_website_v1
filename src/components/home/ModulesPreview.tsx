@@ -30,7 +30,7 @@ export function ModulesPreview() {
           eyebrow="Products"
           title={
             <>
-              Six modules. <span className="text-accent">One stack.</span>
+              Six modules. One stack.
             </>
           }
           lede="What are you trying to fix?"
@@ -43,12 +43,12 @@ export function ModulesPreview() {
               type="button"
               aria-pressed={pick === p.id}
               onClick={() => setPick(pick === p.id ? null : p.id)}
-              className={`relative rounded-full px-4 py-2 text-[13px] font-semibold shadow-sm transition-colors ${
-                pick === p.id ? 'text-white' : 'bg-white text-ink2 hover:text-ink'
+              className={`relative rounded-lg px-3.5 py-2 text-[13px] font-medium ring-1 ring-line transition-colors ${
+                pick === p.id ? 'text-white ring-ink' : 'bg-white text-ink2 hover:text-ink'
               }`}
             >
               {pick === p.id && (
-                <motion.span layoutId="problem-pill" className="absolute inset-0 -z-10 rounded-full bg-ink" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />
+                <motion.span layoutId="problem-pill" className="absolute inset-0 -z-10 rounded-lg bg-ink" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />
               )}
               {p.label}
             </button>
@@ -110,13 +110,7 @@ function StackCard({ m, i, progress, off, lit }: { m: (typeof MODULES)[number]; 
             </div>
             <div className="mt-1 text-[24px] font-extrabold tracking-[-0.02em] sm:text-[28px]">{m.name}</div>
             <div className="mt-1 text-[15px] text-muted">{m.short}</div>
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {m.points.map((pt) => (
-                <span key={pt} className="rounded-md bg-bg px-2.5 py-1 text-[12.5px] font-medium text-ink2 ring-1 ring-line">
-                  {pt}
-                </span>
-              ))}
-            </div>
+            <div className="mt-4 font-mono text-[12px] text-muted">{m.points.join('  ·  ')}</div>
           </div>
           <div className="flex items-center gap-1 text-[13px] font-semibold text-accent sm:self-end">
             Learn more <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

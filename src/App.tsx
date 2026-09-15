@@ -14,13 +14,13 @@ const Demo = lazy(() => import('./pages/Demo').then((m) => ({ default: m.Demo })
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
 
 const TITLES: Record<string, string> = {
-  '/': 'Saral AI — Saralya',
-  '/home': 'Saralya — Making Lending Saral for Bharat',
-  '/products': 'Products — Saralya',
-  '/technology': 'Technology — Saralya',
-  '/about': 'About us — Saralya',
-  '/demo': 'Live demo — Saralya',
-  '/privacy': 'Privacy Policy — Saralya',
+  '/': 'Saral AI · Saralya',
+  '/home': 'Saralya · Making Lending Saral for Bharat',
+  '/products': 'Products · Saralya',
+  '/technology': 'Technology · Saralya',
+  '/about': 'About us · Saralya',
+  '/demo': 'Live demo · Saralya',
+  '/privacy': 'Privacy Policy · Saralya',
 }
 
 /** Scroll to top on route change (or to the hash target if one is present) and set the tab title. */

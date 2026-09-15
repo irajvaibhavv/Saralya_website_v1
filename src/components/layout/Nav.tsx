@@ -17,9 +17,7 @@ export function Logo({ light }: { light?: boolean }) {
   return (
     <Link to="/" className={`flex items-center gap-2 text-[20px] font-extrabold tracking-[-0.04em] ${light ? 'text-white' : 'text-ink'}`}>
       Saralya
-      <span className="relative inline-block size-2 rounded-full bg-accent">
-        <span className="absolute inset-0 rounded-full bg-accent animate-pulse-ring" />
-      </span>
+      <span className="inline-block size-2 rounded-full bg-accent" />
     </Link>
   )
 }
@@ -72,12 +70,12 @@ export function Nav() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-2">
-            <ButtonLink to="/" variant="ghost">
-              Get diagnostic
-            </ButtonLink>
+          <div className="hidden md:flex items-center gap-4">
+            <Link to="/" className="text-[14px] font-medium text-muted hover:text-ink">
+              Saral AI
+            </Link>
             <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
-              Book demo
+              Book a demo
             </ButtonLink>
           </div>
 
@@ -112,12 +110,9 @@ export function Nav() {
                   {l.label}
                 </NavLink>
               ))}
-              <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-3">
-                <ButtonLink to="/" variant="ghost">
-                  Get diagnostic
-                </ButtonLink>
+              <div className="mt-2 grid gap-2 border-t border-line pt-3">
                 <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
-                  Book demo
+                  Book a demo
                 </ButtonLink>
               </div>
             </div>

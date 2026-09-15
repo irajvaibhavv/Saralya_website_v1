@@ -5,6 +5,7 @@ export function Container({ children, className = '' }: { children: ReactNode; c
   return <div className={`mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10 ${className}`}>{children}</div>
 }
 
+/** Sections are separated by a hairline, not by floating cards. */
 export function Section({
   children,
   className = '',
@@ -17,18 +18,18 @@ export function Section({
   tight?: boolean
 }) {
   return (
-    <section id={id} className={`relative ${tight ? 'py-10 md:py-14' : 'py-14 md:py-20'} ${className}`}>
+    <section id={id} className={`relative ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}>
       {children}
     </section>
   )
 }
 
-/** Eyebrow + headline + optional one-liner. Centred by default. */
+/** Eyebrow + headline on the left, the one-liner on the right. */
 export function SectionHead({
   eyebrow,
   title,
   lede,
-  align = 'center',
+  align = 'left',
   className = '',
 }: {
   eyebrow?: string
@@ -37,18 +38,22 @@ export function SectionHead({
   align?: 'center' | 'left'
   className?: string
 }) {
-  const centred = align === 'center'
+  if (align === 'center') {
+    return (
+      <FadeIn className={`mx-auto mb-10 max-w-2xl text-center md:mb-12 ${className}`}>
+        {eyebrow && <div className="eyebrow mb-3">{eyebrow}</div>}
+        <h2 className="display text-[clamp(28px,3.4vw,42px)]">{title}</h2>
+        {lede && <p className="mx-auto mt-3 max-w-xl text-[16px] text-muted">{lede}</p>}
+      </FadeIn>
+    )
+  }
   return (
-    <FadeIn className={`${centred ? 'mx-auto text-center' : ''} max-w-2xl mb-10 md:mb-12 ${className}`}>
-      {eyebrow && (
-        <div className={`eyebrow mb-4 flex items-center gap-3 ${centred ? 'justify-center' : ''}`}>
-          {centred && <span className="h-px w-6 bg-accent" />}
-          {eyebrow}
-          <span className="h-px w-6 bg-accent" />
-        </div>
-      )}
-      <h2 className="display text-[clamp(30px,4.4vw,50px)]">{title}</h2>
-      {lede && <p className={`mt-4 text-[16px] md:text-[17px] text-muted ${centred ? 'mx-auto' : ''} max-w-xl`}>{lede}</p>}
+    <FadeIn className={`mb-10 grid gap-4 md:mb-12 lg:grid-cols-[1fr_minmax(0,380px)] lg:items-end lg:gap-10 ${className}`}>
+      <div>
+        {eyebrow && <div className="eyebrow mb-3">{eyebrow}</div>}
+        <h2 className="display max-w-2xl text-[clamp(28px,3.4vw,42px)]">{title}</h2>
+      </div>
+      {lede && <p className="text-[16px] leading-relaxed text-muted lg:pb-1">{lede}</p>}
     </FadeIn>
   )
 }

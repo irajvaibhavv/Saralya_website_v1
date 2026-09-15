@@ -2,7 +2,7 @@ import { ButtonLink } from '../ui/Button'
 import { Counter, FadeIn, Item, Stagger } from '../ui/Motion'
 import { Container, Section } from '../ui/Section'
 
-/* "4+ decades of experience. 200+ banks of pedigree." — founder-approved line. */
+/* "4+ decades of experience. 200+ banks of pedigree.": founder-approved line. */
 
 const STATS = [
   { n: 4, suffix: '+', label: 'Decades of banking-technology experience' },
@@ -17,14 +17,11 @@ export function Pedigree() {
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
           <FadeIn>
-            <div className="eyebrow mb-4 flex items-center gap-3">
-              <span className="h-px w-6 bg-accent" />
-              Who's behind it
-            </div>
-            <h2 className="display text-[clamp(30px,4.4vw,50px)]">
+            <div className="eyebrow mb-3">Who's behind it</div>
+            <h2 className="display text-[clamp(28px,3.4vw,42px)]">
               4+ decades of experience.
               <br />
-              <span className="text-accent">200+ banks of pedigree.</span>
+              200+ banks of pedigree.
             </h2>
             <p className="mt-5 max-w-md text-[16px] text-muted">
               Banking-technology veterans, not lending tourists.
@@ -36,15 +33,13 @@ export function Pedigree() {
             </div>
           </FadeIn>
 
-          <Stagger className="grid grid-cols-2 gap-4">
+          <Stagger className="grid grid-cols-2 gap-x-8">
             {STATS.map((s) => (
-              <Item key={s.label}>
-                <div className="rounded-3xl bg-white p-6 shadow-sm">
-                  <div className="display text-[clamp(38px,5vw,56px)] text-ink">
-                    <Counter to={s.n} suffix={s.suffix} />
-                  </div>
-                  <div className="mt-1 text-[13.5px] text-muted">{s.label}</div>
+              <Item key={s.label} className="border-t border-line py-6">
+                <div className="display text-[clamp(36px,4.6vw,52px)]">
+                  <Counter to={s.n} suffix={s.suffix} />
                 </div>
+                <div className="mt-1 text-[13.5px] text-muted">{s.label}</div>
               </Item>
             ))}
           </Stagger>

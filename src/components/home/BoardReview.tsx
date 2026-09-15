@@ -36,7 +36,7 @@ export function BoardReview() {
           eyebrow="Monthly review"
           title={
             <>
-              What lands on your desk <span className="text-accent">on the 1st.</span>
+              What lands on your desk on the 1st.
             </>
           }
           lede="No data team. No ticket to IT."
@@ -109,7 +109,7 @@ export function BoardReview() {
 
 const SPRING = { type: 'spring', stiffness: 120, damping: 20 } as const
 
-/* 1 — vintage: 90+ DPD by disbursal cohort */
+/* 1: vintage: 90+ DPD by disbursal cohort */
 function Vintage() {
   const cohorts = [
     { m: 'Apr', v: 18 },
@@ -140,7 +140,7 @@ function Vintage() {
   )
 }
 
-/* 2 — roll-rate: how much of each bucket held */
+/* 2: roll-rate: how much of each bucket held */
 function RollRate() {
   const rows = [
     { from: 'Current', pct: 94, tone: 'bg-green' },
@@ -170,7 +170,7 @@ function RollRate() {
   )
 }
 
-/* 3 — early warning: the book as a grid, stressed accounts light up */
+/* 3: early warning: the book as a grid, stressed accounts light up */
 function Watch() {
   const flags = new Set([7, 13, 29, 34, 51, 62, 68])
   const warn = new Set([4, 19, 41, 56])
@@ -202,7 +202,7 @@ function Watch() {
   )
 }
 
-/* 4 — recovery: resolution rate by strategy */
+/* 4: recovery: resolution rate by strategy */
 function Recover() {
   const R = 34
   const C = 2 * Math.PI * R

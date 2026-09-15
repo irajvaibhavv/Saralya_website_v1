@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { Counter } from '../ui/Motion'
 
 /* One bespoke animation per module. Every visual loops so the stage never
-   looks static, and all of them are pure SVG/CSS — no image assets. */
+   looks static, and all of them are pure SVG/CSS: no image assets. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
 const LOOP = { repeat: Infinity, repeatDelay: 1.6 } as const
@@ -16,7 +16,7 @@ function Stage({ children, wash }: { children: React.ReactNode; wash: string }) 
   )
 }
 
-/* M1 · Appraisal — a credit gauge sweeping up while data sources land. */
+/* M1 · Appraisal: a credit gauge sweeping up while data sources land. */
 export function AppraisalVisual() {
   const r = 84
   const c = Math.PI * r // half circle
@@ -76,7 +76,7 @@ export function AppraisalVisual() {
   )
 }
 
-/* M2 · Screen — a radar sweep over an applicant cluster; one node lights red. */
+/* M2 · Screen: a radar sweep over an applicant cluster; one node lights red. */
 export function ScreenVisual() {
   const nodes = [
     [30, 28], [62, 22], [78, 46], [24, 62], [48, 50], [70, 74], [40, 80], [58, 66],
@@ -132,7 +132,7 @@ export function ScreenVisual() {
   )
 }
 
-/* M3 · Watch — a repayment-health line dips; the EWS marker fires on day 1. */
+/* M3 · Watch: a repayment-health line dips; the EWS marker fires on day 1. */
 export function WatchVisual() {
   const d = 'M0 60 C 40 55, 70 50, 110 52 S 170 40, 200 46 S 250 62, 280 78 S 330 92, 360 96'
   return (
@@ -193,7 +193,7 @@ export function WatchVisual() {
   )
 }
 
-/* M4 · Recover — the dialler rings, contacts land, the bucket drains. */
+/* M4 · Recover: the dialler rings, contacts land, the bucket drains. */
 export function RecoverVisual() {
   const r = 46
   const c = 2 * Math.PI * r
@@ -265,7 +265,7 @@ export function RecoverVisual() {
   )
 }
 
-/* M5 · Insight — vintage curves draw, then the board pack slides in. */
+/* M5 · Insight: vintage curves draw, then the board pack slides in. */
 export function InsightVisual() {
   const bars = [
     [40, 28], [52, 34], [58, 30], [66, 38], [72, 42], [80, 44], [88, 50], [96, 54],
@@ -323,7 +323,7 @@ export function InsightVisual() {
   )
 }
 
-/* M6 · Comply — the shield fills as checks tick past; the pack gets stamped. */
+/* M6 · Comply: the shield fills as checks tick past; the pack gets stamped. */
 export function ComplyVisual() {
   const checks = ['MD-FRM · SCN window', 'DLD 2025 · KFS sent', 'DPDP · consent logged', 'KYC MD · CKYC match', 'NBS-9 · mapped', 'CRILC · filed']
   return (

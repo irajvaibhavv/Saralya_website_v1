@@ -1,7 +1,7 @@
 import { INTEGRATIONS } from '../../content/site'
 import { FadeIn } from '../ui/Motion'
 
-/* "Plugs into" strip — integration partners are documented on saralya.in,
+/* "Plugs into" strip: integration partners are documented on saralya.in,
    unlike the customer logos from the prototype which were unverified. */
 export function IntegrationsMarquee() {
   const row = [...INTEGRATIONS, ...INTEGRATIONS]

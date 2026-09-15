@@ -6,7 +6,7 @@ import { FadeIn, Item, Stagger } from '../components/ui/Motion'
 import { Container, Section, SectionHead } from '../components/ui/Section'
 import { COMPLIANCE, INTEGRATIONS, PILLARS } from '../content/site'
 
-/* TODO(Vikas): verify the technical claims in the hero lede — "Indian data
+/* TODO(Vikas): verify the technical claims in the hero lede: "Indian data
    residency", "inspection-grade audit trail", "no vendor lock-in" (corrections
    brief item 19). Copy is unchanged from saralya.in until signed off. */
 
@@ -126,7 +126,7 @@ export function Technology() {
             eyebrow="Compliance & security"
             title={
               <>
-                Built for <span className="text-accent">inspection.</span>
+                Built for inspection.
               </>
             }
             lede="Every module is built against current RBI Master Directions and the DPDP Act 2023."
