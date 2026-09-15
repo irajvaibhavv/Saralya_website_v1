@@ -5,7 +5,7 @@
    `text-ink`, `font-mono`, `shadow-glow` etc. all work as utilities.
    --------------------------------------------------------------------------- */
 @theme {
-  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-sans: "Geist", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
   --color-bg: #f7f7f9;
@@ -101,11 +101,11 @@ body {
 }
 
 @utility eyebrow {
-  @apply font-mono text-[11px] uppercase tracking-[0.14em] text-accent;
+  @apply font-mono text-[11px] uppercase tracking-[0.1em] text-muted;
 }
 
 @utility display {
-  @apply font-extrabold tracking-[-0.04em] leading-[1.02];
+  @apply font-semibold tracking-[-0.03em] leading-[1.06];
 }
 
 @media (prefers-reduced-motion: reduce) {

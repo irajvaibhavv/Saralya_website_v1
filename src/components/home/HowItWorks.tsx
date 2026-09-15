@@ -5,7 +5,7 @@ import { FadeIn } from '../ui/Motion'
 import { Container, Section, SectionHead } from '../ui/Section'
 
 /* India's rails on the left, one Saralya core in the middle, a decided loan
-   on the right — joined by lines that carry packets. The lines are drawn
+   on the right: joined by lines that carry packets. The lines are drawn
    from the real positions of the cards, so the layout can reflow freely. */
 
 const RAILS = [
@@ -85,7 +85,7 @@ export function HowItWorks() {
           eyebrow="How it works"
           title={
             <span className="relative inline-block">
-              One endpoint. <span className="text-accent">Every rail.</span>
+              One endpoint. Every rail.
               {/* two hand-drawn strokes, like a sketch mark next to the headline */}
               <svg aria-hidden viewBox="0 0 40 40" className="absolute -right-10 -top-6 hidden size-9 text-accent md:block">
                 <motion.path d="M8 30 L22 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.5 }} />
@@ -195,13 +195,13 @@ export function HowItWorks() {
 
           <div className="mt-6 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-line pt-5 font-mono text-[12px] text-muted">
             <span>
-              Bureau + AA + GSTN <span className="text-accent">one pull</span>
+              Bureau + AA + GSTN one pull
             </span>
             <span>
-              Inference <span className="text-accent">inside India</span>
+              Inference inside India
             </span>
             <span>
-              Audit trail <span className="text-accent">immutable</span>
+              Audit trail immutable
             </span>
           </div>
         </FadeIn>

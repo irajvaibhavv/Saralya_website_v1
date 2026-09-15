@@ -36,12 +36,12 @@ export const MODULES: Module[] = [
     tag: 'Origination',
     name: 'Saral Appraisal',
     short: 'Score and sanction in minutes.',
-    body: 'Configurable BRE for SME, MSME, LAP, MFI JLG and unsecured retail. Bureau pulls, Account Aggregator, GSTN, MCA21 and CERSAI — native.',
+    body: 'Configurable BRE for SME, MSME, LAP, MFI JLG and unsecured retail. Bureau pulls, Account Aggregator, GSTN, MCA21 and CERSAI, all native.',
     icon: FileCheck2,
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
-    points: ['CIBIL · Experian · CRIF', 'AA — all 9 ReBIT FI types', 'GSTN · MCA21 · CERSAI'],
+    points: ['CIBIL · Experian · CRIF', 'AA: all 9 ReBIT FI types', 'GSTN · MCA21 · CERSAI'],
   },
   {
     code: 'M2',
@@ -84,7 +84,7 @@ export const MODULES: Module[] = [
     tag: 'Analytics',
     name: 'Saral Insight',
     short: 'Board-ready, auto-generated.',
-    body: 'Vintage analysis, roll-rate dashboards, peer-cohort benchmarking and customer LTV — daily, weekly and quarterly reports without a data team.',
+    body: 'Vintage analysis, roll-rate dashboards, peer-cohort benchmarking and customer LTV. Daily, weekly and quarterly reports without a data team.',
     icon: BarChart3,
     color: 'text-purple',
     bar: 'bg-purple',
@@ -133,7 +133,7 @@ export const PILLARS: { title: string; sub: string; icon: LucideIcon; points: st
     points: [
       'Microservices with clean REST + webhooks',
       'Multi-tenant with strict workspace isolation',
-      'Indian data residency — AWS Mumbai, DR Hyderabad',
+      'Indian data residency: AWS Mumbai, DR Hyderabad',
       '99.95% SLA · < 200 ms p95 latency',
     ],
   },
@@ -144,7 +144,7 @@ export const PILLARS: { title: string; sub: string; icon: LucideIcon; points: st
     points: [
       'Tuned on RBI Master Directions, IRAC norms, IBC and SARFAESI',
       'Anonymised Indian banking corpus',
-      'Inference inside India — no customer data leaves your tenant',
+      'Inference inside India. No customer data leaves your tenant',
       'Explainable risk scoring for credit officer review',
     ],
   },
@@ -165,7 +165,7 @@ export const PILLARS: { title: string; sub: string; icon: LucideIcon; points: st
     icon: Plug,
     points: [
       'CIBIL · Experian · CRIF · Equifax',
-      'Account Aggregator — all 9 ReBIT FI types',
+      'Account Aggregator: all 9 ReBIT FI types',
       'NPCI · NACH · UPI · CIMS · CERSAI · CKYC · GSTN · MCA21',
       'Connectors for FinnOne, Lentra, Finflux, AllCloud and others',
     ],
@@ -185,7 +185,7 @@ export const CONVICTIONS = [
   {
     n: '01',
     title: 'Compliance is architecture, not a feature.',
-    body: 'RBI MD-FRM, DLD 2025, DPDP, the SBI vs. Rajesh Agarwal SCN ruling — these belong in the foundation. Bolting them on later is what creates inspection observations.',
+    body: 'RBI MD-FRM, DLD 2025, DPDP, the SBI vs. Rajesh Agarwal SCN ruling. These belong in the foundation. Bolting them on later is what creates inspection observations.',
   },
   {
     n: '02',
@@ -205,7 +205,7 @@ export const FOUNDERS = [
     name: 'Vikas Chaudhary',
     role: 'Co-founder & CTO',
     line: 'IIT Delhi · 24+ years in banking technology',
-    body: 'Vikas has spent his career inside the engine room of Indian banking. Before Saralya, he led platform engineering at Sopra Banking, Renovite and FIS, shipping core banking systems and payment switches across 200+ Indian banks — PSU, private and cooperative.',
+    body: 'Vikas has spent his career inside the engine room of Indian banking. Before Saralya, he led platform engineering at Sopra Banking, Renovite and FIS, shipping core banking systems and payment switches across 200+ Indian banks: PSU, private and cooperative.',
     points: [
       'Has personally signed off on RBI inspection responses for Tier-1 and Tier-2 deployments',
       'Architects the platform stack, integration layer and compliance backbone',
@@ -227,7 +227,7 @@ export const FOUNDERS = [
 ]
 
 /* ---------------------------------------------------------------------------
-   Saral AI — the guided diagnostic on the home page. Scripted today; the
+   Saral AI: the guided diagnostic on the home page. Scripted today; the
    free-text box is the seam where the model plugs in.
    --------------------------------------------------------------------------- */
 
@@ -249,10 +249,10 @@ export const STAGES = ['Appraise', 'Screen', 'Watch', 'Recover', 'Report', 'Comp
    tip the visitor can act on without buying anything. */
 export const CHALLENGES = [
   { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', next: { to: '/demo', label: 'Watch a decision in minutes' }, tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
-  { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types — stop asking borrowers for PDF statements.' },
-  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', next: { to: '/demo', label: 'Watch a decision run' }, tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person — and build the 21-day SCN step in before you need it.' },
+  { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types: stop asking borrowers for PDF statements.' },
+  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', next: { to: '/demo', label: 'Watch a decision run' }, tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person: and build the 21-day SCN step in before you need it.' },
   { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M3', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
-  { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M4', tip: 'Log every visit with time and location, and route the day by promise-to-pay date — not by who shouted loudest.' },
+  { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M4', tip: 'Log every visit with time and location, and route the day by promise-to-pay date: not by who shouted loudest.' },
   { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M5', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
   { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M6', next: { to: '/home#readiness', label: 'Tick your six inspection checks' }, tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
   { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, next: { to: '/technology', label: 'See how it plugs into your core' }, tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
@@ -271,17 +271,17 @@ export const STARTERS: { q: string; a: string; link?: { to: string; label: strin
   },
   {
     q: 'Improve collection efficiency',
-    a: 'Three things move the needle fastest: route the day by promise-to-pay date instead of by bucket, log every field visit with time and location, and treat the first NACH bounce as the signal — it is weeks ahead of DPD 30.',
+    a: 'Three things move the needle fastest: route the day by promise-to-pay date instead of by bucket, log every field visit with time and location, and treat the first NACH bounce as the signal: it is weeks ahead of DPD 30.',
     link: { to: '/products#M4', label: 'Saral Recover' },
   },
   {
     q: 'Credit risk models',
-    a: 'A good decision pulls bureau, Account Aggregator (all nine FI types), GSTN and MCA21 in one go, then runs a rule engine configured per product — SME, MSME, LAP, MFI JLG, unsecured retail. Verify after sanction on small tickets, not before.',
+    a: 'A good decision pulls bureau, Account Aggregator (all nine FI types), GSTN and MCA21 in one go, then runs a rule engine configured per product: SME, MSME, LAP, MFI JLG, unsecured retail. Verify after sanction on small tickets, not before.',
     link: { to: '/demo', label: 'Watch a decision run' },
   },
   {
     q: 'Integrations with core banking',
-    a: 'Keep the core. Saralya sits beside FinnOne, Lentra, Finflux or AllCloud as an API layer — REST and webhooks, multi-tenant, hosted in AWS Mumbai — and you move one product line at a time.',
+    a: 'Keep the core. Saralya sits beside FinnOne, Lentra, Finflux or AllCloud as an API layer (REST and webhooks, multi-tenant, hosted in AWS Mumbai) and you move one product line at a time.',
     link: { to: '/technology', label: 'The architecture' },
   },
   { q: 'Get a note for my NBFC', a: '', note: true },
@@ -289,17 +289,17 @@ export const STARTERS: { q: string; a: string; link?: { to: string; label: strin
   /* below the fold of the chip list; reachable from the rolling strip */
   {
     q: 'What is SMA-0 and when do I tag it?',
-    a: 'SMA-0 is the first special-mention bucket: principal or interest overdue up to 30 days. Tag it the day the account slips — a first NACH bounce or a missed GST filing is your earliest signal, and lenders who wait for DPD 30 are already a month late.',
+    a: 'SMA-0 is the first special-mention bucket: principal or interest overdue up to 30 days. Tag it the day the account slips. A first NACH bounce or a missed GST filing is your earliest signal, and lenders who wait for DPD 30 are already a month late.',
     link: { to: '/products#M3', label: 'Saral Watch' },
   },
   {
     q: 'What does DPDP mean for my loan files?',
-    a: 'Under the DPDP Act 2023 every borrower consent has to be logged, purpose-bound and revocable, and an erasure request has to be honoured row by row — not by deleting a whole file. Inspectors ask for the consent trail before they ask for the credit file.',
+    a: 'Under the DPDP Act 2023 every borrower consent has to be logged, purpose-bound and revocable, and an erasure request has to be honoured row by row, not by deleting a whole file. Inspectors ask for the consent trail before they ask for the credit file.',
     link: { to: '/technology#compliance', label: 'How it is built in' },
   },
   {
     q: 'How does Account Aggregator change KYC?',
-    a: 'One consent replaces a folder of PDFs. Account Aggregator covers all nine ReBIT financial-information types — bank statements, deposits, mutual funds, GST returns and more — pulled directly with the borrower’s consent, so the file is decided on data, not on what was uploaded.',
+    a: 'One consent replaces a folder of PDFs. Account Aggregator covers all nine ReBIT financial-information types: bank statements, deposits, mutual funds, GST returns and more: pulled directly with the borrower’s consent, so the file is decided on data, not on what was uploaded.',
     link: { to: '/products#M1', label: 'Saral Appraisal' },
   },
   {
@@ -309,11 +309,11 @@ export const STARTERS: { q: string; a: string; link?: { to: string; label: strin
   },
 ]
 
-/* What Saral AI speaks — shown as a strip under the landing card. Every item is
+/* What Saral AI speaks: shown as a strip under the landing card. Every item is
    a regulation, ruling or rail already named elsewhere on the site. */
 export const SARAL_AI_TOPICS = ['RBI MD-FRM 2024', 'DLD 2025 · KFS', 'DPDP 2023', 'SMA-0 tagging', 'CRILC · NBS-9', 'Account Aggregator', 'GSTN · MCA21', 'CERSAI', 'NPCI · CIMS', 'SBI vs. Rajesh Agarwal', 'JLG · LAP · MSME']
 
-/* What the NBFC's first 30 days look like — the onboarding journey. */
+/* What the NBFC's first 30 days look like: the onboarding journey. */
 export const ONBOARDING = [
   { day: 'Day 1', title: '20-minute walkthrough', body: 'On your book, your products, your core. No deck.' },
   { day: 'Week 1', title: 'Sandbox on your data', body: 'A sample file from your core, decisions back through one API.' },

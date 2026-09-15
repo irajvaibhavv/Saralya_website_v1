@@ -3,22 +3,16 @@ import { motion } from 'motion/react'
 import { Counter, Item, Stagger } from '../ui/Motion'
 import { Container, Section, SectionHead } from '../ui/Section'
 
-/* Four benefits — copy per the founders' corrections brief (benefit 5 removed). */
+/* Four benefits: copy per the founders' corrections brief (benefit 5 removed). */
 
 export function Benefits() {
   return (
-    <Section className="bg-bg2/60">
+    <Section>
       <Container>
         <SectionHead
           eyebrow="Why Saralya"
-          title={
-            <>
-              Organization level-up.
-              <br />
-              <span className="text-accent">Transforming operations. Elevating experience. Minimizing risk.</span>
-            </>
-          }
-          className="max-w-3xl"
+          title="What changes on day one."
+          lede="Organization level-up. Transforming operations. Elevating experience. Minimizing risk."
         />
 
         <Stagger className="grid gap-4 md:grid-cols-12">

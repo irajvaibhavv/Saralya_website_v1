@@ -18,7 +18,7 @@ const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI no
 
 // TODO: point at the model endpoint once it is exposed.
 async function ask(_q: string): Promise<string> {
-  return 'That one needs the full model, which is being wired in. For now the founders read every question — use “Talk to a human” and it reaches them today.'
+  return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Talk to a human” and it reaches them today.'
 }
 
 const CHIPS = STARTERS.slice(0, 6) // the rest are reachable from the rolling strip on the landing
@@ -60,7 +60,7 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
 
   const starter = (s: (typeof STARTERS)[number]) => {
     if (s.note) {
-      say(s.q, 'Happy to. Three quick questions and I’ll leave you with a note you can act on. First — what do you do?')
+      say(s.q, 'Happy to. Three quick questions and I’ll leave you with a note you can act on. First, what do you do?')
       setStep('dept')
     } else say(s.q, s.a, s.link)
   }
@@ -79,7 +79,7 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
     setDept(d.id)
     setWho(label)
     if (d.id === 'other') {
-      say(label, 'Good — then here’s the shortest honest version of what we believe about Indian credit.')
+      say(label, 'Good. Here’s the shortest honest version of what we believe about Indian credit.')
       setStep('note')
     } else {
       say(label, `${d.ask} Pick as many as you like, or type your own.`)
@@ -117,7 +117,7 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
   const ordered = [...CHALLENGES].sort((a, b) => rank(me.first, a.id) - rank(me.first, b.id))
   const chosen = ordered.filter((c) => picked.includes(c.id))
   const note = [`Who: ${who}`, `Book: ${size}`, `Challenges: ${[...chosen.map((c) => c.label), ...custom].join('; ')}`].join('\n')
-  const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note — 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
+  const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note: 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
   const idx = FLOW.indexOf(step)
   const pane = useRef<HTMLDivElement>(null) // the scrolling part of the chat; scrolled directly so the page never moves
   useEffect(() => {
@@ -314,7 +314,7 @@ function Note({ who, chosen, custom, mail }: { who: string; chosen: (typeof CHAL
           {custom.map((t, i) => (
             <motion.li key={t} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + (chosen.length + i) * 0.12 }} className="rounded-2xl bg-white p-4 text-[14px] leading-snug ring-1 ring-accent/30">
               <div className="mb-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-accent">In your words</div>
-              “{t}” — this one we take up on the walkthrough; it goes to the founders with your note.
+              “{t}”: this one we take up on the walkthrough; it goes to the founders with your note.
             </motion.li>
           ))}
         </ul>

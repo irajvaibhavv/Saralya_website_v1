@@ -36,7 +36,7 @@ export function Landing() {
           ))}
         </h1>
         <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: EASE, delay: 0.35 }} className="mt-4 max-w-xl text-[16px] leading-relaxed text-ink2 md:text-[17px]">
-          Ask Saral — your AI copilot for credit, collections and compliance. Built on RBI guidelines, industry practice and Saralya&rsquo;s lending infrastructure.
+          Ask Saral, your AI copilot for credit, collections and compliance. Built on RBI guidelines, industry practice and Saralya&rsquo;s lending infrastructure.
         </motion.p>
 
         <motion.ul initial="hidden" animate="show" transition={{ staggerChildren: 0.06, delayChildren: 0.45 }} className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
