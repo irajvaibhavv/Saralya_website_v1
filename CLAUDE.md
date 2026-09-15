@@ -115,9 +115,6 @@ Inherited from the prototype and **not verified**:
 - Named testimonials in the Voices section
 - Headline stats: ₹10,000Cr+, 25+ NBFC partners, 500+ LSPs, 5M+
   applications, 99.95% uptime, 4.7s decision, 62% STP
-- `PEER_TAT_DAYS = 7` in `components/home/RunYourNumbers.tsx` — the "median
-  NBFC turnaround" the calculator benchmarks against. Placeholder; needs a
-  number the founders will stand behind, or the row comes out.
 
 The founders have previously struck unverifiable claims (see corrections
 doc); apply the same standard here.
