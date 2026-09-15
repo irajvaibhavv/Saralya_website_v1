@@ -32,27 +32,10 @@ npx tsc -p tsconfig.app.json --noEmit   # typecheck only
 
 ## Layout
 
-```
-src/
-  App.tsx                  Router (/ = Saral AI landing, /home = full site,
-                           /products, /technology, /about, /demo, /privacy) + Nav/Footer shell + scroll-to-top/title
-  index.css                `@import "tailwindcss"` + @theme design tokens +
-                           the few @utility helpers Tailwind can't express
-                           (text-gradient, grid-paper, mask-fade-*, eyebrow)
-  content/site.ts          All copy/data: MODULES, PILLARS, COMPLIANCE,
-                           CONVICTIONS, FOUNDERS, INTEGRATIONS, CONTACT_EMAIL
-  components/ui/           Primitives: Button/ButtonLink, Section/Container/
-                           SectionHead, Motion (FadeIn, Stagger/Item, Counter)
-  components/layout/       Nav (active pill, mobile menu), Footer, PageHero,
-                           Cta (dark closing block used on every page)
-  components/home/         Hero (looping tap→sanction card), SaralAi (guided
-                           diagnostic → note; `ask()` is the model seam), IntegrationsMarquee,
-                           HowItWorks (beams + core), UpiAnalogy, ModulesPreview,
-                           Benefits (bento w/ mini visuals), Pedigree
-  components/products/     ModuleVisuals — one bespoke looping animation per
-                           module, used by the sticky showcase on /products
-  pages/                   Landing (copy left, SaralAi chat right), Home, Products, Technology, About, Demo, Privacy
-```
+See README.md for the tree. In short: `content/` owns every word, `components/ui`
+are primitives, `components/layout` is the shell, `components/landing` is the
+`/` page (SaralAiChat, VideoReel), `components/home` is one file per section of
+`/home`, `pages/` is one file per route.
 
 ## Styling
 
@@ -62,12 +45,12 @@ Everything is Tailwind v4 utilities + `motion/react` (Framer Motion) +
 
 Conventions:
 - Scroll reveals: wrap in `<FadeIn>` or `<Stagger>`/`<Item>` from
-  `components/ui/Motion` — never hand-roll IntersectionObservers.
+  `components/ui/Reveal`; never hand-roll IntersectionObservers.
 - Looping visuals use `repeat: Infinity` with `repeatDelay` and respect
   `prefers-reduced-motion` (global CSS kill-switch + `useReducedMotion`).
 - Keep copy short: headline, one line, chips. The lead's standing complaint
   is "too text heavy"; prefer a visual over a paragraph.
-- Each page ends with `<Cta />`.
+- Each page ends with `<ClosingCta />`.
 
 ## Interactions (all React state, no DOM scripting)
 
@@ -75,8 +58,8 @@ Conventions:
 - Saral AI: starter questions (STARTERS, scripted answers) or the guided
   note: dept → challenges (multi) → book size → note (lifecycle rail,
   one tip per challenge, module fit, 30-day onboarding, mailto). Script data
-  lives in `content/site.ts` (DEPARTMENTS, CHALLENGES, BOOK_SIZES,
-  ONBOARDING). Free-text `ask()` is a stub until the model endpoint exists;
+  lives in `content/saral-ai.ts` (DEPARTMENTS, CHALLENGES, BOOK_SIZES,
+  STARTERS, ONBOARDING). Free-text `ask()` in `SaralAiChat.tsx` is a stub until the model endpoint exists;
   captured notes go by mailto until an email/lead backend is added.
 - HowItWorks: applicant cards cycle, packets travel along beams, lanes tick up
 - Products: sticky left stage swaps visual via `useInView` on each module block

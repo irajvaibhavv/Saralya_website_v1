@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react'
-import { Cta } from '../components/layout/Cta'
+import { ClosingCta } from '../components/layout/ClosingCta'
 import { PageHero } from '../components/layout/PageHero'
-import { FadeIn, Item, Stagger } from '../components/ui/Motion'
+import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
 import { Container, Section, SectionHead } from '../components/ui/Section'
 import { CONVICTIONS, FOUNDERS } from '../content/site'
 
@@ -95,7 +95,7 @@ export function About() {
         </Container>
       </Section>
 
-      <Cta />
+      <ClosingCta />
     </>
   )
 }

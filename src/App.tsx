@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from './components/layout/Footer'
-import { Nav } from './components/layout/Nav'
+import { Navbar } from './components/layout/Navbar'
 import { Landing } from './pages/Landing'
 
 // Only the landing ships in the first bundle; other pages load on navigation.
@@ -76,7 +76,7 @@ function App() {
   return (
     <BrowserRouter>
       <RouteEffects />
-      <Nav />
+      <Navbar />
       <main>
         <Pages />
       </main>

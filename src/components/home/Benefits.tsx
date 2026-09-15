@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Counter, Item, Stagger } from '../ui/Motion'
+import { Counter, Item, Stagger } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
 
 /* Four benefits: copy per the founders' corrections brief (benefit 5 removed). */

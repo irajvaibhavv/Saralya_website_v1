@@ -1,9 +1,9 @@
 import { AlertTriangle, Check, FileText, Play, RotateCcw } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { Cta } from '../components/layout/Cta'
+import { ClosingCta } from '../components/layout/ClosingCta'
 import { PageHero } from '../components/layout/PageHero'
-import { FadeIn } from '../components/ui/Motion'
+import { FadeIn } from '../components/ui/Reveal'
 import { Container } from '../components/ui/Section'
 
 const LOAD_STEPS = [
@@ -268,7 +268,7 @@ export function Demo() {
         </FadeIn>
       </Container>
 
-      <Cta />
+      <ClosingCta />
     </>
   )
 }

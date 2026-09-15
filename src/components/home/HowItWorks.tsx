@@ -1,7 +1,7 @@
 import { Banknote, Building2, Database, FileSearch, Landmark, Receipt, ShieldCheck } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { FadeIn } from '../ui/Motion'
+import { FadeIn } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
 
 /* India's rails on the left, one Saralya core in the middle, a decided loan

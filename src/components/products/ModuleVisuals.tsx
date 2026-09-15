@@ -1,6 +1,6 @@
 import { Check, FileCheck2, PhoneCall, ShieldCheck } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Counter } from '../ui/Motion'
+import { Counter } from '../ui/Reveal'
 
 /* One bespoke animation per module. Every visual loops so the stage never
    looks static, and all of them are pure SVG/CSS: no image assets. */

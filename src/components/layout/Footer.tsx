@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CONTACT_EMAIL } from '../../content/site'
 import { Container } from '../ui/Section'
-import { Logo } from './Nav'
+import { Logo } from './Navbar'
 
 const COLS = [
   {

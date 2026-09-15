@@ -1,5 +1,5 @@
 import { ButtonLink } from '../ui/Button'
-import { Counter, FadeIn, Item, Stagger } from '../ui/Motion'
+import { Counter, FadeIn, Item, Stagger } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
 /* "4+ decades of experience. 200+ banks of pedigree.": founder-approved line. */
@@ -11,7 +11,7 @@ const STATS = [
   { n: 600, suffix: '+', label: 'RBI & DPDP checks mapped' },
 ]
 
-export function Pedigree() {
+export function TrackRecord() {
   return (
     <Section>
       <Container>

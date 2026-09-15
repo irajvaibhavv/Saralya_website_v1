@@ -22,7 +22,7 @@ export function Logo({ light }: { light?: boolean }) {
   )
 }
 
-export function Nav() {
+export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()

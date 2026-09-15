@@ -1,5 +1,5 @@
 import { INTEGRATIONS } from '../../content/site'
-import { FadeIn } from '../ui/Motion'
+import { FadeIn } from '../ui/Reveal'
 
 /* "Plugs into" strip: integration partners are documented on saralya.in,
    unlike the customer logos from the prototype which were unverified. */
