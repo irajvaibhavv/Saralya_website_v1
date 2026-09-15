@@ -1,83 +1,205 @@
-import { motion, useInView } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
-import { MODULES } from '../../content/site'
+import { Banknote, Building2, Database, FileSearch, Landmark, Receipt, ShieldCheck, Sparkles } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { FadeIn } from '../ui/Motion'
 import { Container, Section, SectionHead } from '../ui/Section'
 
+/* India's rails on the left, one Saralya core in the middle, a decided loan
+   on the right — joined by lines that carry packets. The lines are drawn
+   from the real positions of the cards, so the layout can reflow freely. */
+
+const RAILS = [
+  [
+    { n: 'CIBIL', icon: Building2 },
+    { n: 'Experian', icon: Landmark },
+  ],
+  [
+    { n: 'Account Aggregator', icon: Database },
+    { n: 'GSTN', icon: Receipt },
+    { n: 'MCA21', icon: FileSearch },
+  ],
+  [
+    { n: 'CERSAI', icon: ShieldCheck },
+    { n: 'NPCI · NACH', icon: Banknote },
+  ],
+]
 const APPLICANTS = [
-  { i: 'RK', n: 'Rahul K.', m: 'MSME · ₹4.5L', c: 'bg-accent' },
-  { i: 'PS', n: 'Priya S.', m: 'Retail · ₹80K', c: 'bg-blue' },
-  { i: 'AM', n: 'Anand M.', m: 'LAP · ₹22L', c: 'bg-purple' },
-  { i: 'SG', n: 'SHG Group 14', m: 'JLG · ₹1.2L', c: 'bg-amber' },
+  { i: 'RK', n: 'Rahul K.', m: 'MSME · ₹4.5L · 24 months', c: 'bg-accent' },
+  { i: 'PS', n: 'Priya S.', m: 'Retail · ₹80K · 12 months', c: 'bg-blue' },
+  { i: 'AM', n: 'Anand M.', m: 'LAP · ₹22L · 84 months', c: 'bg-purple' },
+  { i: 'SG', n: 'SHG Group 14', m: 'JLG · ₹1.2L · 18 months', c: 'bg-amber' },
 ]
 
+type P = { x: number; y: number }
+const curve = (a: P, b: P) => {
+  const dx = Math.max(40, (b.x - a.x) * 0.5)
+  return `M ${a.x} ${a.y} C ${a.x + dx} ${a.y}, ${b.x - dx} ${b.y}, ${b.x} ${b.y}`
+}
+
 export function HowItWorks() {
+  const box = useRef<HTMLDivElement>(null)
+  const rails = useRef<(HTMLDivElement | null)[]>([])
+  const core = useRef<HTMLDivElement>(null)
+  const out = useRef<HTMLDivElement>(null)
+  const [paths, setPaths] = useState<string[]>([])
+  const [size, setSize] = useState({ w: 0, h: 0 })
+  const [who, setWho] = useState(0)
+
+  useEffect(() => {
+    const id = window.setInterval(() => setWho((w) => (w + 1) % APPLICANTS.length), 3200)
+    return () => window.clearInterval(id)
+  }, [])
+
+  useLayoutEffect(() => {
+    const el = box.current
+    if (!el) return
+    const draw = () => {
+      if (!window.matchMedia('(min-width: 1024px)').matches || !core.current || !out.current) return setPaths([])
+      const b = el.getBoundingClientRect()
+      const rel = (r: DOMRect, side: 'l' | 'r'): P => ({ x: (side === 'l' ? r.left : r.right) - b.left, y: r.top + r.height / 2 - b.top })
+      const c = core.current.getBoundingClientRect()
+      const o = out.current.getBoundingClientRect()
+      // every rail runs straight to a shared trunk just right of the cluster, then curves into the core
+      const rects = rails.current.filter(Boolean).map((r) => r!.getBoundingClientRect())
+      const trunk = Math.max(...rects.map((r) => r.right)) - b.left + 28
+      const next = rects.map((r) => {
+        const from = rel(r, 'r')
+        return `M ${from.x} ${from.y} L ${trunk} ${from.y} ` + curve({ x: trunk, y: from.y }, rel(c, 'l')).replace(/^M [^C]+/, '')
+      })
+      next.push(curve(rel(c, 'r'), rel(o, 'l')))
+      setPaths(next)
+      setSize({ w: b.width, h: b.height })
+    }
+    draw()
+    const ro = new ResizeObserver(draw)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const a = APPLICANTS[who]
+
   return (
     <Section id="how">
       <Container>
         <SectionHead
           eyebrow="How it works"
           title={
-            <>
-              Plug in once. <span className="text-accent">Decide in minutes.</span>
-            </>
+            <span className="relative inline-block">
+              One endpoint. <span className="text-accent">Every rail.</span>
+              {/* two hand-drawn strokes, like a sketch mark next to the headline */}
+              <svg aria-hidden viewBox="0 0 40 40" className="absolute -right-10 -top-6 hidden size-9 text-accent md:block">
+                <motion.path d="M8 30 L22 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.5 }} />
+                <motion.path d="M20 32 L34 20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.7 }} />
+              </svg>
+            </span>
           }
-          lede="One endpoint in. Scored, checked, decided — out."
+          lede="Bureau, AA, GSTN, MCA21 and CERSAI in one pull. One call to us. A decided loan back."
         />
 
         <FadeIn>
-          <div className="relative overflow-hidden rounded-3xl bg-white p-5 shadow-lg md:p-8">
-            <div className="relative grid gap-6 lg:grid-cols-[220px_1fr_220px] lg:gap-0">
-              {/* Incoming */}
-              <div>
-                <Label>Applications in</Label>
-                <div className="space-y-2">
-                  {APPLICANTS.map((a, i) => (
-                    <motion.div
-                      key={a.n}
-                      className="flex items-center gap-3 rounded-2xl bg-bg px-3 py-2.5 shadow-sm"
-                      animate={{ opacity: [0, 1, 1, 0], x: [-14, 0, 0, 14] }}
-                      transition={{ duration: 6, repeat: Infinity, delay: i * 1.5, times: [0, 0.12, 0.75, 0.9], ease: 'easeInOut' }}
-                    >
-                      <span className={`grid size-8 place-items-center rounded-lg text-[11px] font-bold text-white ${a.c}`}>{a.i}</span>
+          <div ref={box} className="relative grid items-center gap-10 py-4 lg:grid-cols-[auto_1fr_auto] lg:gap-0 lg:py-10">
+            {/* the lines, drawn from measured positions (desktop only) */}
+            {paths.length > 0 && (
+              <svg className="pointer-events-none absolute inset-0 hidden lg:block" width={size.w} height={size.h} viewBox={`0 0 ${size.w} ${size.h}`} fill="none">
+                {paths.map((d, i) => (
+                  <g key={i}>
+                    <path d={d} stroke="var(--color-line2)" strokeWidth="1.5" />
+                    <motion.path d={d} stroke="var(--color-accent)" strokeWidth="1.5" strokeDasharray="4 12" strokeLinecap="round" animate={{ strokeDashoffset: [0, -32] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }} />
+                    <circle r="4" fill="var(--color-accent)">
+                      <animateMotion dur="2.6s" repeatCount="indefinite" begin={`${(i * 0.45) % 2.6}s`} path={d} />
+                    </circle>
+                  </g>
+                ))}
+              </svg>
+            )}
+
+            {/* rails, staggered like a switchboard */}
+            <div className="relative flex justify-center gap-3 lg:justify-start">
+              {RAILS.map((col, ci) => (
+                <div key={ci} className={`flex flex-col gap-3 ${ci === 1 ? '-mt-8 lg:-mt-10' : ci === 2 ? 'mt-6' : 'mt-2'}`}>
+                  {col.map((r, ri) => {
+                    const idx = RAILS.slice(0, ci).reduce((n, c) => n + c.length, 0) + ri
+                    return (
+                      <motion.div
+                        key={r.n}
+                        ref={(el) => {
+                          rails.current[idx] = el
+                        }}
+                        animate={{ y: [0, -4, 0] }}
+                        transition={{ duration: 4 + (idx % 3), repeat: Infinity, ease: 'easeInOut', delay: idx * 0.4 }}
+                        className="flex w-[104px] flex-col items-center justify-center gap-2 rounded-2xl bg-white px-2 py-4 text-center shadow-lg sm:w-[118px]"
+                      >
+                        <r.icon className="size-6 text-accent" strokeWidth={1.7} />
+                        <span className="text-[12px] font-semibold leading-tight text-ink2">{r.n}</span>
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {/* the core */}
+            <div className="relative flex flex-col items-center justify-center gap-3">
+              <div ref={core} className="relative grid size-24 place-items-center rounded-3xl bg-ink text-white shadow-lg">
+                <span className="absolute inset-0 rounded-3xl bg-ink animate-pulse-ring" />
+                <Sparkles className="relative size-9" strokeWidth={1.6} />
+              </div>
+              <span className="font-mono text-[11px] text-hint">POST /v1/decisions</span>
+            </div>
+
+            {/* the decision */}
+            <div className="relative mx-auto w-full max-w-[300px] lg:mx-0 lg:pt-12">
+              <div ref={out} className="rounded-3xl bg-white p-5 shadow-lg">
+                <div className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">Decision out</div>
+                <div className="mt-3 h-[52px]">
+                  <AnimatePresence mode="wait">
+                    <motion.div key={a.n} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} className="flex items-center gap-3">
+                      <span className={`grid size-10 place-items-center rounded-xl text-[12px] font-bold text-white ${a.c}`}>{a.i}</span>
                       <div>
-                        <div className="text-[12.5px] font-semibold">{a.n}</div>
-                        <div className="font-mono text-[10px] text-muted">{a.m}</div>
+                        <div className="text-[15px] font-bold">{a.n}</div>
+                        <div className="font-mono text-[11px] text-muted">{a.m}</div>
                       </div>
                     </motion.div>
-                  ))}
+                  </AnimatePresence>
                 </div>
-              </div>
-
-              {/* Beams + core */}
-              <div className="relative flex items-center justify-center py-4 lg:py-0">
-                <Beam side="left" />
-                <Core />
-                <Beam side="right" />
-              </div>
-
-              {/* Outcomes */}
-              <div>
-                <Label>Decisions out</Label>
-                <div className="space-y-2">
-                  <Lane label="Approved · STP" tone="text-accent" border="border-accent" start={1284} step={[1, 3]} />
-                  <Lane label="Manual review" tone="text-amber" border="border-amber" start={212} step={[0, 1]} />
-                  <Lane label="Declined" tone="text-red" border="border-red" start={97} step={[0, 1]} rate={5200} />
+                <div className="mt-4 flex items-center justify-between rounded-xl bg-bg px-3 py-2 text-[12.5px] ring-1 ring-line">
+                  <span className="text-muted">Score</span>
+                  <span className="font-bold tabular-nums">742 / 850</span>
                 </div>
+                <div className="mt-3 grid h-11 place-items-center rounded-xl bg-ink text-[13.5px] font-bold uppercase tracking-[0.06em] text-white">Approve · STP</div>
               </div>
-            </div>
 
-            <div className="relative mt-6 flex flex-wrap justify-between gap-3 border-t border-dashed border-line pt-4 font-mono text-[11px] text-muted">
-              <span>
-                p95 latency <b className="font-medium text-accent">&lt; 200 ms</b>
-              </span>
-              <span>
-                Inference <b className="font-medium text-accent">inside India</b>
-              </span>
-              <span>
-                Audit trail <b className="font-medium text-accent">immutable</b>
-              </span>
+              {/* the outcome card sits on the corner of the decision */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 8 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
+                className="mx-auto -mt-4 flex w-fit items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-lg lg:absolute lg:-right-6 lg:-top-2 lg:mt-0"
+              >
+                <span className="relative grid size-10 place-items-center rounded-full bg-green-w text-green ring-1 ring-green/20">
+                  <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <motion.path d="M5 12.5 L10 17 L19 7" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.9 }} />
+                  </svg>
+                </span>
+                <div>
+                  <div className="text-[13.5px] font-bold">Sanctioned</div>
+                  <div className="font-mono text-[10.5px] text-muted">KFS sent · under 5 min</div>
+                </div>
+              </motion.div>
             </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-line pt-5 font-mono text-[12px] text-muted">
+            <span>
+              Bureau + AA + GSTN <span className="text-accent">one pull</span>
+            </span>
+            <span>
+              Inference <span className="text-accent">inside India</span>
+            </span>
+            <span>
+              Audit trail <span className="text-accent">immutable</span>
+            </span>
           </div>
         </FadeIn>
       </Container>
@@ -85,95 +207,3 @@ export function HowItWorks() {
   )
 }
 
-function Label({ children }: { children: string }) {
-  return <div className="mb-3 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-hint">{children}</div>
-}
-
-function Core() {
-  return (
-    <div className="relative z-10 w-full max-w-[380px] overflow-hidden rounded-3xl bg-ink p-6 text-white shadow-lg">
-      <motion.div
-        aria-hidden
-        className="absolute -right-16 -top-16 size-48 rounded-full border border-white/10"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-      >
-        <span className="absolute left-1/2 top-0 size-2 -translate-x-1/2 rounded-full bg-accent3" />
-      </motion.div>
-      <div className="relative">
-        <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#c4b5fd]">Saralya core</div>
-        <div className="display mt-1 text-[24px]">One endpoint</div>
-        <div className="text-[12px] text-white/50">POST /v1/decisions</div>
-        <div className="mt-4 grid grid-cols-3 gap-1.5">
-          {MODULES.map((m, i) => (
-            <motion.div
-              key={m.code}
-              className="rounded-xl border border-white/10 bg-white/5 px-1.5 py-2.5 text-center"
-              animate={{ backgroundColor: ['rgba(255,255,255,0.05)', 'rgba(127,99,255,0.35)', 'rgba(255,255,255,0.05)'] }}
-              transition={{ duration: 3.6, repeat: Infinity, delay: i * 0.6, ease: 'easeInOut' }}
-            >
-              <m.icon className="mx-auto mb-1 size-4 text-[#c4b5fd]" strokeWidth={2} />
-              <div className="text-[10px] font-medium leading-tight">{m.tag}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* Animated connector: a dashed rail with a glowing packet travelling along it. */
-function Beam({ side }: { side: 'left' | 'right' }) {
-  return (
-    <div
-      className={`hidden lg:block absolute top-1/2 h-0.5 w-[calc(50%-190px)] -translate-y-1/2 ${
-        side === 'left' ? 'left-0' : 'right-0'
-      }`}
-    >
-      <svg className="absolute inset-0 h-full w-full overflow-visible" preserveAspectRatio="none">
-        <line x1="0" y1="1" x2="100%" y2="1" stroke="var(--color-line2)" strokeWidth="2" strokeDasharray="6 6" className="animate-dash" />
-      </svg>
-      {[0, 1].map((k) => (
-        <motion.span
-          key={k}
-          className="absolute -top-[3px] left-0 block w-full"
-          animate={{ x: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, delay: k * 0.9, ease: 'easeInOut' }}
-        >
-          <span className="block size-2 rounded-full bg-accent shadow-[0_0_12px_2px_rgba(91,61,245,0.6)]" />
-        </motion.span>
-      ))}
-    </div>
-  )
-}
-
-function Lane({
-  label,
-  tone,
-  border,
-  start,
-  step,
-  rate = 2600,
-}: {
-  label: string
-  tone: string
-  border: string
-  start: number
-  step: [number, number]
-  rate?: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
-  const [n, setN] = useState(start)
-  useEffect(() => {
-    if (!inView) return
-    const id = setInterval(() => setN((v) => v + step[0] + Math.floor(Math.random() * (step[1] - step[0] + 1))), rate)
-    return () => clearInterval(id)
-  }, [inView, step, rate])
-  return (
-    <div ref={ref} className={`rounded-2xl border-l-4 bg-bg px-4 py-3 shadow-sm ${border}`}>
-      <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted">{label}</div>
-      <div className={`display text-[24px] tabular-nums ${tone}`}>{n.toLocaleString('en-IN')}</div>
-    </div>
-  )
-}
