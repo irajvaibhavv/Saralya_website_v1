@@ -14,7 +14,7 @@ const TABS = [
   { id: 'recover', label: 'Recovery', head: 'Which strategy is working.', module: 'Saral Recover' },
 ]
 
-export function BoardReview() {
+export function MonthlyReview() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { margin: '-20% 0px' })
   const reduce = useReducedMotion()

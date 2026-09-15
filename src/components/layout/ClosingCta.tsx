@@ -1,9 +1,9 @@
 import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
-import { FadeIn } from '../ui/Motion'
+import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-export function Cta() {
+export function ClosingCta() {
   return (
     <Section tight>
       <Container>

@@ -1,13 +1,13 @@
 import { Benefits } from '../components/home/Benefits'
-import { BoardReview } from '../components/home/BoardReview'
+import { MonthlyReview } from '../components/home/MonthlyReview'
 import { Hero } from '../components/home/Hero'
 import { HowItWorks } from '../components/home/HowItWorks'
 import { IntegrationsMarquee } from '../components/home/IntegrationsMarquee'
 import { ModulesPreview } from '../components/home/ModulesPreview'
-import { Pedigree } from '../components/home/Pedigree'
-import { ReadinessCheck } from '../components/home/ReadinessCheck'
+import { TrackRecord } from '../components/home/TrackRecord'
+import { InspectionReadiness } from '../components/home/InspectionReadiness'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
-import { Cta } from '../components/layout/Cta'
+import { ClosingCta } from '../components/layout/ClosingCta'
 import { Container } from '../components/ui/Section'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
@@ -21,11 +21,11 @@ export function Home() {
       <HowItWorks />
       <UpiAnalogy />
       <ModulesPreview />
-      <BoardReview />
-      <ReadinessCheck />
+      <MonthlyReview />
+      <InspectionReadiness />
       <Benefits />
-      <Pedigree />
-      <Cta />
+      <TrackRecord />
+      <ClosingCta />
     </>
   )
 }

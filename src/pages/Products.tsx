@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { Cta } from '../components/layout/Cta'
+import { ClosingCta } from '../components/layout/ClosingCta'
 import { PageHero } from '../components/layout/PageHero'
 import { VISUALS } from '../components/products/ModuleVisuals'
 import { Container } from '../components/ui/Section'
@@ -78,7 +78,7 @@ export function Products() {
         </div>
       </Container>
 
-      <Cta />
+      <ClosingCta />
     </>
   )
 }

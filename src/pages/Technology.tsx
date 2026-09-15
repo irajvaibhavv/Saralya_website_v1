@@ -1,8 +1,8 @@
 import { Check } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Cta } from '../components/layout/Cta'
+import { ClosingCta } from '../components/layout/ClosingCta'
 import { PageHero } from '../components/layout/PageHero'
-import { FadeIn, Item, Stagger } from '../components/ui/Motion'
+import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
 import { Container, Section, SectionHead } from '../components/ui/Section'
 import { COMPLIANCE, INTEGRATIONS, PILLARS } from '../content/site'
 
@@ -145,7 +145,7 @@ export function Technology() {
         </Container>
       </Section>
 
-      <Cta />
+      <ClosingCta />
     </>
   )
 }

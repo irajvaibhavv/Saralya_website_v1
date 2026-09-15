@@ -3,7 +3,8 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BOOK_SIZES, CHALLENGES, CONTACT_EMAIL, CONVICTIONS, DEPARTMENTS, MODULES, ONBOARDING, STAGES, STARTERS, type ChallengeId, type DeptId } from '../../content/site'
+import { CONTACT_EMAIL, CONVICTIONS, MODULES } from '../../content/site'
+import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, STAGES, STARTERS, type ChallengeId, type DeptId } from '../../content/saral-ai'
 import { ButtonLink } from '../ui/Button'
 
 /* Saral AI, the landing chat. Two ways in: a starter question (scripted
@@ -24,7 +25,7 @@ async function ask(_q: string): Promise<string> {
 const CHIPS = STARTERS.slice(0, 6)
 const TONES = ['bg-wash text-accent ring-accent/15', 'bg-green-w text-green ring-green/15', 'bg-amber-w text-amber ring-amber/15', 'bg-blue-w text-blue ring-blue/15', 'bg-peach text-[#b4562a] ring-[#b4562a]/15', 'bg-purple-w text-purple ring-purple/15']
 
-export function SaralAi() {
+export function SaralAiChat() {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)

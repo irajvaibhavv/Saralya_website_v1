@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
-import { FadeIn } from '../ui/Motion'
+import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
 /* Six yes/no taps a compliance head or CEO can answer from memory. Whatever
@@ -21,7 +21,7 @@ const CHECKS = [
 const R = 46
 const C = 2 * Math.PI * R
 
-export function ReadinessCheck() {
+export function InspectionReadiness() {
   const [on, setOn] = useState<boolean[]>(() => CHECKS.map(() => false))
   const score = on.filter(Boolean).length
   const gaps = CHECKS.filter((_, i) => !on[i])

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { FadeIn } from '../ui/Motion'
+import { FadeIn } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
 
 const ROWS = [
