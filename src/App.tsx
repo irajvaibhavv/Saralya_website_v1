@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'motion/react'
 import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from './components/layout/Footer'
@@ -42,14 +43,20 @@ function RouteEffects() {
   return null
 }
 
-function App() {
+/** Pages cross-fade and rise slightly on route change. */
+function Pages() {
+  const location = useLocation()
   return (
-    <BrowserRouter>
-      <RouteEffects />
-      <Nav />
-      <main>
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      >
         <Suspense fallback={<div className="min-h-screen" />}>
-          <Routes>
+          <Routes location={location}>
             <Route path="/" element={<Landing />} />
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
@@ -60,6 +67,18 @@ function App() {
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <RouteEffects />
+      <Nav />
+      <main>
+        <Pages />
       </main>
       <Footer />
     </BrowserRouter>

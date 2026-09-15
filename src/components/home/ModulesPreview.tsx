@@ -81,8 +81,10 @@ export function ModulesPreview() {
                       chosen && !off ? 'shadow-lg ring-2 ring-accent' : 'shadow-sm'
                     }`}
                   >
+                    {/* the module's colour sweeps across the top on hover / when picked */}
+                    <span className={`absolute inset-x-0 top-0 h-1 origin-left ${m.bar} transition-transform duration-500 ease-out ${chosen && !off ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
                     <div className="relative flex items-start justify-between">
-                      <span className={`grid size-11 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
+                      <span className={`grid size-11 place-items-center rounded-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${m.wash} ${m.color}`}>
                         <m.icon className="size-5" strokeWidth={2.2} />
                       </span>
                       <span className="font-mono text-[11px] text-hint">
@@ -93,8 +95,8 @@ export function ModulesPreview() {
                       <div className="text-[19px] font-extrabold tracking-[-0.02em]">{m.name}</div>
                       <div className="mt-1 text-[14px] text-muted">{m.short}</div>
                     </div>
-                    <div className="relative mt-auto flex items-center gap-1 pt-5 text-[13px] font-semibold text-accent transition-all duration-300 lg:opacity-0 lg:group-hover:opacity-100">
-                      Learn more <ArrowUpRight className="size-4" />
+                    <div className="relative mt-auto flex items-center gap-1 pt-5 text-[13px] font-semibold text-accent transition-all duration-300 lg:translate-y-1 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                      Learn more <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </Link>
                 </motion.div>
