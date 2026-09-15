@@ -6,7 +6,7 @@ type Variant = 'primary' | 'ink' | 'ghost' | 'white'
 type Size = 'md' | 'lg'
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition-all duration-200 ' +
+  'inline-flex items-center justify-center gap-2 rounded-xl font-semibold whitespace-nowrap transition-colors duration-150 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 ' +
   'group'
 
@@ -18,8 +18,8 @@ const variants: Record<Variant, string> = {
 }
 
 const sizes: Record<Size, string> = {
-  md: 'text-sm px-5 py-2.5',
-  lg: 'text-[15px] px-7 py-3.5',
+  md: 'text-sm px-4 py-2.5',
+  lg: 'text-[15px] px-6 py-3',
 }
 
 type Common = { variant?: Variant; size?: Size; arrow?: boolean; children: ReactNode; className?: string }

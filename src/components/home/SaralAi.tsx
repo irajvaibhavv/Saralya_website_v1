@@ -116,7 +116,7 @@ export function SaralAi() {
       <div className="h-full overflow-hidden rounded-3xl bg-white shadow-lg">
           <div className="grid h-full grid-rows-[auto_1fr] lg:grid-cols-[minmax(340px,0.85fr)_1.15fr] lg:grid-rows-1">
             {/* hero panel: the positioning line, then who you're talking to */}
-            <div className="relative flex flex-col overflow-hidden bg-ink p-5 text-white sm:p-7 lg:p-10">
+            <div className="dots relative flex flex-col overflow-hidden bg-ink p-5 text-white sm:p-7 lg:p-10">
 
               <div className="relative flex items-start justify-between gap-3">
                 <div className="eyebrow text-[#c4b5fd]">Lending infrastructure for India&rsquo;s banks &amp; NBFCs</div>
@@ -150,7 +150,7 @@ export function SaralAi() {
                 <div className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/40">Speaks</div>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {SARAL_AI_TOPICS.map((t, i) => (
-                    <motion.span key={t} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.05 }} className="rounded-full bg-white/[0.07] px-2.5 py-1 font-mono text-[11px] text-white/70 ring-1 ring-white/10">
+                    <motion.span key={t} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.05 }} className="rounded-md bg-white/[0.06] px-2 py-1 font-mono text-[11px] text-white/70 ring-1 ring-white/10">
                       {t}
                     </motion.span>
                   ))}
@@ -206,7 +206,7 @@ export function SaralAi() {
                         <Sparkles className="size-3" />
                       </span>
                     )}
-                    <div className={`max-w-[82%] rounded-3xl px-4 py-2.5 text-[15px] leading-snug ${m.from === 'you' ? 'rounded-br-md bg-ink text-white' : 'rounded-bl-md bg-wash2 text-ink'}`}>
+                    <div className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-[15px] leading-snug ${m.from === 'you' ? 'rounded-br-md bg-ink text-white' : 'rounded-bl-md bg-bg text-ink ring-1 ring-line'}`}>
                       {m.from === 'ai' && i === msgs.length - 1 ? (
                         thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
                       ) : (
@@ -252,7 +252,7 @@ export function SaralAi() {
                       variants={chip}
                       whileTap={{ scale: 0.96 }}
                       style={{ opacity: picked.length || custom.length ? 1 : 0.4 }}
-                      className="rounded-full bg-accent px-5 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
+                      className="rounded-lg bg-accent px-4 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
                     >
                       Continue{picked.length + custom.length ? ` with ${picked.length + custom.length}` : ''} →
                     </motion.button>
@@ -274,12 +274,12 @@ export function SaralAi() {
               </div>
               </div>
               {!typing && (
-                <form onSubmit={submitQ} className="mx-auto mt-4 w-full max-w-2xl flex items-center gap-2 rounded-full bg-wash2 p-1.5 pl-5 ring-1 ring-line focus-within:ring-accent/50">
+                <form onSubmit={submitQ} className="mx-auto mt-4 w-full max-w-2xl flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
                   <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-hint" />
-                  <button type="submit" aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-white hover:bg-accent">
+                  <button type="submit" aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-lg bg-ink text-white hover:bg-accent">
                     <ArrowUp className="size-4" />
                   </button>
-                  <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-full text-muted hover:text-ink">
+                  <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
                     <RotateCcw className="size-4" />
                   </button>
                 </form>
@@ -436,7 +436,7 @@ function Chip({ children, on, onClick }: { children: ReactNode; on?: boolean; on
       whileTap={{ scale: 0.96 }}
       onClick={onClick}
       aria-pressed={on}
-      className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[14px] font-medium ring-1 transition-colors ${
+      className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[14px] font-medium ring-1 transition-colors ${
         on ? 'bg-ink text-white ring-ink' : 'bg-white text-ink ring-line hover:bg-wash2 hover:ring-accent/40'
       }`}
     >
