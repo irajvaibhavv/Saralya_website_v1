@@ -1,31 +1,28 @@
-import { ArrowRight, ArrowUp, Check, RotateCcw, Sparkles } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, Lock, RotateCcw, Sparkles } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BOOK_SIZES, CHALLENGES, CONTACT_EMAIL, CONVICTIONS, DEPARTMENTS, MODULES, ONBOARDING, SARAL_AI_TOPICS, STAGES, type ChallengeId, type DeptId } from '../../content/site'
+import { BOOK_SIZES, CHALLENGES, CONTACT_EMAIL, CONVICTIONS, DEPARTMENTS, MODULES, ONBOARDING, STAGES, STARTERS, type ChallengeId, type DeptId } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
 
-/* Saral AI: a guided diagnostic that ends in a personal note — where it hurts
-   on the lending lifecycle, one vendor-neutral fix per challenge, where
-   Saralya fits, and the first 30 days. Scripted; `ask()` is where the model
-   plugs in. */
+/* Saral AI, the landing chat. Two ways in: a starter question (scripted
+   answer from site facts) or "Get a note for my NBFC", the guided diagnostic
+   that ends in a personal note. `ask()` is where the model plugs in. */
 
-type Msg = { from: 'ai' | 'you'; text: string }
-type Step = 'dept' | 'challenges' | 'size' | 'note'
-const STEPS: Step[] = ['dept', 'challenges', 'size', 'note']
-const STEP_LABELS = ['Who you are', 'Your challenges', 'Your book', 'Your note']
+type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string } }
+type Step = 'idle' | 'dept' | 'challenges' | 'size' | 'note'
+const FLOW: Step[] = ['dept', 'challenges', 'size', 'note']
 
-const HELLO = 'Hi, I’m Saral AI. I know Indian lending — RBI norms, credit ops, collections. Tell me a little about you and I’ll leave you with something useful, whether or not we ever talk. What do you do?'
+const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, lending products, compliance, or anything about our platform. What would you like to know?'
 
-// TODO: point at the model endpoint once it is exposed. Until then every
-// question gets the same honest answer.
+// TODO: point at the model endpoint once it is exposed.
 async function ask(_q: string): Promise<string> {
-  return 'That one needs the full model, which is being wired in. For now the founders read every question — the walkthrough button below reaches them today.'
+  return 'That one needs the full model, which is being wired in. For now the founders read every question — use “Talk to a human” and it reaches them today.'
 }
 
 export function SaralAi() {
-  const [step, setStep] = useState<Step>('dept')
+  const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)
   const [dept, setDept] = useState<DeptId>('credit')
@@ -43,12 +40,12 @@ export function SaralAi() {
     return () => window.clearTimeout(id)
   }, [msgs.length])
 
-  const say = (you: string, ai: string) => {
-    setMsgs((m) => [...m, { from: 'you', text: you }, { from: 'ai', text: ai }])
+  const say = (you: string, ai: string, link?: Msg['link']) => {
+    setMsgs((m) => [...m, { from: 'you', text: you }, { from: 'ai', text: ai, link }])
     setTyping(true)
   }
   const reset = () => {
-    setStep('dept')
+    setStep('idle')
     setMsgs([{ from: 'ai', text: HELLO }])
     setTyping(true)
     setPicked([])
@@ -59,6 +56,12 @@ export function SaralAi() {
     setReady(false)
   }
 
+  const starter = (s: (typeof STARTERS)[number]) => {
+    if (s.note) {
+      say(s.q, 'Happy to. Three quick questions and I’ll leave you with a note you can act on. First — what do you do?')
+      setStep('dept')
+    } else say(s.q, s.a, s.link)
+  }
   const chooseDept = (d: (typeof DEPARTMENTS)[number], label: string = d.label) => {
     setDept(d.id)
     setWho(label)
@@ -90,10 +93,11 @@ export function SaralAi() {
     else say(text, await ask(text))
   }
   const PLACEHOLDER: Record<Step, string> = {
+    idle: 'Ask a question…',
     dept: 'Or tell me in your own words…',
     challenges: 'Something else? Type it and press enter',
     size: 'Or type it…',
-    note: 'Ask Saral AI anything about lending…',
+    note: 'Ask a follow-up…',
   }
 
   const me = DEPARTMENTS.find((d) => d.id === dept)!
@@ -101,191 +105,147 @@ export function SaralAi() {
   const chosen = ordered.filter((c) => picked.includes(c.id))
   const note = [`Who: ${who}`, `Book: ${size}`, `Challenges: ${[...chosen.map((c) => c.label), ...custom].join('; ')}`].join('\n')
   const mail = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saral AI note — 20-minute walkthrough')}&body=${encodeURIComponent(note + '\n\n')}`
-  const idx = STEPS.indexOf(step)
-  const answers = [who, [picked.length + custom.length, 'picked'].join(' '), size]
+  const idx = FLOW.indexOf(step)
   const pane = useRef<HTMLDivElement>(null) // the scrolling part of the chat; scrolled directly so the page never moves
   useEffect(() => {
     const el = pane.current
     if (!el || msgs.length === 1) return
-    const note = el.querySelector<HTMLElement>('#your-note')
-    el.scrollTo({ top: ready && note ? note.offsetTop - el.offsetTop - 8 : el.scrollHeight, behavior: 'smooth' })
+    const target = el.querySelector<HTMLElement>('#your-note')
+    el.scrollTo({ top: ready && target ? target.offsetTop - el.offsetTop - 8 : el.scrollHeight, behavior: 'smooth' })
   }, [msgs.length, typing, ready])
 
   return (
-    <div id="saral-ai" className="mx-auto h-full w-full max-w-[1240px] px-5 sm:px-8 lg:px-10">
-      <div className="h-full overflow-hidden rounded-3xl bg-white shadow-lg">
-          <div className="grid h-full grid-rows-[auto_1fr] lg:grid-cols-[minmax(340px,0.85fr)_1.15fr] lg:grid-rows-1">
-            {/* hero panel: the positioning line, then who you're talking to */}
-            <div className="dots relative flex flex-col overflow-hidden bg-ink p-5 text-white sm:p-7 lg:p-10">
-
-              <div className="relative flex items-start justify-between gap-3">
-                <div className="eyebrow text-[#c4b5fd]">Lending infrastructure for India&rsquo;s banks &amp; NBFCs</div>
-                <Link to="/home" className="group hidden shrink-0 items-center gap-1 text-[12.5px] font-semibold text-white/60 hover:text-white lg:flex">
-                  Skip to site <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-              <h1 className="display relative mt-3 flex flex-wrap gap-x-[0.26em] text-[clamp(30px,3.4vw,50px)] lg:mt-5">
-                {['Making', 'Lending', 'Saral', 'for', 'Bharat.'].map((w, i) => (
-                  <span key={w} className="overflow-hidden pb-1">
-                    <motion.span initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 + i * 0.07 }} className={`block ${w === 'Saral' ? 'text-accent3' : ''}`}>
-                      {w}
-                    </motion.span>
-                  </span>
-                ))}
-              </h1>
-
-              {/* phones: identity + four dots in one row */}
-              <div className="relative mt-4 flex items-center gap-3 lg:hidden">
-                <span className="grid size-8 place-items-center rounded-xl bg-accent"><Sparkles className="size-4" /></span>
-                <span className="text-[15px] font-bold">Saral AI</span>
-                <span className="ml-auto flex gap-1.5">
-                  {STEPS.map((s, i) => (
-                    <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent3' : 'bg-white/20'}`} />
-                  ))}
-                </span>
-              </div>
-
-              {/* desktop: what it speaks, then identity, steps and answers pinned to the foot */}
-              <div className="relative mt-8 hidden lg:block">
-                <div className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/40">Speaks</div>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {SARAL_AI_TOPICS.map((t, i) => (
-                    <motion.span key={t} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.05 }} className="rounded-md bg-white/[0.06] px-2 py-1 font-mono text-[11px] text-white/70 ring-1 ring-white/10">
-                      {t}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-              <div className="relative mt-auto hidden pt-10 lg:block">
-                <div className="flex items-center gap-4">
-                  <motion.div animate={{ y: [0, -4, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-accent shadow-glow">
-                    <Sparkles className="size-5" />
-                    <span className="absolute -right-1 -top-1 size-3 rounded-full bg-green ring-2 ring-ink animate-pulse-ring" />
-                  </motion.div>
-                  <div>
-                    <div className="text-[18px] font-extrabold tracking-tight">Saral AI</div>
-                    <p className="text-[13px] text-white/60">An AI built for BFSI. Nothing leaves your browser.</p>
-                  </div>
-                </div>
-                <ol className="mt-7 space-y-3 font-mono text-[10.5px] uppercase tracking-[0.12em]">
-                  {STEPS.map((s, i) => {
-                    const done = i < idx
-                    return (
-                      <li key={s} className={i === idx ? 'text-[#c4b5fd]' : done ? 'text-white' : 'text-white/35'}>
-                        <div className="flex items-center gap-2">
-                          <span className={`grid size-4 place-items-center rounded-full border ${done ? 'border-green bg-green text-white' : i === idx ? 'border-accent3' : 'border-white/20'}`}>
-                            {done && (
-                              <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 18 }}>
-                                <Check className="size-2.5" strokeWidth={4} />
-                              </motion.span>
-                            )}
-                          </span>
-                          {STEP_LABELS[i]}
-                        </div>
-                        {done && answers[i] && (
-                          <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="ml-6 mt-1 truncate font-sans text-[13px] font-medium normal-case tracking-normal text-white/80">
-                            {answers[i]}
-                          </motion.div>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ol>
-              </div>
-            </div>
-
-            {/* the conversation */}
-            <div className="flex min-h-0 flex-col p-5 sm:p-7 md:p-9">
-              <div ref={pane} className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain">
-              <div className="mx-auto flex min-h-full max-w-2xl flex-col justify-center">
-              <div className="space-y-3">
-                {msgs.map((m, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-end gap-2 ${m.from === 'you' ? 'justify-end' : ''}`}>
-                    {m.from === 'ai' && (
-                      <span className="mb-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-accent text-white">
-                        <Sparkles className="size-3" />
-                      </span>
-                    )}
-                    <div className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-[15px] leading-snug ${m.from === 'you' ? 'rounded-br-md bg-ink text-white' : 'rounded-bl-md bg-bg text-ink ring-1 ring-line'}`}>
-                      {m.from === 'ai' && i === msgs.length - 1 ? (
-                        thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
-                      ) : (
-                        m.text
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* answers */}
-              <AnimatePresence mode="wait">
-                {!typing && step === 'dept' && (
-                  <Chips key="dept">
-                    {DEPARTMENTS.map((d) => (
-                      <Chip key={d.id} onClick={() => chooseDept(d)}>
-                        {d.label}
-                      </Chip>
-                    ))}
-                  </Chips>
-                )}
-                {!typing && step === 'challenges' && (
-                  <Chips key="ch">
-                    {ordered.map((c) => {
-                      const on = picked.includes(c.id)
-                      return (
-                        <Chip key={c.id} on={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== c.id) : [...p, c.id]))}>
-                          {on && <Check className="size-3.5" strokeWidth={3} />}
-                          {c.label}
-                        </Chip>
-                      )
-                    })}
-                    {custom.map((t) => (
-                      <Chip key={t} on onClick={() => setCustom((c) => c.filter((x) => x !== t))}>
-                        <Check className="size-3.5" strokeWidth={3} />
-                        {t}
-                      </Chip>
-                    ))}
-                    <motion.button
-                      type="button"
-                      disabled={!picked.length && !custom.length}
-                      onClick={doneChallenges}
-                      variants={chip}
-                      whileTap={{ scale: 0.96 }}
-                      style={{ opacity: picked.length || custom.length ? 1 : 0.4 }}
-                      className="rounded-lg bg-accent px-4 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
-                    >
-                      Continue{picked.length + custom.length ? ` with ${picked.length + custom.length}` : ''} →
-                    </motion.button>
-                  </Chips>
-                )}
-                {!typing && step === 'size' && (
-                  <Chips key="size">
-                    {BOOK_SIZES.map((s) => (
-                      <Chip key={s} onClick={() => chooseSize(s)}>
-                        {s}
-                      </Chip>
-                    ))}
-                  </Chips>
-                )}
-              </AnimatePresence>
-
-              {ready && (dept === 'other' ? <Explainer /> : <Note who={`${who} · ${size} book`} chosen={chosen} custom={custom} mail={mail} />)}
-
-              </div>
-              </div>
-              {!typing && (
-                <form onSubmit={submitQ} className="mx-auto mt-4 w-full max-w-2xl flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
-                  <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-hint" />
-                  <button type="submit" aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-lg bg-ink text-white hover:bg-accent">
-                    <ArrowUp className="size-4" />
-                  </button>
-                  <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
-                    <RotateCcw className="size-4" />
-                  </button>
-                </form>
-              )}
-            </div>
+    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-lg">
+      {/* header */}
+      <div className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
+        <motion.span animate={{ y: [0, -3, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
+          <Sparkles className="size-5" />
+        </motion.span>
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 text-[17px] font-extrabold tracking-tight">
+            Saral AI <span className="size-2 rounded-full bg-green animate-pulse-ring" />
           </div>
+          <div className="text-[13px] text-muted">Your lending copilot</div>
+        </div>
+        <div className="ml-auto hidden items-center gap-1.5 2xl:flex">
+          {idx >= 0 ? (
+            FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />)
+          ) : (
+            <span className="rounded-lg bg-bg px-3 py-1.5 text-[12.5px] text-ink2 ring-1 ring-line">Trained on RBI guidelines, credit ops, collections and more</span>
+          )}
+        </div>
+      </div>
+
+      {/* conversation */}
+      <div ref={pane} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 sm:p-6">
+        <div className="space-y-3">
+          {msgs.map((m, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>
+              {m.from === 'ai' && (
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white">
+                  <Sparkles className="size-4" />
+                </span>
+              )}
+              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md bg-bg text-ink'}`}>
+                {m.from === 'ai' && i === msgs.length - 1 ? (
+                  thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
+                ) : (
+                  m.text
+                )}
+                {m.link && !(i === msgs.length - 1 && (thinking || typing)) && (
+                  <Link to={m.link.to} className="mt-2 flex w-fit items-center gap-1 text-[13.5px] font-semibold text-accent hover:underline">
+                    {m.link.label} <ArrowRight className="size-3.5" />
+                  </Link>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          {!typing && step === 'idle' && (
+            <Chips key="idle">
+              {STARTERS.map((s) => (
+                <Chip key={s.q} onClick={() => starter(s)}>
+                  {s.q}
+                </Chip>
+              ))}
+            </Chips>
+          )}
+          {!typing && step === 'dept' && (
+            <Chips key="dept">
+              {DEPARTMENTS.map((d) => (
+                <Chip key={d.id} onClick={() => chooseDept(d)}>
+                  {d.label}
+                </Chip>
+              ))}
+            </Chips>
+          )}
+          {!typing && step === 'challenges' && (
+            <Chips key="ch">
+              {ordered.map((c) => {
+                const on = picked.includes(c.id)
+                return (
+                  <Chip key={c.id} on={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== c.id) : [...p, c.id]))}>
+                    {on && <Check className="size-3.5" strokeWidth={3} />}
+                    {c.label}
+                  </Chip>
+                )
+              })}
+              {custom.map((t) => (
+                <Chip key={t} on onClick={() => setCustom((c) => c.filter((x) => x !== t))}>
+                  <Check className="size-3.5" strokeWidth={3} />
+                  {t}
+                </Chip>
+              ))}
+              <motion.button
+                type="button"
+                disabled={!picked.length && !custom.length}
+                onClick={doneChallenges}
+                variants={chip}
+                whileTap={{ scale: 0.96 }}
+                style={{ opacity: picked.length || custom.length ? 1 : 0.4 }}
+                className="rounded-lg bg-accent px-4 py-2 text-[14px] font-semibold text-white disabled:cursor-not-allowed"
+              >
+                Continue{picked.length + custom.length ? ` with ${picked.length + custom.length}` : ''} →
+              </motion.button>
+            </Chips>
+          )}
+          {!typing && step === 'size' && (
+            <Chips key="size">
+              {BOOK_SIZES.map((s) => (
+                <Chip key={s} onClick={() => chooseSize(s)}>
+                  {s}
+                </Chip>
+              ))}
+            </Chips>
+          )}
+        </AnimatePresence>
+
+        {ready && (dept === 'other' ? <Explainer /> : <Note who={`${who} · ${size} book`} chosen={chosen} custom={custom} mail={mail} />)}
+      </div>
+
+      {/* composer */}
+      <div className="border-t border-line p-4 sm:px-6">
+        <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
+          <input value={q} onChange={(e) => setQ(e.target.value)} disabled={typing} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14.5px] outline-none placeholder:text-hint disabled:opacity-60" />
+          {msgs.length > 1 && (
+            <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
+              <RotateCcw className="size-4" />
+            </button>
+          )}
+          <button type="submit" aria-label="Send" disabled={typing} className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white hover:bg-accent2 disabled:opacity-50">
+            <ArrowUp className="size-4" />
+          </button>
+        </form>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[12.5px] text-muted">
+          <span className="flex items-center gap-1.5">
+            <Lock className="size-3.5" /> Nothing you type here leaves your browser or trains any external model.
+          </span>
+          <Link to="/privacy" className="font-medium text-accent hover:underline">
+            See disclaimer
+          </Link>
+        </div>
       </div>
     </div>
   )
