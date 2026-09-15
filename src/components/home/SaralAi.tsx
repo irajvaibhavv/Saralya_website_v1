@@ -21,9 +21,10 @@ async function ask(_q: string): Promise<string> {
   return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Talk to a human” and it reaches them today.'
 }
 
-const CHIPS = STARTERS.slice(0, 6) // the rest are reachable from the rolling strip on the landing
+const CHIPS = STARTERS.slice(0, 6)
+const TONES = ['bg-wash text-accent ring-accent/15', 'bg-green-w text-green ring-green/15', 'bg-amber-w text-amber ring-amber/15', 'bg-blue-w text-blue ring-blue/15', 'bg-peach text-[#b4562a] ring-[#b4562a]/15', 'bg-purple-w text-purple ring-purple/15']
 
-export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
+export function SaralAi() {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)
@@ -64,13 +65,6 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
       setStep('dept')
     } else say(s.q, s.a, s.link)
   }
-  // a question handed in from outside (the rolling strip on the landing)
-  useEffect(() => {
-    if (!seed) return
-    const s = STARTERS.find((x) => x.q === seed.q)
-    if (s) starter(s)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seed?.n])
 
   // the composer suggests questions by typing them out while nothing has been asked
   const [focused, setFocused] = useState(false)
@@ -128,9 +122,9 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
   }, [msgs.length, typing, ready])
 
   return (
-    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-lg">
+    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_0_0_1px_rgba(75,63,207,0.10),0_30px_70px_-30px_rgba(75,63,207,0.35)]">
       {/* header */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
+      <div className="flex flex-wrap items-center gap-3 border-b border-accent/10 bg-gradient-to-r from-wash2 to-white px-5 py-4 sm:px-6">
         <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
           <Sparkles className="size-5" />
         </motion.span>
@@ -144,7 +138,7 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
           {idx >= 0 ? (
             FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />)
           ) : (
-            <span className="rounded-lg bg-bg px-3 py-1.5 text-[12.5px] text-ink2 ring-1 ring-line">Trained on RBI guidelines, credit ops, collections and more</span>
+            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">Trained on RBI guidelines, credit ops, collections and more</span>
           )}
         </div>
       </div>
@@ -159,7 +153,7 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
                   <Sparkles className="size-4" />
                 </span>
               )}
-              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md bg-bg text-ink'}`}>
+              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md bg-wash text-ink'}`}>
                 {m.from === 'ai' && i === msgs.length - 1 ? (
                   thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
                 ) : (
@@ -178,8 +172,8 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
         <AnimatePresence mode="wait">
           {!typing && step === 'idle' && (
             <Chips key="idle">
-              {CHIPS.map((s) => (
-                <Chip key={s.q} onClick={() => starter(s)}>
+              {CHIPS.map((s, k) => (
+                <Chip key={s.q} tone={TONES[k % TONES.length]} onClick={() => starter(s)}>
                   {s.q}
                 </Chip>
               ))}
@@ -239,7 +233,7 @@ export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
       </div>
 
       {/* composer */}
-      <div className="border-t border-line p-4 sm:px-6">
+      <div className="border-t border-accent/10 bg-wash2/60 p-4 sm:px-6">
         <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
           <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14.5px] outline-none placeholder:text-hint disabled:opacity-60" />
           {msgs.length > 1 && (
@@ -400,7 +394,7 @@ function Dots() {
   )
 }
 
-function Chip({ children, on, onClick }: { children: ReactNode; on?: boolean; onClick: () => void }) {
+function Chip({ children, on, onClick, tone }: { children: ReactNode; on?: boolean; onClick: () => void; tone?: string }) {
   return (
     <motion.button
       type="button"
@@ -410,7 +404,7 @@ function Chip({ children, on, onClick }: { children: ReactNode; on?: boolean; on
       onClick={onClick}
       aria-pressed={on}
       className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[14px] font-medium ring-1 transition-colors ${
-        on ? 'bg-ink text-white ring-ink' : 'bg-white text-ink ring-line hover:bg-wash2 hover:ring-accent/40'
+        on ? 'bg-ink text-white ring-ink' : tone ?? 'bg-white text-ink ring-line hover:bg-wash2 hover:ring-accent/40'
       }`}
     >
       {children}
