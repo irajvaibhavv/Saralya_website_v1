@@ -1,4 +1,3 @@
-import { motion } from 'motion/react'
 import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
 import { FadeIn } from '../ui/Motion'
@@ -9,38 +8,19 @@ export function Cta() {
     <Section tight>
       <Container>
         <FadeIn>
-          <div className="relative overflow-hidden rounded-[32px] bg-ink px-6 py-16 text-center text-white md:px-12 md:py-24">
-            {/* Slow-drifting colour blobs */}
-            <motion.div
-              aria-hidden
-              className="absolute -left-24 -top-24 size-[420px] rounded-full bg-accent3/40 blur-[90px]"
-              animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-              transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              aria-hidden
-              className="absolute -bottom-32 -right-24 size-[460px] rounded-full bg-purple/30 blur-[100px]"
-              animate={{ x: [0, -40, 0], y: [0, -30, 0] }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <div className="absolute inset-0 grid-paper opacity-[0.07] mask-fade-radial" />
-
-            <div className="relative">
-              <div className="eyebrow mb-5 text-[#c4b5fd]">Free · public data only</div>
-              <h2 className="display mx-auto max-w-2xl text-[clamp(32px,5vw,56px)]">
-                Get a free tech &amp; compliance read for your NBFC.
-              </h2>
-              <p className="mx-auto mt-5 max-w-lg text-[16px] text-white/60">
-                Public data only. No commitment.
-              </p>
-              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic%20for%20our%20NBFC`} variant="white" size="lg" arrow>
-                  Get diagnostic
-                </ButtonLink>
-                <ButtonLink to="/demo" variant="primary" size="lg">
-                  Try the live demo
-                </ButtonLink>
-              </div>
+          <div className="grid items-center gap-8 rounded-3xl bg-ink px-7 py-10 text-white md:grid-cols-[1fr_auto] md:px-12 md:py-14">
+            <div>
+              <div className="eyebrow mb-4 text-accent3">Free · public data only</div>
+              <h2 className="display max-w-xl text-[clamp(28px,3.6vw,44px)]">Get a free tech &amp; compliance read for your NBFC.</h2>
+              <p className="mt-3 text-[15px] text-white/60">No commitment. We read what is public and tell you what we see.</p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+              <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic%20for%20our%20NBFC`} variant="white" size="lg" arrow>
+                Get diagnostic
+              </ButtonLink>
+              <ButtonLink to="/demo" variant="primary" size="lg">
+                Try the live demo
+              </ButtonLink>
             </div>
           </div>
         </FadeIn>

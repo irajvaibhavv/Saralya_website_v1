@@ -37,8 +37,7 @@ export function Technology() {
       <Section tight>
         <Container>
           <FadeIn>
-            <div className="relative overflow-hidden rounded-[32px] bg-white p-5 shadow-lg md:p-8">
-              <div className="absolute inset-0 grid-paper opacity-25 mask-fade-radial" />
+            <div className="relative overflow-hidden rounded-3xl bg-white p-5 shadow-lg md:p-8">
               <div className="relative space-y-3">
                 {LAYERS.map((l, i) => (
                   <motion.div

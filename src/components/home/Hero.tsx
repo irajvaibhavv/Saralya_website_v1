@@ -8,11 +8,6 @@ const EASE = [0.22, 1, 0.36, 1] as const
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-12 pb-12 md:pt-20 md:pb-16">
-      {/* backdrop */}
-      <div className="absolute inset-0 -z-10 grid-paper opacity-40 mask-fade-radial" />
-      {/* Gradients, not blur(): a filter this large is re-rasterised on every repaint. */}
-      <div aria-hidden className="absolute -left-40 -top-40 -z-10 size-[560px] rounded-full bg-[radial-gradient(circle,rgba(127,99,255,0.30),transparent_70%)]" />
-      <div aria-hidden className="absolute -right-40 top-10 -z-10 size-[520px] rounded-full bg-[radial-gradient(circle,rgba(13,143,217,0.20),transparent_70%)]" />
 
       <Container>
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">

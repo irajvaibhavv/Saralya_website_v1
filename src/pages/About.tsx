@@ -24,7 +24,7 @@ export function About() {
         <Container>
           <div className="grid items-stretch gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <FadeIn className="relative">
-              <img src="/img/ledger.jpg" alt="" className="h-full min-h-[380px] w-full rounded-[32px] object-cover shadow-lg" />
+              <img src="/img/ledger.jpg" alt="" className="h-full min-h-[380px] w-full rounded-3xl object-cover shadow-lg" />
               <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink2 backdrop-blur">
                 Excel is still the system of record
               </div>
@@ -64,9 +64,8 @@ export function About() {
           <div className="grid gap-5 lg:grid-cols-2">
             {FOUNDERS.map((f, i) => (
               <FadeIn key={f.name} delay={i * 0.1}>
-                <article className="h-full overflow-hidden rounded-[32px] bg-white shadow-sm">
+                <article className="h-full overflow-hidden rounded-3xl bg-white shadow-sm">
                   <div className="relative bg-ink p-7 text-white">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(127,99,255,0.45),transparent_55%)]" />
                     <div className="relative flex items-center gap-4">
                       <span className="grid size-16 place-items-center rounded-2xl bg-white/10 text-[20px] font-extrabold ring-1 ring-white/20">
                         {f.initials}

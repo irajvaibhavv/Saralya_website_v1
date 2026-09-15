@@ -120,7 +120,7 @@ export function Privacy() {
         }
       />
       <Container className="pb-20">
-        <div className="max-w-3xl space-y-10 rounded-[32px] bg-white p-7 shadow-sm md:p-12">
+        <div className="max-w-3xl space-y-10 rounded-3xl bg-white p-7 shadow-sm md:p-12">
           {BLOCKS.map((b) => (
             <section key={b.h}>
               <h2 className="text-[22px] font-extrabold tracking-[-0.02em]">{b.h}</h2>
