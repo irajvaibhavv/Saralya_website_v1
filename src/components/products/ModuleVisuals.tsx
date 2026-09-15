@@ -244,16 +244,18 @@ export function RecoverVisual() {
               <div className="h-2.5 overflow-hidden rounded-full bg-bg">
                 <motion.div
                   className={`h-full rounded-full ${cls}`}
-                  animate={{ width: ['0%', `${v}%`, `${v}%`, '0%'] }}
-                  transition={{ duration: 5, times: [0, 0.5, 0.9, 1], delay: i * 0.12, ease: EASE, ...LOOP }}
+                  initial={{ width: '0%' }}
+                  animate={{ width: `${v}%` }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: EASE }}
                 />
               </div>
             </div>
           ))}
           <motion.div
             className="mt-1 self-start rounded-full bg-ink px-3 py-1 font-mono text-[10px] text-white"
-            animate={{ opacity: [0, 0, 1, 1, 0] }}
-            transition={{ duration: 5, times: [0, 0.5, 0.6, 0.9, 1], ...LOOP }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1 }}
           >
             Sec 138 notice · auto-drafted
           </motion.div>
@@ -280,16 +282,18 @@ export function InsightVisual() {
         </div>
         <div className="mt-5 flex h-[55%] items-end gap-2.5">
           {bars.map(([a, b], i) => (
-            <div key={i} className="flex flex-1 items-end gap-0.5">
+            <div key={i} className="flex h-full flex-1 items-end gap-0.5">
               <motion.div
                 className="flex-1 rounded-t-md bg-purple"
-                animate={{ height: ['0%', `${a}%`, `${a}%`, '0%'] }}
-                transition={{ duration: 5, times: [0, 0.4, 0.9, 1], delay: i * 0.07, ease: EASE, ...LOOP }}
+                initial={{ height: '0%' }}
+                animate={{ height: `${a}%` }}
+                transition={{ duration: 0.7, delay: i * 0.05, ease: EASE }}
               />
               <motion.div
                 className="flex-1 rounded-t-md bg-accent3/60"
-                animate={{ height: ['0%', `${b}%`, `${b}%`, '0%'] }}
-                transition={{ duration: 5, times: [0, 0.4, 0.9, 1], delay: 0.1 + i * 0.07, ease: EASE, ...LOOP }}
+                initial={{ height: '0%' }}
+                animate={{ height: `${b}%` }}
+                transition={{ duration: 0.7, delay: 0.08 + i * 0.05, ease: EASE }}
               />
             </div>
           ))}
@@ -299,8 +303,9 @@ export function InsightVisual() {
         </div>
         <motion.div
           className="absolute bottom-6 right-6 w-[58%] rounded-2xl bg-ink p-4 text-white shadow-lg"
-          animate={{ opacity: [0, 0, 1, 1, 0], x: [30, 30, 0, 0, 20] }}
-          transition={{ duration: 5, times: [0, 0.45, 0.55, 0.9, 1], ease: EASE, ...LOOP }}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.9, ease: EASE }}
         >
           <div className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-[#c4b5fd]">Board pack · auto-generated</div>
           <div className="mt-1 text-[14px] font-bold">Q4 portfolio review</div>
