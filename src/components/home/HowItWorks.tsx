@@ -26,8 +26,7 @@ export function HowItWorks() {
         />
 
         <FadeIn>
-          <div className="relative overflow-hidden rounded-[32px] bg-white p-5 shadow-lg md:p-8">
-            <div className="absolute inset-0 grid-paper opacity-25 mask-fade-radial" />
+          <div className="relative overflow-hidden rounded-3xl bg-white p-5 shadow-lg md:p-8">
             <div className="relative grid gap-6 lg:grid-cols-[220px_1fr_220px] lg:gap-0">
               {/* Incoming */}
               <div>
@@ -93,7 +92,6 @@ function Label({ children }: { children: string }) {
 function Core() {
   return (
     <div className="relative z-10 w-full max-w-[380px] overflow-hidden rounded-3xl bg-ink p-6 text-white shadow-lg">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(127,99,255,0.45),transparent_55%),radial-gradient(circle_at_85%_85%,rgba(13,143,217,0.3),transparent_55%)]" />
       <motion.div
         aria-hidden
         className="absolute -right-16 -top-16 size-48 rounded-full border border-white/10"

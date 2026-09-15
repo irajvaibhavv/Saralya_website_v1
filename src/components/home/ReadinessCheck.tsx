@@ -29,7 +29,7 @@ export function ReadinessCheck() {
   return (
     <Section id="readiness">
       <Container>
-        <FadeIn className="overflow-hidden rounded-[32px] bg-ink text-white shadow-lg">
+        <FadeIn className="overflow-hidden rounded-3xl bg-ink text-white shadow-lg">
           <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="p-7 md:p-10">
               <div className="eyebrow mb-3 flex items-center gap-3 text-[#c4b5fd]">

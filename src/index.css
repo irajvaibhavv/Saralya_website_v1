@@ -8,20 +8,20 @@
   --font-sans: "Manrope", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
-  --color-bg: #eef0fb;
-  --color-bg2: #e3e6f8;
-  --color-ink: #16123d;
-  --color-ink2: #363073;
-  --color-muted: #6a6499;
-  --color-hint: #9d97be;
-  --color-line: #dcd8f2;
-  --color-line2: #c5bfe6;
+  --color-bg: #f6f6f8;
+  --color-bg2: #ececf0;
+  --color-ink: #141420;
+  --color-ink2: #2e2e45;
+  --color-muted: #64647c;
+  --color-hint: #9a9aae;
+  --color-line: #e4e4ea;
+  --color-line2: #cfcfda;
 
-  --color-accent: #5b3df5;
-  --color-accent2: #4629d6;
-  --color-accent3: #7f63ff;
-  --color-wash: #e6e1ff;
-  --color-wash2: #f1eeff;
+  --color-accent: #4b3fcf;
+  --color-accent2: #3b30b3;
+  --color-accent3: #8a80e8;
+  --color-wash: #ebeafa;
+  --color-wash2: #f3f3fb;
 
   --color-amber: #e08700;
   --color-amber-w: #fff2dc;
@@ -36,8 +36,8 @@
 
   --shadow-sm: 0 2px 8px -2px rgba(22, 18, 61, 0.06), 0 1px 3px -1px rgba(22, 18, 61, 0.04);
   --shadow-md: 0 12px 28px -12px rgba(22, 18, 61, 0.14), 0 4px 10px -4px rgba(22, 18, 61, 0.06);
-  --shadow-lg: 0 32px 64px -24px rgba(22, 18, 61, 0.2), 0 12px 24px -12px rgba(22, 18, 61, 0.1);
-  --shadow-glow: 0 20px 44px -18px rgba(91, 61, 245, 0.45);
+  --shadow-lg: 0 1px 2px rgba(20, 20, 32, 0.04), 0 16px 40px -20px rgba(20, 20, 32, 0.18);
+  --shadow-glow: 0 8px 20px -10px rgba(20, 20, 32, 0.35);
 
   --animate-marquee: marquee 40s linear infinite;
   --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
@@ -50,7 +50,7 @@
     to { transform: translateX(-50%); }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(91, 61, 245, 0.55); }
+    0% { box-shadow: 0 0 0 0 rgba(75, 63, 207, 0.45); }
     100% { box-shadow: 0 0 0 10px rgba(91, 61, 245, 0); }
   }
   @keyframes float {
@@ -73,25 +73,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Soft ambient colour wash behind every page */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 900px 600px at 12% -5%, rgba(127, 99, 255, 0.14), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 92% 8%, rgba(13, 143, 217, 0.1), transparent 60%),
-    radial-gradient(ellipse 800px 600px at 50% 105%, rgba(192, 52, 232, 0.07), transparent 60%);
-}
-
 /* Things Tailwind can't express cleanly ---------------------------------- */
 @utility text-gradient {
-  background: linear-gradient(115deg, #7f63ff, #5b3df5 42%, #c034e8);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-accent);
 }
 
 @utility grid-paper {

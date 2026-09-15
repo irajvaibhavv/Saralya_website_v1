@@ -10,8 +10,7 @@ const LOOP = { repeat: Infinity, repeatDelay: 1.6 } as const
 
 function Stage({ children, wash }: { children: React.ReactNode; wash: string }) {
   return (
-    <div className={`relative aspect-[4/3] w-full overflow-hidden rounded-[28px] ${wash}`}>
-      <div className="absolute inset-0 grid-paper opacity-40 mask-fade-radial" />
+    <div className={`relative aspect-[4/3] w-full overflow-hidden rounded-2xl ${wash}`}>
       <div className="absolute inset-5 md:inset-7">{children}</div>
     </div>
   )

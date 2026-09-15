@@ -81,7 +81,6 @@ export function ModulesPreview() {
                       chosen && !off ? 'shadow-lg ring-2 ring-accent' : 'shadow-sm'
                     }`}
                   >
-                    <div className={`absolute -right-10 -top-10 size-36 rounded-full ${m.wash} blur-2xl transition-opacity duration-500 ${chosen && !off ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
                     <div className="relative flex items-start justify-between">
                       <span className={`grid size-11 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
                         <m.icon className="size-5" strokeWidth={2.2} />

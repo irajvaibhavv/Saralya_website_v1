@@ -16,7 +16,6 @@ export function PageHero({
 }) {
   return (
     <div className="relative overflow-hidden pt-16 pb-12 md:pt-24 md:pb-16">
-      <div className="absolute inset-0 -z-10 grid-paper opacity-30 mask-fade-radial" />
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 18 }}

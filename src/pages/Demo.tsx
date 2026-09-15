@@ -86,7 +86,7 @@ export function Demo() {
 
       <Container className="pb-8">
         <FadeIn>
-          <div className="grid overflow-hidden rounded-[32px] bg-white shadow-lg lg:grid-cols-[360px_1fr]">
+          <div className="grid overflow-hidden rounded-3xl bg-white shadow-lg lg:grid-cols-[360px_1fr]">
             {/* form */}
             <div className="border-b border-line p-7 lg:border-b-0 lg:border-r">
               <div className="text-[18px] font-extrabold tracking-[-0.02em]">New application</div>
@@ -122,7 +122,6 @@ export function Demo() {
 
             {/* output */}
             <div className="relative min-h-[520px] bg-bg/60 p-7 md:p-9">
-              <div className="absolute inset-0 grid-paper opacity-30 mask-fade-radial" />
               <AnimatePresence mode="wait">
                 {phase === 'empty' && (
                   <motion.div

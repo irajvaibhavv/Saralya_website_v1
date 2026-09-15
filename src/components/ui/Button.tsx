@@ -8,12 +8,12 @@ type Size = 'md' | 'lg'
 const base =
   'inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition-all duration-200 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 ' +
-  'active:translate-y-0 hover:-translate-y-0.5 group'
+  'group'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-accent text-white hover:bg-accent2 hover:shadow-glow',
-  ink: 'bg-ink text-white hover:bg-accent hover:shadow-glow',
-  ghost: 'bg-white text-ink shadow-sm hover:shadow-md',
+  primary: 'bg-accent text-white hover:bg-accent2',
+  ink: 'bg-ink text-white hover:bg-ink2',
+  ghost: 'bg-white text-ink ring-1 ring-line hover:bg-bg',
   white: 'bg-white text-ink hover:bg-wash2',
 }
 

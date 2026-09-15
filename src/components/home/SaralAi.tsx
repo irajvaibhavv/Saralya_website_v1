@@ -113,12 +113,10 @@ export function SaralAi() {
 
   return (
     <div id="saral-ai" className="mx-auto h-full w-full max-w-[1240px] px-5 sm:px-8 lg:px-10">
-      <div className="h-full overflow-hidden rounded-[32px] bg-white shadow-lg">
+      <div className="h-full overflow-hidden rounded-3xl bg-white shadow-lg">
           <div className="grid h-full grid-rows-[auto_1fr] lg:grid-cols-[minmax(340px,0.85fr)_1.15fr] lg:grid-rows-1">
             {/* hero panel: the positioning line, then who you're talking to */}
             <div className="relative flex flex-col overflow-hidden bg-ink p-5 text-white sm:p-7 lg:p-10">
-              <div className="pointer-events-none absolute -left-24 -top-24 size-80 rounded-full bg-[radial-gradient(circle,rgba(127,99,255,0.45),transparent_65%)]" />
-              <div className="pointer-events-none absolute -bottom-32 -right-20 size-96 rounded-full bg-[radial-gradient(circle,rgba(192,52,232,0.25),transparent_65%)]" />
 
               <div className="relative flex items-start justify-between gap-3">
                 <div className="eyebrow text-[#c4b5fd]">Lending infrastructure for India&rsquo;s banks &amp; NBFCs</div>
