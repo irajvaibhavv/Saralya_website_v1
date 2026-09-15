@@ -51,7 +51,7 @@ src/
                            Benefits (bento w/ mini visuals), Pedigree
   components/products/     ModuleVisuals — one bespoke looping animation per
                            module, used by the sticky showcase on /products
-  pages/                   Landing (headline + SaralAi only), Home, Products, Technology, About, Demo, Privacy
+  pages/                   Landing (copy left, SaralAi chat right), Home, Products, Technology, About, Demo, Privacy
 ```
 
 ## Styling
@@ -72,7 +72,8 @@ Conventions:
 ## Interactions (all React state, no DOM scripting)
 
 - Home hero: looping state machine idle → tap → processing → sanctioned
-- Saral AI: dept → challenges (multi) → book size → note (lifecycle rail,
+- Saral AI: starter questions (STARTERS, scripted answers) or the guided
+  note: dept → challenges (multi) → book size → note (lifecycle rail,
   one tip per challenge, module fit, 30-day onboarding, mailto). Script data
   lives in `content/site.ts` (DEPARTMENTS, CHALLENGES, BOOK_SIZES,
   ONBOARDING). Free-text `ask()` is a stub until the model endpoint exists;

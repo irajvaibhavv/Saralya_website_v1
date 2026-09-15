@@ -261,6 +261,33 @@ export type ChallengeId = (typeof CHALLENGES)[number]['id']
 
 export const BOOK_SIZES = ['Under ₹100 Cr', '₹100–500 Cr', '₹500–2,000 Cr', '₹2,000 Cr+'] as const
 
+/* Starter questions on the landing chat. Scripted answers built from the
+   same facts the rest of the site states; the model takes over when wired. */
+export const STARTERS: { q: string; a: string; link?: { to: string; label: string }; note?: true }[] = [
+  {
+    q: 'RBI guidelines for digital lending',
+    a: 'The Digital Lending Directions 2025 come down to three things a lender must be able to show: a Key Fact Statement on every digital loan, every lending app registered on CIMS, and borrower consent logged under DPDP with erasure honoured. MD-FRM 2024 adds a 21-day show-cause notice before any fraud tagging, per SBI vs. Rajesh Agarwal.',
+    link: { to: '/technology#compliance', label: 'How Saralya builds these in' },
+  },
+  {
+    q: 'Improve collection efficiency',
+    a: 'Three things move the needle fastest: route the day by promise-to-pay date instead of by bucket, log every field visit with time and location, and treat the first NACH bounce as the signal — it is weeks ahead of DPD 30.',
+    link: { to: '/products#M4', label: 'Saral Recover' },
+  },
+  {
+    q: 'Credit risk models',
+    a: 'A good decision pulls bureau, Account Aggregator (all nine FI types), GSTN and MCA21 in one go, then runs a rule engine configured per product — SME, MSME, LAP, MFI JLG, unsecured retail. Verify after sanction on small tickets, not before.',
+    link: { to: '/demo', label: 'Watch a decision run' },
+  },
+  {
+    q: 'Integrations with core banking',
+    a: 'Keep the core. Saralya sits beside FinnOne, Lentra, Finflux or AllCloud as an API layer — REST and webhooks, multi-tenant, hosted in AWS Mumbai — and you move one product line at a time.',
+    link: { to: '/technology', label: 'The architecture' },
+  },
+  { q: 'Get a note for my NBFC', a: '', note: true },
+  { q: 'Talk to a human', a: 'The founders read every message and reply the same day.', link: { to: `mailto:${CONTACT_EMAIL}?subject=Question%20from%20the%20website`, label: 'Write to us' } },
+]
+
 /* What Saral AI speaks — shown as a strip under the landing card. Every item is
    a regulation, ruling or rail already named elsewhere on the site. */
 export const SARAL_AI_TOPICS = ['RBI MD-FRM 2024', 'DLD 2025 · KFS', 'DPDP 2023', 'SMA-0 tagging', 'CRILC · NBS-9', 'Account Aggregator', 'GSTN · MCA21', 'CERSAI', 'NPCI · CIMS', 'SBI vs. Rajesh Agarwal', 'JLG · LAP · MSME']
