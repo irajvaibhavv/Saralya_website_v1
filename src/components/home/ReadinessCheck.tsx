@@ -29,11 +29,11 @@ export function ReadinessCheck() {
   return (
     <Section id="readiness">
       <Container>
-        <FadeIn className="overflow-hidden rounded-3xl bg-ink text-white shadow-lg">
+        <FadeIn className="overflow-hidden rounded-3xl bg-white shadow-lg">
           <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="p-7 md:p-10">
-              <div className="eyebrow mb-3 flex items-center gap-3 text-[#c4b5fd]">
-                Inspection readiness <span className="h-px w-6 bg-accent3" />
+              <div className="eyebrow mb-3 flex items-center gap-3">
+                Inspection readiness <span className="h-px w-6 bg-accent" />
               </div>
               <h2 className="display text-[clamp(26px,3.2vw,36px)]">Tick what you already have.</h2>
               <div className="mt-7 space-y-2">
@@ -43,28 +43,28 @@ export function ReadinessCheck() {
                     type="button"
                     aria-pressed={on[i]}
                     onClick={() => setOn((p) => p.map((v, j) => (j === i ? !v : v)))}
-                    className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition-colors ${
-                      on[i] ? 'bg-white/10' : 'bg-white/[0.04] hover:bg-white/[0.08]'
+                    className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left ring-1 transition-colors ${
+                      on[i] ? 'bg-wash2 ring-accent/30' : 'bg-white ring-line hover:bg-bg'
                     }`}
                   >
                     <span
                       className={`grid size-5 shrink-0 place-items-center rounded-md border transition-colors ${
-                        on[i] ? 'border-green bg-green' : 'border-white/25'
+                        on[i] ? 'border-green bg-green text-white' : 'border-line2'
                       }`}
                     >
                       {on[i] && <Check className="size-3.5" strokeWidth={3.5} />}
                     </span>
-                    <span className={`text-[14px] ${on[i] ? 'text-white' : 'text-white/65'}`}>{c.q}</span>
+                    <span className={`text-[14px] ${on[i] ? 'text-ink' : 'text-ink2'}`}>{c.q}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col justify-center gap-6 border-t border-white/10 p-7 md:p-10 lg:border-l lg:border-t-0">
+            <div className="flex flex-col justify-center gap-6 border-t border-line bg-bg p-7 md:p-10 lg:border-l lg:border-t-0">
               <div className="flex items-center gap-5">
                 <div className="relative size-28 shrink-0">
                   <svg viewBox="0 0 110 110" className="size-full -rotate-90">
-                    <circle cx="55" cy="55" r={R} fill="none" strokeWidth="9" className="stroke-white/10" />
+                    <circle cx="55" cy="55" r={R} fill="none" strokeWidth="9" className="stroke-line" />
                     <motion.circle
                       cx="55"
                       cy="55"
@@ -97,7 +97,7 @@ export function ReadinessCheck() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.85 }}
                       transition={{ duration: 0.2 }}
-                      className="rounded-full bg-red/15 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#ff9db0]"
+                      className="rounded-md bg-red-w px-2.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-red"
                     >
                       {g.flag}
                     </motion.span>
@@ -106,10 +106,10 @@ export function ReadinessCheck() {
               </div>
 
               <div>
-                <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Compliance%20checklist`} variant="white" arrow>
+                <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Compliance%20checklist`} variant="ink" arrow>
                   Get all 600 checks
                 </ButtonLink>
-                <p className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.12em] text-white/40">Nothing leaves your browser</p>
+                <p className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">Nothing leaves your browser</p>
               </div>
             </div>
           </div>
