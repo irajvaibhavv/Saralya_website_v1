@@ -1,28 +1,34 @@
-import { ArrowRight, ArrowUp, Check, Lock, RotateCcw, Sparkles } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Paperclip, RotateCcw, Sparkles, UploadCloud } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CONTACT_EMAIL, CONVICTIONS, MODULES } from '../../content/site'
-import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, STAGES, STARTERS, type ChallengeId, type DeptId } from '../../content/saral-ai'
+import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
 import { ButtonLink } from '../ui/Button'
 
-/* Saral AI, the landing chat. Two ways in: a starter question (scripted
-   answer from site facts) or "Get a note for my NBFC", the guided diagnostic
-   that ends in a personal note. `ask()` is where the model plugs in. */
+/* Saral AI, the landing chat. It opens by asking who you are; each role
+   gets the questions that seat asks most (scripted answers from site facts),
+   plus "Get a note for my NBFC", the guided diagnostic that ends in a
+   personal note, and "Talk to a human". `ask()` is where the model plugs in. */
 
-type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string } }
-type Step = 'idle' | 'dept' | 'challenges' | 'size' | 'note'
+type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string }; files?: { name: string; size: number }[] }
+type Step = 'idle' | 'role' | 'dept' | 'challenges' | 'size' | 'note'
 const FLOW: Step[] = ['dept', 'challenges', 'size', 'note']
 
-const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, lending products, compliance, or anything about our platform. What would you like to know?'
+const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, compliance, or anything about our platform. Tell me who you are and I’ll start with what people in your seat ask most.'
 
 // TODO: point at the model endpoint once it is exposed.
 async function ask(_q: string): Promise<string> {
   return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Talk to a human” and it reaches them today.'
 }
 
-const CHIPS = STARTERS.slice(0, 6)
+// TODO: send to the upload endpoint once it exists; until then files stay in the browser.
+const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg'
+const kb = (n: number) => (n < 1048576 ? `${Math.max(1, Math.round(n / 1024))} KB` : `${(n / 1048576).toFixed(1)} MB`)
+
+const NOTE = STARTERS.find((s) => s.note)!
+const HUMAN = STARTERS.find((s) => s.q === 'Talk to a human')!
 const TONES = ['bg-wash text-accent ring-accent/15', 'bg-green-w text-green ring-green/15', 'bg-amber-w text-amber ring-amber/15', 'bg-blue-w text-blue ring-blue/15', 'bg-peach text-[#b4562a] ring-[#b4562a]/15', 'bg-purple-w text-purple ring-purple/15']
 
 export function SaralAiChat() {
@@ -30,6 +36,8 @@ export function SaralAiChat() {
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)
   const [dept, setDept] = useState<DeptId>('credit')
+  const [role, setRole] = useState<(typeof ROLES)[number] | null>(null)
+  const [asked, setAsked] = useState<string[]>([]) // role questions already answered
   const [picked, setPicked] = useState<ChallengeId[]>([])
   const [size, setSize] = useState('')
   const [who, setWho] = useState('')
@@ -37,6 +45,36 @@ export function SaralAiChat() {
   const [q, setQ] = useState('')
   const [ready, setReady] = useState(false) // note revealed once its intro finishes typing
   const [thinking, setThinking] = useState(false) // dots before a reply starts typing
+  const [dragging, setDragging] = useState(false) // a file is being dragged anywhere over the page
+  const attach = (list: FileList | null) => {
+    const files = [...(list ?? [])].map((f) => ({ name: f.name, size: f.size }))
+    if (!files.length) return
+    setMsgs((m) => [
+      ...m,
+      { from: 'you', text: files.length === 1 ? 'Here is my file.' : `Here are ${files.length} files.`, files },
+      { from: 'ai', text: `Got ${files.length === 1 ? 'it' : 'them'}. I will read ${files.length === 1 ? 'this' : 'these'} once the model is wired in; until then ${files.length === 1 ? 'it stays' : 'they stay'} in your browser. Tell me what you want checked and I will pass it on.` },
+    ])
+    setTyping(true)
+  }
+  useEffect(() => {
+    // drop a file anywhere on the page and it lands in the chat
+    let depth = 0
+    const has = (e: DragEvent) => [...(e.dataTransfer?.types ?? [])].includes('Files')
+    const enter = (e: DragEvent) => { if (has(e)) { depth++; setDragging(true) } }
+    const leave = (e: DragEvent) => { if (has(e) && --depth <= 0) { depth = 0; setDragging(false) } }
+    const over = (e: DragEvent) => { if (has(e)) e.preventDefault() }
+    const drop = (e: DragEvent) => { if (has(e)) { e.preventDefault(); depth = 0; setDragging(false); attach(e.dataTransfer!.files) } }
+    window.addEventListener('dragenter', enter)
+    window.addEventListener('dragleave', leave)
+    window.addEventListener('dragover', over)
+    window.addEventListener('drop', drop)
+    return () => {
+      window.removeEventListener('dragenter', enter)
+      window.removeEventListener('dragleave', leave)
+      window.removeEventListener('dragover', over)
+      window.removeEventListener('drop', drop)
+    }
+  })
   useEffect(() => {
     if (msgs.length === 1) return
     setThinking(true)
@@ -50,6 +88,8 @@ export function SaralAiChat() {
   }
   const reset = () => {
     setStep('idle')
+    setRole(null)
+    setAsked([])
     setMsgs([{ from: 'ai', text: HELLO }])
     setTyping(true)
     setPicked([])
@@ -60,11 +100,26 @@ export function SaralAiChat() {
     setReady(false)
   }
 
-  const starter = (s: (typeof STARTERS)[number]) => {
+  const chooseRole = (r: (typeof ROLES)[number]) => {
+    setRole(r)
+    setDept(r.dept)
+    setWho(r.label)
+    say(r.label, `${r.hello} Pick one, or ask me anything.`)
+    setStep('role')
+  }
+  const starter = (s: Starter) => {
     if (s.note) {
-      say(s.q, 'Happy to. Three quick questions and I’ll leave you with a note you can act on. First, what do you do?')
-      setStep('dept')
-    } else say(s.q, s.a, s.link)
+      if (role) {
+        say(s.q, `Happy to. Two quick questions and I’ll leave you with a note you can act on. ${DEPARTMENTS.find((d) => d.id === role.dept)!.ask} Pick as many as you like, or type your own.`)
+        setStep('challenges')
+      } else {
+        say(s.q, 'Happy to. Three quick questions and I’ll leave you with a note you can act on. First, what do you do?')
+        setStep('dept')
+      }
+    } else {
+      say(s.q, s.a, s.link)
+      setAsked((a) => [...a, s.q])
+    }
   }
 
   // the composer suggests questions by typing them out while nothing has been asked
@@ -102,6 +157,7 @@ export function SaralAiChat() {
   }
   const PLACEHOLDER: Record<Step, string> = {
     idle: 'Ask a question…',
+    role: 'Ask a question…',
     dept: 'Or tell me in your own words…',
     challenges: 'Something else? Type it and press enter',
     size: 'Or type it…',
@@ -123,6 +179,18 @@ export function SaralAiChat() {
   }, [msgs.length, typing, ready])
 
   return (
+    <>
+    <AnimatePresence>
+      {dragging && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="pointer-events-none fixed inset-0 z-50 grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
+          <motion.div initial={{ scale: 0.94, y: 8 }} animate={{ scale: 1, y: 0 }} className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed border-white/70 bg-white/10 px-12 py-10 text-center text-white">
+            <UploadCloud className="size-10" strokeWidth={1.6} />
+            <div className="text-[20px] font-semibold tracking-tight">Drop it for Saral AI</div>
+            <div className="text-[14px] text-white/75">Policy docs, sample files, MIS sheets. Anywhere on the page.</div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
     <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_0_0_1px_rgba(75,63,207,0.10),0_30px_70px_-30px_rgba(75,63,207,0.35)]">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3 border-b border-accent/10 bg-gradient-to-r from-wash2 to-white px-5 py-4 sm:px-6">
@@ -138,6 +206,8 @@ export function SaralAiChat() {
         <div className="ml-auto hidden items-center gap-1.5 2xl:flex">
           {idx >= 0 ? (
             FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />)
+          ) : role ? (
+            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">{role.label}</span>
           ) : (
             <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">Trained on RBI guidelines, credit ops, collections and more</span>
           )}
@@ -160,6 +230,15 @@ export function SaralAiChat() {
                 ) : (
                   m.text
                 )}
+                {m.files && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {m.files.map((f) => (
+                      <span key={f.name} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[12.5px]">
+                        <FileText className="size-3.5" /> {f.name} <span className="opacity-60">{kb(f.size)}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
                 {m.link && !(i === msgs.length - 1 && (thinking || typing)) && (
                   <Link to={m.link.to} className="mt-2 flex w-fit items-center gap-1 text-[13.5px] font-semibold text-accent hover:underline">
                     {m.link.label} <ArrowRight className="size-3.5" />
@@ -172,12 +251,29 @@ export function SaralAiChat() {
 
         <AnimatePresence mode="wait">
           {!typing && step === 'idle' && (
-            <Chips key="idle">
-              {CHIPS.map((s, k) => (
-                <Chip key={s.q} tone={TONES[k % TONES.length]} onClick={() => starter(s)}>
+            <Chips key="idle" label="I am a…">
+              {ROLES.map((r, k) => (
+                <Chip key={r.id} tone={TONES[k % TONES.length]} onClick={() => chooseRole(r)}>
+                  {r.label}
+                </Chip>
+              ))}
+              <Chip onClick={() => chooseDept(DEPARTMENTS.find((d) => d.id === 'other')!)}>Investor / just curious</Chip>
+            </Chips>
+          )}
+          {!typing && step === 'role' && (
+            <Chips key={`role-${asked.length}`} label={asked.length ? 'Anything else?' : `Most asked by ${role?.label.toLowerCase()}s`}>
+              {(role?.qs ?? []).filter((s) => !asked.includes(s.q)).map((s) => (
+                <Chip key={s.q} onClick={() => starter(s)}>
                   {s.q}
                 </Chip>
               ))}
+              <span className="basis-full" />
+              <Chip tone="bg-wash text-accent ring-accent/15" onClick={() => starter(NOTE)}>
+                {NOTE.q}
+              </Chip>
+              <Chip tone="bg-peach text-[#b4562a] ring-[#b4562a]/15" onClick={() => starter(HUMAN)}>
+                <MessageCircle className="size-3.5" /> {HUMAN.q}
+              </Chip>
             </Chips>
           )}
           {!typing && step === 'dept' && (
@@ -235,7 +331,11 @@ export function SaralAiChat() {
 
       {/* composer */}
       <div className="border-t border-accent/10 bg-wash2/60 p-4 sm:px-6">
-        <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
+        <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-2 ring-1 ring-line focus-within:ring-accent">
+          <label aria-label="Attach a file" title="Attach a file, or drop it anywhere on the page" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-lg text-muted hover:bg-wash2 hover:text-ink">
+            <Paperclip className="size-4" />
+            <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
+          </label>
           <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14.5px] outline-none placeholder:text-hint disabled:opacity-60" />
           {msgs.length > 1 && (
             <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
@@ -256,6 +356,7 @@ export function SaralAiChat() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
@@ -376,10 +477,11 @@ function Explainer() {
 
 const chip = { hidden: { opacity: 0, y: 8, scale: 0.94 }, show: { opacity: 1, y: 0, scale: 1 } }
 
-function Chips({ children }: { children: ReactNode }) {
+function Chips({ children, label }: { children: ReactNode; label?: string }) {
   return (
-    <motion.div initial="hidden" animate="show" exit={{ opacity: 0, transition: { duration: 0.15 } }} transition={{ staggerChildren: 0.045 }} className="mt-4 flex flex-wrap gap-2">
-      {children}
+    <motion.div initial="hidden" animate="show" exit={{ opacity: 0, transition: { duration: 0.15 } }} transition={{ staggerChildren: 0.045 }} className="mt-4">
+      {label && <motion.div variants={chip} className="mb-2 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">{label}</motion.div>}
+      <div className="flex flex-wrap gap-2">{children}</div>
     </motion.div>
   )
 }
@@ -433,7 +535,7 @@ function useTypedHint(on: boolean) {
   const [text, setText] = useState('Ask a question…')
   useEffect(() => {
     if (!on) return
-    const qs = STARTERS.filter((s) => !s.note).map((s) => s.q)
+    const qs = ROLES.map((r) => r.qs[0].q)
     let qi = 0
     let n = 0
     let dir = 1
