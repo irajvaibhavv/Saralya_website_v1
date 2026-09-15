@@ -286,6 +286,27 @@ export const STARTERS: { q: string; a: string; link?: { to: string; label: strin
   },
   { q: 'Get a note for my NBFC', a: '', note: true },
   { q: 'Talk to a human', a: 'The founders read every message and reply the same day.', link: { to: `mailto:${CONTACT_EMAIL}?subject=Question%20from%20the%20website`, label: 'Write to us' } },
+  /* below the fold of the chip list; reachable from the rolling strip */
+  {
+    q: 'What is SMA-0 and when do I tag it?',
+    a: 'SMA-0 is the first special-mention bucket: principal or interest overdue up to 30 days. Tag it the day the account slips — a first NACH bounce or a missed GST filing is your earliest signal, and lenders who wait for DPD 30 are already a month late.',
+    link: { to: '/products#M3', label: 'Saral Watch' },
+  },
+  {
+    q: 'What does DPDP mean for my loan files?',
+    a: 'Under the DPDP Act 2023 every borrower consent has to be logged, purpose-bound and revocable, and an erasure request has to be honoured row by row — not by deleting a whole file. Inspectors ask for the consent trail before they ask for the credit file.',
+    link: { to: '/technology#compliance', label: 'How it is built in' },
+  },
+  {
+    q: 'How does Account Aggregator change KYC?',
+    a: 'One consent replaces a folder of PDFs. Account Aggregator covers all nine ReBIT financial-information types — bank statements, deposits, mutual funds, GST returns and more — pulled directly with the borrower’s consent, so the file is decided on data, not on what was uploaded.',
+    link: { to: '/products#M1', label: 'Saral Appraisal' },
+  },
+  {
+    q: 'What is the 21-day show-cause rule?',
+    a: 'After SBI vs. Rajesh Agarwal, RBI’s MD-FRM 2024 requires a lender to issue a show-cause notice and give the borrower 21 days to respond before classifying an account as fraud. Tag first and notify later, and the classification does not stand.',
+    link: { to: '/products#M2', label: 'Saral Screen' },
+  },
 ]
 
 /* What Saral AI speaks — shown as a strip under the landing card. Every item is

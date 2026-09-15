@@ -21,7 +21,9 @@ async function ask(_q: string): Promise<string> {
   return 'That one needs the full model, which is being wired in. For now the founders read every question — use “Talk to a human” and it reaches them today.'
 }
 
-export function SaralAi() {
+const CHIPS = STARTERS.slice(0, 6) // the rest are reachable from the rolling strip on the landing
+
+export function SaralAi({ seed }: { seed?: { q: string; n: number } }) {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)
@@ -62,6 +64,17 @@ export function SaralAi() {
       setStep('dept')
     } else say(s.q, s.a, s.link)
   }
+  // a question handed in from outside (the rolling strip on the landing)
+  useEffect(() => {
+    if (!seed) return
+    const s = STARTERS.find((x) => x.q === seed.q)
+    if (s) starter(s)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seed?.n])
+
+  // the composer suggests questions by typing them out while nothing has been asked
+  const [focused, setFocused] = useState(false)
+  const hint = useTypedHint(step === 'idle' && !q && !focused)
   const chooseDept = (d: (typeof DEPARTMENTS)[number], label: string = d.label) => {
     setDept(d.id)
     setWho(label)
@@ -118,7 +131,7 @@ export function SaralAi() {
     <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-lg">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
-        <motion.span animate={{ y: [0, -3, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
+        <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
           <Sparkles className="size-5" />
         </motion.span>
         <div className="min-w-0">
@@ -165,7 +178,7 @@ export function SaralAi() {
         <AnimatePresence mode="wait">
           {!typing && step === 'idle' && (
             <Chips key="idle">
-              {STARTERS.map((s) => (
+              {CHIPS.map((s) => (
                 <Chip key={s.q} onClick={() => starter(s)}>
                   {s.q}
                 </Chip>
@@ -228,7 +241,7 @@ export function SaralAi() {
       {/* composer */}
       <div className="border-t border-line p-4 sm:px-6">
         <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
-          <input value={q} onChange={(e) => setQ(e.target.value)} disabled={typing} placeholder={PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14.5px] outline-none placeholder:text-hint disabled:opacity-60" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14.5px] outline-none placeholder:text-hint disabled:opacity-60" />
           {msgs.length > 1 && (
             <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
               <RotateCcw className="size-4" />
@@ -418,4 +431,35 @@ function Typed({ text, onDone }: { text: string; onDone: () => void }) {
     return () => window.clearTimeout(id)
   }, [n, text, onDone])
   return <>{text.slice(0, n)}</>
+}
+
+/* Types example questions into the composer, one after another. */
+function useTypedHint(on: boolean) {
+  const [text, setText] = useState('Ask a question…')
+  useEffect(() => {
+    if (!on) return
+    const qs = STARTERS.filter((s) => !s.note).map((s) => s.q)
+    let qi = 0
+    let n = 0
+    let dir = 1
+    let id = 0
+    const tick = () => {
+      const full = qs[qi]
+      n += dir
+      setText(full.slice(0, n) + (n < full.length ? '|' : ''))
+      let wait = 38
+      if (dir === 1 && n >= full.length) {
+        dir = -1
+        wait = 1800
+      } else if (dir === -1 && n <= 0) {
+        dir = 1
+        qi = (qi + 1) % qs.length
+        wait = 400
+      } else if (dir === -1) wait = 14
+      id = window.setTimeout(tick, wait)
+    }
+    id = window.setTimeout(tick, 900)
+    return () => window.clearTimeout(id)
+  }, [on])
+  return on ? text : 'Ask a question…'
 }
