@@ -7,11 +7,6 @@ import { ButtonLink } from '../components/ui/Button'
    lives at /home. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
-const FACTS: [string, string, string][] = [
-  ['9', 'AA FI types', 'bg-green-w text-green'],
-  ['600+', 'RBI & DPDP checks', 'bg-amber-w text-amber'],
-  ['6', 'modules, one API', 'bg-wash text-accent'],
-]
 
 export function Landing() {
   return (
@@ -31,16 +26,8 @@ export function Landing() {
           ))}
         </h1>
 
-        <motion.ul initial="hidden" animate="show" transition={{ staggerChildren: 0.07, delayChildren: 0.45 }} className="mt-5 flex flex-wrap gap-2">
-          {FACTS.map(([n, label, tone]) => (
-            <motion.li key={label} variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }} className={`flex items-baseline gap-1.5 rounded-lg px-3 py-1.5 ${tone}`}>
-              <span className="text-[15px] font-semibold">{n}</span>
-              <span className="text-[12.5px] font-medium opacity-80">{label}</span>
-            </motion.li>
-          ))}
-        </motion.ul>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: EASE, delay: 0.55 }} className="mt-5 rounded-[20px] bg-white/70 p-1.5 ring-1 ring-white">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: EASE, delay: 0.55 }} className="mt-6 rounded-[20px] bg-white/70 p-1.5 ring-1 ring-white">
           <VideoReel />
         </motion.div>
 
