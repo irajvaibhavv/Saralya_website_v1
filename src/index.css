@@ -8,7 +8,7 @@
   --font-sans: "Manrope", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
-  --color-bg: #f6f6f8;
+  --color-bg: #f7f7f9;
   --color-bg2: #ececf0;
   --color-ink: #141420;
   --color-ink2: #2e2e45;
@@ -34,9 +34,9 @@
   --color-green: #14a06b;
   --color-green-w: #dff6ec;
 
-  --shadow-sm: 0 2px 8px -2px rgba(22, 18, 61, 0.06), 0 1px 3px -1px rgba(22, 18, 61, 0.04);
-  --shadow-md: 0 12px 28px -12px rgba(22, 18, 61, 0.14), 0 4px 10px -4px rgba(22, 18, 61, 0.06);
-  --shadow-lg: 0 1px 2px rgba(20, 20, 32, 0.04), 0 16px 40px -20px rgba(20, 20, 32, 0.18);
+  --shadow-sm: 0 0 0 1px rgba(20, 20, 32, 0.08), 0 1px 2px rgba(20, 20, 32, 0.04);
+  --shadow-md: 0 0 0 1px rgba(20, 20, 32, 0.08), 0 4px 12px -4px rgba(20, 20, 32, 0.08);
+  --shadow-lg: 0 0 0 1px rgba(20, 20, 32, 0.08), 0 12px 32px -16px rgba(20, 20, 32, 0.12);
   --shadow-glow: 0 8px 20px -10px rgba(20, 20, 32, 0.35);
 
   --animate-marquee: marquee 40s linear infinite;
@@ -67,7 +67,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  @apply bg-bg text-ink font-sans antialiased;
+  @apply bg-white text-ink font-sans antialiased;
   font-size: 15px;
   line-height: 1.5;
   overflow-x: hidden;
@@ -76,6 +76,11 @@ body {
 /* Things Tailwind can't express cleanly ---------------------------------- */
 @utility text-gradient {
   color: var(--color-accent);
+}
+
+@utility dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.10) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 @utility grid-paper {

@@ -8,7 +8,7 @@ export function Cta() {
     <Section tight>
       <Container>
         <FadeIn>
-          <div className="grid items-center gap-8 rounded-3xl bg-ink px-7 py-10 text-white md:grid-cols-[1fr_auto] md:px-12 md:py-14">
+          <div className="dots grid items-center gap-8 rounded-3xl bg-ink px-7 py-10 text-white md:grid-cols-[1fr_auto] md:px-12 md:py-14">
             <div>
               <div className="eyebrow mb-4 text-accent3">Free · public data only</div>
               <h2 className="display max-w-xl text-[clamp(28px,3.6vw,44px)]">Get a free tech &amp; compliance read for your NBFC.</h2>

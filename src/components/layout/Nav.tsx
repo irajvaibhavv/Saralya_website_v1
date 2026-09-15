@@ -38,20 +38,20 @@ export function Nav() {
       <div
         className={`transition-all duration-300 border-b ${
           scrolled
-            ? 'bg-bg/80 backdrop-blur-xl saturate-150 border-line/60 shadow-sm'
+            ? 'bg-white/85 backdrop-blur-xl border-line'
             : 'bg-transparent border-transparent'
         }`}
       >
         <div className="mx-auto flex h-[64px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
           <Logo />
 
-          <nav className="hidden md:flex items-center gap-1 rounded-full bg-white/60 p-1 shadow-sm backdrop-blur">
+          <nav className="hidden md:flex items-center gap-1">
             {LINKS.map((l) => (
               <NavLink
                 key={l.to}
                 to={l.to}
                 className={({ isActive }) =>
-                  `relative rounded-full px-4 py-1.5 text-[14px] font-medium transition-colors ${
+                  `relative px-3 py-1.5 text-[14px] font-medium transition-colors ${
                     isActive ? 'text-ink' : 'text-muted hover:text-ink'
                   }`
                 }
@@ -61,7 +61,7 @@ export function Nav() {
                     {isActive && (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-0 rounded-full bg-white shadow-sm"
+                        className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-ink"
                         transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                       />
                     )}
