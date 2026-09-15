@@ -1,4 +1,4 @@
-import { Banknote, Building2, Database, FileSearch, Landmark, Receipt, ShieldCheck, Sparkles } from 'lucide-react'
+import { Banknote, Building2, Database, FileSearch, Landmark, Receipt, ShieldCheck } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { FadeIn } from '../ui/Motion'
@@ -142,7 +142,10 @@ export function HowItWorks() {
             <div className="relative flex flex-col items-center justify-center gap-3">
               <div ref={core} className="relative grid size-24 place-items-center rounded-3xl bg-ink text-white shadow-lg">
                 <span className="absolute inset-0 rounded-3xl bg-ink animate-pulse-ring" />
-                <Sparkles className="relative size-9" strokeWidth={1.6} />
+                {/* the wordmark's initial, same weight and dot as the nav logo */}
+                <span className="relative flex items-start text-[44px] font-extrabold leading-none tracking-[-0.06em]">
+                  S<span className="mt-[9px] ml-0.5 size-2.5 rounded-full bg-accent3" />
+                </span>
               </div>
               <span className="font-mono text-[11px] text-hint">POST /v1/decisions</span>
             </div>
