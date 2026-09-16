@@ -29,24 +29,13 @@ export function SectionHead({
   eyebrow,
   title,
   lede,
-  align = 'left',
   className = '',
 }: {
   eyebrow?: string
   title: ReactNode
   lede?: ReactNode
-  align?: 'center' | 'left'
   className?: string
 }) {
-  if (align === 'center') {
-    return (
-      <FadeIn className={`mx-auto mb-10 max-w-2xl text-center md:mb-12 ${className}`}>
-        {eyebrow && <div className="eyebrow mb-3">{eyebrow}</div>}
-        <h2 className="display text-[clamp(28px,3.4vw,42px)]">{title}</h2>
-        {lede && <p className="mx-auto mt-3 max-w-xl text-[16px] text-muted">{lede}</p>}
-      </FadeIn>
-    )
-  }
   return (
     <FadeIn className={`mb-10 grid gap-4 md:mb-12 lg:grid-cols-[1fr_minmax(0,380px)] lg:items-end lg:gap-10 ${className}`}>
       <div>

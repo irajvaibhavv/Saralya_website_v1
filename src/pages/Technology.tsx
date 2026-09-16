@@ -27,7 +27,7 @@ export function Technology() {
           <>
             How it is built,
             <br />
-            <span className="text-gradient">underneath.</span>
+            <span className="text-accent">underneath.</span>
           </>
         }
         lede="No black boxes. No lock-in. Indian data residency. Audit trail end to end."

@@ -1,10 +1,8 @@
 import { CONTACT_EMAIL } from './site'
 
-/* ---------------------------------------------------------------------------
-   Saral AI: the landing-page chat. Starter questions with scripted answers,
+/* Saral AI: the landing-page chat. Starter questions with scripted answers,
    plus the guided diagnostic that ends in a note. Scripted today; the
-   free-text box is the seam where the model plugs in.
-   --------------------------------------------------------------------------- */
+   free-text box is the seam where the model plugs in. */
 
 /* `first` = the challenges this department feels first; they lead the list
    and `ask` is the question in their words. */

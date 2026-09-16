@@ -57,7 +57,7 @@ function Card({ title, body, children }: { title: string; body: string; children
   )
 }
 
-/* --- mini visuals --------------------------------------------------------- */
+/* Mini visuals. */
 
 function Bars() {
   const heights = [38, 56, 44, 70, 62, 84, 74, 96, 88, 100]

@@ -78,7 +78,7 @@ export function Demo() {
           <>
             Run a decision.
             <br />
-            <span className="text-gradient">Watch the report build.</span>
+            <span className="text-accent">Watch the report build.</span>
           </>
         }
         lede="Sample data pre-loaded. Hit run."
