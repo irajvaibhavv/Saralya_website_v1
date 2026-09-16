@@ -36,7 +36,7 @@ export function Hero() {
                   >
                     {parts.length === 2 ? (
                       <>
-                        <span className="text-gradient">{parts[0]}</span>
+                        <span className="text-accent">{parts[0]}</span>
                         {parts[1]}
                       </>
                     ) : (

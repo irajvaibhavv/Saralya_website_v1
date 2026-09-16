@@ -14,7 +14,7 @@ export function About() {
           <>
             Making lending
             <br />
-            <span className="text-gradient">saral for Bharat.</span>
+            <span className="text-accent">saral for Bharat.</span>
           </>
         }
         lede="Founded in 2026 by two banking-infrastructure operators. Smaller lenders pay crores upfront for legacy stacks, and still run on Excel. We build the alternative: modular, API-first, priced per loan."
