@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Paperclip, RotateCcw, Sparkles, UploadCloud } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Paperclip, RotateCcw, UploadCloud } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
@@ -195,7 +195,7 @@ export function SaralAiChat() {
       {/* header */}
       <div className="flex flex-wrap items-center gap-3 border-b border-accent/10 bg-gradient-to-r from-wash2 to-white px-5 py-4 sm:px-6">
         <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
-          <Sparkles className="size-5" />
+          <Mark className="text-[23px]" />
         </motion.span>
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-[17px] font-extrabold tracking-tight">
@@ -221,7 +221,7 @@ export function SaralAiChat() {
             <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>
               {m.from === 'ai' && (
                 <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white">
-                  <Sparkles className="size-4" />
+                  <Mark className="text-[18px]" />
                 </span>
               )}
               <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md bg-wash text-ink'}`}>
@@ -483,6 +483,15 @@ function Chips({ children, label }: { children: ReactNode; label?: string }) {
       {label && <motion.div variants={chip} className="mb-2 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">{label}</motion.div>}
       <div className="flex flex-wrap gap-2">{children}</div>
     </motion.div>
+  )
+}
+
+/* The wordmark's initial and dot, same lockup as the nav logo. */
+function Mark({ className = '' }: { className?: string }) {
+  return (
+    <span className={`flex items-start pl-[0.13em] font-extrabold leading-none tracking-[-0.06em] ${className}`}>
+      S<span className="ml-[0.045em] mt-[0.21em] size-[0.21em] rounded-full bg-white" />
+    </span>
   )
 }
 
