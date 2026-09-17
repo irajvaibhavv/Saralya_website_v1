@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Mic, Plus, RotateCcw } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Mic, Plus, RotateCcw, X } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
@@ -206,6 +206,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
 
   return (
     <>
+    <SignIn open={gateAt !== null} onClose={() => setGateAt(null)} onUnlock={() => { setUnlocked(true); setGateAt(null) }} />
     <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-bg">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
@@ -246,14 +247,11 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
                   ) : (
                     <>
                       {i === msgs.length - 1 ? <Typed key={i} text={teaser(m.text)} onDone={() => setTyping(false)} /> : teaser(m.text)}
-                      {!(i === msgs.length - 1 && typing) &&
-                        (gateAt === i ? (
-                          <SignIn onUnlock={() => { setUnlocked(true); setGateAt(null) }} />
-                        ) : (
-                          <button type="button" onClick={() => setGateAt(i)} className="mt-2.5 flex items-center gap-1.5 text-[13.5px] font-semibold text-accent hover:underline">
-                            <Lock className="size-3.5" /> View full answer
-                          </button>
-                        ))}
+                      {!(i === msgs.length - 1 && typing) && (
+                        <button type="button" onClick={() => setGateAt(i)} className="mt-2.5 flex items-center gap-1.5 text-[13.5px] font-semibold text-accent hover:underline">
+                          <Lock className="size-3.5" /> View full answer
+                        </button>
+                      )}
                     </>
                   )
                 ) : m.from === 'ai' && i === msgs.length - 1 && !m.gated ? (
@@ -557,34 +555,67 @@ export function MicButton({ speech }: { speech: ReturnType<typeof useSpeech> }) 
   )
 }
 
-/* The sign-in card under a teased answer. Any address opens it for now. */
-function SignIn({ onUnlock }: { onUnlock: () => void }) {
+/* The sign-in: the page dims and one card asks for a work email. Any
+   address opens every answer for now. */
+function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => void; onUnlock: () => void }) {
   const [email, setEmail] = useState('')
+  useEffect(() => {
+    if (!open) return
+    const key = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', key)
+    return () => window.removeEventListener('keydown', key)
+  }, [open, onClose])
   return (
-    <motion.form
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-      onSubmit={(e) => { e.preventDefault(); if (email.trim()) onUnlock() }}
-      className="mt-3 rounded-xl bg-white p-3.5 ring-1 ring-line"
-    >
-      <div className="text-[13.5px] font-semibold">Sign in to read the full answer</div>
-      <div className="mt-0.5 text-[12.5px] text-muted">Work email. No password, no spam.</div>
-      <div className="mt-2.5 flex gap-2">
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          required
-          autoFocus
-          placeholder="you@yournbfc.com"
-          className="min-w-0 flex-1 rounded-lg border border-line px-3 py-2 text-[13.5px] outline-none placeholder:text-hint focus:border-accent"
-        />
-        <button type="submit" className="rounded-lg bg-accent px-3.5 py-2 text-[13.5px] font-semibold text-white transition-colors hover:bg-accent2">
-          Continue
-        </button>
-      </div>
-    </motion.form>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="signin"
+          role="dialog"
+          aria-modal
+          aria-label="Sign in"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.15 } }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+          className="fixed inset-0 z-[100] grid place-items-center bg-ink/50 p-5 backdrop-blur-sm"
+        >
+          <motion.form
+            initial={{ opacity: 0, y: 12, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+            onClick={(e) => e.stopPropagation()}
+            onSubmit={(e) => { e.preventDefault(); if (email.trim()) onUnlock() }}
+            className="relative w-full max-w-[400px] rounded-3xl bg-white p-7 text-ink shadow-[0_40px_100px_-30px_rgba(20,20,32,0.5)]"
+          >
+            <button type="button" onClick={onClose} aria-label="Close" className="absolute right-3 top-3 grid size-9 place-items-center rounded-full text-muted hover:bg-bg hover:text-ink">
+              <X className="size-4" />
+            </button>
+            <span className="grid size-11 place-items-center rounded-xl bg-accent text-white">
+              <Mark className="text-[23px]" />
+            </span>
+            <div className="mt-5 text-[20px] font-semibold tracking-tight">Sign in to read the full answer</div>
+            <div className="mt-1.5 text-[14px] leading-relaxed text-muted">Work email is enough. No password, no spam. Every answer opens up.</div>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              required
+              autoFocus
+              placeholder="you@yournbfc.com"
+              className="mt-5 w-full rounded-xl border border-line px-4 py-3 text-[15px] outline-none placeholder:text-hint focus:border-accent"
+            />
+            <button type="submit" className="mt-3 w-full rounded-xl bg-accent px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-accent2">
+              Continue
+            </button>
+            <div className="mt-4 flex items-center justify-center gap-1.5 text-[12px] text-hint">
+              <Lock className="size-3" /> Nothing you type here leaves your browser.
+            </div>
+          </motion.form>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
