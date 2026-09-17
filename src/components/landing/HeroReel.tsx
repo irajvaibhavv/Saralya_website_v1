@@ -22,7 +22,7 @@ export function HeroReel() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,22,0.45)_0%,rgba(8,8,22,0.1)_45%,rgba(8,8,22,0.6)_100%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,22,0.8)_0%,rgba(8,8,22,0.74)_20%,rgba(8,8,22,0.62)_35%,rgba(8,8,22,0.46)_48%,rgba(8,8,22,0.3)_60%,rgba(8,8,22,0.17)_72%,rgba(8,8,22,0.1)_84%,rgba(8,8,22,0.16)_100%)]" />
       {/* the page below is white; the frame dissolves into it */}
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.6)_60%,#fff)]" />
+      <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-white" />
     </div>
   )
 }
