@@ -27,7 +27,7 @@ export function Landing() {
 
   return (
     <>
-      <Hero onTry={() => setOpen(true)} onWatch={() => setWatching(true)} />
+      <Hero />
       <div id="explore" className="scroll-mt-16" />
       <PopularQuestions onAsk={ask} />
       <InAction onWatch={() => setWatching(true)} />
