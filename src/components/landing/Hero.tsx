@@ -28,10 +28,6 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
               Smarter lending decisions. <span className="text-accent3">Within everyone’s reach.</span>
             </motion.h1>
 
-            <motion.p {...rise(0.2)} className="mt-5 max-w-[46ch] text-[clamp(15px,1.3vw,17px)] leading-relaxed text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,0.45)]">
-              Ask. Explore. Get expert-backed insights on credit risk, collections, compliance and more — powered by Saralya’s BFSI AI.
-            </motion.p>
-
             <motion.div {...rise(0.3)} className="mt-8 flex flex-wrap gap-3">
               <Button variant="primary" size="lg" arrow onClick={onTry} className="shadow-[0_8px_24px_-8px_rgba(75,63,207,0.7)]">
                 Try Saralya AI
