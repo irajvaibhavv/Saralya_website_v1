@@ -12,7 +12,7 @@ const ICONS = [Building2, Zap, TrendingUp, Users]
 
 export function Hero() {
   return (
-    <section className="relative isolate -mt-[64px] overflow-hidden bg-ink pt-[64px] text-white">
+    <section className="relative isolate -mt-[64px] overflow-hidden bg-[#0a0a0b] pt-[64px] text-white">
       <HeroReel />
 
       <div className="relative mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
