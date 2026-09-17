@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Paperclip, RotateCcw, UploadCloud } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Mic, Plus, RotateCcw, UploadCloud } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
@@ -149,6 +149,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
 
   // the composer suggests questions by typing them out while nothing has been asked
   const [focused, setFocused] = useState(false)
+  const speech = useSpeech(setQ)
   const hint = useTypedHint(step === 'idle' && !q && !focused)
   const chooseDept = (d: (typeof DEPARTMENTS)[number], label: string = d.label) => {
     setDept(d.id)
@@ -218,15 +219,15 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
     </AnimatePresence>
     <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-bg">
       {/* header */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
-        <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
-          <Mark className="text-[23px]" />
+      <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
+        <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white">
+          <Mark className="text-[19px]" />
         </motion.span>
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-[16px] font-semibold tracking-tight">
+          <div className="flex items-center gap-2 text-[15px] font-semibold tracking-tight">
             Saral AI <span className="size-2 rounded-full bg-green animate-pulse-ring" />
           </div>
-          <div className="text-[13px] text-muted">Your lending copilot</div>
+          <div className="text-[12.5px] text-muted">Your lending copilot</div>
         </div>
         <div className="ml-auto hidden items-center gap-1.5 2xl:flex">
           {idx >= 0 ? (
@@ -240,16 +241,16 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
       </div>
 
       {/* conversation */}
-      <div ref={pane} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 sm:p-6">
+      <div ref={pane} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
         <div className="space-y-3">
           {msgs.map((m, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>
               {m.from === 'ai' && (
-                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-wash text-accent">
-                  <Mark className="text-[16px]" />
+                <span className="grid size-7 shrink-0 place-items-center rounded-md bg-wash text-accent">
+                  <Mark className="text-[14px]" />
                 </span>
               )}
-              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-wash text-ink' : 'rounded-tl-md bg-white text-ink2 ring-1 ring-line/70'}`}>
+              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-wash text-ink' : 'rounded-tl-md bg-white text-ink2 ring-1 ring-line/70'}`}>
                 {m.gated && !unlocked ? (
                   i === msgs.length - 1 && thinking ? (
                     <Dots />
@@ -377,23 +378,24 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
       </div>
 
       {/* composer */}
-      <div className="border-t border-line p-4 sm:px-6">
-        <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-2 ring-1 ring-line focus-within:ring-accent">
-          <label aria-label="Attach a file" title="Attach a file, or drop it anywhere on the page" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-lg text-muted hover:bg-wash2 hover:text-ink">
-            <Paperclip className="size-4" />
+      <div className="border-t border-line p-3">
+        <form onSubmit={submitQ} className="flex items-center gap-1 rounded-xl bg-white p-1 pl-1 ring-1 ring-line focus-within:ring-accent">
+          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg text-muted hover:bg-wash2 hover:text-ink">
+            <Plus className="size-4" />
             <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
           </label>
-          <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent text-[14.5px] outline-none placeholder:text-hint disabled:opacity-60" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={speech.listening ? 'Listening…' : step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent px-1 text-[14px] outline-none placeholder:text-hint disabled:opacity-60" />
           {msgs.length > 1 && (
-            <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
+            <button type="button" onClick={reset} aria-label="Start over" className="grid size-8 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
               <RotateCcw className="size-4" />
             </button>
           )}
-          <button type="submit" aria-label="Send" disabled={typing} className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white hover:bg-accent2 disabled:opacity-50">
+          <MicButton speech={speech} />
+          <button type="submit" aria-label="Send" disabled={typing} className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-white hover:bg-accent2 disabled:opacity-50">
             <ArrowUp className="size-4" />
           </button>
         </form>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[12.5px] text-muted">
+        <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 text-[11.5px] text-muted">
           <span className="flex items-center gap-1.5">
             <Lock className="size-3.5" /> Nothing you type here leaves your browser or trains any external model.
           </span>
@@ -539,6 +541,49 @@ export function Mark({ className = '' }: { className?: string }) {
     <span className={`flex items-start pl-[0.13em] font-extrabold leading-none tracking-[-0.06em] ${className}`}>
       S<span className="ml-[0.045em] mt-[0.21em] size-[0.21em] rounded-full bg-white" />
     </span>
+  )
+}
+
+/* Speech to text through the browser's own recogniser (Chrome, Edge, Safari).
+   Interim words land in the box as they are heard; the button hides where
+   the API is missing. */
+type Recogniser = { lang: string; interimResults: boolean; onresult: (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void; onend: () => void; onerror: () => void; start: () => void; stop: () => void }
+const SR = typeof window !== 'undefined' ? ((window as unknown as { SpeechRecognition?: new () => Recogniser; webkitSpeechRecognition?: new () => Recogniser }).SpeechRecognition ?? (window as unknown as { webkitSpeechRecognition?: new () => Recogniser }).webkitSpeechRecognition) : undefined
+
+export function useSpeech(onText: (t: string) => void) {
+  const [listening, setListening] = useState(false)
+  const rec = useRef<Recogniser | null>(null)
+  const toggle = () => {
+    if (listening) {
+      rec.current?.stop()
+      return
+    }
+    if (!SR) return
+    const r = new SR()
+    r.lang = 'en-IN'
+    r.interimResults = true
+    r.onresult = (e) => onText(Array.from(e.results, (x) => x[0].transcript).join(''))
+    r.onend = () => setListening(false)
+    r.onerror = () => setListening(false)
+    rec.current = r
+    r.start()
+    setListening(true)
+  }
+  return { supported: !!SR, listening, toggle }
+}
+
+export function MicButton({ speech }: { speech: ReturnType<typeof useSpeech> }) {
+  if (!speech.supported) return null
+  return (
+    <button
+      type="button"
+      onClick={speech.toggle}
+      aria-label={speech.listening ? 'Stop listening' : 'Speak your question'}
+      aria-pressed={speech.listening}
+      className={`grid size-8 shrink-0 place-items-center rounded-lg transition-colors ${speech.listening ? 'bg-red-w text-red animate-pulse-ring' : 'text-muted hover:bg-wash2 hover:text-ink'}`}
+    >
+      <Mic className="size-4" />
+    </button>
   )
 }
 
