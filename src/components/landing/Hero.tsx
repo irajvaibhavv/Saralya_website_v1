@@ -19,13 +19,13 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
 
       <div className="relative mx-auto flex w-full max-w-[1240px] flex-col px-5 pb-8 pt-10 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pt-8">
         <div className="flex flex-1 items-center">
-          <div className="min-w-0 max-w-2xl">
+          <div className="min-w-0 max-w-2xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)] lg:max-w-[55%]">
             <motion.span {...rise(0)} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-white/85 ring-1 ring-white/15 backdrop-blur-md">
               <span className="size-1.5 rounded-full bg-accent3" /> AI for NBFCs
             </motion.span>
 
-            <motion.h1 {...rise(0.1)} className="display mt-5 max-w-[13ch] text-[clamp(40px,5.6vw,72px)] [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
-              Smarter lending decisions. <span className="text-accent3">Within everyone’s reach.</span>
+            <motion.h1 {...rise(0.1)} className="display mt-5 max-w-[13ch] text-[clamp(40px,5.6vw,72px)]">
+              Smarter lending decisions. <span className="text-[#c4bdff]">Within everyone’s reach.</span>
             </motion.h1>
 
             <motion.div {...rise(0.3)} className="mt-8 flex flex-wrap gap-3">
@@ -45,12 +45,12 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
           </div>
         </div>
 
-        <motion.div {...rise(0.5)} className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-5 border-t border-white/10 pb-6 pt-7 lg:mt-10">
+        <motion.div {...rise(0.5)} className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-5 rounded-2xl bg-[rgba(8,8,22,0.55)] px-6 py-5 ring-1 ring-white/10 backdrop-blur-[10px] lg:mt-10 lg:px-8">
           <dl className="grid flex-1 grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-x-0 sm:divide-x sm:divide-white/12">
             {METRICS.map((m, i) => {
               const Icon = ICONS[i]
               return (
-                <div key={m.label} className="flex items-center gap-3 sm:px-6 sm:first:pl-0">
+                <div key={m.label} className="flex items-center gap-3 sm:px-6 sm:first:pl-0 sm:last:pr-0">
                   <Icon className="hidden size-6 shrink-0 text-accent3 sm:block" strokeWidth={1.6} />
                   <div>
                     <dt className="sr-only">{m.label}</dt>
@@ -61,7 +61,7 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
               )
             })}
           </dl>
-          <p className="hidden max-w-[18ch] border-l border-white/12 pl-6 text-[13.5px] leading-snug text-white/70 xl:block">Built for a more inclusive financial future.</p>
+          <p className="hidden max-w-[18ch] border-l border-white/12 pl-8 text-[13.5px] leading-snug text-white/70 xl:block">Built for a more inclusive financial future.</p>
         </motion.div>
 
         <motion.a
