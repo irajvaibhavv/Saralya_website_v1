@@ -12,7 +12,16 @@ import { ButtonLink } from '../ui/Button'
    plus "Get a note for my NBFC", the guided diagnostic that ends in a
    personal note, and "Talk to a human". `ask()` is where the model plugs in. */
 
-type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string }; files?: { name: string; size: number }[] }
+type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string }; files?: { name: string; size: number }[]; gated?: true }
+
+/* Answers open with their first lines; the rest is behind a sign-in. The
+   gate is presentational for now: any address opens every answer. */
+const TEASER = 150
+const teaser = (t: string) => {
+  if (t.length <= TEASER) return t
+  const cut = t.lastIndexOf(' ', TEASER)
+  return t.slice(0, cut > 80 ? cut : TEASER) + '…'
+}
 type Step = 'idle' | 'role' | 'dept' | 'challenges' | 'size' | 'note'
 const FLOW: Step[] = ['dept', 'challenges', 'size', 'note']
 
@@ -35,6 +44,8 @@ export type Role = (typeof ROLES)[number]
 export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter | null; seat?: Role | null; onMessages?: (n: number) => void }) {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
+  const [unlocked, setUnlocked] = useState(false)
+  const [gateAt, setGateAt] = useState<number | null>(null) // message showing the sign-in card
   const [typing, setTyping] = useState(true)
   const [dept, setDept] = useState<DeptId>('credit')
   const [role, setRole] = useState<(typeof ROLES)[number] | null>(null)
@@ -129,7 +140,9 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
         setStep('dept')
       }
     } else {
-      say(s.q, s.a, s.link)
+      const gated = !unlocked && s.a.length > TEASER
+      setMsgs((m) => [...m, { from: 'you', text: s.q }, { from: 'ai', text: s.a, link: s.link, ...(gated ? { gated: true as const } : null) }])
+      setTyping(true)
       setAsked((a) => [...a, s.q])
     }
   }
@@ -237,7 +250,23 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
                 </span>
               )}
               <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md bg-wash text-ink'}`}>
-                {m.from === 'ai' && i === msgs.length - 1 ? (
+                {m.gated && !unlocked ? (
+                  i === msgs.length - 1 && thinking ? (
+                    <Dots />
+                  ) : (
+                    <>
+                      {i === msgs.length - 1 ? <Typed key={i} text={teaser(m.text)} onDone={() => setTyping(false)} /> : teaser(m.text)}
+                      {!(i === msgs.length - 1 && typing) &&
+                        (gateAt === i ? (
+                          <SignIn onUnlock={() => { setUnlocked(true); setGateAt(null) }} />
+                        ) : (
+                          <button type="button" onClick={() => setGateAt(i)} className="mt-2.5 flex items-center gap-1.5 text-[13.5px] font-semibold text-accent hover:underline">
+                            <Lock className="size-3.5" /> View full answer
+                          </button>
+                        ))}
+                    </>
+                  )
+                ) : m.from === 'ai' && i === msgs.length - 1 && !m.gated ? (
                   thinking ? <Dots /> : <Typed key={i} text={m.text} onDone={() => { setTyping(false); if (step === 'note') setReady(true) }} />
                 ) : (
                   m.text
@@ -251,7 +280,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
                     ))}
                   </div>
                 )}
-                {m.link && !(i === msgs.length - 1 && (thinking || typing)) && (
+                {m.link && !(m.gated && !unlocked) && !(i === msgs.length - 1 && (thinking || typing)) && (
                   <Link to={m.link.to} className="mt-2 flex w-fit items-center gap-1 text-[13.5px] font-semibold text-accent hover:underline">
                     {m.link.label} <ArrowRight className="size-3.5" />
                   </Link>
@@ -510,6 +539,37 @@ export function Mark({ className = '' }: { className?: string }) {
     <span className={`flex items-start pl-[0.13em] font-extrabold leading-none tracking-[-0.06em] ${className}`}>
       S<span className="ml-[0.045em] mt-[0.21em] size-[0.21em] rounded-full bg-white" />
     </span>
+  )
+}
+
+/* The sign-in card under a teased answer. Any address opens it for now. */
+function SignIn({ onUnlock }: { onUnlock: () => void }) {
+  const [email, setEmail] = useState('')
+  return (
+    <motion.form
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      onSubmit={(e) => { e.preventDefault(); if (email.trim()) onUnlock() }}
+      className="mt-3 rounded-xl bg-white p-3.5 ring-1 ring-line"
+    >
+      <div className="text-[13.5px] font-semibold">Sign in to read the full answer</div>
+      <div className="mt-0.5 text-[12.5px] text-muted">Work email. No password, no spam.</div>
+      <div className="mt-2.5 flex gap-2">
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          required
+          autoFocus
+          placeholder="you@yournbfc.com"
+          className="min-w-0 flex-1 rounded-lg border border-line px-3 py-2 text-[13.5px] outline-none placeholder:text-hint focus:border-accent"
+        />
+        <button type="submit" className="rounded-lg bg-accent px-3.5 py-2 text-[13.5px] font-semibold text-white transition-colors hover:bg-accent2">
+          Continue
+        </button>
+      </div>
+    </motion.form>
   )
 }
 
