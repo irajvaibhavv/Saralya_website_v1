@@ -15,7 +15,7 @@ import {
 /* Copy is sourced from saralya.in and the founder-approved corrections brief
    (see CLAUDE.md → Content sources). Keep claims to what appears there. */
 
-export const CONTACT_EMAIL = 'vishal@saralya.in'
+export const CONTACT_EMAIL = 'info@saralya.in'
 
 export type Module = {
   code: string
