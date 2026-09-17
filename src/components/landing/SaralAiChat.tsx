@@ -4,7 +4,7 @@ import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CONTACT_EMAIL, CONVICTIONS, MODULES } from '../../content/site'
-import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, HERO_QS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
+import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
 import { ButtonLink } from '../ui/Button'
 
 /* Saral AI, the landing chat. It opens by asking who you are; each role
@@ -25,7 +25,7 @@ const teaser = (t: string) => {
 type Step = 'idle' | 'role' | 'dept' | 'challenges' | 'size' | 'note'
 const FLOW: Step[] = ['dept', 'challenges', 'size', 'note']
 
-const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, compliance, or anything about our platform. Tell me who you are and I’ll start with what people in your seat ask most.'
+const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, compliance, or anything about our platform. What would you like to know?'
 
 // TODO: point at the model endpoint once it is exposed.
 export async function ask(_q: string): Promise<string> {
@@ -90,7 +90,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
   useEffect(() => {
     if (msgs.length === 1) return
     setThinking(true)
-    const id = window.setTimeout(() => setThinking(false), 700)
+    const id = window.setTimeout(() => setThinking(false), 1100)
     return () => window.clearTimeout(id)
   }, [msgs.length])
 
@@ -292,36 +292,13 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
         </div>
 
         <AnimatePresence mode="wait">
-          {!typing && step === 'idle' && (
-            <Chips key={`idle-${asked.length}`} label={asked.length ? 'Anything else?' : undefined}>
-              {HERO_QS.filter((s) => !asked.includes(s.q)).map((s) => (
-                <Chip key={s.q} onClick={() => starter(s)}>
-                  {s.q}
-                </Chip>
-              ))}
-              <span className="basis-full" />
-              <Chip tone="bg-wash text-accent ring-accent/15" onClick={() => starter(NOTE)}>
-                {NOTE.q}
-              </Chip>
-              <Chip tone="bg-peach text-[#b4562a] ring-[#b4562a]/15" onClick={() => starter(HUMAN)}>
-                <MessageCircle className="size-3.5" /> {HUMAN.q}
-              </Chip>
-            </Chips>
-          )}
-          {!typing && step === 'role' && (
-            <Chips key={`role-${asked.length}`} label={asked.length ? 'Anything else?' : `Most asked by ${role?.label.toLowerCase()}s`}>
+          {!typing && step === 'role' && !asked.length && (
+            <Chips key="role" label={`Most asked by ${role?.label.toLowerCase()}s`}>
               {(role?.qs ?? []).filter((s) => !asked.includes(s.q)).map((s) => (
                 <Chip key={s.q} onClick={() => starter(s)}>
                   {s.q}
                 </Chip>
               ))}
-              <span className="basis-full" />
-              <Chip tone="bg-wash text-accent ring-accent/15" onClick={() => starter(NOTE)}>
-                {NOTE.q}
-              </Chip>
-              <Chip tone="bg-peach text-[#b4562a] ring-[#b4562a]/15" onClick={() => starter(HUMAN)}>
-                <MessageCircle className="size-3.5" /> {HUMAN.q}
-              </Chip>
             </Chips>
           )}
           {!typing && step === 'dept' && (
@@ -395,12 +372,16 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
             <ArrowUp className="size-4" />
           </button>
         </form>
-        <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 text-[11.5px] text-muted">
-          <span className="flex items-center gap-1.5">
-            <Lock className="size-3.5" /> Nothing you type here leaves your browser or trains any external model.
-          </span>
-          <Link to="/privacy" className="font-medium text-accent hover:underline">
-            See disclaimer
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-muted">
+          <button type="button" onClick={() => starter(NOTE)} disabled={typing || idx >= 0} className="font-medium text-accent hover:underline disabled:opacity-50">
+            {NOTE.q}
+          </button>
+          <span aria-hidden>&middot;</span>
+          <button type="button" onClick={() => starter(HUMAN)} disabled={typing} className="flex items-center gap-1 font-medium text-accent hover:underline disabled:opacity-50">
+            <MessageCircle className="size-3" /> {HUMAN.q}
+          </button>
+          <Link to="/privacy" className="ml-auto flex items-center gap-1 hover:text-ink">
+            <Lock className="size-3" /> Private
           </Link>
         </div>
       </div>
@@ -660,7 +641,7 @@ function Typed({ text, onDone }: { text: string; onDone: () => void }) {
       }
       return
     }
-    const id = window.setTimeout(() => setN(n + 2), 14)
+    const id = window.setTimeout(() => setN(n + 1), 22)
     return () => window.clearTimeout(id)
   }, [n, text, onDone])
   return <>{text.slice(0, n)}</>
