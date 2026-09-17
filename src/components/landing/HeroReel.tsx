@@ -1,6 +1,6 @@
 import { useReducedMotion } from 'motion/react'
 
-/* The hero's ground: a kirana owner, a rider, a market street. The people
+/* The hero's ground: a chai vendor, a rider, an auto driver. The people
    NBFCs lend to (Pexels, free for commercial use). The grade leans cool and
    the scrim sits under the copy, not over the whole frame. */
 export function HeroReel() {
