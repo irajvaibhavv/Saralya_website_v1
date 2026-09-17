@@ -19,8 +19,8 @@ export function HeroReel() {
       />
       {/* a cool cast so the frame reads as one palette with the panel */}
       <div className="absolute inset-0 bg-[#3a34a8] opacity-[0.14] mix-blend-color" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,28,0.5)_0%,rgba(10,10,28,0.15)_45%,rgba(10,10,28,0.75)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,28,0.72)_0%,rgba(10,10,28,0.42)_38%,rgba(10,10,28,0.08)_68%,rgba(10,10,28,0.2)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,22,0.45)_0%,rgba(8,8,22,0.1)_45%,rgba(8,8,22,0.6)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,22,0.8)_0%,rgba(8,8,22,0.72)_30%,rgba(8,8,22,0.4)_55%,rgba(8,8,22,0.1)_80%,rgba(8,8,22,0.2)_100%)]" />
       {/* the page below is white; the frame dissolves into it */}
       <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.6)_60%,#fff)]" />
     </div>
