@@ -1,7 +1,7 @@
 import { ArrowRight, Building2, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState, type FormEvent } from 'react'
-import { METRICS, type Starter } from '../../content/saral-ai'
+import { HERO_QS, METRICS, type Starter } from '../../content/saral-ai'
 import { HeroReel } from './HeroReel'
 import { ask } from './SaralAiChat'
 
@@ -52,6 +52,14 @@ export function Hero({ onAsk }: { onAsk: (s: Starter) => void }) {
               Ask <ArrowRight className="size-4" />
             </button>
           </motion.form>
+          <motion.div {...rise(0.32)} className="mt-3 flex flex-wrap items-center gap-2 text-[12.5px] text-[#fff]/60">
+            Try:
+            {HERO_QS.slice(0, 3).map((s) => (
+              <button key={s.q} type="button" onClick={() => onAsk(s)} className="rounded-full bg-[#fff]/10 px-3 py-1 text-[12.5px] text-[#fff]/85 ring-1 ring-[#fff]/20 transition-colors hover:bg-[#fff]/20">
+                {s.q}
+              </button>
+            ))}
+          </motion.div>
 
         </div>
 

@@ -28,11 +28,11 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
   return (
     <div className="text-ink">
       <div className="flex items-center gap-3 px-5 pt-5">
-        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white shadow-[0_6px_16px_-6px_rgba(75,63,207,0.8)]">
-          <Mark className="text-[23px]" />
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-accent text-white">
+          <Mark className="text-[21px]" />
         </span>
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-[17px] font-bold tracking-tight">
+          <div className="flex items-center gap-2 text-[16px] font-bold tracking-tight">
             Saral AI <span className="size-2 rounded-full bg-green animate-pulse-ring" />
           </div>
           <div className="text-[13px] text-muted">Your lending copilot</div>
@@ -40,7 +40,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
       </div>
 
       <div className="px-5 pt-4">
-        <div className="rounded-2xl rounded-tl-md bg-wash px-4 py-3.5 text-[14px] leading-relaxed">
+        <div className="rounded-2xl rounded-tl-md bg-wash2 px-4 py-3.5 text-[14px] leading-relaxed">
           <span className="font-semibold">Hi, I’m Saral.</span> {seat ? seat.hello : 'I can help with credit risk, collections, RBI norms, compliance or anything about our platform.'}
         </div>
       </div>
@@ -60,7 +60,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
               variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onAsk(s)}
-              className="group flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 text-left shadow-sm transition-[box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:shadow-md"
+              className="group flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 text-left ring-1 ring-line transition-colors hover:bg-bg hover:ring-accent/30"
             >
               <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${TONES[i]}`}>
                 <Icon className="size-4" />
@@ -72,7 +72,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         })}
       </motion.div>
 
-      <form onSubmit={submit} className="mx-5 mt-4 flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 shadow-sm focus-within:shadow-[0_0_0_2px_rgba(75,63,207,0.35)]">
+      <form onSubmit={submit} className="mx-5 mt-4 flex items-center gap-2 rounded-xl bg-bg p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
