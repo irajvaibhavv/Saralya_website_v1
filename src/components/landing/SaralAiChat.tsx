@@ -19,7 +19,7 @@ const FLOW: Step[] = ['dept', 'challenges', 'size', 'note']
 const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, compliance, or anything about our platform. Tell me who you are and I’ll start with what people in your seat ask most.'
 
 // TODO: point at the model endpoint once it is exposed.
-async function ask(_q: string): Promise<string> {
+export async function ask(_q: string): Promise<string> {
   return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Talk to a human” and it reaches them today.'
 }
 
@@ -31,7 +31,7 @@ const NOTE = STARTERS.find((s) => s.note)!
 const HUMAN = STARTERS.find((s) => s.q === 'Talk to a human')!
 const TONES = ['bg-wash text-accent ring-accent/15', 'bg-green-w text-green ring-green/15', 'bg-amber-w text-amber ring-amber/15', 'bg-blue-w text-blue ring-blue/15', 'bg-peach text-[#b4562a] ring-[#b4562a]/15', 'bg-purple-w text-purple ring-purple/15']
 
-export function SaralAiChat() {
+export function SaralAiChat({ pending, onMessages }: { pending?: Starter | null; onMessages?: (n: number) => void }) {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)
@@ -107,6 +107,17 @@ export function SaralAiChat() {
     say(r.label, `${r.hello} Pick one, or ask me anything.`)
     setStep('role')
   }
+  /* A question handed in from the landing page (a card or the composer) is asked as-is. */
+  const taken = useRef<Starter | null>(null)
+  useEffect(() => {
+    if (!pending || taken.current === pending) return
+    taken.current = pending
+    starter(pending)
+    // starter() is rebuilt each render; the ref guard is what keeps this to one run.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pending])
+  useEffect(() => { onMessages?.(msgs.length) }, [msgs.length, onMessages])
+
   const starter = (s: Starter) => {
     if (s.note) {
       if (role) {
@@ -487,7 +498,7 @@ function Chips({ children, label }: { children: ReactNode; label?: string }) {
 }
 
 /* The wordmark's initial and dot, same lockup as the nav logo. */
-function Mark({ className = '' }: { className?: string }) {
+export function Mark({ className = '' }: { className?: string }) {
   return (
     <span className={`flex items-start pl-[0.13em] font-extrabold leading-none tracking-[-0.06em] ${className}`}>
       S<span className="ml-[0.045em] mt-[0.21em] size-[0.21em] rounded-full bg-white" />

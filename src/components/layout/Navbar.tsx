@@ -31,6 +31,9 @@ export function Navbar() {
   useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 12))
   useEffect(() => setOpen(false), [location.pathname])
 
+  // over the landing hero the nav sits on video, so it goes light until the page scrolls
+  const light = location.pathname === '/' && !scrolled
+
   return (
     <header className="sticky top-0 z-50">
       <div
@@ -41,7 +44,7 @@ export function Navbar() {
         }`}
       >
         <div className="mx-auto flex h-[64px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
-          <Logo />
+          <Logo light={light} />
 
           <nav className="hidden md:flex items-center gap-1">
             {LINKS.map((l) => (
@@ -50,7 +53,7 @@ export function Navbar() {
                 to={l.to}
                 className={({ isActive }) =>
                   `relative px-3 py-1.5 text-[14px] font-medium transition-colors ${
-                    isActive ? 'text-ink' : 'text-muted hover:text-ink'
+                    light ? (isActive ? 'text-white' : 'text-white/70 hover:text-white') : isActive ? 'text-ink' : 'text-muted hover:text-ink'
                   }`
                 }
               >
@@ -59,7 +62,7 @@ export function Navbar() {
                     {isActive && (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-ink"
+                        className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full ${light ? 'bg-white' : 'bg-ink'}`}
                         transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                       />
                     )}
@@ -71,10 +74,10 @@ export function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link to="/" className="text-[14px] font-medium text-muted hover:text-ink">
+            <Link to="/" className={`text-[14px] font-medium ${light ? 'text-white/70 hover:text-white' : 'text-muted hover:text-ink'}`}>
               Saral AI
             </Link>
-            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
+            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant={light ? 'white' : 'primary'}>
               Book a demo
             </ButtonLink>
           </div>

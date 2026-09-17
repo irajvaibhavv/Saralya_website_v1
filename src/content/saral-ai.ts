@@ -222,3 +222,65 @@ export const ONBOARDING = [
   { day: 'Week 1', title: 'Sandbox on your data', body: 'A sample file from your core, decisions back through one API.' },
   { day: 'Day 30', title: 'Pilot on one product line', body: 'Live decisions on one product. Pay per loan, cancel any time.' },
 ] as const
+
+/* The landing page. Four questions sit inside the Saral AI panel, five more
+   roll past underneath it; all nine answer straight away. */
+export const HERO_QS: Starter[] = [
+  {
+    q: 'How can I identify risky borrowers?',
+    a: 'Before disbursal, the strongest signals are the ones bureau alone misses: cash-flow volatility from Account Aggregator, GST filing gaps, and applicants linked by phone, device or bank account. Score on all three together and a thin-file borrower stops looking the same as a risky one.',
+    link: { to: '/products#M2', label: 'Saral Screen' },
+  },
+  {
+    q: 'What causes early-stage defaults?',
+    a: 'Mostly mismatch, not intent: an EMI date that lands before salary or collections hit the account, a first NACH set up on the wrong bank, or income that was seasonal and got underwritten as monthly. First payment default is usually decided on day zero.',
+    link: { to: '/products#M3', label: 'Saral Watch' },
+  },
+  {
+    q: 'How can I improve collection efficiency?',
+    a: 'Act on the first bounce, not the bucket. Route by promise-to-pay date rather than by DPD, log every field visit with time and location, and give the officer the account history before they knock. Most of the lift comes from the first 30 days.',
+    link: { to: '/products#M4', label: 'Saral Collect' },
+  },
+  {
+    q: 'What regulatory changes should I know?',
+    a: 'The ones that change your filings: the Scale Based Regulation tiers, the Digital Lending Guidelines (Key Fact Statement, LSP disclosure, cooling-off), CIMS reporting, and the tightened SMA/NPA day-count rules. Each maps to a report an inspector will ask for.',
+    link: { to: '/home#readiness', label: 'Tick your six inspection checks' },
+  },
+]
+
+export const POPULAR_QS: Starter[] = [
+  {
+    q: 'How do I build a credit risk model for unsecured loans?',
+    a: 'Start with the decisions you already make, not with a model. Log every rule that fires and every override for six months, then train on the outcomes. Bureau plus AA cash flows plus GST gives enough features for a first scorecard on most MSME books.',
+    link: { to: '/technology', label: 'How the models are built' },
+  },
+  {
+    q: 'What data sources improve underwriting accuracy?',
+    a: 'In order of lift: Account Aggregator bank statements, GST returns, bureau (all four), and device and contact-graph signals. Each one catches a class of applicant the others miss. One consent covers the first three.',
+    link: { to: '/products#M1', label: 'Saral Appraisal' },
+  },
+  {
+    q: 'How can I reduce first payment defaults?',
+    a: 'Align the EMI date to the borrower’s inflow date, verify the NACH mandate on the account the salary actually lands in, and make a courtesy call three days before the first debit. Those three cut FPD more than any score does.',
+    link: { to: '/products#M3', label: 'Saral Watch' },
+  },
+  {
+    q: 'How should I segment my collection strategy?',
+    a: 'By reason, not by bucket. A missed EMI from a seasonal-income borrower and one from a borrower whose phone stopped answering need different officers on different days. Segment on bounce reason, contactability and promise history.',
+    link: { to: '/products#M4', label: 'Saral Collect' },
+  },
+  {
+    q: 'What are the latest RBI guidelines for NBFCs?',
+    a: 'The ones with deadlines attached: Digital Lending Guidelines compliance, CIMS migration for returns, the SBR-tier capital and governance norms, and the fair practices code on recovery agents. Saral keeps a mapped checklist of 600+ checks against these.',
+    link: { to: '/products#M6', label: 'Saral Comply' },
+  },
+]
+
+/* Unverified, inherited from the reference design. Strike before launch
+   unless the founders can stand behind each one. */
+export const METRICS = [
+  { value: '100+', label: 'NBFCs trust us' },
+  { value: '40%', label: 'faster decisions' },
+  { value: '25%', label: 'lower default rates' },
+  { value: '2x', label: 'collection efficiency' },
+] as const
