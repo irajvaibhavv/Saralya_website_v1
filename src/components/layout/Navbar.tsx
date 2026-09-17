@@ -77,7 +77,7 @@ export function Navbar() {
             <Link to="/" className={`text-[14px] font-medium ${light ? 'text-white/70 hover:text-white' : 'text-muted hover:text-ink'}`}>
               Saral AI
             </Link>
-            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant={light ? 'white' : 'primary'}>
+            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
               Book a demo
             </ButtonLink>
           </div>
