@@ -13,6 +13,13 @@ const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About
 const Demo = lazy(() => import('./pages/Demo').then((m) => ({ default: m.Demo })))
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
 
+/* Fetch the other pages once the landing has painted, so a click never waits
+   on a chunk mid-transition. */
+function preload() {
+  const go = () => Promise.all([import('./pages/Home'), import('./pages/Products'), import('./pages/Technology'), import('./pages/About'), import('./pages/Demo'), import('./pages/Privacy')])
+  ;(window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500)))(go)
+}
+
 const TITLES: Record<string, string> = {
   '/': 'Saral AI · Saralya',
   '/home': 'Saralya · Making Lending Saral for Bharat',
@@ -38,22 +45,22 @@ function RouteEffects() {
       }, 50)
       return () => window.clearInterval(id)
     }
-    window.scrollTo({ top: 0, behavior: 'instant' })
   }, [pathname, hash])
+  useEffect(preload, [])
   return null
 }
 
-/** Pages cross-fade and rise slightly on route change. */
+/** The old page fades out in place; only then does the window jump to the
+    top and the new page fade in with a small rise. */
 function Pages() {
   const location = useLocation()
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait" initial={false} onExitComplete={() => { if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' }) }}>
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
+        exit={{ opacity: 0, transition: { duration: 0.18, ease: 'easeIn' } }}
       >
         <Suspense fallback={<div className="min-h-screen" />}>
           <Routes location={location}>

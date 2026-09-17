@@ -1,8 +1,8 @@
-import { Maximize2, Minimize2, X } from 'lucide-react'
+import { Maximize2, Minimize2, UploadCloud, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import type { Starter } from '../../content/saral-ai'
-import { Mark, SaralAiChat, type Role } from './SaralAiChat'
+import { fileStarter, Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
 
 /* Saral Saarthi lives in the corner. A launcher until it is opened; then a
@@ -14,6 +14,40 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
   // a one-time nudge beside the launcher so a first visitor knows what it is
   const [hint, setHint] = useState(false)
   const [big, setBig] = useState(false) // roughly half the screen instead of a corner window
+
+  /* Drop a file anywhere on the page: the window opens with it, or takes it
+     if it is already open. */
+  const [dragging, setDragging] = useState(false)
+  const [dropped, setDropped] = useState<FileList | null>(null)
+  useEffect(() => {
+    let depth = 0
+    const has = (e: DragEvent) => [...(e.dataTransfer?.types ?? [])].includes('Files')
+    const enter = (e: DragEvent) => { if (has(e)) { depth++; setDragging(true) } }
+    const leave = (e: DragEvent) => { if (has(e) && --depth <= 0) { depth = 0; setDragging(false) } }
+    const over = (e: DragEvent) => { if (has(e)) e.preventDefault() }
+    const drop = (e: DragEvent) => {
+      if (!has(e)) return
+      e.preventDefault()
+      depth = 0
+      setDragging(false)
+      const files = e.dataTransfer!.files
+      if (pending) setDropped(files)
+      else {
+        const s = fileStarter(files)
+        if (s) onAsk(s)
+      }
+    }
+    window.addEventListener('dragenter', enter)
+    window.addEventListener('dragleave', leave)
+    window.addEventListener('dragover', over)
+    window.addEventListener('drop', drop)
+    return () => {
+      window.removeEventListener('dragenter', enter)
+      window.removeEventListener('dragleave', leave)
+      window.removeEventListener('dragover', over)
+      window.removeEventListener('drop', drop)
+    }
+  }, [pending, onAsk])
   useEffect(() => {
     if (open) { setHint(false); return }
     const on = window.setTimeout(() => setHint(true), 2500)
@@ -23,6 +57,18 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
 
   return (
     <>
+      <AnimatePresence>
+        {dragging && (
+          <motion.div key="drop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="pointer-events-none fixed inset-0 z-[95] grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
+            <motion.div initial={{ scale: 0.94, y: 8 }} animate={{ scale: 1, y: 0 }} className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed border-white/70 bg-white/10 px-12 py-10 text-center text-white">
+              <UploadCloud className="size-10" strokeWidth={1.6} />
+              <div className="text-[20px] font-semibold tracking-tight">Drop it for Saral</div>
+              <div className="text-[14px] text-white/75">Policy docs, sample files, MIS sheets.</div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {hint && (
           <motion.div
@@ -79,7 +125,7 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
                 <X className="size-4" />
               </button>
             </div>
-            {pending ? <SaralAiChat pending={pending} seat={seat} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
+            {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
           </motion.div>
         )}
       </AnimatePresence>
