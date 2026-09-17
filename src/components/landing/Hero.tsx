@@ -24,7 +24,7 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
               <span className="size-1.5 rounded-full bg-accent3" /> AI for NBFCs
             </motion.span>
 
-            <motion.h1 {...rise(0.1)} className="display mt-5 max-w-[13ch] text-[clamp(40px,5.6vw,72px)]">
+            <motion.h1 {...rise(0.1)} className="display mt-5 max-w-[13ch] text-[clamp(36px,4.6vw,60px)]">
               Smarter lending decisions. <span className="text-[#c4bdff]">Within everyone’s reach.</span>
             </motion.h1>
 
