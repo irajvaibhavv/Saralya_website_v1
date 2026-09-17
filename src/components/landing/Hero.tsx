@@ -1,34 +1,30 @@
 import { Building2, ChevronDown, Play, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
-import { METRICS, type Starter } from '../../content/saral-ai'
+import { METRICS } from '../../content/saral-ai'
 import { Button } from '../ui/Button'
 import { HeroReel } from './HeroReel'
-import { SaralAiPanel } from './SaralAiPanel'
 
-/* One screen: the claim on the left, Saral AI on the right, four numbers
-   along the foot. The reel runs under all of it. */
+/* One screen: the claim on the left, the reel open on the right, four
+   numbers along the foot. Saral Saarthi waits in the corner. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
 const rise = (delay: number) => ({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, ease: EASE, delay } })
 const ICONS = [Building2, Zap, TrendingUp, Users]
 
-export function Hero({ onAsk, onWatch }: { onAsk: (s: Starter) => void; onWatch: () => void }) {
-  const tryAi = () => {
-    document.querySelector<HTMLElement>('#saral-ai-panel input')?.focus()
-  }
+export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => void }) {
 
   return (
     <section className="relative isolate -mt-[64px] overflow-hidden bg-ink pt-[64px] text-white">
       <HeroReel />
 
       <div className="relative mx-auto flex w-full max-w-[1240px] flex-col px-5 pb-8 pt-10 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pt-8">
-        <div className="grid flex-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)] lg:gap-14">
-          <div className="min-w-0">
+        <div className="flex flex-1 items-center">
+          <div className="min-w-0 max-w-2xl">
             <motion.span {...rise(0)} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-white/85 ring-1 ring-white/15 backdrop-blur-md">
               <span className="size-1.5 rounded-full bg-accent3" /> AI for NBFCs
             </motion.span>
 
-            <motion.h1 {...rise(0.1)} className="display mt-5 max-w-[13ch] text-[clamp(38px,5.2vw,64px)] [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
+            <motion.h1 {...rise(0.1)} className="display mt-5 max-w-[13ch] text-[clamp(40px,5.6vw,72px)] [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
               Smarter lending decisions. <span className="text-accent3">Within everyone’s reach.</span>
             </motion.h1>
 
@@ -37,7 +33,7 @@ export function Hero({ onAsk, onWatch }: { onAsk: (s: Starter) => void; onWatch:
             </motion.p>
 
             <motion.div {...rise(0.3)} className="mt-8 flex flex-wrap gap-3">
-              <Button variant="primary" size="lg" arrow onClick={tryAi} className="shadow-[0_8px_24px_-8px_rgba(75,63,207,0.7)]">
+              <Button variant="primary" size="lg" arrow onClick={onTry} className="shadow-[0_8px_24px_-8px_rgba(75,63,207,0.7)]">
                 Try Saralya AI
               </Button>
               <button onClick={onWatch} className="group inline-flex items-center gap-3 rounded-xl bg-white/10 py-2 pl-2 pr-5 text-left ring-1 ring-white/20 backdrop-blur-md transition-colors hover:bg-white/15">
@@ -51,10 +47,6 @@ export function Hero({ onAsk, onWatch }: { onAsk: (s: Starter) => void; onWatch:
               </button>
             </motion.div>
           </div>
-
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.25 }}>
-            <SaralAiPanel onAsk={onAsk} />
-          </motion.div>
         </div>
 
         <motion.div {...rise(0.5)} className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-5 border-t border-white/10 pb-6 pt-7 lg:mt-10">
