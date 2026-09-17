@@ -33,7 +33,7 @@ export async function ask(_q: string): Promise<string> {
 }
 
 // TODO: send to the upload endpoint once it exists; until then files stay in the browser.
-const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg'
+export const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg'
 const kb = (n: number) => (n < 1048576 ? `${Math.max(1, Math.round(n / 1024))} KB` : `${(n / 1048576).toFixed(1)} MB`)
 
 const NOTE = STARTERS.find((s) => s.note)!
@@ -357,7 +357,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
       {/* composer */}
       <div className="border-t border-line p-3">
         <form onSubmit={submitQ} className="flex items-center gap-1 rounded-xl bg-white p-1 pl-1 ring-1 ring-line focus-within:ring-accent">
-          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg text-muted hover:bg-wash2 hover:text-ink">
+          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg bg-bg text-ink ring-1 ring-line hover:bg-wash hover:text-accent">
             <Plus className="size-4" />
             <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
           </label>

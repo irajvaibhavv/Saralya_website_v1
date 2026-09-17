@@ -1,8 +1,8 @@
-import { ArrowRight, ArrowUp, BarChart3, FileText, IndianRupee, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ArrowUp, BarChart3, FileText, IndianRupee, Plus, ShieldCheck } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useState, type FormEvent } from 'react'
 import { HERO_QS, type Starter } from '../../content/saral-ai'
-import { ask, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
+import { ACCEPT, ask, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
 
 /* The opening view of the Saral window: one hello, four questions, a
    composer. Picking or typing hands the question up, and the window
@@ -18,6 +18,12 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
   const still = useReducedMotion()
   const qs = seat ? seat.qs.slice(0, 4) : HERO_QS
 
+  /* a file picked here opens the conversation with it */
+  const attach = (list: FileList | null) => {
+    const names = [...(list ?? [])].map((f) => f.name)
+    if (!names.length) return
+    onAsk({ q: names.length === 1 ? `Here is my file: ${names[0]}` : `Here are my files: ${names.join(', ')}`, a: 'Got it. I will read this once the model is wired in; until then it stays in your browser. Tell me what you want checked and I will pass it on.' })
+  }
   const submit = async (e: FormEvent) => {
     e.preventDefault()
     const text = q.trim()
@@ -73,14 +79,18 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         })}
       </motion.div>
 
-      <form onSubmit={submit} className="mx-4 mt-3 flex items-center gap-1 rounded-xl bg-white p-1 pl-3 ring-1 ring-line focus-within:ring-accent">
+      <form onSubmit={submit} className="mx-4 mt-3 flex items-center gap-1 rounded-xl bg-white p-1 ring-1 ring-line focus-within:ring-accent">
+        <label aria-label="Add a file" title="Add a file" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg bg-bg text-ink ring-1 ring-line hover:bg-wash hover:text-accent">
+          <Plus className="size-4" />
+          <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
+        </label>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={speech.listening ? 'Listening…' : 'Ask anything about lending…'}
           aria-label="Ask Saral AI"
           autoFocus
-          className="min-w-0 flex-1 bg-transparent text-[13.5px] outline-none placeholder:text-hint"
+          className="min-w-0 flex-1 bg-transparent px-2 text-[13.5px] outline-none placeholder:text-hint"
         />
         <MicButton speech={speech} />
         <button type="submit" aria-label="Send" className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-white transition-colors hover:bg-accent2">
