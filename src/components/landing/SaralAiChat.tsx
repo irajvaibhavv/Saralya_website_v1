@@ -4,7 +4,7 @@ import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CONTACT_EMAIL, CONVICTIONS, MODULES } from '../../content/site'
-import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
+import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, HERO_QS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
 import { ButtonLink } from '../ui/Button'
 
 /* Saral AI, the landing chat. It opens by asking who you are; each role
@@ -29,7 +29,6 @@ const kb = (n: number) => (n < 1048576 ? `${Math.max(1, Math.round(n / 1024))} K
 
 const NOTE = STARTERS.find((s) => s.note)!
 const HUMAN = STARTERS.find((s) => s.q === 'Talk to a human')!
-const TONES = ['bg-wash text-accent ring-accent/15', 'bg-green-w text-green ring-green/15', 'bg-amber-w text-amber ring-amber/15', 'bg-blue-w text-blue ring-blue/15', 'bg-peach text-[#b4562a] ring-[#b4562a]/15', 'bg-purple-w text-purple ring-purple/15']
 
 export type Role = (typeof ROLES)[number]
 
@@ -102,13 +101,6 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
     setReady(false)
   }
 
-  const chooseRole = (r: (typeof ROLES)[number]) => {
-    setRole(r)
-    setDept(r.dept)
-    setWho(r.label)
-    say(r.label, `${r.hello} Pick one, or ask me anything.`)
-    setStep('role')
-  }
   /* A question handed in from the landing page (a card or the composer) is asked as-is. */
   const taken = useRef<Starter | null>(null)
   useEffect(() => {
@@ -271,13 +263,19 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
 
         <AnimatePresence mode="wait">
           {!typing && step === 'idle' && (
-            <Chips key="idle" label="I am a…">
-              {ROLES.map((r, k) => (
-                <Chip key={r.id} tone={TONES[k % TONES.length]} onClick={() => chooseRole(r)}>
-                  {r.label}
+            <Chips key={`idle-${asked.length}`} label={asked.length ? 'Anything else?' : undefined}>
+              {HERO_QS.filter((s) => !asked.includes(s.q)).map((s) => (
+                <Chip key={s.q} onClick={() => starter(s)}>
+                  {s.q}
                 </Chip>
               ))}
-              <Chip onClick={() => chooseDept(DEPARTMENTS.find((d) => d.id === 'other')!)}>Investor / just curious</Chip>
+              <span className="basis-full" />
+              <Chip tone="bg-wash text-accent ring-accent/15" onClick={() => starter(NOTE)}>
+                {NOTE.q}
+              </Chip>
+              <Chip tone="bg-peach text-[#b4562a] ring-[#b4562a]/15" onClick={() => starter(HUMAN)}>
+                <MessageCircle className="size-3.5" /> {HUMAN.q}
+              </Chip>
             </Chips>
           )}
           {!typing && step === 'role' && (
@@ -548,9 +546,13 @@ function Chip({ children, on, onClick, tone }: { children: ReactNode; on?: boole
 function Typed({ text, onDone }: { text: string; onDone: () => void }) {
   const reduced = useReducedMotion()
   const [n, setN] = useState(reduced ? text.length : 0)
+  const done = useRef(false) // onDone is a fresh closure each parent render; fire it once
   useEffect(() => {
     if (n >= text.length) {
-      onDone()
+      if (!done.current) {
+        done.current = true
+        onDone()
+      }
       return
     }
     const id = window.setTimeout(() => setN(n + 2), 14)
