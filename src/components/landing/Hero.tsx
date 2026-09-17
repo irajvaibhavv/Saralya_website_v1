@@ -32,8 +32,8 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
               <Button variant="primary" size="lg" arrow onClick={onTry} className="shadow-[0_8px_24px_-8px_rgba(75,63,207,0.7)]">
                 Try Saralya AI
               </Button>
-              <button onClick={onWatch} className="group inline-flex items-center gap-3 rounded-xl bg-white/10 py-2 pl-2 pr-5 text-left ring-1 ring-white/20 backdrop-blur-md transition-colors hover:bg-white/15">
-                <span className="grid size-9 place-items-center rounded-lg bg-white text-ink transition-transform group-hover:scale-105">
+              <button onClick={onWatch} className="group inline-flex items-center gap-3 rounded-xl border border-white/40 py-2 pl-2 pr-5 text-left transition-colors hover:border-white/70 hover:bg-white/5">
+                <span className="grid size-9 place-items-center rounded-lg border border-white/40 text-white transition-colors group-hover:border-white/70">
                   <Play className="ml-0.5 size-4 fill-current" />
                 </span>
                 <span>
@@ -45,8 +45,8 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
           </div>
         </div>
 
-        <motion.div {...rise(0.5)} className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-5 rounded-2xl bg-[rgba(8,8,22,0.55)] px-6 py-5 ring-1 ring-white/10 backdrop-blur-[10px] lg:mt-10 lg:px-8">
-          <dl className="grid flex-1 grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-x-0 sm:divide-x sm:divide-white/12">
+        <motion.div {...rise(0.5)} className="mt-14 w-fit rounded-2xl bg-[rgba(8,8,22,0.55)] px-6 py-5 ring-1 ring-white/10 backdrop-blur-[10px] lg:mt-10 lg:px-8">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 sm:gap-x-0 sm:divide-x sm:divide-white/12">
             {METRICS.map((m, i) => {
               const Icon = ICONS[i]
               return (
@@ -61,7 +61,6 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
               )
             })}
           </dl>
-          <p className="hidden max-w-[18ch] border-l border-white/12 pl-8 text-[13.5px] leading-snug text-white/70 xl:block">Built for a more inclusive financial future.</p>
         </motion.div>
 
         <motion.a
