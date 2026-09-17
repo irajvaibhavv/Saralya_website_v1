@@ -2,8 +2,6 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/
 import { Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { CONTACT_EMAIL } from '../../content/site'
-import { ButtonLink } from '../ui/Button'
 
 const LINKS = [
   { to: '/home', label: 'Overview' },
@@ -73,14 +71,6 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
-            <Link to="/" className={`text-[14px] font-medium ${light ? 'text-white/70 hover:text-white' : 'text-muted hover:text-ink'}`}>
-              Saral AI
-            </Link>
-            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
-              Book a demo
-            </ButtonLink>
-          </div>
 
           <button
             className="md:hidden grid size-10 place-items-center rounded-full bg-white shadow-sm"
@@ -113,11 +103,6 @@ export function Navbar() {
                   {l.label}
                 </NavLink>
               ))}
-              <div className="mt-2 grid gap-2 border-t border-line pt-3">
-                <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="primary">
-                  Book a demo
-                </ButtonLink>
-              </div>
             </div>
           </motion.div>
         )}
