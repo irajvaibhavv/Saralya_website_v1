@@ -25,7 +25,7 @@ export function Landing() {
 
   return (
     <>
-      <Hero onAsk={ask} />
+      <Hero />
       <div id="explore" className="scroll-mt-16" />
       <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
       <ClosingCta demo />

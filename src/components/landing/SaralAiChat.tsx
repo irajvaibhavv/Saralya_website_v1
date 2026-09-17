@@ -223,7 +223,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
           <Mark className="text-[23px]" />
         </motion.span>
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-[17px] font-extrabold tracking-tight">
+          <div className="flex items-center gap-2 text-[16px] font-semibold tracking-tight">
             Saral AI <span className="size-2 rounded-full bg-green animate-pulse-ring" />
           </div>
           <div className="text-[13px] text-muted">Your lending copilot</div>
@@ -245,11 +245,11 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
           {msgs.map((m, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>
               {m.from === 'ai' && (
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white">
-                  <Mark className="text-[18px]" />
+                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-wash text-accent">
+                  <Mark className="text-[16px]" />
                 </span>
               )}
-              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink2 text-white' : 'rounded-tl-md bg-white text-ink ring-1 ring-line'}`}>
+              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-wash text-ink' : 'rounded-tl-md bg-white text-ink2 ring-1 ring-line/70'}`}>
                 {m.gated && !unlocked ? (
                   i === msgs.length - 1 && thinking ? (
                     <Dots />

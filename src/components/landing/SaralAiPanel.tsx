@@ -32,7 +32,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
           <Mark className="text-[21px]" />
         </span>
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-[16px] font-bold tracking-tight">
+          <div className="flex items-center gap-2 text-[16px] font-semibold tracking-tight">
             Saral AI <span className="size-2 rounded-full bg-green animate-pulse-ring" />
           </div>
           <div className="text-[13px] text-muted">Your lending copilot</div>
@@ -60,7 +60,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
               variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onAsk(s)}
-              className="group flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 text-left ring-1 ring-line transition-colors hover:bg-bg hover:ring-accent/30"
+              className="group flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 text-left ring-1 ring-line/70 transition-colors hover:ring-accent/30"
             >
               <span className={`grid size-9 shrink-0 place-items-center rounded-lg ${TONES[i]}`}>
                 <Icon className="size-4" />

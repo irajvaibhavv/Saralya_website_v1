@@ -8,7 +8,7 @@ import { SaralAiPanel } from './SaralAiPanel'
 /* Saral Saarthi lives in the corner. A launcher until it is opened; then a
    window that starts with four questions and becomes the conversation. */
 
-const SHADOW = 'shadow-[0_0_0_1px_rgba(20,20,32,0.06),0_20px_50px_-20px_rgba(20,20,32,0.25)]'
+const SHADOW = 'shadow-[0_0_0_1px_rgba(20,20,32,0.05),0_16px_40px_-20px_rgba(20,20,32,0.18)]'
 
 export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; seat: Role | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
   // a one-time nudge beside the launcher so a first visitor knows what it is
@@ -48,13 +48,13 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.97 }}
             onClick={onOpen}
-            className="fixed bottom-5 right-5 z-[90] flex items-center gap-2.5 rounded-full bg-white py-2 pl-2 pr-5 text-ink shadow-lg sm:bottom-6 sm:right-6"
+            className="fixed bottom-5 right-5 z-[90] flex items-center gap-2.5 rounded-full bg-white py-2 pl-2 pr-5 text-ink shadow-md sm:bottom-6 sm:right-6"
           >
             <span className="relative grid size-9 place-items-center rounded-full bg-accent text-white">
               <Mark className="text-[19px]" />
               <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-green ring-2 ring-white" />
             </span>
-            <span className="text-[14px] font-semibold">Saral Saarthi</span>
+            <span className="text-[14px] font-medium">Saral Saarthi</span>
           </motion.button>
         )}
       </AnimatePresence>
