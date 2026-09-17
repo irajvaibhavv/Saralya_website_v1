@@ -1,7 +1,9 @@
-import { Building2, TrendingUp, Users, Zap } from 'lucide-react'
+import { ArrowRight, Building2, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
-import { METRICS } from '../../content/saral-ai'
+import { useState, type FormEvent } from 'react'
+import { METRICS, type Starter } from '../../content/saral-ai'
 import { HeroReel } from './HeroReel'
+import { ask } from './SaralAiChat'
 
 /* One screen: the claim on the left, the reel open on the right, four
    numbers along the foot. Saral Saarthi waits in the corner. */
@@ -10,7 +12,15 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const rise = (delay: number) => ({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, ease: EASE, delay } })
 const ICONS = [Building2, Zap, TrendingUp, Users]
 
-export function Hero() {
+export function Hero({ onAsk }: { onAsk: (s: Starter) => void }) {
+  const [q, setQ] = useState('')
+  const submit = async (e: FormEvent) => {
+    e.preventDefault()
+    const text = q.trim()
+    if (!text) return
+    setQ('')
+    onAsk({ q: text, a: await ask(text) })
+  }
 
   return (
     <section className="relative isolate -mt-[64px] overflow-hidden bg-ink pt-[64px] text-white">
@@ -28,6 +38,20 @@ export function Hero() {
             <br />
             Within everyone’s reach.
           </motion.h1>
+
+          {/* the shortest path to Saral: type here, the window opens with the answer */}
+          <motion.form {...rise(0.25)} onSubmit={submit} className="mt-7 flex max-w-xl items-center gap-2 rounded-2xl bg-[#fff]/10 p-1.5 pl-5 ring-1 ring-[#fff]/25 backdrop-blur-xl focus-within:ring-[#fff]/60">
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Ask Saral anything about lending…"
+              aria-label="Ask Saral AI"
+              className="min-w-0 flex-1 bg-transparent text-[15px] text-[#fff] outline-none placeholder:text-[#fff]/55"
+            />
+            <button type="submit" className="flex shrink-0 items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-[14px] font-semibold text-[#fff] transition-colors hover:bg-accent2">
+              Ask <ArrowRight className="size-4" />
+            </button>
+          </motion.form>
 
         </div>
 

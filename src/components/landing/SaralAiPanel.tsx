@@ -2,7 +2,7 @@ import { ArrowRight, ArrowUp, BarChart3, FileText, IndianRupee, ShieldCheck } fr
 import { motion, useReducedMotion } from 'motion/react'
 import { useState, type FormEvent } from 'react'
 import { HERO_QS, type Starter } from '../../content/saral-ai'
-import { ask, Mark } from './SaralAiChat'
+import { ask, Mark, type Role } from './SaralAiChat'
 
 /* The opening view of the Saral window: one hello, four questions, a
    composer. Picking or typing hands the question up, and the window
@@ -12,9 +12,10 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const ICONS = [BarChart3, FileText, IndianRupee, ShieldCheck]
 const TONES = ['bg-red-w text-red', 'bg-blue-w text-blue', 'bg-green-w text-green', 'bg-wash text-accent']
 
-export function SaralAiPanel({ onAsk }: { onAsk: (s: Starter) => void }) {
+export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; seat: Role | null }) {
   const [q, setQ] = useState('')
   const still = useReducedMotion()
+  const qs = seat ? seat.qs.slice(0, 4) : HERO_QS
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
@@ -40,7 +41,7 @@ export function SaralAiPanel({ onAsk }: { onAsk: (s: Starter) => void }) {
 
       <div className="px-5 pt-4">
         <div className="rounded-2xl rounded-tl-md bg-wash px-4 py-3.5 text-[14px] leading-relaxed">
-          <span className="font-semibold">Hi, I’m Saral.</span> I can help with credit risk, collections, RBI norms, compliance or anything about our platform.
+          <span className="font-semibold">Hi, I’m Saral.</span> {seat ? seat.hello : 'I can help with credit risk, collections, RBI norms, compliance or anything about our platform.'}
         </div>
       </div>
 
@@ -50,7 +51,7 @@ export function SaralAiPanel({ onAsk }: { onAsk: (s: Starter) => void }) {
         variants={{ show: { transition: { staggerChildren: still ? 0 : 0.07, delayChildren: 0.15 } } }}
         className="grid gap-2 px-5 pt-3"
       >
-        {HERO_QS.map((s, i) => {
+        {qs.map((s, i) => {
           const Icon = ICONS[i]
           return (
             <motion.button

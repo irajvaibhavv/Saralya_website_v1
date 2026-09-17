@@ -1,7 +1,7 @@
 import { X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import type { Starter } from '../../content/saral-ai'
-import { Mark, SaralAiChat } from './SaralAiChat'
+import { Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
 
 /* Saral Saarthi lives in the corner. A launcher until it is opened; then a
@@ -9,7 +9,7 @@ import { SaralAiPanel } from './SaralAiPanel'
 
 const SHADOW = 'shadow-[0_0_0_1px_rgba(20,20,32,0.06),0_28px_80px_-20px_rgba(20,20,32,0.5)]'
 
-export function SaralAiWidget({ open, pending, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
+export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; seat: Role | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
   return (
     <>
       <AnimatePresence>
@@ -47,7 +47,7 @@ export function SaralAiWidget({ open, pending, onOpen, onAsk, onClose }: { open:
             <button onClick={onClose} aria-label="Close Saral AI" className="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink">
               <X className="size-4" />
             </button>
-            {pending ? <SaralAiChat pending={pending} /> : <SaralAiPanel onAsk={onAsk} />}
+            {pending ? <SaralAiChat pending={pending} seat={seat} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
           </motion.div>
         )}
       </AnimatePresence>

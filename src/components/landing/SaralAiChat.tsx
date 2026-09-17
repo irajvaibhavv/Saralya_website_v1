@@ -31,7 +31,9 @@ const NOTE = STARTERS.find((s) => s.note)!
 const HUMAN = STARTERS.find((s) => s.q === 'Talk to a human')!
 const TONES = ['bg-wash text-accent ring-accent/15', 'bg-green-w text-green ring-green/15', 'bg-amber-w text-amber ring-amber/15', 'bg-blue-w text-blue ring-blue/15', 'bg-peach text-[#b4562a] ring-[#b4562a]/15', 'bg-purple-w text-purple ring-purple/15']
 
-export function SaralAiChat({ pending, onMessages }: { pending?: Starter | null; onMessages?: (n: number) => void }) {
+export type Role = (typeof ROLES)[number]
+
+export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter | null; seat?: Role | null; onMessages?: (n: number) => void }) {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [typing, setTyping] = useState(true)
@@ -112,6 +114,13 @@ export function SaralAiChat({ pending, onMessages }: { pending?: Starter | null;
   useEffect(() => {
     if (!pending || taken.current === pending) return
     taken.current = pending
+    // a seat picked on the page skips the "who are you" step
+    if (seat && !role) {
+      setRole(seat)
+      setDept(seat.dept)
+      setWho(seat.label)
+      setStep('role')
+    }
     starter(pending)
     // starter() is rebuilt each render; the ref guard is what keeps this to one run.
     // eslint-disable-next-line react-hooks/exhaustive-deps
