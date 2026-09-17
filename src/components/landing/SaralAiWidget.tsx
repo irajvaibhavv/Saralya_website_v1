@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { Maximize2, Minimize2, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import type { Starter } from '../../content/saral-ai'
@@ -13,6 +13,7 @@ const SHADOW = 'shadow-[0_0_0_1px_rgba(20,20,32,0.05),0_16px_40px_-20px_rgba(20,
 export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; seat: Role | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
   // a one-time nudge beside the launcher so a first visitor knows what it is
   const [hint, setHint] = useState(false)
+  const [big, setBig] = useState(false) // roughly half the screen instead of a corner window
   useEffect(() => {
     if (open) { setHint(false); return }
     const on = window.setTimeout(() => setHint(true), 2500)
@@ -67,11 +68,17 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.97, transition: { duration: 0.2 } }}
             transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            className={`fixed inset-x-3 bottom-3 z-[90] origin-bottom-right overflow-hidden rounded-3xl bg-bg sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-[360px] ${SHADOW} ${pending ? 'h-[min(540px,88svh)]' : 'max-h-[88svh]'}`}
+            layout
+            className={`fixed inset-x-3 bottom-3 z-[90] origin-bottom-right overflow-hidden rounded-3xl bg-bg sm:inset-x-auto sm:bottom-6 sm:right-6 ${big ? 'sm:w-[min(680px,55vw)]' : 'sm:w-[360px]'} ${SHADOW} ${pending ? (big ? 'h-[min(760px,80svh)]' : 'h-[min(540px,88svh)]') : 'max-h-[88svh]'}`}
           >
-            <button onClick={onClose} aria-label="Close Saral AI" className="absolute right-2.5 top-2.5 z-10 grid size-8 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink">
-              <X className="size-4" />
-            </button>
+            <div className="absolute right-2.5 top-2.5 z-10 flex items-center">
+              <button onClick={() => setBig((b) => !b)} aria-label={big ? 'Smaller window' : 'Larger window'} className="hidden size-8 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink sm:grid">
+                {big ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
+              </button>
+              <button onClick={onClose} aria-label="Close Saral AI" className="grid size-8 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink">
+                <X className="size-4" />
+              </button>
+            </div>
             {pending ? <SaralAiChat pending={pending} seat={seat} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
           </motion.div>
         )}
