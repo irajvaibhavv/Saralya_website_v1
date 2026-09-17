@@ -1,7 +1,6 @@
-import { Building2, Play, TrendingUp, Users, Zap } from 'lucide-react'
+import { Building2, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 import { METRICS } from '../../content/saral-ai'
-import { Button } from '../ui/Button'
 import { HeroReel } from './HeroReel'
 
 /* One screen: the claim on the left, the reel open on the right, four
@@ -11,7 +10,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const rise = (delay: number) => ({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, ease: EASE, delay } })
 const ICONS = [Building2, Zap, TrendingUp, Users]
 
-export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => void }) {
+export function Hero() {
 
   return (
     <section className="relative isolate -mt-[64px] overflow-hidden bg-ink pt-[64px] text-white">
@@ -30,20 +29,6 @@ export function Hero({ onTry, onWatch }: { onTry: () => void; onWatch: () => voi
             Within everyone’s reach.
           </motion.h1>
 
-          <motion.div {...rise(0.25)} className="mt-7 flex flex-wrap items-center gap-3">
-            <Button variant="primary" size="lg" arrow onClick={onTry} className="shadow-[0_8px_24px_-8px_rgba(75,63,207,0.7)]">
-              Try Saralya AI
-            </Button>
-            <button onClick={onWatch} className="group inline-flex items-center gap-3 rounded-xl border border-white/40 py-2 pl-2 pr-5 text-left transition-colors hover:border-white/70 hover:bg-white/5">
-              <span className="grid size-9 place-items-center rounded-lg border border-white/40 text-white transition-colors group-hover:border-white/70">
-                <Play className="ml-0.5 size-4 fill-current" />
-              </span>
-              <span>
-                <span className="block text-[14px] font-semibold leading-tight">Watch video</span>
-                <span className="block text-[12px] text-white/60">2 min</span>
-              </span>
-            </button>
-          </motion.div>
         </div>
 
         {/* the numbers run along the foot, quiet, under a hairline */}
