@@ -3,7 +3,7 @@ import { FadeIn, Item, Stagger } from '../ui/Reveal'
 import { Container } from '../ui/Section'
 
 /* The demo ask: one line, one film. The card is a still of the four steps;
-   the play button opens the film full screen. */
+   the button on the left opens the film full screen. */
 const STEPS = [
   { icon: FileInput, label: 'Application data' },
   { icon: Brain, label: 'AI analysis' },
@@ -59,13 +59,7 @@ export function InAction({ onWatch }: { onWatch: () => void }) {
                   </Item>,
                   i < STEPS.length - 1 && (
                     <Item key={`${step.label}-arrow`} className="hidden items-center justify-center sm:flex">
-                      {i === 1 ? (
-                        <button onClick={onWatch} aria-label="Play the product demo" className="grid size-14 place-items-center rounded-full bg-ink text-white shadow-glow transition-transform duration-200 hover:scale-105">
-                          <Play className="ml-0.5 size-5 fill-current" />
-                        </button>
-                      ) : (
-                        <ArrowRight className="size-4 text-accent" />
-                      )}
+                      <ArrowRight className="size-4 text-accent" />
                     </Item>
                   ),
                 ]
