@@ -47,7 +47,7 @@ export function Navbar() {
 
 
           <button
-            className="mr-4 grid size-10 place-items-center rounded-full bg-white shadow-sm sm:mr-8"
+            className="-mr-2 grid size-10 place-items-center rounded-full bg-white shadow-sm"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
           >
@@ -63,7 +63,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-x-0 top-full px-4 pt-2 md:inset-x-auto md:right-14 md:w-64 md:px-0 lg:right-18"
+            className="absolute inset-x-0 top-full px-4 pt-2 md:inset-x-auto md:right-6 md:w-64 md:px-0 lg:right-8"
           >
             <div className="rounded-3xl bg-white p-3 shadow-lg">
               {LINKS.map((l) => (
