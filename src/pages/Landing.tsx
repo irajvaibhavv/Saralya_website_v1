@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { Hero } from '../components/landing/Hero'
 import { InAction } from '../components/landing/InAction'
+import { Pillars } from '../components/landing/Pillars'
 import { PopularQuestions } from '../components/landing/PopularQuestions'
 import { SaralAiWidget } from '../components/landing/SaralAiWidget'
 import { VideoModal } from '../components/landing/VideoModal'
@@ -32,6 +33,7 @@ export function Landing() {
       <Hero />
       <div id="explore" className="scroll-mt-16" />
       <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
+      <Pillars />
       <InAction onWatch={() => setWatching(true)} />
       <ClosingCta demo />
       <VideoModal src="/video/borrowers.mp4" open={watching} onClose={closeVideo} />
