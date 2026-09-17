@@ -216,9 +216,9 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
         </motion.div>
       )}
     </AnimatePresence>
-    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_0_0_1px_rgba(75,63,207,0.10),0_30px_70px_-30px_rgba(75,63,207,0.35)]">
+    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-bg">
       {/* header */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-accent/10 bg-gradient-to-r from-wash2 to-white px-5 py-4 sm:px-6">
+      <div className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
         <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-white">
           <Mark className="text-[23px]" />
         </motion.span>
@@ -249,7 +249,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
                   <Mark className="text-[18px]" />
                 </span>
               )}
-              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink text-white' : 'rounded-tl-md bg-wash text-ink'}`}>
+              <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-ink2 text-white' : 'rounded-tl-md bg-white text-ink ring-1 ring-line'}`}>
                 {m.gated && !unlocked ? (
                   i === msgs.length - 1 && thinking ? (
                     <Dots />
@@ -377,7 +377,7 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
       </div>
 
       {/* composer */}
-      <div className="border-t border-accent/10 bg-wash2/60 p-4 sm:px-6">
+      <div className="border-t border-line p-4 sm:px-6">
         <form onSubmit={submitQ} className="flex items-center gap-2 rounded-xl bg-white p-1.5 pl-2 ring-1 ring-line focus-within:ring-accent">
           <label aria-label="Attach a file" title="Attach a file, or drop it anywhere on the page" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-lg text-muted hover:bg-wash2 hover:text-ink">
             <Paperclip className="size-4" />

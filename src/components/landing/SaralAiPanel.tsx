@@ -40,7 +40,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
       </div>
 
       <div className="px-5 pt-4">
-        <div className="rounded-2xl rounded-tl-md bg-wash2 px-4 py-3.5 text-[14px] leading-relaxed">
+        <div className="rounded-2xl rounded-tl-md bg-white px-4 py-3.5 ring-1 ring-line text-[14px] leading-relaxed">
           <span className="font-semibold">Hi, I’m Saral.</span> {seat ? seat.hello : 'I can help with credit risk, collections, RBI norms, compliance or anything about our platform.'}
         </div>
       </div>
@@ -72,7 +72,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         })}
       </motion.div>
 
-      <form onSubmit={submit} className="mx-5 mt-4 flex items-center gap-2 rounded-xl bg-bg p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
+      <form onSubmit={submit} className="mx-5 mt-4 flex items-center gap-2 rounded-xl bg-white p-1.5 pl-4 ring-1 ring-line focus-within:ring-accent">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
