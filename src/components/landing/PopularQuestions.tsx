@@ -14,24 +14,33 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
   const row = [...qs, ...qs]
   return (
     <FadeIn className="py-10 md:py-14">
-      <Container className="mb-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-        <h2 className="text-[17px] font-semibold tracking-tight">{seat ? `What ${seat.label.toLowerCase()}s ask` : 'Popular questions from NBFCs'}</h2>
-        <div role="group" aria-label="I am a" className="flex flex-wrap items-center gap-1.5">
-          <span className="mr-1 text-[13px] text-hint">I’m a…</span>
-          {ROLES.map((r) => {
-            const on = seat?.id === r.id
-            return (
-              <button
-                key={r.id}
-                type="button"
-                aria-pressed={on}
-                onClick={() => onSeat(on ? null : r)}
-                className={`rounded-full px-3 py-1.5 text-[12.5px] font-medium ring-1 transition-colors ${on ? 'bg-ink text-white ring-ink' : 'bg-white text-ink2 ring-line hover:ring-accent/40'}`}
-              >
-                {r.label}
-              </button>
-            )
-          })}
+      <Container>
+        {/* step one: say who you are; the questions and Saral both follow */}
+        <div className="rounded-2xl bg-bg px-5 py-4 ring-1 ring-line sm:flex sm:items-center sm:gap-6">
+          <div className="shrink-0">
+            <div className="text-[15px] font-semibold tracking-tight">Who are you?</div>
+            <div className="text-[13px] text-muted">Pick your seat and Saral tailors the questions.</div>
+          </div>
+          <div role="group" aria-label="I am a" className="mt-3 flex flex-wrap gap-2 sm:mt-0">
+            {ROLES.map((r) => {
+              const on = seat?.id === r.id
+              return (
+                <button
+                  key={r.id}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onSeat(on ? null : r)}
+                  className={`rounded-full px-3.5 py-2 text-[13px] font-medium ring-1 transition-colors ${on ? 'bg-accent text-white ring-accent' : 'bg-white text-ink2 ring-line hover:ring-accent/50'}`}
+                >
+                  {r.label}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+        <div className="mb-5 mt-8 flex items-baseline justify-between gap-4">
+          <h2 className="text-[17px] font-semibold tracking-tight">{seat ? `What ${seat.label.toLowerCase()}s ask` : 'Popular questions from NBFCs'}</h2>
+          <span className="hidden text-[13px] text-hint sm:block">Click one to ask Saral</span>
         </div>
       </Container>
       <div className="mask-fade-x overflow-hidden">
