@@ -15,13 +15,12 @@ export function HeroReel() {
         loop
         playsInline
         preload="auto"
-        className="absolute inset-0 size-full object-cover [filter:contrast(1.06)_saturate(1.08)]"
+        className="absolute inset-0 size-full object-cover"
       >
         <source src="/video/borrowers-720.mp4" media="(max-width: 1023px)" type="video/mp4" />
         <source src="/video/borrowers.mp4" type="video/mp4" />
       </video>
       {/* a cool cast so the frame reads as one palette with the panel */}
-      <div className="absolute inset-0 bg-[#3a34a8] opacity-[0.05] mix-blend-color" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,11,0.4)_0%,rgba(10,10,11,0.1)_45%,rgba(10,10,11,0.7)_100%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,11,0.58)_0%,rgba(10,10,11,0.5)_22%,rgba(10,10,11,0.4)_38%,rgba(10,10,11,0.3)_50%,rgba(10,10,11,0.2)_62%,rgba(10,10,11,0.12)_74%,rgba(10,10,11,0.08)_86%,rgba(10,10,11,0.14)_100%)]" />
       {/* the page below is white; the frame dissolves into it */}
