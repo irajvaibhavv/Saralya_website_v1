@@ -96,7 +96,7 @@ const BLOCKS: Block[] = [
   {
     h: '9. Contact us',
     p: ['For privacy queries, to exercise any right above, or to raise a grievance:'],
-    li: ['Email: vishal@saralya.in', 'Saralya Tech Solutions Private Limited, Delhi NCR, India'],
+    li: ['Email: info@saralya.in', 'Saralya Tech Solutions Private Limited, Delhi NCR, India'],
   },
   { h: '10. Changes to this policy', p: ['We may update this policy. Material changes will be communicated in the app and published here, with the “Last updated” date above revised.'] },
 ]
