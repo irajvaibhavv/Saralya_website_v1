@@ -7,16 +7,19 @@ export function HeroReel() {
   const still = useReducedMotion()
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* 1080p on wide screens, 720p on phones; both start fetching at once so playback begins as soon as the first seconds are in */}
       <video
-        src="/video/borrowers.mp4"
         poster="/video/borrowers-poster.jpg"
         autoPlay={!still}
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         className="absolute inset-0 size-full object-cover [filter:contrast(1.06)_saturate(1.08)]"
-      />
+      >
+        <source src="/video/borrowers-720.mp4" media="(max-width: 1023px)" type="video/mp4" />
+        <source src="/video/borrowers.mp4" type="video/mp4" />
+      </video>
       {/* a cool cast so the frame reads as one palette with the panel */}
       <div className="absolute inset-0 bg-[#3a34a8] opacity-[0.05] mix-blend-color" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,11,0.4)_0%,rgba(10,10,11,0.1)_45%,rgba(10,10,11,0.7)_100%)]" />
