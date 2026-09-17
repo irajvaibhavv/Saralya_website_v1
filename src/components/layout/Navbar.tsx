@@ -44,36 +44,10 @@ export function Navbar() {
         <div className="mx-auto flex h-[64px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
           <Logo light={light} />
 
-          <nav className="hidden md:flex items-center gap-1">
-            {LINKS.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                className={({ isActive }) =>
-                  `relative px-3 py-1.5 text-[14px] font-medium transition-colors ${
-                    light ? (isActive ? 'text-white' : 'text-white/70 hover:text-white') : isActive ? 'text-ink' : 'text-muted hover:text-ink'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-pill"
-                        className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full ${light ? 'bg-white' : 'bg-ink'}`}
-                        transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                      />
-                    )}
-                    <span className="relative">{l.label}</span>
-                  </>
-                )}
-              </NavLink>
-            ))}
-          </nav>
 
 
           <button
-            className="md:hidden grid size-10 place-items-center rounded-full bg-white shadow-sm"
+            className="grid size-10 place-items-center rounded-full bg-white shadow-sm"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
           >
@@ -89,7 +63,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden absolute inset-x-0 top-full px-4 pt-2"
+            className="absolute inset-x-0 top-full px-4 pt-2 md:inset-x-auto md:right-6 md:w-64 md:px-0 lg:right-10"
           >
             <div className="rounded-3xl bg-white p-3 shadow-lg">
               {LINKS.map((l) => (
