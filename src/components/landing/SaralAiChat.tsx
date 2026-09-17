@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Mic, Plus, RotateCcw, UploadCloud } from 'lucide-react'
+import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Mic, Plus, RotateCcw } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
@@ -32,6 +32,17 @@ export async function ask(_q: string): Promise<string> {
   return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Talk to a human” and it reaches them today.'
 }
 
+/* Starting a conversation from files (the + in the opening view, or a drop
+   while the window is closed). */
+export function fileStarter(list: FileList): Starter | null {
+  const names = [...list].map((f) => f.name)
+  if (!names.length) return null
+  return {
+    q: names.length === 1 ? `Here is my file: ${names[0]}` : `Here are my files: ${names.join(', ')}`,
+    a: 'Got it. I will read this once the model is wired in; until then it stays in your browser. Tell me what you want checked and I will pass it on.',
+  }
+}
+
 // TODO: send to the upload endpoint once it exists; until then files stay in the browser.
 export const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg'
 const kb = (n: number) => (n < 1048576 ? `${Math.max(1, Math.round(n / 1024))} KB` : `${(n / 1048576).toFixed(1)} MB`)
@@ -41,7 +52,7 @@ const HUMAN = STARTERS.find((s) => s.q === 'Talk to a human')!
 
 export type Role = (typeof ROLES)[number]
 
-export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter | null; seat?: Role | null; onMessages?: (n: number) => void }) {
+export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: Starter | null; seat?: Role | null; dropped?: FileList | null; onMessages?: (n: number) => void }) {
   const [step, setStep] = useState<Step>('idle')
   const [msgs, setMsgs] = useState<Msg[]>([{ from: 'ai', text: HELLO }])
   const [unlocked, setUnlocked] = useState(false)
@@ -57,7 +68,6 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
   const [q, setQ] = useState('')
   const [ready, setReady] = useState(false) // note revealed once its intro finishes typing
   const [thinking, setThinking] = useState(false) // dots before a reply starts typing
-  const [dragging, setDragging] = useState(false) // a file is being dragged anywhere over the page
   const attach = (list: FileList | null) => {
     const files = [...(list ?? [])].map((f) => ({ name: f.name, size: f.size }))
     if (!files.length) return
@@ -68,25 +78,6 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
     ])
     setTyping(true)
   }
-  useEffect(() => {
-    // drop a file anywhere on the page and it lands in the chat
-    let depth = 0
-    const has = (e: DragEvent) => [...(e.dataTransfer?.types ?? [])].includes('Files')
-    const enter = (e: DragEvent) => { if (has(e)) { depth++; setDragging(true) } }
-    const leave = (e: DragEvent) => { if (has(e) && --depth <= 0) { depth = 0; setDragging(false) } }
-    const over = (e: DragEvent) => { if (has(e)) e.preventDefault() }
-    const drop = (e: DragEvent) => { if (has(e)) { e.preventDefault(); depth = 0; setDragging(false); attach(e.dataTransfer!.files) } }
-    window.addEventListener('dragenter', enter)
-    window.addEventListener('dragleave', leave)
-    window.addEventListener('dragover', over)
-    window.addEventListener('drop', drop)
-    return () => {
-      window.removeEventListener('dragenter', enter)
-      window.removeEventListener('dragleave', leave)
-      window.removeEventListener('dragover', over)
-      window.removeEventListener('drop', drop)
-    }
-  })
   useEffect(() => {
     if (msgs.length === 1) return
     setThinking(true)
@@ -129,6 +120,15 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pending])
   useEffect(() => { onMessages?.(msgs.length) }, [msgs.length, onMessages])
+  /* files dropped anywhere on the page while the window is open */
+  const gotFiles = useRef<FileList | null>(null)
+  useEffect(() => {
+    if (!dropped || gotFiles.current === dropped) return
+    gotFiles.current = dropped
+    attach(dropped)
+    // attach() is rebuilt each render; the ref guard is what keeps this to one run.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dropped])
 
   const starter = (s: Starter) => {
     if (s.note) {
@@ -206,17 +206,6 @@ export function SaralAiChat({ pending, seat, onMessages }: { pending?: Starter |
 
   return (
     <>
-    <AnimatePresence>
-      {dragging && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="pointer-events-none fixed inset-0 z-50 grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
-          <motion.div initial={{ scale: 0.94, y: 8 }} animate={{ scale: 1, y: 0 }} className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed border-white/70 bg-white/10 px-12 py-10 text-center text-white">
-            <UploadCloud className="size-10" strokeWidth={1.6} />
-            <div className="text-[20px] font-semibold tracking-tight">Drop it for Saral AI</div>
-            <div className="text-[14px] text-white/75">Policy docs, sample files, MIS sheets. Anywhere on the page.</div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
     <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-bg">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">

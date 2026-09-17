@@ -2,7 +2,7 @@ import { ArrowRight, ArrowUp, BarChart3, FileText, IndianRupee, Plus, ShieldChec
 import { motion, useReducedMotion } from 'motion/react'
 import { useState, type FormEvent } from 'react'
 import { HERO_QS, type Starter } from '../../content/saral-ai'
-import { ACCEPT, ask, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
+import { ACCEPT, ask, fileStarter, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
 
 /* The opening view of the Saral window: one hello, four questions, a
    composer. Picking or typing hands the question up, and the window
@@ -20,9 +20,8 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
 
   /* a file picked here opens the conversation with it */
   const attach = (list: FileList | null) => {
-    const names = [...(list ?? [])].map((f) => f.name)
-    if (!names.length) return
-    onAsk({ q: names.length === 1 ? `Here is my file: ${names[0]}` : `Here are my files: ${names.join(', ')}`, a: 'Got it. I will read this once the model is wired in; until then it stays in your browser. Tell me what you want checked and I will pass it on.' })
+    const s = list && fileStarter(list)
+    if (s) onAsk(s)
   }
   const submit = async (e: FormEvent) => {
     e.preventDefault()
