@@ -81,6 +81,17 @@ body {
   @apply font-semibold tracking-[-0.03em] leading-[1.06];
 }
 
+/* Saral Saarthi takes the page: the hero copy steps back so the reel can
+   carry the conversation, instead of ghosting through a heavier scrim. */
+[data-hero-copy] {
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.saarthi-open [data-hero-copy] {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

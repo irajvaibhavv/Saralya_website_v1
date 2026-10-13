@@ -15,7 +15,7 @@ export function Hero() {
     <section className="relative isolate -mt-[65px] overflow-hidden bg-[#0a0a0b] pt-[65px] text-white">
       <HeroReel />
 
-      <div className="relative mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
+      <div data-hero-copy className="relative mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
         {/* the frame stays open above; the title sits low like a film card */}
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
           <motion.span {...rise(0)} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-white/80">

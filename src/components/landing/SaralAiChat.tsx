@@ -207,9 +207,9 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
   return (
     <>
     <SignIn open={gateAt !== null} onClose={() => setGateAt(null)} onUnlock={() => { setUnlocked(true); setGateAt(null) }} />
-    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-bg">
+    <div id="saral-ai" className="flex h-full flex-col overflow-hidden bg-transparent text-white">
       {/* header */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
+      <div className="flex flex-wrap items-center gap-3 border-b border-white/10 px-1 py-4">
         <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white">
           <Mark className="text-[19px]" />
         </motion.span>
@@ -217,15 +217,15 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
           <div className="flex items-center gap-2 text-[15px] font-semibold tracking-tight">
             Saral AI <span className="size-2 rounded-full bg-green animate-pulse-ring" />
           </div>
-          <div className="text-[12.5px] text-muted">Your lending copilot</div>
+          <div className="text-[12.5px] text-white/50">Your lending copilot</div>
         </div>
         <div className="ml-auto hidden items-center gap-1.5 2xl:flex">
           {idx >= 0 ? (
-            FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />)
+            FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent3' : 'bg-white/20'}`} />)
           ) : role ? (
-            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">{role.label}</span>
+            <span className="rounded-lg bg-white/10 px-3 py-1.5 text-[12.5px] text-white/70 ring-1 ring-white/15">{role.label}</span>
           ) : (
-            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">Trained on RBI guidelines, credit ops, collections and more</span>
+            <span className="rounded-lg bg-white/10 px-3 py-1.5 text-[12.5px] text-white/70 ring-1 ring-white/15">Trained on RBI guidelines, credit ops, collections and more</span>
           )}
         </div>
       </div>
@@ -236,11 +236,11 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
           {msgs.map((m, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>
               {m.from === 'ai' && (
-                <span className="grid size-7 shrink-0 place-items-center rounded-md bg-wash text-accent">
+                <span className="grid size-7 shrink-0 place-items-center rounded-md bg-white/10 text-white">
                   <Mark className="text-[14px]" />
                 </span>
               )}
-              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-wash text-ink' : 'rounded-tl-md bg-white text-ink2 ring-1 ring-line/70'}`}>
+              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-accent text-white' : 'rounded-tl-md bg-white/[0.08] text-white/90 ring-1 ring-white/15 backdrop-blur-md'}`}>
                 {m.gated && !unlocked ? (
                   i === msgs.length - 1 && thinking ? (
                     <Dots />
@@ -262,7 +262,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
                 {m.files && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {m.files.map((f) => (
-                      <span key={f.name} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[12.5px]">
+                      <span key={f.name} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[12.5px] text-white">
                         <FileText className="size-3.5" /> {f.name} <span className="opacity-60">{kb(f.size)}</span>
                       </span>
                     ))}
@@ -342,32 +342,32 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
       </div>
 
       {/* composer */}
-      <div className="border-t border-line p-3">
-        <form onSubmit={submitQ} className="flex items-center gap-1 rounded-xl bg-white p-1 pl-1 ring-1 ring-line focus-within:ring-accent">
-          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg bg-bg text-ink ring-1 ring-line hover:bg-wash hover:text-accent">
+      <div className="border-t border-white/10 py-3">
+        <form onSubmit={submitQ} className="flex items-center gap-1.5 rounded-2xl bg-white/[0.09] p-1.5 ring-1 ring-white/20 backdrop-blur-md transition focus-within:bg-white/[0.14] focus-within:ring-white/40">
+          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-white/55 hover:bg-white/10 hover:text-white">
             <Plus className="size-4" />
             <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
           </label>
-          <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={speech.listening ? 'Listening…' : step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent px-1 text-[14px] outline-none placeholder:text-hint disabled:opacity-60" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} disabled={typing} placeholder={speech.listening ? 'Listening…' : step === 'idle' && !focused ? hint : PLACEHOLDER[step]} className="min-w-0 flex-1 bg-transparent px-1.5 text-[14.5px] text-white outline-none placeholder:text-white/40 disabled:opacity-60" />
           {msgs.length > 1 && (
-            <button type="button" onClick={reset} aria-label="Start over" className="grid size-8 shrink-0 place-items-center rounded-lg text-muted hover:text-ink">
+            <button type="button" onClick={reset} aria-label="Start over" className="grid size-9 shrink-0 place-items-center rounded-xl text-white/55 hover:bg-white/10 hover:text-white">
               <RotateCcw className="size-4" />
             </button>
           )}
           <MicButton speech={speech} />
-          <button type="submit" aria-label="Send" disabled={typing} className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-white hover:bg-accent2 disabled:opacity-50">
+          <button type="submit" aria-label="Send" disabled={typing} className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white hover:bg-accent2 disabled:opacity-50">
             <ArrowUp className="size-4" />
           </button>
         </form>
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-muted">
-          <button type="button" onClick={() => starter(NOTE)} disabled={typing || idx >= 0} className="font-medium text-accent hover:underline disabled:opacity-50">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11.5px] text-white/60">
+          <button type="button" onClick={() => starter(NOTE)} disabled={typing || idx >= 0} className="font-medium text-accent3 hover:underline disabled:opacity-50">
             {NOTE.q}
           </button>
           <span aria-hidden>&middot;</span>
-          <button type="button" onClick={() => starter(HUMAN)} disabled={typing} className="flex items-center gap-1 font-medium text-accent hover:underline disabled:opacity-50">
+          <button type="button" onClick={() => starter(HUMAN)} disabled={typing} className="flex items-center gap-1 font-medium text-accent3 hover:underline disabled:opacity-50">
             <MessageCircle className="size-3" /> {HUMAN.q}
           </button>
-          <Link to="/privacy" className="ml-auto flex items-center gap-1 hover:text-ink">
+          <Link to="/privacy" className="ml-auto flex items-center gap-1 hover:text-white">
             <Lock className="size-3" /> Private
           </Link>
         </div>
@@ -484,7 +484,7 @@ function Explainer() {
         <ButtonLink to="/home" variant="ink" arrow>
           Explore Saralya
         </ButtonLink>
-        <ButtonLink to="/about" variant="ghost">
+        <ButtonLink to="/home#about" variant="ghost">
           Who’s behind it
         </ButtonLink>
       </div>
@@ -497,7 +497,7 @@ const chip = { hidden: { opacity: 0, y: 8, scale: 0.94 }, show: { opacity: 1, y:
 function Chips({ children, label }: { children: ReactNode; label?: string }) {
   return (
     <motion.div initial="hidden" animate="show" exit={{ opacity: 0, transition: { duration: 0.15 } }} transition={{ staggerChildren: 0.045 }} className="mt-4">
-      {label && <motion.div variants={chip} className="mb-2 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">{label}</motion.div>}
+      {label && <motion.div variants={chip} className="mb-2 font-mono text-[10.5px] uppercase tracking-[0.12em] text-white/40">{label}</motion.div>}
       <div className="flex flex-wrap gap-2">{children}</div>
     </motion.div>
   )
@@ -548,7 +548,7 @@ export function MicButton({ speech }: { speech: ReturnType<typeof useSpeech> }) 
       onClick={speech.toggle}
       aria-label={speech.listening ? 'Stop listening' : 'Speak your question'}
       aria-pressed={speech.listening}
-      className={`grid size-8 shrink-0 place-items-center rounded-lg transition-colors ${speech.listening ? 'bg-red-w text-red animate-pulse-ring' : 'text-muted hover:bg-wash2 hover:text-ink'}`}
+      className={`grid size-8 shrink-0 place-items-center rounded-lg transition-colors ${speech.listening ? 'bg-red-w text-red animate-pulse-ring' : 'text-white/55 hover:bg-white/10 hover:text-white'}`}
     >
       <Mic className="size-4" />
     </button>
@@ -640,7 +640,7 @@ function Chip({ children, on, onClick, tone }: { children: ReactNode; on?: boole
       onClick={onClick}
       aria-pressed={on}
       className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[14px] font-medium ring-1 transition-colors ${
-        on ? 'bg-ink text-white ring-ink' : tone ?? 'bg-white text-ink ring-line hover:bg-wash2 hover:ring-accent/40'
+        on ? 'bg-accent text-white ring-accent' : tone ?? 'bg-white/[0.08] text-white/90 ring-white/15 backdrop-blur-md hover:bg-white/[0.16] hover:ring-white/30'
       }`}
     >
       {children}
