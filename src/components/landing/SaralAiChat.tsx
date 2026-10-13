@@ -207,7 +207,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
   return (
     <>
     <SignIn open={gateAt !== null} onClose={() => setGateAt(null)} onUnlock={() => { setUnlocked(true); setGateAt(null) }} />
-    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-bg">
+    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-transparent">
       {/* header */}
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
         <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white">
@@ -223,9 +223,9 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
           {idx >= 0 ? (
             FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />)
           ) : role ? (
-            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">{role.label}</span>
+            <span className="rounded-lg bg-white/60 px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-white/70">{role.label}</span>
           ) : (
-            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">Trained on RBI guidelines, credit ops, collections and more</span>
+            <span className="rounded-lg bg-white/60 px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-white/70">Trained on RBI guidelines, credit ops, collections and more</span>
           )}
         </div>
       </div>
@@ -240,7 +240,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
                   <Mark className="text-[14px]" />
                 </span>
               )}
-              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-wash text-ink' : 'rounded-tl-md bg-white text-ink2 ring-1 ring-line/70'}`}>
+              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-white/40 text-ink' : 'rounded-tl-md bg-white/55 text-ink2 ring-1 ring-white/70'}`}>
                 {m.gated && !unlocked ? (
                   i === msgs.length - 1 && thinking ? (
                     <Dots />
@@ -343,7 +343,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
 
       {/* composer */}
       <div className="border-t border-line p-3">
-        <form onSubmit={submitQ} className="flex items-center gap-1 rounded-xl bg-white p-1 pl-1 ring-1 ring-line focus-within:ring-accent">
+        <form onSubmit={submitQ} className="flex items-center gap-1 rounded-xl bg-white/70 p-1 pl-1 ring-1 ring-white/80 focus-within:ring-accent">
           <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg bg-bg text-ink ring-1 ring-line hover:bg-wash hover:text-accent">
             <Plus className="size-4" />
             <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />

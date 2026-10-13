@@ -46,7 +46,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
       </div>
 
       <div className="px-4 pt-3">
-        <div className="rounded-2xl rounded-tl-md bg-white px-3.5 py-3 text-[13.5px] leading-relaxed ring-1 ring-line/70">
+        <div className="rounded-2xl rounded-tl-md bg-white/55 px-3.5 py-3 text-[13.5px] leading-relaxed ring-1 ring-white/70">
           <span className="font-semibold">Hi, I’m Saral.</span> {seat ? seat.hello : 'I can help with credit risk, collections, RBI norms, compliance or anything about our platform.'}
         </div>
       </div>
@@ -66,7 +66,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
               variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onAsk(s)}
-              className="group flex items-center gap-2.5 rounded-xl bg-white px-2.5 py-2 text-left ring-1 ring-line/70 transition-colors hover:ring-accent/30"
+              className="group flex items-center gap-2.5 rounded-xl bg-white/45 px-2.5 py-2 text-left ring-1 ring-white/70 transition-colors hover:ring-accent/30"
             >
               <span className={`grid size-8 shrink-0 place-items-center rounded-md ${TONES[i]}`}>
                 <Icon className="size-3.5" />
@@ -78,7 +78,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         })}
       </motion.div>
 
-      <form onSubmit={submit} className="mx-4 mt-3 flex items-center gap-1 rounded-xl bg-white p-1 ring-1 ring-line focus-within:ring-accent">
+      <form onSubmit={submit} className="mx-4 mt-3 flex items-center gap-1 rounded-xl bg-white/70 p-1 ring-1 ring-white/80 focus-within:ring-accent">
         <label aria-label="Add a file" title="Add a file" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg bg-bg text-ink ring-1 ring-line hover:bg-wash hover:text-accent">
           <Plus className="size-4" />
           <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />

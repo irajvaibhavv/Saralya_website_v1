@@ -8,7 +8,7 @@ import { SaralAiPanel } from './SaralAiPanel'
 /* Saral Saarthi lives in the corner. A launcher until it is opened; then a
    window that starts with four questions and becomes the conversation. */
 
-const SHADOW = 'shadow-[0_0_0_1px_rgba(20,20,32,0.05),0_16px_40px_-20px_rgba(20,20,32,0.18)]'
+const SHADOW = 'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6),0_0_0_1px_rgba(20,20,32,0.06),0_24px_60px_-24px_rgba(20,20,32,0.28)]'
 
 export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; seat: Role | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
   // a one-time nudge beside the launcher so a first visitor knows what it is
@@ -115,7 +115,7 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             exit={{ opacity: 0, y: 16, scale: 0.97, transition: { duration: 0.2 } }}
             transition={{ type: 'spring', stiffness: 320, damping: 30 }}
             layout
-            className={`fixed inset-x-3 bottom-3 z-[90] origin-bottom-right overflow-hidden rounded-3xl bg-bg sm:inset-x-auto sm:bottom-6 sm:right-6 ${big ? 'sm:w-[min(680px,55vw)]' : 'sm:w-[360px]'} ${SHADOW} ${pending ? (big ? 'h-[min(760px,80svh)]' : 'h-[min(540px,88svh)]') : 'max-h-[88svh]'}`}
+            className={`fixed inset-x-3 bottom-3 z-[90] origin-bottom-right overflow-hidden rounded-3xl bg-white/35 backdrop-blur-3xl backdrop-saturate-150 sm:inset-x-auto sm:bottom-6 sm:right-6 ${big ? 'sm:w-[min(680px,55vw)]' : 'sm:w-[360px]'} ${SHADOW} ${pending ? (big ? 'h-[min(760px,80svh)]' : 'h-[min(540px,88svh)]') : 'max-h-[88svh]'}`}
           >
             <div className="absolute right-2.5 top-2.5 z-10 flex items-center">
               <button onClick={() => setBig((b) => !b)} aria-label={big ? 'Smaller window' : 'Larger window'} className="hidden size-8 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink sm:grid">
