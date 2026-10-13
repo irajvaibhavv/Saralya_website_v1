@@ -18,7 +18,7 @@ export function Section({
   tight?: boolean
 }) {
   return (
-    <section id={id} className={`relative ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}>
+    <section id={id} className={`relative ${id ? 'scroll-mt-16' : ''} ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}>
       {children}
     </section>
   )

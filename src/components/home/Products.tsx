@@ -1,28 +1,25 @@
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { ClosingCta } from '../components/layout/ClosingCta'
-import { PageHero } from '../components/layout/PageHero'
-import { VISUALS } from '../components/products/ModuleVisuals'
-import { Container } from '../components/ui/Section'
-import { MODULES } from '../content/site'
+import { VISUALS } from '../products/ModuleVisuals'
+import { Container, Section, SectionHead } from '../ui/Section'
+import { MODULES } from '../../content/site'
 
-export function Products() {
+export function ProductsSection() {
   const [active, setActive] = useState(0)
 
   return (
-    <>
-      <PageHero
-        eyebrow="Products"
-        title={
-          <>
-            Six modules.
-            <br />
-            <span className="text-accent">One stack.</span>
-          </>
-        }
-        lede="Run the full stack, or plug in one module."
-      >
-        <div className="flex flex-wrap gap-2">
+    <Section id="products">
+      <Container>
+        <SectionHead
+          eyebrow="Products"
+          title={
+            <>
+              Six modules. <span className="text-accent">One stack.</span>
+            </>
+          }
+          lede="Run the full stack, or plug in one module."
+        />
+        <div className="mb-12 flex flex-wrap gap-2">
           {MODULES.map((m, i) => (
             <a
               key={m.code}
@@ -35,7 +32,7 @@ export function Products() {
             </a>
           ))}
         </div>
-      </PageHero>
+      </Container>
 
       {/* Scroll-driven showcase: sticky stage on the left swaps its visual as
           each module's block scrolls into view on the right. */}
@@ -77,9 +74,7 @@ export function Products() {
           </div>
         </div>
       </Container>
-
-      <ClosingCta />
-    </>
+    </Section>
   )
 }
 

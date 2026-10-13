@@ -1,10 +1,8 @@
 import { Check } from 'lucide-react'
 import { motion } from 'motion/react'
-import { ClosingCta } from '../components/layout/ClosingCta'
-import { PageHero } from '../components/layout/PageHero'
-import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
-import { Container, Section, SectionHead } from '../components/ui/Section'
-import { COMPLIANCE, INTEGRATIONS, PILLARS } from '../content/site'
+import { FadeIn, Item, Stagger } from '../ui/Reveal'
+import { Container, Section, SectionHead } from '../ui/Section'
+import { COMPLIANCE, PILLARS } from '../../content/site'
 
 /* TODO(Vikas): verify the technical claims in the hero lede: "Indian data
    residency", "inspection-grade audit trail", "no vendor lock-in" (corrections
@@ -18,24 +16,21 @@ const LAYERS = [
   { name: 'Your core', items: ['CBS', 'LOS / LMS', 'GL', 'Data warehouse'] },
 ]
 
-export function Technology() {
+export function TechnologySection() {
   return (
     <>
-      <PageHero
-        eyebrow="Technology"
-        title={
-          <>
-            How it is built,
-            <br />
-            <span className="text-accent">underneath.</span>
-          </>
-        }
-        lede="No black boxes. No lock-in. Indian data residency. Audit trail end to end."
-      />
-
       {/* Layer diagram */}
-      <Section tight>
+      <Section id="technology">
         <Container>
+          <SectionHead
+            eyebrow="Technology"
+            title={
+              <>
+                How it is built, <span className="text-accent">underneath.</span>
+              </>
+            }
+            lede="No black boxes. No lock-in. Indian data residency. Audit trail end to end."
+          />
           <FadeIn>
             <div className="relative overflow-hidden rounded-3xl bg-white p-5 shadow-lg md:p-8">
               <div className="relative space-y-3">
@@ -103,22 +98,6 @@ export function Technology() {
         </Container>
       </Section>
 
-      {/* Integrations cloud */}
-      <Section tight className="bg-bg2/60">
-        <Container>
-          <SectionHead eyebrow="Integrations" title="Plugs into what you have." />
-          <Stagger gap={0.04} className="mx-auto flex max-w-3xl flex-wrap justify-center gap-2.5">
-            {INTEGRATIONS.map((n) => (
-              <Item key={n} y={10}>
-                <span className="inline-block rounded-full bg-white px-4 py-2 text-[14px] font-semibold text-ink2 shadow-sm transition hover:-translate-y-0.5 hover:text-accent hover:shadow-md">
-                  {n}
-                </span>
-              </Item>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
-
       {/* Compliance */}
       <Section id="compliance">
         <Container>
@@ -144,8 +123,6 @@ export function Technology() {
           </Stagger>
         </Container>
       </Section>
-
-      <ClosingCta />
     </>
   )
 }
