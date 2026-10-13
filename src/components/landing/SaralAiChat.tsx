@@ -207,9 +207,9 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
   return (
     <>
     <SignIn open={gateAt !== null} onClose={() => setGateAt(null)} onUnlock={() => { setUnlocked(true); setGateAt(null) }} />
-    <div id="saral-ai" className="flex h-full flex-col overflow-hidden rounded-3xl bg-transparent">
+    <div id="saral-ai" className="flex h-full flex-col overflow-hidden bg-transparent">
       {/* header */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
+      <div className="flex flex-wrap items-center gap-3 border-b border-line px-1 py-3.5">
         <motion.span animate={focused ? { scale: 1.08, rotate: -6 } : { y: [0, -3, 0] }} transition={focused ? { type: 'spring', stiffness: 300, damping: 14 } : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }} className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white">
           <Mark className="text-[19px]" />
         </motion.span>
@@ -223,15 +223,15 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
           {idx >= 0 ? (
             FLOW.map((s, i) => <span key={s} className={`size-2 rounded-full ${i < idx ? 'bg-green' : i === idx ? 'bg-accent' : 'bg-line2'}`} />)
           ) : role ? (
-            <span className="rounded-lg bg-white/60 px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-white/70">{role.label}</span>
+            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">{role.label}</span>
           ) : (
-            <span className="rounded-lg bg-white/60 px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-white/70">Trained on RBI guidelines, credit ops, collections and more</span>
+            <span className="rounded-lg bg-white px-3 py-1.5 text-[12.5px] text-accent ring-1 ring-accent/15">Trained on RBI guidelines, credit ops, collections and more</span>
           )}
         </div>
       </div>
 
       {/* conversation */}
-      <div ref={pane} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+      <div ref={pane} className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-4">
         <div className="space-y-3">
           {msgs.map((m, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>
@@ -240,7 +240,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
                   <Mark className="text-[14px]" />
                 </span>
               )}
-              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-white/40 text-ink' : 'rounded-tl-md bg-white/55 text-ink2 ring-1 ring-white/70'}`}>
+              <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === 'you' ? 'rounded-tr-md bg-accent text-white' : 'rounded-tl-md bg-white text-ink2 shadow-sm ring-1 ring-line/70'}`}>
                 {m.gated && !unlocked ? (
                   i === msgs.length - 1 && thinking ? (
                     <Dots />
@@ -342,9 +342,9 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
       </div>
 
       {/* composer */}
-      <div className="border-t border-line p-3">
-        <form onSubmit={submitQ} className="flex items-center gap-1 rounded-xl bg-white/70 p-1 pl-1 ring-1 ring-white/80 focus-within:ring-accent">
-          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg bg-bg text-ink ring-1 ring-line hover:bg-wash hover:text-accent">
+      <div className="border-t border-line py-3">
+        <form onSubmit={submitQ} className="flex items-center gap-1.5 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-line focus-within:ring-accent">
+          <label aria-label="Add a file" title="Add a file, or drop it anywhere on the page" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-muted hover:bg-wash hover:text-accent">
             <Plus className="size-4" />
             <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
           </label>
@@ -355,7 +355,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
             </button>
           )}
           <MicButton speech={speech} />
-          <button type="submit" aria-label="Send" disabled={typing} className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-white hover:bg-accent2 disabled:opacity-50">
+          <button type="submit" aria-label="Send" disabled={typing} className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white hover:bg-accent2 disabled:opacity-50">
             <ArrowUp className="size-4" />
           </button>
         </form>
