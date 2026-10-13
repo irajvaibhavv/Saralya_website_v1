@@ -1,10 +1,8 @@
 import { AlertTriangle, Check, FileText, Play, RotateCcw } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { ClosingCta } from '../components/layout/ClosingCta'
-import { PageHero } from '../components/layout/PageHero'
-import { FadeIn } from '../components/ui/Reveal'
-import { Container } from '../components/ui/Section'
+import { FadeIn } from '../ui/Reveal'
+import { Container, Section, SectionHead } from '../ui/Section'
 
 const LOAD_STEPS = [
   'Fetching CIBIL bureau report…',
@@ -25,7 +23,7 @@ type Phase = 'empty' | 'loading' | 'report'
 const R = 54
 const C = 2 * Math.PI * R
 
-export function Demo() {
+export function DemoSection() {
   const [phase, setPhase] = useState<Phase>('empty')
   const [activeStep, setActiveStep] = useState(-1)
   const [score, setScore] = useState(0)
@@ -71,20 +69,17 @@ export function Demo() {
   }
 
   return (
-    <>
-      <PageHero
-        eyebrow="Live demo"
-        title={
-          <>
-            Run a decision.
-            <br />
-            <span className="text-accent">Watch the report build.</span>
-          </>
-        }
-        lede="Sample data pre-loaded. Hit run."
-      />
-
-      <Container className="pb-8">
+    <Section id="demo">
+      <Container>
+        <SectionHead
+          eyebrow="Live demo"
+          title={
+            <>
+              Run a decision. <span className="text-accent">Watch the report build.</span>
+            </>
+          }
+          lede="Sample data pre-loaded. Hit run."
+        />
         <FadeIn>
           <div className="grid overflow-hidden rounded-3xl bg-white shadow-lg lg:grid-cols-[360px_1fr]">
             {/* form */}
@@ -267,9 +262,7 @@ export function Demo() {
           </div>
         </FadeIn>
       </Container>
-
-      <ClosingCta />
-    </>
+    </Section>
   )
 }
 

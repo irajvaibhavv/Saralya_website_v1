@@ -53,7 +53,7 @@ export function Hero() {
               transition={{ duration: 0.35, ease: EASE, delay: 0.16 }}
               className="mt-10 flex flex-wrap items-center gap-3"
             >
-              <ButtonLink to="/demo" variant="ink" size="lg" arrow>
+              <ButtonLink to="/home#demo" variant="ink" size="lg" arrow>
                 Try a live decision
               </ButtonLink>
               <ButtonLink to="/" variant="ghost" size="lg">

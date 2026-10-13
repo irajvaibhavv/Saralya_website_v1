@@ -1,9 +1,11 @@
+import { AboutSection } from '../components/home/About'
 import { Benefits } from '../components/home/Benefits'
+import { DemoSection } from '../components/home/Demo'
 import { MonthlyReview } from '../components/home/MonthlyReview'
 import { Hero } from '../components/home/Hero'
 import { HowItWorks } from '../components/home/HowItWorks'
-import { IntegrationsMarquee } from '../components/home/IntegrationsMarquee'
-import { ModulesPreview } from '../components/home/ModulesPreview'
+import { ProductsSection } from '../components/home/Products'
+import { TechnologySection } from '../components/home/Technology'
 import { TrackRecord } from '../components/home/TrackRecord'
 import { InspectionReadiness } from '../components/home/InspectionReadiness'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
@@ -16,14 +18,16 @@ export function Home() {
   return (
     <>
       <Hero />
-      <IntegrationsMarquee />
       <Photo />
       <HowItWorks />
       <UpiAnalogy />
-      <ModulesPreview />
+      <ProductsSection />
+      <DemoSection />
+      <TechnologySection />
       <MonthlyReview />
       <InspectionReadiness />
       <Benefits />
+      <AboutSection />
       <TrackRecord />
       <ClosingCta />
     </>

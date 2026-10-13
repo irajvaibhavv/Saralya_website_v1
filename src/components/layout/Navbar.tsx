@@ -5,10 +5,9 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 
 const LINKS = [
   { to: '/home', label: 'Overview' },
-  { to: '/products', label: 'Products' },
-  { to: '/technology', label: 'Technology' },
-  { to: '/about', label: 'About' },
-  { to: '/demo', label: 'Live demo' },
+  { to: '/home#products', label: 'Products' },
+  { to: '/home#technology', label: 'Technology' },
+  { to: '/home#about', label: 'About' },
 ]
 
 export function Logo({ light }: { light?: boolean }) {

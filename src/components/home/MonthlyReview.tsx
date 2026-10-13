@@ -81,7 +81,7 @@ export function MonthlyReview() {
                 </motion.h3>
               </AnimatePresence>
               <Link
-                to="/products"
+                to="/home#products"
                 className="group hidden shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-[0.1em] text-hint hover:text-accent sm:flex"
               >
                 {tab.module} <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />

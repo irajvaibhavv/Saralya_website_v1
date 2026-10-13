@@ -1,4 +1,3 @@
-import { ButtonLink } from '../ui/Button'
 import { Counter, FadeIn, Item, Stagger } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
@@ -26,11 +25,6 @@ export function TrackRecord() {
             <p className="mt-5 max-w-md text-[16px] text-muted">
               Banking-technology veterans, not lending tourists.
             </p>
-            <div className="mt-7">
-              <ButtonLink to="/about" variant="ghost" arrow>
-                Meet the founders
-              </ButtonLink>
-            </div>
           </FadeIn>
 
           <Stagger className="grid grid-cols-2 gap-x-8">
