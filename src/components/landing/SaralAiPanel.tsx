@@ -14,7 +14,7 @@ import { ACCEPT, ask, fileStarter, Mark, MicButton, useSpeech, type Role } from 
 
 const EASE = [0.22, 1, 0.36, 1] as const
 const ICONS = [BarChart3, FileText, IndianRupee, ShieldCheck]
-const TONES = ['bg-red-w text-red', 'bg-blue-w text-blue', 'bg-green-w text-green', 'bg-wash text-accent']
+const TONE = 'bg-wash text-accent'
 
 export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; seat: Role | null }) {
   const [q, setQ] = useState('')
@@ -39,16 +39,16 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
     <div className="flex h-full flex-col justify-center overflow-y-auto py-10 text-white">
       <div className="flex items-center gap-2.5">
         <span className="grid size-7 shrink-0 place-items-center rounded-md bg-accent text-white">
-          <Mark className="text-[15px]" />
+          <Mark className="text-body" />
         </span>
-        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">Saral Saarthi</span>
+        <span className="font-mono text-label uppercase tracking-[0.14em] text-white/60">Saral Saarthi</span>
         <span className="size-1.5 rounded-full bg-green animate-pulse-ring" />
       </div>
 
-      <h2 className="mt-5 max-w-[18ch] text-[clamp(30px,4.6vw,46px)] font-semibold leading-[1.08] tracking-[-0.03em] [text-shadow:0_2px_20px_rgba(0,0,0,0.35)]">
+      <h2 className="mt-5 max-w-[18ch] text-h2 font-semibold leading-[1.08] tracking-[-0.03em] [text-shadow:0_2px_20px_rgba(0,0,0,0.35)]">
         Ask me anything<span className="text-accent3">.</span>
       </h2>
-      <p className="mt-3 max-w-[46ch] text-[15px] leading-relaxed text-white/65">
+      <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-white/65">
         {seat ? seat.hello : 'Credit risk, collections, RBI norms, compliance — or anything about our platform.'}
       </p>
 
@@ -69,10 +69,10 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
               onClick={() => onAsk(s)}
               className="group flex items-center gap-3 rounded-2xl bg-white/[0.07] px-3 py-3 text-left ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-white/[0.14] hover:ring-white/30"
             >
-              <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${TONES[i]}`}>
+              <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${TONE}`}>
                 <Icon className="size-3.5" />
               </span>
-              <span className="min-w-0 flex-1 text-[13.5px] font-medium leading-snug text-white/90">{s.q}</span>
+              <span className="min-w-0 flex-1 text-small font-medium leading-snug text-white/90">{s.q}</span>
               <ArrowRight className="size-3.5 shrink-0 text-white/35 transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-white" />
             </motion.button>
           )
@@ -90,14 +90,14 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
           placeholder={speech.listening ? 'Listening…' : 'Ask anything about lending…'}
           aria-label="Ask Saral AI"
           autoFocus
-          className="min-w-0 flex-1 bg-transparent px-1.5 text-[14.5px] text-white outline-none placeholder:text-white/40"
+          className="min-w-0 flex-1 bg-transparent px-1.5 text-body text-white outline-none placeholder:text-white/40"
         />
         <MicButton speech={speech} />
         <button type="submit" aria-label="Send" className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white transition-colors hover:bg-accent2">
           <ArrowUp className="size-4" />
         </button>
       </form>
-      <p className="mt-3.5 text-[12px] leading-relaxed text-white/45">
+      <p className="mt-3.5 text-small leading-relaxed text-white/45">
         Our own ML model, trained on Indian banking data. General information, not financial or legal advice.
       </p>
     </div>

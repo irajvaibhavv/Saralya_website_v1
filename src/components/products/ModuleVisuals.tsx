@@ -46,17 +46,17 @@ export function AppraisalVisual() {
             </defs>
           </svg>
           <div className="absolute inset-x-0 bottom-0 text-center">
-            <div className="display text-[40px] tabular-nums">
+            <div className="display text-figure tabular-nums">
               <Counter to={742} duration={1.8} />
             </div>
-            <div className="-mt-1 font-mono text-[10px] uppercase tracking-[0.1em] text-hint">Prime · approve</div>
+            <div className="-mt-1 font-mono text-label uppercase tracking-[0.1em] text-hint">Prime · approve</div>
           </div>
         </div>
         <div className="flex flex-wrap justify-center gap-2">
           {sources.map((s, i) => (
             <motion.span
               key={s}
-              className="inline-flex items-center gap-1.5 rounded-full bg-bg px-3 py-1 text-[12px] font-semibold text-ink2"
+              className="inline-flex items-center gap-1.5 rounded-full bg-bg px-3 py-1 text-small font-semibold text-ink2"
               animate={{ opacity: [0, 1, 1, 0], y: [8, 0, 0, -6] }}
               transition={{ duration: 5, times: [0, 0.1, 0.85, 1], delay: 0.2 + i * 0.25, ...LOOP }}
             >
@@ -65,7 +65,7 @@ export function AppraisalVisual() {
           ))}
         </div>
         <motion.div
-          className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[13px] font-bold text-white"
+          className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-small font-bold text-white"
           animate={{ opacity: [0, 0, 1, 1, 0], scale: [0.9, 0.9, 1, 1, 0.95] }}
           transition={{ duration: 5, times: [0, 0.4, 0.5, 0.85, 1], ...LOOP }}
         >
@@ -83,7 +83,7 @@ export function ScreenVisual() {
   ]
   const links = [[0, 4], [1, 2], [4, 7], [3, 6], [2, 7], [4, 1]]
   return (
-    <Stage wash="bg-red-w">
+    <Stage wash="bg-wash">
       <div className="relative h-full overflow-hidden rounded-3xl bg-ink shadow-md">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(224,67,92,0.18),transparent_60%)]" />
         {/* rings */}
@@ -115,15 +115,15 @@ export function ScreenVisual() {
           )
         })}
         <motion.div
-          className="absolute rounded-xl bg-white px-3 py-2 text-[12px] font-semibold text-ink shadow-lg"
+          className="absolute rounded-xl bg-white px-3 py-2 text-small font-semibold text-ink shadow-lg"
           style={{ left: '58%', top: '66%' }}
           animate={{ opacity: [0, 1, 1, 0], y: [6, -8, -8, -14] }}
           transition={{ duration: 4.5, times: [0, 0.15, 0.85, 1], ...LOOP }}
         >
           <span className="text-red">●</span> Shared device · 3 applicants
         </motion.div>
-        <div className="absolute left-5 top-5 font-mono text-[10px] uppercase tracking-[0.12em] text-white/50">Fraud radar · live</div>
-        <div className="absolute bottom-5 left-5 right-5 flex justify-between font-mono text-[11px] text-white/70">
+        <div className="absolute left-5 top-5 font-mono text-label uppercase tracking-[0.12em] text-white/50">Fraud radar · live</div>
+        <div className="absolute bottom-5 left-5 right-5 flex justify-between font-mono text-label text-white/70">
           <span>Scanned <b className="text-white">2,418</b></span>
           <span>Flagged <b className="text-red">7</b></span>
         </div>
@@ -136,11 +136,11 @@ export function ScreenVisual() {
 export function WatchVisual() {
   const d = 'M0 60 C 40 55, 70 50, 110 52 S 170 40, 200 46 S 250 62, 280 78 S 330 92, 360 96'
   return (
-    <Stage wash="bg-amber-w">
+    <Stage wash="bg-wash">
       <div className="relative flex h-full flex-col rounded-3xl bg-white/85 p-6 shadow-md backdrop-blur">
         <div className="flex items-center justify-between">
-          <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-hint">Deterioration index · Loan #48213</div>
-          <span className="whitespace-nowrap rounded-full bg-amber-w px-2 py-0.5 font-mono text-[10px] text-amber">SMA-0</span>
+          <div className="font-mono text-label uppercase tracking-[0.12em] text-hint">Deterioration index · Loan #48213</div>
+          <span className="whitespace-nowrap rounded-full bg-amber-w px-2 py-0.5 font-mono text-label text-amber">SMA-0</span>
         </div>
         <div className="relative mt-4 flex-1">
           <svg viewBox="0 0 360 120" className="h-full w-full overflow-visible" preserveAspectRatio="none">
@@ -175,7 +175,7 @@ export function WatchVisual() {
             <span className="relative block size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber">
               <span className="absolute inset-0 animate-ping rounded-full bg-amber/60" />
             </span>
-            <div className="absolute left-2 top-2 whitespace-nowrap rounded-xl bg-ink px-3 py-1.5 text-[11px] font-semibold text-white shadow-lg">
+            <div className="absolute left-2 top-2 whitespace-nowrap rounded-xl bg-ink px-3 py-1.5 text-label font-semibold text-white shadow-lg">
               GST filings stopped · Day 1
             </div>
           </motion.div>
@@ -183,8 +183,8 @@ export function WatchVisual() {
         <div className="mt-3 grid grid-cols-3 gap-2 text-center">
           {[['AA', 'inflow −38%'], ['Bureau', '+2 enquiries'], ['Action', 'Call queued']].map(([k, v]) => (
             <div key={k} className="rounded-xl bg-bg px-2 py-2">
-              <div className="font-mono text-[9.5px] uppercase tracking-[0.08em] text-hint">{k}</div>
-              <div className="text-[12px] font-semibold">{v}</div>
+              <div className="font-mono text-label uppercase tracking-[0.08em] text-hint">{k}</div>
+              <div className="text-small font-semibold">{v}</div>
             </div>
           ))}
         </div>
@@ -198,14 +198,14 @@ export function RecoverVisual() {
   const r = 46
   const c = 2 * Math.PI * r
   return (
-    <Stage wash="bg-blue-w">
+    <Stage wash="bg-wash">
       <div className="grid h-full grid-cols-[1fr_1.1fr] gap-4 rounded-3xl bg-white/85 p-6 shadow-md backdrop-blur">
         <div className="flex flex-col items-center justify-center">
           <div className="relative grid size-[120px] place-items-center">
             {[0, 1, 2].map((i) => (
               <motion.span
                 key={i}
-                className="absolute inset-0 rounded-full border-2 border-blue"
+                className="absolute inset-0 rounded-full border-2 border-accent"
                 initial={{ scale: 0.7, opacity: 0.8 }}
                 animate={{ scale: 1.6, opacity: 0 }}
                 transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.7, ease: 'easeOut' }}
@@ -214,30 +214,30 @@ export function RecoverVisual() {
             <svg width="120" height="120" className="absolute -rotate-90">
               <circle cx="60" cy="60" r={r} fill="none" stroke="var(--color-line)" strokeWidth="8" />
               <motion.circle
-                cx="60" cy="60" r={r} fill="none" stroke="var(--color-blue)" strokeWidth="8" strokeLinecap="round"
+                cx="60" cy="60" r={r} fill="none" stroke="var(--color-accent)" strokeWidth="8" strokeLinecap="round"
                 strokeDasharray={c}
                 animate={{ strokeDashoffset: [c, c * 0.32, c * 0.32, c] }}
                 transition={{ duration: 5, times: [0, 0.5, 0.9, 1], ease: EASE, ...LOOP }}
               />
             </svg>
-            <span className="grid size-14 place-items-center rounded-full bg-blue text-white shadow-lg">
+            <span className="grid size-14 place-items-center rounded-full bg-accent text-white shadow-lg">
               <PhoneCall className="size-6" />
             </span>
           </div>
           <div className="mt-3 text-center">
-            <div className="display text-[26px] text-blue">68%</div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-hint">Right-party contact</div>
+            <div className="display text-stat text-accent">68%</div>
+            <div className="font-mono text-label uppercase tracking-[0.08em] text-hint">Right-party contact</div>
           </div>
         </div>
         <div className="flex flex-col justify-center gap-2.5">
           {[
-            ['0–30 DPD', 72, 'bg-blue'],
-            ['31–60 DPD', 46, 'bg-accent3'],
-            ['61–90 DPD', 22, 'bg-amber'],
+            ['0–30 DPD', 72, 'bg-green'],
+            ['31–60 DPD', 46, 'bg-amber'],
+            ['61–90 DPD', 22, 'bg-red/70'],
             ['90+ DPD', 9, 'bg-red'],
           ].map(([k, v, cls], i) => (
             <div key={k as string}>
-              <div className="mb-1 flex justify-between text-[11.5px]">
+              <div className="mb-1 flex justify-between text-label">
                 <span className="font-medium">{k}</span>
                 <span className="font-mono text-hint">₹ recovered</span>
               </div>
@@ -252,7 +252,7 @@ export function RecoverVisual() {
             </div>
           ))}
           <motion.div
-            className="mt-1 self-start rounded-full bg-ink px-3 py-1 font-mono text-[10px] text-white"
+            className="mt-1 self-start rounded-full bg-ink px-3 py-1 font-mono text-label text-white"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 1 }}
@@ -271,12 +271,12 @@ export function InsightVisual() {
     [40, 28], [52, 34], [58, 30], [66, 38], [72, 42], [80, 44], [88, 50], [96, 54],
   ]
   return (
-    <Stage wash="bg-purple-w">
+    <Stage wash="bg-wash">
       <div className="relative h-full rounded-3xl bg-white/85 p-6 shadow-md backdrop-blur">
         <div className="flex items-center justify-between">
-          <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-hint">Vintage · disbursal vs 30+ DPD</div>
-          <div className="flex gap-3 font-mono text-[10px] text-hint">
-            <span><i className="mr-1 inline-block size-2 rounded-sm bg-purple" />Book</span>
+          <div className="font-mono text-label uppercase tracking-[0.12em] text-hint">Vintage · disbursal vs 30+ DPD</div>
+          <div className="flex gap-3 font-mono text-label text-hint">
+            <span><i className="mr-1 inline-block size-2 rounded-sm bg-accent" />Book</span>
             <span><i className="mr-1 inline-block size-2 rounded-sm bg-accent3" />Peer</span>
           </div>
         </div>
@@ -284,7 +284,7 @@ export function InsightVisual() {
           {bars.map(([a, b], i) => (
             <div key={i} className="flex h-full flex-1 items-end gap-0.5">
               <motion.div
-                className="flex-1 rounded-t-md bg-purple"
+                className="flex-1 rounded-t-md bg-accent"
                 initial={{ height: '0%' }}
                 animate={{ height: `${a}%` }}
                 transition={{ duration: 0.7, delay: i * 0.05, ease: EASE }}
@@ -298,7 +298,7 @@ export function InsightVisual() {
             </div>
           ))}
         </div>
-        <div className="mt-2 flex justify-between font-mono text-[9.5px] text-hint">
+        <div className="mt-2 flex justify-between font-mono text-label text-hint">
           <span>Q1 FY25</span><span>Q4 FY26</span>
         </div>
         <motion.div
@@ -307,13 +307,13 @@ export function InsightVisual() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.9, ease: EASE }}
         >
-          <div className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-[#c4b5fd]">Board pack · auto-generated</div>
-          <div className="mt-1 text-[14px] font-bold">Q4 portfolio review</div>
+          <div className="font-mono text-label uppercase tracking-[0.12em] text-[#c4b5fd]">Board pack · auto-generated</div>
+          <div className="mt-1 text-body font-bold">Q4 portfolio review</div>
           <div className="mt-2 grid grid-cols-3 gap-2 text-center">
             {[['NPA', '1.8%'], ['Roll 30→60', '11%'], ['LTV', '3.4×']].map(([k, v]) => (
               <div key={k} className="rounded-lg bg-white/10 py-1.5">
-                <div className="text-[13px] font-extrabold">{v}</div>
-                <div className="font-mono text-[8.5px] text-white/50">{k}</div>
+                <div className="text-small font-extrabold">{v}</div>
+                <div className="font-mono text-label text-white/50">{k}</div>
               </div>
             ))}
           </div>
@@ -327,7 +327,7 @@ export function InsightVisual() {
 export function ComplyVisual() {
   const checks = ['MD-FRM · SCN window', 'DLD 2025 · KFS sent', 'DPDP · consent logged', 'KYC MD · CKYC match', 'NBS-9 · mapped', 'CRILC · filed']
   return (
-    <Stage wash="bg-green-w">
+    <Stage wash="bg-wash">
       <div className="grid h-full grid-cols-[1fr_1.2fr] gap-5 rounded-3xl bg-white/85 p-6 shadow-md backdrop-blur">
         <div className="relative flex flex-col items-center justify-center">
           <div className="relative size-[120px]">
@@ -340,12 +340,12 @@ export function ComplyVisual() {
               <ShieldCheck className="size-full text-green" strokeWidth={1.2} />
             </motion.div>
           </div>
-          <div className="display mt-2 text-[28px] text-green tabular-nums">
+          <div className="display mt-2 text-stat text-green tabular-nums">
             <Counter to={600} suffix="+" duration={2} />
           </div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-hint">checks · every loan</div>
+          <div className="font-mono text-label uppercase tracking-[0.08em] text-hint">checks · every loan</div>
           <motion.div
-            className="absolute -bottom-1 rotate-[-8deg] rounded-md border-2 border-green px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-green"
+            className="absolute -bottom-1 rotate-[-8deg] rounded-md border-2 border-green px-2 py-0.5 font-mono text-label font-bold uppercase tracking-[0.12em] text-green"
             animate={{ opacity: [0, 0, 1, 1, 0], scale: [1.6, 1.6, 1, 1, 1] }}
             transition={{ duration: 5.5, times: [0, 0.6, 0.66, 0.9, 1], ...LOOP }}
           >
@@ -356,7 +356,7 @@ export function ComplyVisual() {
           {checks.map((t, i) => (
             <motion.li
               key={t}
-              className="flex items-center gap-2 text-[12.5px] font-medium text-ink2"
+              className="flex items-center gap-2 text-small font-medium text-ink2"
               animate={{ opacity: [0.25, 1, 1, 0.25], x: [-6, 0, 0, -6] }}
               transition={{ duration: 5.5, times: [0, 0.12, 0.9, 1], delay: i * 0.4, ...LOOP }}
             >

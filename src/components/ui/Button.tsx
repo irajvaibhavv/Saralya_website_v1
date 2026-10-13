@@ -19,7 +19,7 @@ const variants: Record<Variant, string> = {
 
 const sizes: Record<Size, string> = {
   md: 'text-sm px-4 py-2.5',
-  lg: 'text-[15px] px-6 py-3',
+  lg: 'text-body px-6 py-3',
 }
 
 type Common = { variant?: Variant; size?: Size; arrow?: boolean; children: ReactNode; className?: string }

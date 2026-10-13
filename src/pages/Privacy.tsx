@@ -123,11 +123,11 @@ export function Privacy() {
         <div className="max-w-3xl space-y-10 rounded-3xl bg-white p-7 shadow-sm md:p-12">
           {BLOCKS.map((b) => (
             <section key={b.h}>
-              <h2 className="text-[22px] font-extrabold tracking-[-0.02em]">{b.h}</h2>
+              <h2 className="text-stat font-extrabold tracking-[-0.02em]">{b.h}</h2>
               <Body p={b.p} li={b.li} />
               {b.sub?.map((s) => (
                 <div key={s.h} className="mt-5">
-                  <h3 className="text-[16px] font-bold">{s.h}</h3>
+                  <h3 className="text-lede font-bold">{s.h}</h3>
                   <Body p={s.p} li={s.li} />
                 </div>
               ))}
@@ -143,14 +143,14 @@ function Body({ p, li }: { p?: string[]; li?: string[] }) {
   return (
     <>
       {li && (
-        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[15px] text-ink2">
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-body text-ink2">
           {li.map((x) => (
             <li key={x}>{x}</li>
           ))}
         </ul>
       )}
       {p?.map((x) => (
-        <p key={x} className="mt-3 text-[15px] leading-relaxed text-muted">
+        <p key={x} className="mt-3 text-body leading-relaxed text-muted">
           {x}
         </p>
       ))}

@@ -73,8 +73,8 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
           <motion.div key="drop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="pointer-events-none fixed inset-0 z-[95] grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
             <motion.div initial={{ scale: 0.94, y: 8 }} animate={{ scale: 1, y: 0 }} className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed border-white/70 bg-white/10 px-12 py-10 text-center text-white">
               <UploadCloud className="size-10" strokeWidth={1.6} />
-              <div className="text-[20px] font-semibold tracking-tight">Drop it for Saral</div>
-              <div className="text-[14px] text-white/75">Policy docs, sample files, MIS sheets.</div>
+              <div className="text-h3 font-semibold tracking-tight">Drop it for Saral</div>
+              <div className="text-body text-white/75">Policy docs, sample files, MIS sheets.</div>
             </motion.div>
           </motion.div>
         )}
@@ -87,7 +87,7 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4, transition: { duration: 0.15 } }}
-            className="fixed bottom-[76px] right-5 z-[90] max-w-[240px] rounded-xl bg-white px-3.5 py-2.5 text-[13px] leading-snug text-ink2 shadow-md sm:bottom-[84px] sm:right-6"
+            className="fixed bottom-[76px] right-5 z-[90] max-w-[240px] rounded-xl bg-white px-3.5 py-2.5 text-small leading-snug text-ink2 shadow-md sm:bottom-[84px] sm:right-6"
           >
             Ask me anything about credit risk, collections or RBI norms.
             <span className="absolute -bottom-1 right-6 size-2 rotate-45 bg-white" />
@@ -109,10 +109,10 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             className="fixed bottom-5 right-5 z-[90] flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 text-ink shadow-md sm:bottom-6 sm:right-6"
           >
             <span className="relative grid size-8 place-items-center rounded-full bg-accent text-white">
-              <Mark className="text-[17px]" />
+              <Mark className="text-lede" />
               <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-green ring-2 ring-white" />
             </span>
-            <span className="text-[13.5px] font-medium">Saral Saarthi</span>
+            <span className="text-small font-medium">Saral Saarthi</span>
           </motion.button>
         )}
       </AnimatePresence>
