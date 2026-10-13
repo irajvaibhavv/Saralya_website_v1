@@ -44,6 +44,12 @@ Everything is Tailwind v4 utilities + `motion/react` (Framer Motion) +
 (`bg-accent`, `text-ink`, `text-muted`, `shadow-glow`, `font-mono`, …).
 
 Conventions:
+- **Type**: nine named sizes in `@theme` (`text-label` … `text-display`).
+  Never write an arbitrary `text-[18px]` or a new `clamp()`; pick the
+  nearest step.
+- **Colour means status, never identity.** `accent` is the brand;
+  `green`/`amber`/`red` mean pass/warn/fail only. Modules, avatars and
+  chips are told apart by name and photograph, not by hue.
 - Scroll reveals: wrap in `<FadeIn>` or `<Stagger>`/`<Item>` from
   `components/ui/Reveal`; never hand-roll IntersectionObservers.
 - Looping visuals use `repeat: Infinity` with `repeatDelay` and respect
@@ -69,12 +75,15 @@ Conventions:
 
 ## Verifying UI changes
 
-There's no browser tool in this environment; use headless Edge via
-`puppeteer-core` from the scratchpad (see the session's `clip.mjs` /
-`shoot.mjs` pattern: launch
-`C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe`, scroll
-through to trigger reveals, screenshot in ~2900px clips at 1400px and
-400px, capture `console` errors). Always check:
+There may be no browser tool in this environment. `puppeteer-core` is not
+installed and nothing needs it: Node 24 ships a global `WebSocket`, so a
+~40-line CDP client can launch
+`C:/Program Files/Google/Chrome/Application/chrome.exe --headless=new
+--remote-debugging-port=…`, call `Emulation.setDeviceMetricsOverride`
+(required — `--window-size` floors at ~500px on Windows, which silently
+crops `--screenshot` output), scroll through to trigger reveals, then
+`Page.captureScreenshot`. Capture viewport clips at scroll offsets;
+`captureBeyondViewport` stalls on the full ~20,000px page. Always check:
 - zero console errors/warnings
 - `document.documentElement.scrollWidth <= viewport width` at 400px
 - the demo runs end-to-end after clicking `.demo-run`
