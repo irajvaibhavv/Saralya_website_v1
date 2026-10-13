@@ -26,3 +26,4 @@ dist-ssr
 # Local tooling scratch
 .playwright-mcp/
 dist.zip
+.v1-build/
