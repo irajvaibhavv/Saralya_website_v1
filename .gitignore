@@ -27,3 +27,4 @@ dist-ssr
 .playwright-mcp/
 dist.zip
 .v1-build/
+.v2-build/
