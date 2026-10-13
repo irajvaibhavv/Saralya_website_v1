@@ -81,6 +81,15 @@ body {
   @apply font-semibold tracking-[-0.03em] leading-[1.06];
 }
 
+/* Saarthi takes the screen: the reel dissolves rather than being covered,
+   so the white sheet arrives over nothing. */
+[data-hero] {
+  transition: opacity 0.7s ease;
+}
+.saarthi-open [data-hero] {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
