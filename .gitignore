@@ -28,3 +28,4 @@ dist-ssr
 dist.zip
 .v1-build/
 .v3-build/
+.v2-build/
