@@ -50,7 +50,7 @@ export function MonthlyReview() {
                   setActive(i)
                   setHeld(true)
                 }}
-                className={`relative rounded-full px-4 py-2 text-[13px] font-semibold transition-colors ${
+                className={`relative rounded-full px-4 py-2 text-small font-semibold transition-colors ${
                   i === active ? 'text-white' : 'text-ink2 hover:text-ink'
                 }`}
               >
@@ -75,14 +75,14 @@ export function MonthlyReview() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.3 }}
-                  className="text-[19px] font-extrabold tracking-[-0.02em] md:text-[22px]"
+                  className="text-h3 font-extrabold tracking-[-0.02em] md:text-stat"
                 >
                   {tab.head}
                 </motion.h3>
               </AnimatePresence>
               <Link
                 to="/home#products"
-                className="group hidden shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-[0.1em] text-hint hover:text-accent sm:flex"
+                className="group hidden shrink-0 items-center gap-1 font-mono text-label uppercase tracking-[0.1em] text-hint hover:text-accent sm:flex"
               >
                 {tab.module} <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
@@ -99,7 +99,7 @@ export function MonthlyReview() {
               </AnimatePresence>
             </div>
 
-            <p className="mt-6 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">Sample board pack · illustrative figures</p>
+            <p className="mt-6 font-mono text-label uppercase tracking-[0.12em] text-hint">Sample board pack · illustrative figures</p>
           </div>
         </div>
       </Container>
@@ -125,14 +125,14 @@ function Vintage() {
         const hot = c.v > 60
         return (
           <div key={c.m} className="flex flex-1 flex-col items-center gap-2">
-            <span className={`font-mono text-[11px] ${hot ? 'font-bold text-red' : 'text-hint'}`}>{(c.v / 20).toFixed(1)}%</span>
+            <span className={`font-mono text-label ${hot ? 'font-bold text-red' : 'text-hint'}`}>{(c.v / 20).toFixed(1)}%</span>
             <motion.div
               className={`w-full rounded-t-lg ${hot ? 'bg-red' : 'bg-accent/35'}`}
               initial={{ height: 0 }}
               animate={{ height: `${c.v * 2}px` }}
               transition={{ ...SPRING, delay: i * 0.06 }}
             />
-            <span className="font-mono text-[11px] text-hint">{c.m}</span>
+            <span className="font-mono text-label text-hint">{c.m}</span>
           </div>
         )
       })}
@@ -152,7 +152,7 @@ function RollRate() {
     <div className="space-y-5">
       {rows.map((r, i) => (
         <div key={r.from}>
-          <div className="flex items-baseline justify-between font-mono text-[11.5px]">
+          <div className="flex items-baseline justify-between font-mono text-label">
             <span className="text-ink2">{r.from} → held</span>
             <span className="font-bold">{r.pct}%</span>
           </div>
@@ -187,7 +187,7 @@ function Watch() {
           />
         ))}
       </div>
-      <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] text-muted">
+      <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-mono text-label text-muted">
         <span className="flex items-center gap-2">
           <i className="size-2 rounded-full bg-red" />7 flagged SMA-0
         </span>
@@ -208,8 +208,8 @@ function Recover() {
   const C = 2 * Math.PI * R
   const arcs = [
     { label: 'Dialler', pct: 72, tone: 'stroke-accent' },
-    { label: 'Field visit', pct: 54, tone: 'stroke-blue' },
-    { label: 'Legal', pct: 31, tone: 'stroke-purple' },
+    { label: 'Field visit', pct: 54, tone: 'stroke-accent3' },
+    { label: 'Legal', pct: 31, tone: 'stroke-ink2' },
   ]
   return (
     <div className="flex flex-wrap justify-center gap-10 py-4 sm:gap-16">
@@ -232,9 +232,9 @@ function Recover() {
                 transition={{ ...SPRING, delay: i * 0.1 }}
               />
             </svg>
-            <span className="absolute inset-0 grid place-items-center text-[17px] font-extrabold tabular-nums">{a.pct}%</span>
+            <span className="absolute inset-0 grid place-items-center text-lede font-extrabold tabular-nums">{a.pct}%</span>
           </div>
-          <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-hint">{a.label}</span>
+          <span className="font-mono text-label uppercase tracking-[0.1em] text-hint">{a.label}</span>
         </div>
       ))}
     </div>

@@ -17,12 +17,12 @@ export function TrackRecord() {
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
           <FadeIn>
             <div className="eyebrow mb-3">Who's behind it</div>
-            <h2 className="display text-[clamp(28px,3.4vw,42px)]">
+            <h2 className="display text-h2">
               4+ decades of experience.
               <br />
               200+ banks of pedigree.
             </h2>
-            <p className="mt-5 max-w-md text-[16px] text-muted">
+            <p className="mt-5 max-w-md text-lede text-muted">
               Banking-technology veterans, not lending tourists.
             </p>
           </FadeIn>
@@ -30,10 +30,10 @@ export function TrackRecord() {
           <Stagger className="grid grid-cols-2 gap-x-8">
             {STATS.map((s) => (
               <Item key={s.label} className="border-t border-line py-6">
-                <div className="display text-[clamp(36px,4.6vw,52px)]">
+                <div className="display text-h2">
                   <Counter to={s.n} suffix={s.suffix} />
                 </div>
-                <div className="mt-1 text-[13.5px] text-muted">{s.label}</div>
+                <div className="mt-1 text-small text-muted">{s.label}</div>
               </Item>
             ))}
           </Stagger>

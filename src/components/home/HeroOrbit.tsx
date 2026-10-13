@@ -91,7 +91,7 @@ export function HeroOrbit() {
                   >
                     <motion.div
                       animate={{ rotate: -n.a, scale: cleared ? 1.06 : 1 }}
-                      className={`flex items-center gap-1.5 whitespace-nowrap rounded-full p-1.5 text-[12px] font-semibold shadow-md transition-colors duration-200 sm:px-3 ${
+                      className={`flex items-center gap-1.5 whitespace-nowrap rounded-full p-1.5 text-small font-semibold shadow-md transition-colors duration-200 sm:px-3 ${
                         cleared ? 'bg-green text-white' : 'bg-white text-ink2'
                       }`}
                     >
@@ -136,7 +136,7 @@ export function HeroOrbit() {
             whileTap={{ scale: 0.94 }}
             animate={done ? { scale: [1, 0.92, 1.04, 1] } : { scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="relative grid size-20 cursor-pointer place-items-center rounded-full bg-gradient-to-br from-accent3 via-accent to-purple text-white shadow-glow focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/40 sm:size-24 md:size-28"
+            className="relative grid size-20 cursor-pointer place-items-center rounded-full bg-gradient-to-br from-accent3 to-accent text-white shadow-glow focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/40 sm:size-24 md:size-28"
           >
             <AnimatePresence mode="wait" initial={false}>
               {done ? (
@@ -156,7 +156,7 @@ export function HeroOrbit() {
               )}
             </AnimatePresence>
           </motion.button>
-          <div className="absolute inset-x-0 -bottom-7 whitespace-nowrap text-center font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+          <div className="absolute inset-x-0 -bottom-7 whitespace-nowrap text-center font-mono text-label uppercase tracking-[0.14em] text-muted">
             {done ? 'Sanctioned' : step > 0 ? `Checking ${step}/${STEPS}` : 'Tap to decide'}
           </div>
         </div>
@@ -169,10 +169,10 @@ export function HeroOrbit() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -14 }}
               transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-              className="absolute left-1/2 top-[8%] -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[12px] font-bold text-white shadow-lg sm:top-[14%] sm:text-[13px]"
+              className="absolute left-1/2 top-[8%] -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-small font-bold text-white shadow-lg sm:top-[14%] sm:text-small"
             >
               ₹{TICKETS[ticket].amt} sanctioned{' '}
-              <span className="ml-1 font-mono text-[11px] font-medium text-[#c4b5fd]">{SECTORS[sector].t}</span>
+              <span className="ml-1 font-mono text-label font-medium text-[#c4b5fd]">{SECTORS[sector].t}</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -191,7 +191,7 @@ function Pills({ label, options, value, onChange }: { label: string; options: st
           type="button"
           aria-pressed={i === value}
           onClick={() => onChange(i)}
-          className={`relative rounded-full px-3 py-1.5 text-[12px] font-semibold transition-colors ${i === value ? 'text-white' : 'text-muted hover:text-ink'}`}
+          className={`relative rounded-full px-3 py-1.5 text-small font-semibold transition-colors ${i === value ? 'text-white' : 'text-muted hover:text-ink'}`}
         >
           {i === value && (
             <motion.span

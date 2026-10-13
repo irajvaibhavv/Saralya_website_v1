@@ -24,7 +24,7 @@ export function ProductsSection() {
             <a
               key={m.code}
               href={`#${m.code}`}
-              className={`inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+              className={`inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-small font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
                 i === active ? m.color : 'text-ink2'
               }`}
             >
@@ -103,15 +103,15 @@ function ModuleBlock({ index, onActive }: { index: number; onActive: () => void 
           <span className={`grid size-12 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
             <m.icon className="size-6" strokeWidth={2.2} />
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-hint">
+          <span className="font-mono text-label uppercase tracking-[0.12em] text-hint">
             {m.code} · {m.tag}
           </span>
         </div>
-        <h2 className="display mt-6 text-[clamp(34px,4.4vw,56px)]">{m.name}</h2>
-        <p className={`mt-3 text-[clamp(18px,2vw,24px)] font-semibold leading-snug ${m.color}`}>{m.short}</p>
+        <h2 className="display mt-6 text-display">{m.name}</h2>
+        <p className={`mt-3 text-h3 font-semibold leading-snug ${m.color}`}>{m.short}</p>
         <div className="mt-6 flex flex-wrap gap-2">
           {m.points.map((p) => (
-            <span key={p} className="rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink2 shadow-sm">
+            <span key={p} className="rounded-full bg-white px-3.5 py-1.5 text-small font-semibold text-ink2 shadow-sm">
               {p}
             </span>
           ))}

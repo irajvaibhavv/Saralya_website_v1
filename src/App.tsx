@@ -58,7 +58,7 @@ function Pages() {
           <Routes location={location}>
             <Route path="/" element={<Landing />} />
             <Route path="/home" element={<Home />} />
-            {['products', 'technology', 'about', 'demo'].map((id) => (
+            {['products', 'demo'].map((id) => (
               <Route key={id} path={`/${id}`} element={<Navigate to={`/home#${id}`} replace />} />
             ))}
             <Route path="/privacy" element={<Privacy />} />

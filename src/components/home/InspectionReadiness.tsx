@@ -35,7 +35,7 @@ export function InspectionReadiness() {
               <div className="eyebrow mb-3 flex items-center gap-3">
                 Inspection readiness <span className="h-px w-6 bg-accent" />
               </div>
-              <h2 className="display text-[clamp(26px,3.2vw,36px)]">Tick what you already have.</h2>
+              <h2 className="display text-h2">Tick what you already have.</h2>
               <div className="mt-7 space-y-2">
                 {CHECKS.map((c, i) => (
                   <button
@@ -54,7 +54,7 @@ export function InspectionReadiness() {
                     >
                       {on[i] && <Check className="size-3.5" strokeWidth={3.5} />}
                     </span>
-                    <span className={`text-[14px] ${on[i] ? 'text-ink' : 'text-ink2'}`}>{c.q}</span>
+                    <span className={`text-body ${on[i] ? 'text-ink' : 'text-ink2'}`}>{c.q}</span>
                   </button>
                 ))}
               </div>
@@ -78,11 +78,11 @@ export function InspectionReadiness() {
                       transition={{ type: 'spring', stiffness: 140, damping: 22 }}
                     />
                   </svg>
-                  <span className="absolute inset-0 grid place-items-center text-[24px] font-extrabold tabular-nums">
+                  <span className="absolute inset-0 grid place-items-center text-stat font-extrabold tabular-nums">
                     {score}/{CHECKS.length}
                   </span>
                 </div>
-                <p className="text-[16px] font-semibold leading-snug">
+                <p className="text-lede font-semibold leading-snug">
                   {score === CHECKS.length ? 'Inspection-ready. Saral Comply keeps it that way.' : `${gaps.length} open to an inspection question.`}
                 </p>
               </div>
@@ -97,7 +97,7 @@ export function InspectionReadiness() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.85 }}
                       transition={{ duration: 0.2 }}
-                      className="rounded-md bg-red-w px-2.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-red"
+                      className="rounded-md bg-red-w px-2.5 py-1.5 font-mono text-label uppercase tracking-[0.1em] text-red"
                     >
                       {g.flag}
                     </motion.span>
@@ -109,7 +109,7 @@ export function InspectionReadiness() {
                 <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Compliance%20checklist`} variant="ink" arrow>
                   Get all 600 checks
                 </ButtonLink>
-                <p className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">Nothing leaves your browser</p>
+                <p className="mt-3 font-mono text-label uppercase tracking-[0.12em] text-hint">Nothing leaves your browser</p>
               </div>
             </div>
           </div>
