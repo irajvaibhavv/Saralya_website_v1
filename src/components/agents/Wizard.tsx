@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, RotateCcw, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, RotateCcw, Sparkles } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { SEATS, VOLUMES, WORK } from '../../content/agents'
@@ -97,19 +97,22 @@ export function Wizard() {
             <motion.div key="who" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}>
               <h3 className="display text-h2">Who are you?</h3>
               <p className="mt-2 text-lede text-muted">Pick the desk you sit at.</p>
-              <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {SEATS.map((x, i) => (
                   <button
                     key={x.id}
                     type="button"
                     onClick={() => pickSeat(i)}
-                    className="group rounded-2xl bg-white p-6 text-left shadow-sm ring-1 ring-line transition-all hover:-translate-y-0.5 hover:shadow-lg hover:ring-accent/30"
+                    className="group flex flex-col rounded-2xl bg-white p-5 text-left shadow-sm ring-1 ring-line transition-all hover:-translate-y-0.5 hover:shadow-lg hover:ring-accent/40"
                   >
-                    <div className="text-h3 font-semibold">{x.label}</div>
-                    <div className="mt-1.5 text-small text-muted">{x.short}</div>
-                    <span className="mt-4 inline-block font-mono text-label uppercase tracking-[0.12em] text-accent opacity-0 transition-opacity group-hover:opacity-100">
-                      That’s me →
-                    </span>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-h3 font-semibold leading-tight">{x.label}</div>
+                        <div className="mt-1 font-mono text-label uppercase tracking-[0.12em] text-accent">{x.short}</div>
+                      </div>
+                      <ArrowRight className="mt-1 size-4 shrink-0 text-line2 transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-accent" />
+                    </div>
+                    <p className="mt-3.5 border-t border-line pt-3.5 text-small leading-relaxed text-muted">{x.handsBack}</p>
                   </button>
                 ))}
               </div>
