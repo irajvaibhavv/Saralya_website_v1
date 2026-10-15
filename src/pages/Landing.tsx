@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { BookAtAGlance } from '../components/landing/BookAtAGlance'
 import { Hero } from '../components/landing/Hero'
 import { InAction } from '../components/landing/InAction'
 import { Pillars } from '../components/landing/Pillars'
@@ -56,6 +57,7 @@ export function Landing() {
       <Hero />
       <div id="explore" className="scroll-mt-16" />
       <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
+      <BookAtAGlance />
       <Pillars />
       <InAction onWatch={() => setWatching(true)} />
       <ClosingCta demo />
