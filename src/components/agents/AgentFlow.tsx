@@ -1,13 +1,14 @@
 import { useReducedMotion } from 'motion/react'
 
-/* The agent drawn as one left-to-right flow, on an ink card so it reads as a
-   piece of machinery rather than another white panel. Fixed viewBox: every
-   wire is computed once from the node geometry, so the packets ride paths
-   that never move and only the labels change.
+/* The agent drawn as one left-to-right flow. Fixed viewBox: every wire is
+   computed once from the node geometry, so the packets ride paths that
+   never move and only the labels change.
 
-   Palette note: the reference for this was Nugget's cyan-on-black. We use
-   accent3 (lavender) on ink instead, because the one thing worse than no
-   house style is two of them. */
+   Palette note: the reference for this was Nugget's cyan-on-black. This is
+   the same diagram in daylight — white cards, accent wires, and the core as
+   the one dark object, exactly as HowItWorks does it on /home. A single
+   dark focal point reads as machinery; a dark everything reads as somebody
+   else's site. */
 
 export type Rail = { label: string; icon: keyof typeof ICONS }
 export type Stage = { title: string; sub: string }
@@ -67,27 +68,28 @@ function Card({
         width={w}
         height={h}
         rx={15}
-        fill={lit ? 'url(#agentCore)' : 'rgba(255,255,255,0.05)'}
-        stroke={lit ? 'var(--color-accent3)' : 'rgba(255,255,255,0.12)'}
+        fill={lit ? 'var(--color-wash)' : '#ffffff'}
+        stroke={lit ? 'var(--color-accent)' : 'var(--color-line)'}
         strokeWidth={lit ? 1.5 : 1}
-        className="transition-all group-hover:fill-[rgba(255,255,255,0.09)] group-hover:stroke-[var(--color-accent3)]"
+        filter="url(#agentShadow)"
+        className="transition-all group-hover:stroke-[var(--color-accent)]"
       />
       {icon && (
         <path
           d={ICONS[icon]}
           transform={`translate(${x + 18} ${y + h / 2 - 10}) scale(.85)`}
           fill="none"
-          stroke="var(--color-accent3)"
+          stroke="var(--color-accent)"
           strokeWidth={1.6}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       )}
-      <text x={tx} y={sub ? y + h / 2 - 4 : y + h / 2 + 5} className="fill-white text-[15px] font-semibold">
+      <text x={tx} y={sub ? y + h / 2 - 4 : y + h / 2 + 5} className="fill-ink text-[15px] font-semibold">
         {title}
       </text>
       {sub && (
-        <text x={tx} y={y + h / 2 + 16} className="fill-white/45 text-[12.5px]">
+        <text x={tx} y={y + h / 2 + 16} className="fill-muted text-[12.5px]">
           {sub}
         </text>
       )}
@@ -97,7 +99,7 @@ function Card({
 
 function Cap({ x, y, children }: { x: number; y: number; children: string }) {
   return (
-    <text x={x} y={y} className="fill-accent3 font-mono text-[10.5px] uppercase tracking-[0.16em]">
+    <text x={x} y={y} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
       {children}
     </text>
   )
@@ -120,25 +122,24 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
     <svg viewBox="0 0 1600 512" className="block h-auto w-full min-w-[900px]" role="img" aria-label="How the agent moves data from your rails to a decision">
       <defs>
         <filter id="agentGlow" x="-120%" y="-120%" width="340%" height="340%">
-          <feGaussianBlur stdDeviation="4" result="b" />
+          <feGaussianBlur stdDeviation="2.5" result="b" />
           <feMerge>
             <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
+        </filter>
+        <filter id="agentShadow" x="-20%" y="-40%" width="140%" height="200%">
+          <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#141420" floodOpacity="0.07" />
         </filter>
         <filter id="agentSoft" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="9" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+          <feDropShadow dx="0" dy="7" stdDeviation="11" floodColor="#4b3fcf" floodOpacity="0.25" />
         </filter>
         <pattern id="agentGrid" width="44" height="44" patternUnits="userSpaceOnUse">
-          <path d="M44 0H0v44" fill="none" stroke="rgba(138,128,232,0.07)" strokeWidth="1" />
+          <path d="M44 0H0v44" fill="none" stroke="rgba(20,20,32,0.045)" strokeWidth="1" />
         </pattern>
         <linearGradient id="agentCore" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#2a2550" />
-          <stop offset="1" stopColor="#191a2e" />
+          <stop offset="0" stopColor="#24233c" />
+          <stop offset="1" stopColor="#141420" />
         </linearGradient>
       </defs>
 
@@ -147,14 +148,14 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
       {/* wires */}
       {wires.map((d, i) => (
         <g key={d}>
-          <path d={d} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={1.5} />
+          <path d={d} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} />
           {!reduce && (
             <>
               <path
                 id={`agentWire${i}`}
                 d={d}
                 fill="none"
-                stroke="var(--color-accent3)"
+                stroke="var(--color-accent)"
                 strokeWidth={1.5}
                 strokeLinecap="round"
                 strokeDasharray="3 13"
@@ -162,12 +163,12 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
                 className="animate-wire"
                 style={{ animationDelay: `${(i % 5) * -0.3}s` }}
               />
-              <circle r={4} fill="var(--color-accent3)" filter="url(#agentGlow)">
+              <circle r={4} fill="var(--color-accent)" filter="url(#agentGlow)">
                 <animateMotion dur="2.8s" repeatCount="indefinite" begin={`${(i * 0.23) % 2.8}s`} path={d} />
               </circle>
             </>
           )}
-          {reduce && <path d={d} fill="none" stroke="var(--color-accent3)" strokeWidth={1.5} opacity={0.4} />}
+          {reduce && <path d={d} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0.4} />}
         </g>
       ))}
 
@@ -187,7 +188,7 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
         height={CORE.h}
         rx={26}
         fill="url(#agentCore)"
-        stroke="var(--color-accent3)"
+        stroke="var(--color-accent)"
         strokeWidth={1.5}
         filter="url(#agentSoft)"
       />
@@ -200,14 +201,14 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
         const y = CORE.y + 42 + r * gy
         return (
           <g key={n}>
-            {c < 4 && <line x1={x} y1={y} x2={x + gx} y2={y} stroke="rgba(138,128,232,0.22)" strokeWidth={1} />}
+            {c < 4 && <line x1={x} y1={y} x2={x + gx} y2={y} stroke="rgba(138,128,232,0.34)" strokeWidth={1} />}
             <circle cx={x} cy={y} r={3.2} fill="var(--color-accent3)" opacity={reduce ? 0.7 : undefined}>
-              {!reduce && <animate attributeName="opacity" values=".25;1;.25" dur="2.6s" begin={`${(n % 9) * 0.26}s`} repeatCount="indefinite" />}
+              {!reduce && <animate attributeName="opacity" values=".45;1;.45" dur="2.6s" begin={`${(n % 9) * 0.26}s`} repeatCount="indefinite" />}
             </circle>
           </g>
         )
       })}
-      <text x={CORE.x + CORE.w / 2} y={CORE.y + CORE.h - 26} textAnchor="middle" className="fill-accent3 font-mono text-[10.5px] uppercase tracking-[0.16em]">
+      <text x={CORE.x + CORE.w / 2} y={CORE.y + CORE.h - 26} textAnchor="middle" className="fill-white/70 font-mono text-[10.5px] uppercase tracking-[0.16em]">
         The agent
       </text>
 
@@ -231,11 +232,11 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
       </Cap>
       {metrics.map((m, i) => (
         <g key={m.label}>
-          <line x1={MET.x} y1={MET.ys[i] - 18} x2={MET.x + MET.w} y2={MET.ys[i] - 18} stroke="rgba(255,255,255,0.1)" />
-          <text x={MET.x} y={MET.ys[i] + 4} className="fill-white/55 text-[13px]">
+          <line x1={MET.x} y1={MET.ys[i] - 18} x2={MET.x + MET.w} y2={MET.ys[i] - 18} stroke="var(--color-line)" />
+          <text x={MET.x} y={MET.ys[i] + 4} className="fill-muted text-[13px]">
             {m.label}
           </text>
-          <text x={MET.x} y={MET.ys[i] + 34} className="fill-accent3 text-[26px] font-extrabold">
+          <text x={MET.x} y={MET.ys[i] + 34} className="fill-accent text-[26px] font-extrabold">
             {m.value}
           </text>
         </g>
@@ -247,18 +248,18 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
 /** The ink frame the diagram sits in, with its header bar and caption row. */
 export function AgentFrame({ badge, children }: { badge: string; children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-3xl bg-ink text-white ring-1 ring-accent3/20">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4 md:px-7">
-        <span className="inline-flex items-center gap-2 rounded-full bg-accent3/10 px-3.5 py-2 font-mono text-label uppercase tracking-[0.14em] text-accent3 ring-1 ring-accent3/25">
-          <span className="size-1.5 rounded-full bg-accent3 shadow-[0_0_10px_var(--color-accent3)]" />
+    <div className="overflow-hidden rounded-3xl bg-bg ring-1 ring-line">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-white px-5 py-4 md:px-7">
+        <span className="inline-flex items-center gap-2 rounded-full bg-wash px-3.5 py-2 font-mono text-label uppercase tracking-[0.14em] text-accent">
+          <span className="size-1.5 rounded-full bg-accent" />
           {badge}
         </span>
-        <span className="font-mono text-label uppercase tracking-[0.14em] text-white/35">RBI-supervised by design</span>
+        <span className="font-mono text-label uppercase tracking-[0.14em] text-hint">RBI-supervised by design</span>
       </div>
 
       <div className="overflow-x-auto px-3 py-4 md:px-4">{children}</div>
 
-      <div className="grid gap-6 border-t border-white/10 p-6 md:grid-cols-4 md:p-7">
+      <div className="grid gap-6 border-t border-line bg-white p-6 md:grid-cols-4 md:p-7">
         {[
           ['Knows your book', 'Every rail, policy and past file you already hold — read-only, on your consent.'],
           ['Decides in the open', 'A reason code on every call, never a score with no explanation behind it.'],
@@ -266,8 +267,8 @@ export function AgentFrame({ badge, children }: { badge: string; children: React
           ['Lands on your desk', 'Real work removed, counted in hours you can check against your own numbers.'],
         ].map(([t, d]) => (
           <div key={t}>
-            <h4 className="text-body font-semibold text-accent3">{t}</h4>
-            <p className="mt-1.5 text-small leading-relaxed text-white/45">{d}</p>
+            <h4 className="text-body font-semibold text-accent">{t}</h4>
+            <p className="mt-1.5 text-small leading-relaxed text-muted">{d}</p>
           </div>
         ))}
       </div>
