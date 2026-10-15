@@ -64,7 +64,6 @@ export function Wizard() {
               Three questions. Then <span className="text-accent">your agent</span>.
             </>
           }
-          lede="Nothing here leaves your browser."
         />
 
         {/* progress */}
@@ -96,7 +95,6 @@ export function Wizard() {
           {step === 0 && (
             <motion.div key="who" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}>
               <h3 className="display text-h2">Who are you?</h3>
-              <p className="mt-2 text-lede text-muted">Pick the desk you sit at.</p>
               <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {SEATS.map((x, i) => (
                   <button
@@ -126,10 +124,7 @@ export function Wizard() {
                 <ArrowLeft className="size-3.5" /> Not {an(s.label)} {s.label.toLowerCase()}
               </button>
               <h3 className="display text-h2">{an(s.label) === 'an' ? 'An' : 'A'} {s.label.toLowerCase()}’s day.</h3>
-              <p className="mt-2 max-w-2xl text-lede text-muted">
-                You read {s.sees.slice(0, 3).join(', ')}, you work in {s.actsIn.join(' and ').toLowerCase()}, and none of it
-                can cross {s.cannot.length} hard lines. Now: <span className="font-semibold text-ink">where does the time actually go?</span>
-              </p>
+              <p className="mt-2 text-lede text-muted">Where does the time actually go?</p>
 
               <div className="mt-7 grid gap-3 md:grid-cols-2">
                 {CHALLENGES.map((c) => {
@@ -186,7 +181,6 @@ export function Wizard() {
               <h3 className="display text-h2">
                 Your <span className="text-accent">{s.label.toLowerCase()}</span> agent.
               </h3>
-              <p className="mt-2 text-lede text-muted">Same five layers as the one above, filled in with your answers.</p>
 
               <div className="mt-8">
                 <AgentFrame badge={`${s.label} agent`}>
@@ -252,10 +246,7 @@ export function Wizard() {
                 </div>
               </div>
 
-              <p className="mt-5 max-w-2xl text-small leading-relaxed text-muted">
-                The minutes are our own conservative estimates for manual work, and they are marginal: work that overlaps is counted
-                once. We show the sum so you can argue with it.
-              </p>
+              <p className="mt-5 text-small text-hint">Conservative estimates, counted once where work overlaps.</p>
             </motion.div>
           )}
         </AnimatePresence>

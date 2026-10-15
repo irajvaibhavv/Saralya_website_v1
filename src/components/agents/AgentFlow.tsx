@@ -339,10 +339,10 @@ export function AgentFrame({ badge, children }: { badge: string; children: React
 
       <div className="grid gap-6 border-t border-line bg-white p-6 md:grid-cols-4 md:p-7">
         {[
-          ['Knows your book', 'Every rail, policy and past file you already hold — read-only, on your consent.'],
-          ['Decides in the open', 'A reason code on every call, never a score with no explanation behind it.'],
-          ['Cannot cross the line', 'The 21-day SCN clock, the KFS, DPDP consent and the calling window are limits in the system.'],
-          ['Lands on your desk', 'Real work removed, counted in hours you can check against your own numbers.'],
+          ['Knows your book', 'Every rail you already hold, read-only.'],
+          ['Decides in the open', 'A reason code on every call.'],
+          ['Cannot cross the line', 'SCN clock, KFS, DPDP, calling window.'],
+          ['Lands on your desk', 'Hours removed, in numbers you can check.'],
         ].map(([t, d]) => (
           <div key={t}>
             <h4 className="text-body font-semibold text-accent">{t}</h4>

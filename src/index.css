@@ -4,6 +4,8 @@
    all work as utilities. */
 @theme {
   --font-sans: "Satoshi", "Geist", system-ui, sans-serif;
+  /* headlines only: Satoshi sets text well but says nothing on its own */
+  --font-display: "Clash Display", "Satoshi", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
   /* One type scale. Every size on the site is one of these nine. */
@@ -106,7 +108,7 @@ body {
 }
 
 @utility display {
-  @apply font-medium tracking-[-0.018em];
+  @apply font-display font-medium tracking-[-0.015em];
 }
 
 /* Saral Saarthi takes the page: the hero copy steps back so the reel can
