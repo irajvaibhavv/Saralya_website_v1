@@ -84,13 +84,13 @@ export function DemoSection() {
           <div className="grid overflow-hidden rounded-3xl bg-white shadow-lg lg:grid-cols-[360px_1fr]">
             {/* form */}
             <div className="border-b border-line p-7 lg:border-b-0 lg:border-r">
-              <div className="text-[18px] font-extrabold tracking-[-0.02em]">New application</div>
-              <div className="mb-6 text-[13px] text-muted">Sample data pre-loaded.</div>
+              <div className="text-h3 font-extrabold tracking-[-0.02em]">New application</div>
+              <div className="mb-6 text-small text-muted">Sample data pre-loaded.</div>
               <Field label="Applicant name" defaultValue="Rahul Kumar" />
               <Field label="Loan amount (₹)" defaultValue="4,20,000" />
               <label className="mb-4 block">
-                <span className="mb-1.5 block font-mono text-[10.5px] uppercase tracking-[0.1em] text-hint">Product type</span>
-                <select className="w-full rounded-xl bg-bg px-3.5 py-2.5 text-[14px] font-medium outline-none ring-accent/40 focus:ring-2" defaultValue="MSME · Working capital">
+                <span className="mb-1.5 block font-mono text-label uppercase tracking-[0.1em] text-hint">Product type</span>
+                <select className="w-full rounded-xl bg-bg px-3.5 py-2.5 text-body font-medium outline-none ring-accent/40 focus:ring-2" defaultValue="MSME · Working capital">
                   <option>MSME · Working capital</option>
                   <option>Retail · Personal loan</option>
                   <option>SME · Term loan</option>
@@ -102,7 +102,7 @@ export function DemoSection() {
                 <button
                   onClick={run}
                   disabled={phase === 'loading'}
-                  className="demo-run group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3 text-[15px] font-bold text-white transition hover:bg-accent2 hover:shadow-glow disabled:opacity-60"
+                  className="demo-run group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3 text-body font-bold text-white transition hover:bg-accent2 hover:shadow-glow disabled:opacity-60"
                 >
                   <Play className="size-4 fill-current" />
                   {phase === 'report' ? 'Run again' : 'Run decision'}
@@ -129,8 +129,8 @@ export function DemoSection() {
                     <span className="grid size-16 place-items-center rounded-3xl bg-white text-hint shadow-sm">
                       <FileText className="size-7" />
                     </span>
-                    <div className="mt-5 text-[18px] font-extrabold">No decision yet</div>
-                    <div className="mt-1 max-w-xs text-[14px] text-muted">Hit "Run decision" to fetch and score this application.</div>
+                    <div className="mt-5 text-h3 font-extrabold">No decision yet</div>
+                    <div className="mt-1 max-w-xs text-body text-muted">Hit "Run decision" to fetch and score this application.</div>
                   </motion.div>
                 )}
 
@@ -158,7 +158,7 @@ export function DemoSection() {
                               <span className="size-3.5 animate-spin rounded-full border-2 border-line border-t-accent" />
                             ) : null}
                           </span>
-                          <span className={`text-[14px] font-medium ${done || now ? 'text-ink' : 'text-muted'}`}>{label}</span>
+                          <span className={`text-body font-medium ${done || now ? 'text-ink' : 'text-muted'}`}>{label}</span>
                         </motion.div>
                       )
                     })}
@@ -178,11 +178,11 @@ export function DemoSection() {
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
-                        className="inline-flex items-center gap-2 rounded-full bg-green px-4 py-2 text-[14px] font-bold text-white shadow-[0_12px_24px_-10px_rgba(20,160,107,0.6)]"
+                        className="inline-flex items-center gap-2 rounded-full bg-green px-4 py-2 text-body font-bold text-white shadow-[0_12px_24px_-10px_rgba(20,160,107,0.6)]"
                       >
                         <Check className="size-4" strokeWidth={3} /> Approve · STP
                       </motion.div>
-                      <div className="text-right font-mono text-[11px] text-muted">
+                      <div className="text-right font-mono text-label text-muted">
                         APP-2841
                         <br />
                         decided in 4.7s
@@ -215,16 +215,16 @@ export function DemoSection() {
                         </svg>
                         <div className="absolute inset-0 grid place-items-center text-center">
                           <div>
-                            <div className="display text-[30px] tabular-nums">{score}</div>
-                            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-hint">Credit score</div>
+                            <div className="display text-stat tabular-nums">{score}</div>
+                            <div className="font-mono text-label uppercase tracking-[0.08em] text-hint">Credit score</div>
                           </div>
                         </div>
                       </div>
                       <div className="space-y-4">
                         {BANDS.map((b) => (
                           <div key={b.key}>
-                            <div className="mb-1.5 flex justify-between text-[13px]">
-                              <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-muted">{b.key}</span>
+                            <div className="mb-1.5 flex justify-between text-small">
+                              <span className="font-mono text-label uppercase tracking-[0.06em] text-muted">{b.key}</span>
                               <span className={`font-semibold ${b.tone}`}>{b.value}</span>
                             </div>
                             <div className="h-2 overflow-hidden rounded-full bg-bg">
@@ -239,7 +239,7 @@ export function DemoSection() {
                     </div>
 
                     <div className="mt-4 rounded-3xl bg-white p-6 shadow-sm">
-                      <div className="mb-3 font-mono text-[10.5px] uppercase tracking-[0.1em] text-hint">Signals checked</div>
+                      <div className="mb-3 font-mono text-label uppercase tracking-[0.1em] text-hint">Signals checked</div>
                       <div className="space-y-2">
                         <Flag ok>No fraud markers · identity verified</Flag>
                         <Flag ok>No EWS drift · cohort stable</Flag>
@@ -247,7 +247,7 @@ export function DemoSection() {
                       </div>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap justify-between gap-2 px-1 font-mono text-[11px] text-muted">
+                    <div className="mt-4 flex flex-wrap justify-between gap-2 px-1 font-mono text-label text-muted">
                       <span>
                         vs peer median: <b className="font-medium text-accent">+18% approval confidence</b>
                       </span>
@@ -269,11 +269,11 @@ export function DemoSection() {
 function Field({ label, defaultValue }: { label: string; defaultValue: string }) {
   return (
     <label className="mb-4 block">
-      <span className="mb-1.5 block font-mono text-[10.5px] uppercase tracking-[0.1em] text-hint">{label}</span>
+      <span className="mb-1.5 block font-mono text-label uppercase tracking-[0.1em] text-hint">{label}</span>
       <input
         type="text"
         defaultValue={defaultValue}
-        className="w-full rounded-xl bg-bg px-3.5 py-2.5 text-[14px] font-medium outline-none ring-accent/40 focus:ring-2"
+        className="w-full rounded-xl bg-bg px-3.5 py-2.5 text-body font-medium outline-none ring-accent/40 focus:ring-2"
       />
     </label>
   )
@@ -281,7 +281,7 @@ function Field({ label, defaultValue }: { label: string; defaultValue: string })
 
 function Flag({ ok, children }: { ok?: boolean; children: string }) {
   return (
-    <div className={`flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-[13.5px] font-medium ${ok ? 'bg-green-w text-green' : 'bg-amber-w text-amber'}`}>
+    <div className={`flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-small font-medium ${ok ? 'bg-green-w text-green' : 'bg-amber-w text-amber'}`}>
       {ok ? <Check className="size-4" strokeWidth={3} /> : <AlertTriangle className="size-4" />}
       <span className="text-ink2">{children}</span>
     </div>

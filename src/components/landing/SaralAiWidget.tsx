@@ -1,19 +1,17 @@
-import { Maximize2, Minimize2, UploadCloud, X } from 'lucide-react'
+import { UploadCloud, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import type { Starter } from '../../content/saral-ai'
 import { fileStarter, Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
 
-/* Saral Saarthi lives in the corner. A launcher until it is opened; then a
-   window that starts with four questions and becomes the conversation. */
-
-const SHADOW = 'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.6),0_0_0_1px_rgba(20,20,32,0.06),0_24px_60px_-24px_rgba(20,20,32,0.28)]'
+/* A launcher in the corner until it is opened; then Saral Saarthi fills the
+   screen on its own clean surface and the reel stops behind it. Not an
+   overlay on the video: the conversation gets the page to itself. */
 
 export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; seat: Role | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
   // a one-time nudge beside the launcher so a first visitor knows what it is
   const [hint, setHint] = useState(false)
-  const [big, setBig] = useState(false) // roughly half the screen instead of a corner window
 
   /* Drop a file anywhere on the page: the window opens with it, or takes it
      if it is already open. */
@@ -49,6 +47,19 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
     }
   }, [pending, onAsk])
   useEffect(() => {
+    if (!open) return
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', esc)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.documentElement.classList.add('saarthi-open')
+    return () => {
+      window.removeEventListener('keydown', esc)
+      document.body.style.overflow = prev
+      document.documentElement.classList.remove('saarthi-open')
+    }
+  }, [open, onClose])
+  useEffect(() => {
     if (open) { setHint(false); return }
     const on = window.setTimeout(() => setHint(true), 2500)
     const off = window.setTimeout(() => setHint(false), 9000)
@@ -62,8 +73,8 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
           <motion.div key="drop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="pointer-events-none fixed inset-0 z-[95] grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
             <motion.div initial={{ scale: 0.94, y: 8 }} animate={{ scale: 1, y: 0 }} className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed border-white/70 bg-white/10 px-12 py-10 text-center text-white">
               <UploadCloud className="size-10" strokeWidth={1.6} />
-              <div className="text-[20px] font-semibold tracking-tight">Drop it for Saral</div>
-              <div className="text-[14px] text-white/75">Policy docs, sample files, MIS sheets.</div>
+              <div className="text-h3 font-semibold tracking-tight">Drop it for Saral</div>
+              <div className="text-body text-white/75">Policy docs, sample files, MIS sheets.</div>
             </motion.div>
           </motion.div>
         )}
@@ -76,7 +87,7 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4, transition: { duration: 0.15 } }}
-            className="fixed bottom-[76px] right-5 z-[90] max-w-[240px] rounded-xl bg-white px-3.5 py-2.5 text-[13px] leading-snug text-ink2 shadow-md sm:bottom-[84px] sm:right-6"
+            className="fixed bottom-[76px] right-5 z-[90] max-w-[240px] rounded-xl bg-white px-3.5 py-2.5 text-small leading-snug text-ink2 shadow-md sm:bottom-[84px] sm:right-6"
           >
             Ask me anything about credit risk, collections or RBI norms.
             <span className="absolute -bottom-1 right-6 size-2 rotate-45 bg-white" />
@@ -98,35 +109,43 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
             className="fixed bottom-5 right-5 z-[90] flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 text-ink shadow-md sm:bottom-6 sm:right-6"
           >
             <span className="relative grid size-8 place-items-center rounded-full bg-accent text-white">
-              <Mark className="text-[17px]" />
+              <Mark className="text-lede" />
               <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-green ring-2 ring-white" />
             </span>
-            <span className="text-[13.5px] font-medium">Saral Saarthi</span>
+            <span className="text-small font-medium">Saral Saarthi</span>
           </motion.button>
         )}
       </AnimatePresence>
 
       <AnimatePresence>
         {open && (
-          <motion.div
-            key="window"
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.97, transition: { duration: 0.2 } }}
-            transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            layout
-            className={`fixed inset-x-3 bottom-3 z-[90] origin-bottom-right overflow-hidden rounded-3xl bg-white/35 backdrop-blur-3xl backdrop-saturate-150 sm:inset-x-auto sm:bottom-6 sm:right-6 ${big ? 'sm:w-[min(680px,55vw)]' : 'sm:w-[360px]'} ${SHADOW} ${pending ? (big ? 'h-[min(760px,80svh)]' : 'h-[min(540px,88svh)]') : 'max-h-[88svh]'}`}
-          >
-            <div className="absolute right-2.5 top-2.5 z-10 flex items-center">
-              <button onClick={() => setBig((b) => !b)} aria-label={big ? 'Smaller window' : 'Larger window'} className="hidden size-8 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink sm:grid">
-                {big ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
+          <>
+            <motion.div
+              key="sheet"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Saral Saarthi"
+              className="fixed inset-0 z-[90] overflow-hidden bg-bg"
+            >
+              <button onClick={onClose} aria-label="Close Saral Saarthi" className="absolute right-4 top-4 z-10 grid size-10 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink sm:right-6 sm:top-6">
+                <X className="size-5" />
               </button>
-              <button onClick={onClose} aria-label="Close Saral AI" className="grid size-8 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink">
-                <X className="size-4" />
-              </button>
-            </div>
-            {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
-          </motion.div>
+
+              {/* a reading column */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                className="relative mx-auto h-full w-full max-w-[720px] px-5"
+              >
+                {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
+              </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

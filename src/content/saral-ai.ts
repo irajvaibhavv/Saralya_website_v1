@@ -18,17 +18,19 @@ export type DeptId = (typeof DEPARTMENTS)[number]['id']
 
 export const STAGES = ['Appraise', 'Screen', 'Watch', 'Recover', 'Report', 'Comply'] as const
 
-/* Each challenge maps to a lifecycle stage, a module, and one vendor-neutral
-   tip the visitor can act on without buying anything. */
+/* Each challenge maps to a lifecycle stage, a module, one vendor-neutral tip
+   the visitor can act on without buying anything, and `does`: the same thing
+   written as the work an agent takes off their desk (used by the Agents
+   section). */
 export const CHALLENGES = [
-  { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', next: { to: '/demo', label: 'Watch a decision in minutes' }, tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
-  { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types: stop asking borrowers for PDF statements.' },
-  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', next: { to: '/demo', label: 'Watch a decision run' }, tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person: and build the 21-day SCN step in before you need it.' },
-  { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M3', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
-  { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M4', tip: 'Log every visit with time and location, and route the day by promise-to-pay date: not by who shouted loudest.' },
-  { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M5', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
-  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M6', next: { to: '/home#readiness', label: 'Tick your six inspection checks' }, tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
-  { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, next: { to: '/technology', label: 'See how it plugs into your core' }, tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
+  { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', next: { to: '/demo', label: 'Watch a decision in minutes' }, does: 'Pulls bureau, Account Aggregator and GSTN on one consent, and puts a scored file on your desk.', tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
+  { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', does: 'Collapses five tabs into one file view: bureau, bank, GST, MCA.', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types: stop asking borrowers for PDF statements.' },
+  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', next: { to: '/demo', label: 'Watch a decision run' }, does: 'Links applicants by phone, device, address and bank account, and flags the cluster before disbursal.', tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person: and build the 21-day SCN step in before you need it.' },
+  { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M3', does: 'Watches the first failed NACH and the skipped GST filing, and tags SMA-0 on day 1.', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
+  { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M4', does: 'Routes the day by promise-to-pay date, and logs every visit with time and location.', tip: 'Log every visit with time and location, and route the day by promise-to-pay date: not by who shouted loudest.' },
+  { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M5', does: 'Cuts the book by vintage and writes the roll-rate pack before anyone asks for it.', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
+  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M6', next: { to: '/home#readiness', label: 'Tick your six inspection checks' }, does: 'Generates CRILC and NBS-9 from the ledger, and names what is still missing.', tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
+  { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, next: { to: '/technology', label: 'See how it plugs into your core' }, does: 'Reads your core through an API layer beside it, one product line at a time.', tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
 ] as const
 export type ChallengeId = (typeof CHALLENGES)[number]['id']
 

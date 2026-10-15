@@ -50,8 +50,8 @@ function Card({ title, body, children }: { title: string; body: string; children
     <div className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg">
       <div className="relative h-[190px] overflow-hidden bg-gradient-to-b from-wash2 to-white">{children}</div>
       <div className="p-6 pt-5">
-        <div className="text-[19px] font-extrabold tracking-[-0.02em] leading-snug">{title}</div>
-        <p className="mt-2 text-[14px] text-muted">{body}</p>
+        <div className="text-h3 font-extrabold tracking-[-0.02em] leading-snug">{title}</div>
+        <p className="mt-2 text-body text-muted">{body}</p>
       </div>
     </div>
   )
@@ -74,7 +74,7 @@ function Bars() {
           style={{ opacity: 0.45 + (i / heights.length) * 0.55 }}
         />
       ))}
-      <div className="absolute left-0 top-3 rounded-full bg-white px-2.5 py-1 font-mono text-[10px] text-accent shadow-sm">
+      <div className="absolute left-0 top-3 rounded-full bg-white px-2.5 py-1 font-mono text-label text-accent shadow-sm">
         BFSI-trained
       </div>
     </div>
@@ -112,10 +112,10 @@ function Stopwatch() {
         </svg>
         <div className="absolute inset-0 grid place-items-center text-center">
           <div>
-            <div className="display text-[26px] tabular-nums">
+            <div className="display text-stat tabular-nums">
               <Counter to={4} />:<Counter to={12} duration={1.8} />
             </div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-hint">min · sec</div>
+            <div className="font-mono text-label uppercase tracking-[0.08em] text-hint">min · sec</div>
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@ function Plugs() {
         {systems.map((s, i) => (
           <motion.div
             key={s}
-            className="rounded-xl bg-white px-3 py-1.5 font-mono text-[11px] text-ink2 shadow-sm"
+            className="rounded-xl bg-white px-3 py-1.5 font-mono text-label text-ink2 shadow-sm"
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -157,7 +157,7 @@ function Plugs() {
         ))}
       </svg>
       <motion.div
-        className="grid size-16 place-items-center rounded-2xl bg-ink text-[11px] font-extrabold text-white shadow-lg"
+        className="grid size-16 place-items-center rounded-2xl bg-ink text-label font-extrabold text-white shadow-lg"
         initial={{ scale: 0.8, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
         viewport={{ once: true }}
@@ -173,14 +173,14 @@ function Checks() {
   const items = ['MD-FRM · 21-day SCN', 'DLD 2025 · KFS delivered', 'DPDP · consent logged', 'KYC MD · CKYC matched', 'CRILC · NBS-9 mapped']
   return (
     <div className="absolute inset-0 px-6 pt-5">
-      <div className="absolute right-6 top-4 rounded-full bg-white px-2.5 py-1 font-mono text-[10px] text-green shadow-sm">
+      <div className="absolute right-6 top-4 rounded-full bg-white px-2.5 py-1 font-mono text-label text-green shadow-sm">
         <Counter to={600} suffix="+ checks" />
       </div>
       <div className="space-y-1.5">
         {items.map((t, i) => (
           <motion.div
             key={t}
-            className="flex items-center gap-2 text-[12.5px] font-medium text-ink2"
+            className="flex items-center gap-2 text-small font-medium text-ink2"
             initial={{ opacity: 0, x: -8 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

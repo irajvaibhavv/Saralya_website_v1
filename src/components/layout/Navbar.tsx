@@ -6,13 +6,12 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 const LINKS = [
   { to: '/home', label: 'Overview' },
   { to: '/home#products', label: 'Products' },
-  { to: '/home#technology', label: 'Technology' },
-  { to: '/home#about', label: 'About' },
+  { to: '/agents', label: 'Agents' },
 ]
 
 export function Logo({ light }: { light?: boolean }) {
   return (
-    <Link to="/" className={`flex items-center gap-2 text-[20px] font-extrabold tracking-[-0.04em] ${light ? 'text-white' : 'text-ink'}`}>
+    <Link to="/" className={`flex items-center gap-2 text-h3 font-extrabold tracking-[-0.04em] ${light ? 'text-white' : 'text-ink'}`}>
       Saralya
       <span className="inline-block size-2 rounded-full bg-accent" />
     </Link>
@@ -70,7 +69,7 @@ export function Navbar() {
                   key={l.to}
                   to={l.to}
                   className={({ isActive }) =>
-                    `block rounded-2xl px-4 py-3 text-[15px] font-semibold ${isActive ? 'bg-wash2 text-accent' : 'text-ink'}`
+                    `block rounded-2xl px-4 py-3 text-body font-semibold ${isActive ? 'bg-wash2 text-accent' : 'text-ink'}`
                   }
                 >
                   {l.label}
