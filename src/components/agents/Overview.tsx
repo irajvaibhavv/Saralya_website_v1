@@ -14,10 +14,12 @@ const RAILS: Rail[] = [
   { label: 'Your core', icon: 'core' },
 ]
 
+/* rim names: short by necessity, a sentence will not fit on the loop */
 const STAGES: Stage[] = [
-  { title: 'Reads the file whole', sub: 'one pull, not five tabs' },
-  { title: 'Scores against your policy', sub: 'your matrix, your cut-offs' },
-  { title: 'Writes every reason', sub: 'reason codes, not a number' },
+  { title: 'Collector', sub: 'one pull, not five tabs' },
+  { title: 'Policy engine', sub: 'your matrix, your cut-offs' },
+  { title: 'Reason writer', sub: 'reason codes, not a number' },
+  { title: 'Escalator', sub: 'what it may not decide' },
 ]
 
 const OUTCOME: Stage = { title: 'Approve · STP', sub: 'sanctioned with the KFS attached' }
@@ -43,7 +45,7 @@ export function Overview() {
         />
         <FadeIn>
           <AgentFrame badge="Saralya agent">
-            <AgentFlow rails={RAILS} stages={STAGES} outcome={OUTCOME} metrics={METRICS} />
+            <AgentFlow rails={RAILS} stages={STAGES} outcome={OUTCOME} metrics={METRICS} loopLabel="Credit decision" />
           </AgentFrame>
         </FadeIn>
       </Container>

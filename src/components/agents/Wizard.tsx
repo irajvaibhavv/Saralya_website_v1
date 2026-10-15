@@ -19,8 +19,7 @@ const SRC_ICONS = ['bureau', 'data', 'doc', 'shield', 'core', 'voice'] as const
 const STEPS = ['Who you are', 'Your day', 'Your agent']
 
 /* SVG text does not wrap, so anything going into the diagram is kept short
-   by construction rather than trusted to fit. */
-const clip = (t: string) => (t.length > 30 ? t.slice(0, 29).trimEnd() + '…' : t)
+   by construction rather than trusted to fit: the rim takes WORK[].node. */
 const moduleName = (code: string | null) => MODULES.find((m) => m.code === code)?.name ?? 'Across your stack'
 
 /* "An underwriter", "a legal officer". */
@@ -186,8 +185,9 @@ export function Wizard() {
                 <AgentFrame badge={`${s.label} agent`}>
                   <AgentFlow
                     rails={s.sees.slice(0, 5).map((label, i): Rail => ({ label, icon: SRC_ICONS[i % SRC_ICONS.length] }))}
-                    stages={flows.slice(0, 3).map((f): Stage => ({ title: clip(f.label), sub: moduleName(f.module) }))}
-                    outcome={{ title: `${hours.toLocaleString('en-IN')} hrs a month`, sub: `${people} people, back on other work` }}
+                    stages={flows.slice(0, 4).map((f): Stage => ({ title: WORK[f.id].node, sub: moduleName(f.module) }))}
+                    outcome={{ title: `${hours.toLocaleString('en-IN')} hrs a month`, sub: `${people} people` }}
+                    loopLabel={`${s.label}'s day`}
                     metrics={[
                       { label: 'Hours a month', value: `↑ ${hours.toLocaleString('en-IN')}` },
                       { label: 'People, back on other work', value: `↑ ${people}` },
