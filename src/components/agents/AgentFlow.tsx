@@ -1,150 +1,276 @@
-import type { LucideIcon } from 'lucide-react'
-import { Ban } from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import type { ReactNode } from 'react'
+import { useReducedMotion } from 'motion/react'
 
-/* One agent, drawn as the path data takes through it: rails on the left, the
-   core, the work, what comes back. Used twice on the page — once generic,
-   once rebuilt from the visitor's own answers — so it has to be data-driven.
-   Same visual language as HowItWorks on /home: white cards, accent lines,
-   packets riding the path. */
+/* The agent drawn as one left-to-right flow, on an ink card so it reads as a
+   piece of machinery rather than another white panel. Fixed viewBox: every
+   wire is computed once from the node geometry, so the packets ride paths
+   that never move and only the labels change.
 
-export type Source = { label: string; icon: LucideIcon }
+   Palette note: the reference for this was Nugget's cyan-on-black. We use
+   accent3 (lavender) on ink instead, because the one thing worse than no
+   house style is two of them. */
 
-function Wire({ delay = 0 }: { delay?: number }) {
-  const reduce = useReducedMotion()
-  const d = 'M 0 6 L 72 6'
+export type Rail = { label: string; icon: keyof typeof ICONS }
+export type Stage = { title: string; sub: string }
+export type Metric = { label: string; value: string }
+
+export const ICONS = {
+  bureau: 'M3 20h18M5 20V8l7-4 7 4v12M10 20v-5h4v5',
+  data: 'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6',
+  doc: 'M7 3h7l5 5v13H7zM14 3v5h5M10 13h7M10 17h7',
+  shield: 'M12 3l8 3v6c0 5-3.4 8.2-8 9.5C7.4 20.2 4 17 4 12V6zM9 12l2 2 4-4',
+  core: 'M4 7h16v10H4zM8 11h8M8 14h5',
+  voice: 'M12 3v18M8 7v10M16 7v10M4 10v4M20 10v4',
+}
+
+/* geometry */
+const IN = { x: 46, w: 246, h: 56, ys: [96, 170, 244, 318, 392] }
+const TRUNK = 350
+const CORE = { x: 440, y: 230, w: 210, h: 200 }
+const ST = { x: 742, w: 232, h: 74, ys: [176, 288, 400] }
+const OUT = { x: 1066, y: 252, w: 232, h: 156 }
+const MET = { x: 1366, w: 206, ys: [232, 330, 428] }
+const CY = CORE.y + CORE.h / 2
+const OY = OUT.y + OUT.h / 2
+
+const curve = (ax: number, ay: number, bx: number, by: number) => {
+  const dx = Math.max(50, (bx - ax) * 0.55)
+  return `M ${ax} ${ay} C ${ax + dx} ${ay}, ${bx - dx} ${by}, ${bx} ${by}`
+}
+/* rails run straight out to a shared trunk, then curve into the core */
+const feeder = (y: number) => `M ${IN.x + IN.w} ${y} L ${TRUNK} ${y} C ${TRUNK + 70} ${y}, ${CORE.x - 70} ${CY}, ${CORE.x} ${CY}`
+
+function Card({
+  x,
+  y,
+  w,
+  h,
+  title,
+  sub,
+  icon,
+  lit,
+}: {
+  x: number
+  y: number
+  w: number
+  h: number
+  title: string
+  sub?: string
+  icon?: keyof typeof ICONS
+  lit?: boolean
+}) {
+  const tx = icon ? x + 54 : x + 20
   return (
-    <svg viewBox="0 0 72 12" className="h-3 w-full shrink-0 lg:w-[72px]" fill="none" aria-hidden>
-      <path d={d} stroke="var(--color-line2)" strokeWidth="1.5" />
-      {!reduce && (
-        <>
-          <motion.path
-            d={d}
-            stroke="var(--color-accent)"
-            strokeWidth="1.5"
-            strokeDasharray="4 12"
-            strokeLinecap="round"
-            animate={{ strokeDashoffset: [0, -32] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
-          />
-          <circle r="3.5" fill="var(--color-accent)">
-            <animateMotion dur="2.4s" repeatCount="indefinite" begin={`${delay}s`} path={d} />
-          </circle>
-        </>
+    <g className="group">
+      <rect
+        x={x}
+        y={y}
+        width={w}
+        height={h}
+        rx={15}
+        fill={lit ? 'url(#agentCore)' : 'rgba(255,255,255,0.05)'}
+        stroke={lit ? 'var(--color-accent3)' : 'rgba(255,255,255,0.12)'}
+        strokeWidth={lit ? 1.5 : 1}
+        className="transition-all group-hover:fill-[rgba(255,255,255,0.09)] group-hover:stroke-[var(--color-accent3)]"
+      />
+      {icon && (
+        <path
+          d={ICONS[icon]}
+          transform={`translate(${x + 18} ${y + h / 2 - 10}) scale(.85)`}
+          fill="none"
+          stroke="var(--color-accent3)"
+          strokeWidth={1.6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       )}
+      <text x={tx} y={sub ? y + h / 2 - 4 : y + h / 2 + 5} className="fill-white text-[15px] font-semibold">
+        {title}
+      </text>
+      {sub && (
+        <text x={tx} y={y + h / 2 + 16} className="fill-white/45 text-[12.5px]">
+          {sub}
+        </text>
+      )}
+    </g>
+  )
+}
+
+function Cap({ x, y, children }: { x: number; y: number; children: string }) {
+  return (
+    <text x={x} y={y} className="fill-accent3 font-mono text-[10.5px] uppercase tracking-[0.16em]">
+      {children}
+    </text>
+  )
+}
+
+export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; stages: Stage[]; outcome: Stage; metrics: Metric[] }) {
+  const reduce = useReducedMotion()
+
+  const wires = [
+    ...IN.ys.slice(0, rails.length).map((y) => feeder(y + IN.h / 2)),
+    ...ST.ys.slice(0, stages.length).map((y) => curve(CORE.x + CORE.w, CY, ST.x, y + ST.h / 2)),
+    ...ST.ys.slice(0, stages.length).map((y) => curve(ST.x + ST.w, y + ST.h / 2, OUT.x, OY)),
+    curve(OUT.x + OUT.w, OY, MET.x - 28, OY),
+  ]
+
+  /* three stages sit at fixed heights; with fewer, centre them */
+  const stageY = (i: number) => (stages.length === 3 ? ST.ys[i] : stages.length === 2 ? [ST.ys[0] + 56, ST.ys[2] - 56][i] : [ST.ys[1]][i])
+
+  return (
+    <svg viewBox="0 0 1600 512" className="block h-auto w-full min-w-[900px]" role="img" aria-label="How the agent moves data from your rails to a decision">
+      <defs>
+        <filter id="agentGlow" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="4" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="agentSoft" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="9" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <pattern id="agentGrid" width="44" height="44" patternUnits="userSpaceOnUse">
+          <path d="M44 0H0v44" fill="none" stroke="rgba(138,128,232,0.07)" strokeWidth="1" />
+        </pattern>
+        <linearGradient id="agentCore" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#2a2550" />
+          <stop offset="1" stopColor="#191a2e" />
+        </linearGradient>
+      </defs>
+
+      <rect width="1600" height="512" fill="url(#agentGrid)" />
+
+      {/* wires */}
+      {wires.map((d, i) => (
+        <g key={d}>
+          <path d={d} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={1.5} />
+          {!reduce && (
+            <>
+              <path
+                id={`agentWire${i}`}
+                d={d}
+                fill="none"
+                stroke="var(--color-accent3)"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeDasharray="3 13"
+                opacity={0.85}
+                className="animate-wire"
+                style={{ animationDelay: `${(i % 5) * -0.3}s` }}
+              />
+              <circle r={4} fill="var(--color-accent3)" filter="url(#agentGlow)">
+                <animateMotion dur="2.8s" repeatCount="indefinite" begin={`${(i * 0.23) % 2.8}s`} path={d} />
+              </circle>
+            </>
+          )}
+          {reduce && <path d={d} fill="none" stroke="var(--color-accent3)" strokeWidth={1.5} opacity={0.4} />}
+        </g>
+      ))}
+
+      {/* rails */}
+      <Cap x={IN.x} y={IN.ys[0] - 22}>
+        Your rails
+      </Cap>
+      {rails.map((r, i) => (
+        <Card key={r.label} x={IN.x} y={IN.ys[i]} w={IN.w} h={IN.h} title={r.label} icon={r.icon} />
+      ))}
+
+      {/* the core */}
+      <rect
+        x={CORE.x}
+        y={CORE.y}
+        width={CORE.w}
+        height={CORE.h}
+        rx={26}
+        fill="url(#agentCore)"
+        stroke="var(--color-accent3)"
+        strokeWidth={1.5}
+        filter="url(#agentSoft)"
+      />
+      {Array.from({ length: 25 }).map((_, n) => {
+        const r = Math.floor(n / 5)
+        const c = n % 5
+        const gx = (CORE.w - 76) / 4
+        const gy = (CORE.h - 120) / 4
+        const x = CORE.x + 38 + c * gx
+        const y = CORE.y + 42 + r * gy
+        return (
+          <g key={n}>
+            {c < 4 && <line x1={x} y1={y} x2={x + gx} y2={y} stroke="rgba(138,128,232,0.22)" strokeWidth={1} />}
+            <circle cx={x} cy={y} r={3.2} fill="var(--color-accent3)" opacity={reduce ? 0.7 : undefined}>
+              {!reduce && <animate attributeName="opacity" values=".25;1;.25" dur="2.6s" begin={`${(n % 9) * 0.26}s`} repeatCount="indefinite" />}
+            </circle>
+          </g>
+        )
+      })}
+      <text x={CORE.x + CORE.w / 2} y={CORE.y + CORE.h - 26} textAnchor="middle" className="fill-accent3 font-mono text-[10.5px] uppercase tracking-[0.16em]">
+        The agent
+      </text>
+
+      {/* what it runs */}
+      <Cap x={ST.x} y={ST.ys[0] - 22}>
+        What it runs
+      </Cap>
+      {stages.map((s, i) => (
+        <Card key={s.title} x={ST.x} y={stageY(i)} w={ST.w} h={ST.h} title={s.title} sub={s.sub} />
+      ))}
+
+      {/* what comes back */}
+      <Cap x={OUT.x} y={OUT.y - 22}>
+        What comes back
+      </Cap>
+      <Card x={OUT.x} y={OUT.y} w={OUT.w} h={OUT.h} title={outcome.title} sub={outcome.sub} lit />
+
+      {/* impact */}
+      <Cap x={MET.x} y={MET.ys[0] - 34}>
+        Impact
+      </Cap>
+      {metrics.map((m, i) => (
+        <g key={m.label}>
+          <line x1={MET.x} y1={MET.ys[i] - 18} x2={MET.x + MET.w} y2={MET.ys[i] - 18} stroke="rgba(255,255,255,0.1)" />
+          <text x={MET.x} y={MET.ys[i] + 4} className="fill-white/55 text-[13px]">
+            {m.label}
+          </text>
+          <text x={MET.x} y={MET.ys[i] + 34} className="fill-accent3 text-[26px] font-extrabold">
+            {m.value}
+          </text>
+        </g>
+      ))}
     </svg>
   )
 }
 
-function Col({ label, children, className = '' }: { label: string; children: ReactNode; className?: string }) {
+/** The ink frame the diagram sits in, with its header bar and caption row. */
+export function AgentFrame({ badge, children }: { badge: string; children: React.ReactNode }) {
   return (
-    <div className={`min-w-0 flex-1 ${className}`}>
-      <div className="eyebrow mb-3">{label}</div>
-      {children}
-    </div>
-  )
-}
-
-export function AgentFlow({
-  sources,
-  work,
-  outcome,
-  seatKey = 'base',
-}: {
-  sources: Source[]
-  work: string[]
-  outcome: ReactNode
-  /* changes when the visitor's answers change, so the chips re-animate */
-  seatKey?: string
-}) {
-  const reduce = useReducedMotion()
-
-  return (
-    <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-0">
-      <Col label="What it reads">
-        <div className="space-y-2.5">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {sources.map((s, i) => (
-              <motion.div
-                key={seatKey + s.label}
-                layout
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25, delay: i * 0.05 }}
-                className="flex items-center gap-2.5 rounded-xl bg-white px-3.5 py-2.5 shadow-sm ring-1 ring-line"
-              >
-                <s.icon className="size-4 shrink-0 text-accent" strokeWidth={1.8} />
-                <span className="text-small font-medium text-ink2">{s.label}</span>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-        <p className="mt-3 text-small text-hint">Read-only, on your consent</p>
-      </Col>
-
-      <Wire delay={0} />
-
-      <div className="flex shrink-0 flex-col items-center gap-3 lg:w-[150px]">
-        <div className="relative grid size-24 place-items-center rounded-3xl bg-ink text-white shadow-lg">
-          {!reduce && <span className="absolute inset-0 rounded-3xl bg-ink animate-pulse-ring" />}
-          <span className="relative flex items-start text-figure font-extrabold leading-none tracking-[-0.06em]">
-            S<span className="ml-0.5 mt-[9px] size-2.5 rounded-full bg-accent3" />
-          </span>
-        </div>
-        <span className="font-mono text-label uppercase tracking-[0.12em] text-hint">The agent</span>
+    <div className="overflow-hidden rounded-3xl bg-ink text-white ring-1 ring-accent3/20">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4 md:px-7">
+        <span className="inline-flex items-center gap-2 rounded-full bg-accent3/10 px-3.5 py-2 font-mono text-label uppercase tracking-[0.14em] text-accent3 ring-1 ring-accent3/25">
+          <span className="size-1.5 rounded-full bg-accent3 shadow-[0_0_10px_var(--color-accent3)]" />
+          {badge}
+        </span>
+        <span className="font-mono text-label uppercase tracking-[0.14em] text-white/35">RBI-supervised by design</span>
       </div>
 
-      <Wire delay={0.8} />
+      <div className="overflow-x-auto px-3 py-4 md:px-4">{children}</div>
 
-      <Col label="What it runs">
-        <div className="space-y-2.5">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {work.map((w) => (
-              <motion.div
-                key={seatKey + w}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.22 }}
-                className="rounded-xl bg-wash2 px-3.5 py-2.5 text-small font-medium text-ink2 ring-1 ring-accent/15"
-              >
-                {w}
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          {work.length === 0 && <p className="rounded-xl bg-bg px-3.5 py-6 text-center text-small text-hint">Nothing picked yet</p>}
-        </div>
-      </Col>
-
-      <Wire delay={1.6} />
-
-      <Col label="What comes back">{outcome}</Col>
-    </div>
-  )
-}
-
-/** The limits belong to the agent but need their own line: a visitor should
-    be able to read them without finding them. */
-export function Limits({ limits, seatKey = 'base' }: { limits: string[]; seatKey?: string }) {
-  return (
-    <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-t border-line pt-5">
-      <span className="eyebrow">What it cannot do</span>
-      {limits.map((l) => (
-        <motion.span
-          key={seatKey + l}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.25 }}
-          className="inline-flex items-center gap-1.5 text-small text-red"
-        >
-          <Ban className="size-3.5 shrink-0" strokeWidth={2.5} />
-          {l}
-        </motion.span>
-      ))}
-      <span className="text-small text-hint">Hard limits, not prompts</span>
+      <div className="grid gap-6 border-t border-white/10 p-6 md:grid-cols-4 md:p-7">
+        {[
+          ['Knows your book', 'Every rail, policy and past file you already hold — read-only, on your consent.'],
+          ['Decides in the open', 'A reason code on every call, never a score with no explanation behind it.'],
+          ['Cannot cross the line', 'The 21-day SCN clock, the KFS, DPDP consent and the calling window are limits in the system.'],
+          ['Lands on your desk', 'Real work removed, counted in hours you can check against your own numbers.'],
+        ].map(([t, d]) => (
+          <div key={t}>
+            <h4 className="text-body font-semibold text-accent3">{t}</h4>
+            <p className="mt-1.5 text-small leading-relaxed text-white/45">{d}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
