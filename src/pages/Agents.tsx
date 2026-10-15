@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { READY } from '../content/agents'
 import { Overview } from '../components/agents/Overview'
+import { Trust } from '../components/agents/Trust'
 import { Wizard } from '../components/agents/Wizard'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
@@ -16,6 +17,7 @@ export function Agents() {
       <Overview />
       <Wizard />
       <Ready />
+      <Trust />
       <Steps />
       <ClosingCta />
     </>

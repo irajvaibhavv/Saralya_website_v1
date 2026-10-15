@@ -110,3 +110,20 @@ export const READY: { name: string; img: string; seat: string; line: string }[] 
   { name: 'Verification agent', img: '/img/shopfront.jpg', seat: 'verify', line: 'Links applicants by phone, device, address and bank account.' },
   { name: 'Portfolio agent', img: '/img/meeting.jpg', seat: 'ops', line: 'Cuts the book by vintage and writes the board pack on schedule.' },
 ]
+
+/* The rails an agent already reads, and the regimes it is held to. Labels
+   only: these are names, not claims, and every one of them is something the
+   old site already listed. */
+export const RAILS = [
+  'CIBIL', 'Experian', 'CRIF', 'Equifax', 'Account Aggregator', 'NPCI', 'NACH', 'UPI',
+  'CIMS', 'CERSAI', 'CKYC', 'GSTN', 'MCA21', 'FinnOne', 'Lentra', 'Finflux', 'AllCloud',
+]
+
+export const SEALS = [
+  'RBI MD-FRM 2024',
+  'RBI DLD 2025',
+  '90-day NPA · Apr 2026',
+  'DPDP Act 2023',
+  'AES-256 · TLS 1.3',
+  'Immutable audit trail',
+]
