@@ -4,11 +4,17 @@ import { useReducedMotion } from 'motion/react'
    computed once from the node geometry, so the packets ride paths that
    never move and only the labels change.
 
-   Palette note: the reference for this was Nugget's cyan-on-black. This is
-   the same diagram in daylight — white cards, accent wires, and the core as
-   the one dark object, exactly as HowItWorks does it on /home. A single
-   dark focal point reads as machinery; a dark everything reads as somebody
-   else's site. */
+   The motion is one cycle, not a pile of unrelated loops: a file arrives on
+   the rails, the core lights while it thinks, the work fires, the answer
+   lands, the numbers tick. Every element gets a window inside the same
+   CYCLE, so the diagram reads left to right in time as well as in space —
+   which is the thing the page is actually claiming.
+
+   Palette note: the reference was Nugget's cyan-on-black. This is the same
+   diagram in daylight — white cards, accent wires, and the core as the one
+   dark object, exactly as HowItWorks does it on /home. A single dark focal
+   point reads as machinery; a dark everything reads as somebody else's
+   site. */
 
 export type Rail = { label: string; icon: keyof typeof ICONS }
 export type Stage = { title: string; sub: string }
@@ -33,12 +39,61 @@ const MET = { x: 1366, w: 206, ys: [232, 330, 428] }
 const CY = CORE.y + CORE.h / 2
 const OY = OUT.y + OUT.h / 2
 
+/** one decision, start to finish */
+const CYCLE = 5.2
+
 const curve = (ax: number, ay: number, bx: number, by: number) => {
   const dx = Math.max(50, (bx - ax) * 0.55)
   return `M ${ax} ${ay} C ${ax + dx} ${ay}, ${bx - dx} ${by}, ${bx} ${by}`
 }
 /* rails run straight out to a shared trunk, then curve into the core */
 const feeder = (y: number) => `M ${IN.x + IN.w} ${y} L ${TRUNK} ${y} C ${TRUNK + 70} ${y}, ${CORE.x - 70} ${CY}, ${CORE.x} ${CY}`
+
+/* SMIL keyTimes must be strictly inside [0,1] and non-decreasing */
+const f = (n: number) => Math.min(0.999, Math.max(0.001, n)).toFixed(3)
+
+/** A packet that rides its wire only during [from,to] of the shared cycle. */
+function Packet({ d, from, to }: { d: string; from: number; to: number }) {
+  return (
+    <circle r={4.5} fill="var(--color-accent)" filter="url(#agentGlow)" opacity={0}>
+      <animateMotion dur={`${CYCLE}s`} repeatCount="indefinite" path={d} calcMode="linear" keyPoints="0;0;1;1" keyTimes={`0;${f(from)};${f(to)};1`} />
+      <animate
+        attributeName="opacity"
+        dur={`${CYCLE}s`}
+        repeatCount="indefinite"
+        calcMode="linear"
+        values="0;0;1;1;0;0"
+        keyTimes={`0;${f(from)};${f(from + 0.012)};${f(to - 0.012)};${f(to)};1`}
+      />
+    </circle>
+  )
+}
+
+/** The wire: idle grey, lit only while its packet is on it. */
+function Wire({ d, from, to, reduce }: { d: string; from: number; to: number; reduce: boolean | null }) {
+  return (
+    <>
+      <path d={d} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} />
+      {reduce ? (
+        <path d={d} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0.4} />
+      ) : (
+        <>
+          <path d={d} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} strokeLinecap="round" strokeDasharray="3 13" opacity={0.12} className="animate-wire">
+            <animate
+              attributeName="opacity"
+              dur={`${CYCLE}s`}
+              repeatCount="indefinite"
+              calcMode="linear"
+              values="0.12;0.12;0.9;0.9;0.12;0.12"
+              keyTimes={`0;${f(from)};${f(from + 0.03)};${f(to)};${f(to + 0.06)};1`}
+            />
+          </path>
+          <Packet d={d} from={from} to={to} />
+        </>
+      )}
+    </>
+  )
+}
 
 function Card({
   x,
@@ -49,6 +104,7 @@ function Card({
   sub,
   icon,
   lit,
+  arrives,
 }: {
   x: number
   y: number
@@ -58,6 +114,8 @@ function Card({
   sub?: string
   icon?: keyof typeof ICONS
   lit?: boolean
+  /** fraction of the cycle at which this card's packet lands */
+  arrives?: number
 }) {
   const tx = icon ? x + 54 : x + 20
   return (
@@ -74,6 +132,19 @@ function Card({
         filter="url(#agentShadow)"
         className="transition-all group-hover:stroke-[var(--color-accent)]"
       />
+      {/* a ring that flares once, as the packet lands */}
+      {arrives !== undefined && (
+        <rect x={x} y={y} width={w} height={h} rx={15} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0}>
+          <animate
+            attributeName="opacity"
+            dur={`${CYCLE}s`}
+            repeatCount="indefinite"
+            calcMode="linear"
+            values="0;0;0.95;0;0"
+            keyTimes={`0;${f(arrives - 0.01)};${f(arrives + 0.015)};${f(arrives + 0.1)};1`}
+          />
+        </rect>
+      )}
       {icon && (
         <path
           d={ICONS[icon]}
@@ -107,16 +178,15 @@ function Cap({ x, y, children }: { x: number; y: number; children: string }) {
 
 export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; stages: Stage[]; outcome: Stage; metrics: Metric[] }) {
   const reduce = useReducedMotion()
-
-  const wires = [
-    ...IN.ys.slice(0, rails.length).map((y) => feeder(y + IN.h / 2)),
-    ...ST.ys.slice(0, stages.length).map((y) => curve(CORE.x + CORE.w, CY, ST.x, y + ST.h / 2)),
-    ...ST.ys.slice(0, stages.length).map((y) => curve(ST.x + ST.w, y + ST.h / 2, OUT.x, OY)),
-    curve(OUT.x + OUT.w, OY, MET.x - 28, OY),
-  ]
+  const shown = stages.slice(0, 3)
 
   /* three stages sit at fixed heights; with fewer, centre them */
-  const stageY = (i: number) => (stages.length === 3 ? ST.ys[i] : stages.length === 2 ? [ST.ys[0] + 56, ST.ys[2] - 56][i] : [ST.ys[1]][i])
+  const stageY = (i: number) => (shown.length >= 3 ? ST.ys[i] : shown.length === 2 ? [ST.ys[0] + 56, ST.ys[2] - 56][i] : [ST.ys[1]][i])
+
+  const railWires = rails.map((_, i) => ({ d: feeder(IN.ys[i] + IN.h / 2), from: 0.02 + i * 0.012, to: 0.23 + i * 0.012 }))
+  const stageWires = shown.map((_, i) => ({ d: curve(CORE.x + CORE.w, CY, ST.x, stageY(i) + ST.h / 2), from: 0.36 + i * 0.015, to: 0.56 + i * 0.015 }))
+  const outWires = shown.map((_, i) => ({ d: curve(ST.x + ST.w, stageY(i) + ST.h / 2, OUT.x, OY), from: 0.62 + i * 0.015, to: 0.8 + i * 0.015 }))
+  const metricWire = { d: curve(OUT.x + OUT.w, OY, MET.x - 28, OY), from: 0.85, to: 0.95 }
 
   return (
     <svg viewBox="0 0 1600 512" className="block h-auto w-full min-w-[900px]" role="img" aria-label="How the agent moves data from your rails to a decision">
@@ -141,35 +211,20 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
           <stop offset="0" stopColor="#24233c" />
           <stop offset="1" stopColor="#141420" />
         </linearGradient>
+        <linearGradient id="agentScan" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="var(--color-accent3)" stopOpacity="0" />
+          <stop offset="0.5" stopColor="var(--color-accent3)" stopOpacity="0.55" />
+          <stop offset="1" stopColor="var(--color-accent3)" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id="agentCoreClip">
+          <rect x={CORE.x} y={CORE.y} width={CORE.w} height={CORE.h} rx={26} />
+        </clipPath>
       </defs>
 
       <rect width="1600" height="512" fill="url(#agentGrid)" />
 
-      {/* wires */}
-      {wires.map((d, i) => (
-        <g key={d}>
-          <path d={d} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} />
-          {!reduce && (
-            <>
-              <path
-                id={`agentWire${i}`}
-                d={d}
-                fill="none"
-                stroke="var(--color-accent)"
-                strokeWidth={1.5}
-                strokeLinecap="round"
-                strokeDasharray="3 13"
-                opacity={0.85}
-                className="animate-wire"
-                style={{ animationDelay: `${(i % 5) * -0.3}s` }}
-              />
-              <circle r={4} fill="var(--color-accent)" filter="url(#agentGlow)">
-                <animateMotion dur="2.8s" repeatCount="indefinite" begin={`${(i * 0.23) % 2.8}s`} path={d} />
-              </circle>
-            </>
-          )}
-          {reduce && <path d={d} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0.4} />}
-        </g>
+      {[...railWires, ...stageWires, ...outWires, metricWire].map((w) => (
+        <Wire key={w.d + w.from} {...w} reduce={reduce} />
       ))}
 
       {/* rails */}
@@ -181,17 +236,7 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
       ))}
 
       {/* the core */}
-      <rect
-        x={CORE.x}
-        y={CORE.y}
-        width={CORE.w}
-        height={CORE.h}
-        rx={26}
-        fill="url(#agentCore)"
-        stroke="var(--color-accent)"
-        strokeWidth={1.5}
-        filter="url(#agentSoft)"
-      />
+      <rect x={CORE.x} y={CORE.y} width={CORE.w} height={CORE.h} rx={26} fill="url(#agentCore)" stroke="var(--color-accent)" strokeWidth={1.5} filter="url(#agentSoft)" />
       {Array.from({ length: 25 }).map((_, n) => {
         const r = Math.floor(n / 5)
         const c = n % 5
@@ -208,6 +253,29 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
           </g>
         )
       })}
+      {/* it thinks: a sweep across the mesh, right after the rails land */}
+      {!reduce && (
+        <g clipPath="url(#agentCoreClip)">
+          <rect x={CORE.x} y={CORE.y - 70} width={CORE.w} height={70} fill="url(#agentScan)" opacity={0}>
+            <animate
+              attributeName="y"
+              dur={`${CYCLE}s`}
+              repeatCount="indefinite"
+              calcMode="linear"
+              values={`${CORE.y - 70};${CORE.y - 70};${CORE.y + CORE.h};${CORE.y + CORE.h}`}
+              keyTimes={`0;${f(0.24)};${f(0.38)};1`}
+            />
+            <animate
+              attributeName="opacity"
+              dur={`${CYCLE}s`}
+              repeatCount="indefinite"
+              calcMode="linear"
+              values="0;0;1;1;0;0"
+              keyTimes={`0;${f(0.235)};${f(0.25)};${f(0.36)};${f(0.38)};1`}
+            />
+          </rect>
+        </g>
+      )}
       <text x={CORE.x + CORE.w / 2} y={CORE.y + CORE.h - 26} textAnchor="middle" className="fill-white/70 font-mono text-[10.5px] uppercase tracking-[0.16em]">
         The agent
       </text>
@@ -216,15 +284,15 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
       <Cap x={ST.x} y={ST.ys[0] - 22}>
         What it runs
       </Cap>
-      {stages.map((s, i) => (
-        <Card key={s.title} x={ST.x} y={stageY(i)} w={ST.w} h={ST.h} title={s.title} sub={s.sub} />
+      {shown.map((s, i) => (
+        <Card key={s.title} x={ST.x} y={stageY(i)} w={ST.w} h={ST.h} title={s.title} sub={s.sub} arrives={reduce ? undefined : 0.56 + i * 0.015} />
       ))}
 
       {/* what comes back */}
       <Cap x={OUT.x} y={OUT.y - 22}>
         What comes back
       </Cap>
-      <Card x={OUT.x} y={OUT.y} w={OUT.w} h={OUT.h} title={outcome.title} sub={outcome.sub} lit />
+      <Card x={OUT.x} y={OUT.y} w={OUT.w} h={OUT.h} title={outcome.title} sub={outcome.sub} lit arrives={reduce ? undefined : 0.8} />
 
       {/* impact */}
       <Cap x={MET.x} y={MET.ys[0] - 34}>
@@ -236,8 +304,18 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
           <text x={MET.x} y={MET.ys[i] + 4} className="fill-muted text-[13px]">
             {m.label}
           </text>
-          <text x={MET.x} y={MET.ys[i] + 34} className="fill-accent text-[26px] font-extrabold">
+          <text x={MET.x} y={MET.ys[i] + 34} className="fill-accent text-[26px] font-extrabold" opacity={reduce ? 1 : 0.72}>
             {m.value}
+            {!reduce && (
+              <animate
+                attributeName="opacity"
+                dur={`${CYCLE}s`}
+                repeatCount="indefinite"
+                calcMode="linear"
+                values="0.72;0.72;1;1;0.72"
+                keyTimes={`0;${f(0.92 + i * 0.015)};${f(0.95 + i * 0.015)};0.99;1`}
+              />
+            )}
           </text>
         </g>
       ))}
@@ -245,7 +323,7 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
   )
 }
 
-/** The ink frame the diagram sits in, with its header bar and caption row. */
+/** The frame the diagram sits in, with its header bar and caption row. */
 export function AgentFrame({ badge, children }: { badge: string; children: React.ReactNode }) {
   return (
     <div className="overflow-hidden rounded-3xl bg-bg ring-1 ring-line">
