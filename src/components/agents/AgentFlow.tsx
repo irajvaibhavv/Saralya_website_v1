@@ -199,13 +199,13 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
           </feMerge>
         </filter>
         <filter id="agentShadow" x="-20%" y="-40%" width="140%" height="200%">
-          <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#141420" floodOpacity="0.07" />
+          <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#0d1614" floodOpacity="0.07" />
         </filter>
         <filter id="agentSoft" x="-60%" y="-60%" width="220%" height="220%">
-          <feDropShadow dx="0" dy="7" stdDeviation="11" floodColor="#4b3fcf" floodOpacity="0.25" />
+          <feDropShadow dx="0" dy="7" stdDeviation="11" floodColor="#107a66" floodOpacity="0.25" />
         </filter>
         <pattern id="agentGrid" width="44" height="44" patternUnits="userSpaceOnUse">
-          <path d="M44 0H0v44" fill="none" stroke="rgba(20,20,32,0.045)" strokeWidth="1" />
+          <path d="M44 0H0v44" fill="none" stroke="rgba(13,22,20,0.05)" strokeWidth="1" />
         </pattern>
         <linearGradient id="agentCore" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#24233c" />
@@ -246,7 +246,7 @@ export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; 
         const y = CORE.y + 42 + r * gy
         return (
           <g key={n}>
-            {c < 4 && <line x1={x} y1={y} x2={x + gx} y2={y} stroke="rgba(138,128,232,0.34)" strokeWidth={1} />}
+            {c < 4 && <line x1={x} y1={y} x2={x + gx} y2={y} stroke="rgba(76,195,165,0.4)" strokeWidth={1} />}
             <circle cx={x} cy={y} r={3.2} fill="var(--color-accent3)" opacity={reduce ? 0.7 : undefined}>
               {!reduce && <animate attributeName="opacity" values=".45;1;.45" dur="2.6s" begin={`${(n % 9) * 0.26}s`} repeatCount="indefinite" />}
             </circle>
