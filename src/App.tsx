@@ -7,18 +7,20 @@ import { Landing } from './pages/Landing'
 
 // Only the landing ships in the first bundle; other pages load on navigation.
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
+const Agents = lazy(() => import('./pages/Agents').then((m) => ({ default: m.Agents })))
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
 
 /* Fetch the other pages once the landing has painted, so a click never waits
    on a chunk mid-transition. */
 function preload() {
-  const go = () => Promise.all([import('./pages/Home'), import('./pages/Privacy')])
+  const go = () => Promise.all([import('./pages/Home'), import('./pages/Agents'), import('./pages/Privacy')])
   ;(window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500)))(go)
 }
 
 const TITLES: Record<string, string> = {
   '/': 'Saral AI · Saralya',
   '/home': 'Saralya · Making Lending Saral for Bharat',
+  '/agents': 'Agents · Saralya',
   '/privacy': 'Privacy Policy · Saralya',
 }
 
@@ -58,6 +60,7 @@ function Pages() {
           <Routes location={location}>
             <Route path="/" element={<Landing />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/agents" element={<Agents />} />
             {['products', 'demo'].map((id) => (
               <Route key={id} path={`/${id}`} element={<Navigate to={`/home#${id}`} replace />} />
             ))}

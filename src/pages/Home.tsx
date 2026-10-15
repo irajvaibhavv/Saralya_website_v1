@@ -1,3 +1,4 @@
+import { AgentsBand } from '../components/home/Agents'
 import { Benefits } from '../components/home/Benefits'
 import { DemoSection } from '../components/home/Demo'
 import { MonthlyReview } from '../components/home/MonthlyReview'
@@ -21,6 +22,7 @@ export function Home() {
       <UpiAnalogy />
       <ProductsSection />
       <DemoSection />
+      <AgentsBand />
       <MonthlyReview />
       <InspectionReadiness />
       <Benefits />

@@ -8,6 +8,7 @@ const COLS = [
     title: 'Product',
     links: [
       { label: 'Products', to: '/products' },
+      { label: 'Agents', to: '/agents' },
       { label: 'Live demo', to: '/demo' },
     ],
   },
