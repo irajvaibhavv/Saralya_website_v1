@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { READY } from '../content/agents'
+import { READY, SEATS } from '../content/agents'
 import { Overview } from '../components/agents/Overview'
 import { Trust } from '../components/agents/Trust'
 import { Wizard } from '../components/agents/Wizard'
@@ -25,22 +25,55 @@ export function Agents() {
 }
 
 function Hero() {
+  const go = () => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })
   return (
     <Section tight className="pt-14 md:pt-20">
       <Container>
-        <FadeIn>
-          <div className="eyebrow mb-4">Saralya agents</div>
-          <h1 className="display max-w-4xl text-display">
-            An agent for every desk in the <span className="text-accent">building</span>.
-          </h1>
-          <button
-            type="button"
-            onClick={() => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })}
-            className="mt-7 rounded-xl bg-ink px-6 py-3 text-body font-semibold text-white transition-colors hover:bg-ink2"
-          >
-            Build mine →
-          </button>
-        </FadeIn>
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+          <FadeIn>
+            <div className="eyebrow mb-4">Saralya agents</div>
+            <h1 className="display text-display">
+              An agent for every desk in the <span className="text-accent">building</span>.
+            </h1>
+
+            {/* the seats, as labels: who the page is for, before any reading */}
+            <div className="mt-7 flex flex-wrap gap-2">
+              {SEATS.map((x) => (
+                <button
+                  key={x.id}
+                  type="button"
+                  onClick={go}
+                  className="rounded-full bg-white px-3.5 py-2 text-small text-ink2 ring-1 ring-line transition-colors hover:bg-wash2 hover:ring-accent/40"
+                >
+                  {x.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={go}
+              className="mt-7 rounded-full bg-ink px-7 py-3.5 text-body font-medium text-white transition-colors hover:bg-ink2"
+            >
+              Build mine →
+            </button>
+          </FadeIn>
+
+          {/* the building the headline is talking about */}
+          <FadeIn className="relative">
+            <div className="relative overflow-hidden rounded-3xl ring-1 ring-line">
+              <img src="/img/meeting.jpg" alt="" loading="lazy" decoding="async" className="h-[300px] w-full object-cover md:h-[400px]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+              <div className="absolute inset-x-5 bottom-5 flex flex-wrap items-center gap-2">
+                {['Underwriting', 'Collections', 'Compliance'].map((t) => (
+                  <span key={t} className="rounded-full bg-white/90 px-3 py-1.5 font-mono text-label uppercase tracking-[0.12em] text-ink2">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+        </div>
       </Container>
     </Section>
   )
