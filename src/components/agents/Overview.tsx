@@ -16,10 +16,10 @@ const RAILS: Rail[] = [
 
 /* rim names: short by necessity, a sentence will not fit on the loop */
 const STAGES: Stage[] = [
-  { title: 'Collector', sub: 'one pull, not five tabs' },
-  { title: 'Policy engine', sub: 'your matrix, your cut-offs' },
-  { title: 'Reason writer', sub: 'reason codes, not a number' },
-  { title: 'Escalator', sub: 'what it may not decide' },
+  { title: 'Collector', sub: 'one pull, not five tabs', icon: 'data' },
+  { title: 'Policy engine', sub: 'your matrix, your cut-offs', icon: 'chart' },
+  { title: 'Reason writer', sub: 'reason codes, not a number', icon: 'pen' },
+  { title: 'Escalator', sub: 'what it may not decide', icon: 'split' },
 ]
 
 const OUTCOME: Stage = { title: 'Approve · STP', sub: 'sanctioned with the KFS attached' }

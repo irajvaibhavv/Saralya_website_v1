@@ -59,7 +59,9 @@ function Hero() {
             </button>
           </FadeIn>
 
-          <FadeIn>
+          {/* min-w-0: a grid child defaults to min-width:auto, so the long
+              JSON lines would widen the whole page instead of scrolling */}
+          <FadeIn className="min-w-0">
             <AgentCall />
           </FadeIn>
         </div>
@@ -84,7 +86,7 @@ const CALL: [string, string][] = [
 function AgentCall() {
   const reduce = useReducedMotion()
   return (
-    <div className="overflow-hidden rounded-3xl bg-ink ring-1 ring-ink">
+    <div className="min-w-0 overflow-hidden rounded-3xl bg-ink ring-1 ring-ink">
       <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5">
         <span className="font-mono text-label tracking-[0.06em] text-accent3">POST /v1/agents</span>
         <span className="font-mono text-label uppercase tracking-[0.12em] text-white/35">application/json</span>
