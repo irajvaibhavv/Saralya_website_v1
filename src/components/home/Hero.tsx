@@ -16,13 +16,13 @@ export function Hero() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[12.5px] font-semibold text-ink2 shadow-sm"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-small font-semibold text-ink2 shadow-sm"
             >
               <span className="size-1.5 rounded-full bg-accent animate-pulse-ring" />
               Lending infrastructure for India's banks &amp; NBFCs
             </motion.div>
 
-            <h1 className="display mt-6 text-[clamp(40px,6.4vw,80px)]">
+            <h1 className="display mt-6 text-display">
               {[
                 ['Making Lending'],
                 ['Saral', ' for Bharat.'],
@@ -65,7 +65,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.35, delay: 0.26 }}
-              className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-[12px] uppercase tracking-[0.08em] text-hint"
+              className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-small uppercase tracking-[0.08em] text-hint"
             >
               <span>&lt; 5 min STP approval</span>
               <span>Pay per loan</span>

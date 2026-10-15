@@ -8,8 +8,8 @@ const ROWS = [
     steps: ['Tap', 'Verify', 'Done'],
     time: '~4 seconds',
     fill: 0.04,
-    bar: 'bg-gradient-to-r from-blue to-accent3',
-    tone: 'text-blue',
+    bar: 'bg-gradient-to-r from-accent to-accent3',
+    tone: 'text-accent',
   },
   {
     title: 'Lending with Saralya',
@@ -52,10 +52,10 @@ export function UpiAnalogy() {
                 }`}
               >
                 <div>
-                  <div className={`text-[16px] font-bold ${r.hero ? 'text-ink' : 'text-ink2'}`}>{r.title}</div>
+                  <div className={`text-lede font-bold ${r.hero ? 'text-ink' : 'text-ink2'}`}>{r.title}</div>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {r.steps.map((s) => (
-                      <span key={s} className="rounded-full bg-bg px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.06em] text-muted">
+                      <span key={s} className="rounded-full bg-bg px-2 py-0.5 font-mono text-label uppercase tracking-[0.06em] text-muted">
                         {s}
                       </span>
                     ))}
@@ -70,7 +70,7 @@ export function UpiAnalogy() {
                     transition={{ duration: r.fill === 1 ? 2.4 : 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 + idx * 0.15 }}
                   />
                 </div>
-                <div className={`display text-[22px] md:text-right ${r.tone}`}>{r.time}</div>
+                <div className={`display text-stat md:text-right ${r.tone}`}>{r.time}</div>
               </div>
             ))}
           </div>

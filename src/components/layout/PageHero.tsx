@@ -27,8 +27,8 @@ export function PageHero({
             <span className="h-px w-6 bg-accent" />
             {eyebrow}
           </div>
-          <h1 className="display text-[clamp(38px,6vw,68px)]">{title}</h1>
-          {lede && <p className="mt-5 max-w-2xl text-[17px] md:text-[19px] leading-relaxed text-muted">{lede}</p>}
+          <h1 className="display text-display">{title}</h1>
+          {lede && <p className="mt-5 max-w-2xl text-lede md:text-h3 leading-relaxed text-muted">{lede}</p>}
           {children && <div className="mt-8">{children}</div>}
         </motion.div>
       </Container>

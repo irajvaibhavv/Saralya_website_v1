@@ -40,9 +40,9 @@ export function SectionHead({
     <FadeIn className={`mb-10 grid gap-4 md:mb-12 lg:grid-cols-[1fr_minmax(0,380px)] lg:items-end lg:gap-10 ${className}`}>
       <div>
         {eyebrow && <div className="eyebrow mb-3">{eyebrow}</div>}
-        <h2 className="display max-w-2xl text-[clamp(28px,3.4vw,42px)]">{title}</h2>
+        <h2 className="display max-w-2xl text-h2">{title}</h2>
       </div>
-      {lede && <p className="text-[16px] leading-relaxed text-muted lg:pb-1">{lede}</p>}
+      {lede && <p className="text-lede leading-relaxed text-muted lg:pb-1">{lede}</p>}
     </FadeIn>
   )
 }
