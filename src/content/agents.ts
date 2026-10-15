@@ -111,14 +111,9 @@ export const READY: { name: string; img: string; seat: string; line: string }[] 
   { name: 'Portfolio agent', img: '/img/meeting.jpg', seat: 'ops', line: 'Cuts the book by vintage and writes the board pack on schedule.' },
 ]
 
-/* The rails an agent already reads, and the regimes it is held to. Labels
-   only: these are names, not claims, and every one of them is something the
-   old site already listed. */
-export const RAILS = [
-  'CIBIL', 'Experian', 'CRIF', 'Equifax', 'Account Aggregator', 'NPCI', 'NACH', 'UPI',
-  'CIMS', 'CERSAI', 'CKYC', 'GSTN', 'MCA21', 'FinnOne', 'Lentra', 'Finflux', 'AllCloud',
-]
-
+/* The regimes an agent is held to. No list of cores, bureaus or vendors:
+   naming third parties implies a partnership nobody has verified, and the
+   founders have struck that before. */
 export const SEALS = [
   'RBI MD-FRM 2024',
   'RBI DLD 2025',

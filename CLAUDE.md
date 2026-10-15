@@ -90,7 +90,9 @@ Conventions:
 - Looping visuals use `repeat: Infinity` with `repeatDelay` and respect
   `prefers-reduced-motion` (global CSS kill-switch + `useReducedMotion`).
 - Keep copy short: headline, one line, chips. The lead's standing complaint
-  is "too text heavy"; prefer a visual over a paragraph.
+  is "too text heavy"; prefer a visual over a paragraph. **Never fill a thin
+  section with a new paragraph** — use a chart, a diagram, a photograph, a
+  label-only chip row, or cut the section.
 - Each page ends with `<ClosingCta />`.
 
 ## Interactions (all React state, no DOM scripting)
@@ -137,6 +139,12 @@ crops `--screenshot` output), scroll through to trigger reveals, then
 - Live site: https://saralya.in
 
 ## Open content flags (raise with the lead before launch)
+
+**Never name a third-party company on the site.** No partner logos, no
+"integrates with" lists of cores or bureaus (FinnOne, Lentra, Finflux,
+AllCloud), no named testimonials. The lead has had these removed twice.
+Standards and regimes are fine — Account Aggregator, GSTN, RBI MD-FRM, DPDP
+— because those are infrastructure, not companies we claim to partner with.
 
 Inherited from the prototype and **not verified**:
 - Partner logos naming real companies (Aye Finance, Paisalo, CSL Finance)
