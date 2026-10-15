@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Hero } from '../components/landing/Hero'
 import { InAction } from '../components/landing/InAction'
+import { MakeAgents } from '../components/landing/MakeAgents'
 import { Pillars } from '../components/landing/Pillars'
 import { PopularQuestions } from '../components/landing/PopularQuestions'
 import { SaralAiWidget } from '../components/landing/SaralAiWidget'
@@ -54,6 +55,7 @@ export function Landing() {
   return (
     <>
       <Hero />
+      <MakeAgents />
       <div id="explore" className="scroll-mt-16" />
       <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
       <Pillars />

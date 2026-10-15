@@ -19,7 +19,7 @@ function preload() {
 
 const TITLES: Record<string, string> = {
   '/': 'Saral AI · Saralya',
-  '/home': 'Saralya · Making Lending Saral for Bharat',
+  '/home': 'Saralya · Lending infrastructure for India’s NBFCs',
   '/agents': 'Agents · Saralya',
   '/privacy': 'Privacy Policy · Saralya',
 }
