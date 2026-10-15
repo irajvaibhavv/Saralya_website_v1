@@ -1,61 +1,28 @@
 import { motion } from 'motion/react'
-import { useState } from 'react'
-import type { ChallengeId } from '../content/saral-ai'
-import { READY, SEATS, VOLUMES, WORK } from '../content/agents'
-import { Builder } from '../components/agents/Builder'
-import { Flow } from '../components/agents/Flow'
+import { READY } from '../content/agents'
+import { Overview } from '../components/agents/Overview'
+import { Wizard } from '../components/agents/Wizard'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
 import { Container, Section, SectionHead } from '../components/ui/Section'
 
-/* One seat is chosen for the whole page: the hero tags, the architecture and
-   the builder all read it, so picking a ready-made agent lands you in the
-   builder already set up. */
+/* The page is a sequence, not a dashboard: see the machine running, then
+   answer three questions and watch it rebuild as yours. */
 
 export function Agents() {
-  const [seat, setSeat] = useState(0)
-  const [picked, setPicked] = useState<ChallengeId[]>(() => [...SEATS[0].does])
-  const [vol, setVol] = useState(1)
-
-  /* Switching seat resets the work to what that desk feels first, so the
-     diagram is never empty and never shows someone else's job. */
-  function chooseSeat(i: number) {
-    setSeat(i)
-    setPicked([...SEATS[i].does])
-  }
-
-  function start(id: string) {
-    const i = SEATS.findIndex((s) => s.id === id)
-    if (i >= 0) chooseSeat(i)
-    document.getElementById('architecture')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const perFile = picked.reduce((n, id) => n + (WORK[id].perFile ?? 0), 0)
-  const fixed = picked.reduce((n, id) => n + (WORK[id].perMonth ?? 0), 0)
-  const hours = Math.round((perFile * VOLUMES[vol]) / 60 + fixed)
-  /* 160 working hours in a month: the honest way to read a four-digit number. */
-  const people = (hours / 160).toFixed(1)
-
   return (
     <>
-      <Hero onSeat={chooseSeat} />
-      <Flow
-        seat={seat}
-        onSeat={chooseSeat}
-        picked={picked}
-        onPick={(id) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
-        hours={hours}
-        people={people}
-      />
-      <Ready onStart={start} />
-      <Builder seat={seat} picked={picked} vol={vol} onVol={setVol} perFile={perFile} fixed={fixed} hours={hours} people={people} />
+      <Hero />
+      <Overview />
+      <Wizard />
+      <Ready />
       <Steps />
       <ClosingCta />
     </>
   )
 }
 
-function Hero({ onSeat }: { onSeat: (i: number) => void }) {
+function Hero() {
   return (
     <Section tight className="pt-14 md:pt-20">
       <Container>
@@ -68,28 +35,20 @@ function Hero({ onSeat }: { onSeat: (i: number) => void }) {
             Your underwriter, your collections officer and your compliance head do not do the same job, so they should not get the
             same assistant. Pick a seat, pick the work, and we build that agent on your own data.
           </p>
-          <div className="mt-7 flex flex-wrap gap-2">
-            {SEATS.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => {
-                  onSeat(i)
-                  document.getElementById('architecture')?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="rounded-full bg-white px-4 py-2 text-small font-semibold text-ink2 ring-1 ring-line transition-colors hover:bg-wash2"
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
+          <button
+            type="button"
+            onClick={() => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })}
+            className="mt-7 rounded-xl bg-ink px-6 py-3 text-body font-semibold text-white transition-colors hover:bg-ink2"
+          >
+            Build mine →
+          </button>
         </FadeIn>
       </Container>
     </Section>
   )
 }
 
-function Ready({ onStart }: { onStart: (id: string) => void }) {
+function Ready() {
   return (
     <Section id="ready">
       <Container>
@@ -103,7 +62,7 @@ function Ready({ onStart }: { onStart: (id: string) => void }) {
             <Item key={r.name}>
               <button
                 type="button"
-                onClick={() => onStart(r.seat)}
+                onClick={() => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })}
                 className="group h-full w-full overflow-hidden rounded-2xl bg-white text-left shadow-sm ring-1 ring-line transition-shadow hover:shadow-lg"
               >
                 <div className="relative h-44 overflow-hidden">
@@ -118,7 +77,7 @@ function Ready({ onStart }: { onStart: (id: string) => void }) {
                 <div className="p-5">
                   <h3 className="text-h3 font-semibold">{r.name}</h3>
                   <p className="mt-2 text-small leading-relaxed text-muted">{r.line}</p>
-                  <span className="mt-4 inline-block font-mono text-label uppercase tracking-[0.12em] text-accent">Open this agent →</span>
+                  <span className="mt-4 inline-block font-mono text-label uppercase tracking-[0.12em] text-accent">Build this one →</span>
                 </div>
               </button>
             </Item>
