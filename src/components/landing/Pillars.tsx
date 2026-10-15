@@ -24,8 +24,8 @@ export function Pillars() {
           {PILLARS.map((p) => (
             <Item key={p.title}>
               <div className="eyebrow text-accent">{p.eyebrow}</div>
-              <h2 className="display mt-4 text-[clamp(28px,3.4vw,42px)]">{p.title}</h2>
-              <p className="mt-3 max-w-[44ch] text-[16px] leading-relaxed text-muted">{p.body}</p>
+              <h2 className="display mt-4 text-h2">{p.title}</h2>
+              <p className="mt-3 max-w-[44ch] text-lede leading-relaxed text-muted">{p.body}</p>
             </Item>
           ))}
         </Stagger>

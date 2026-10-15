@@ -10,6 +10,13 @@ India's NBFCs. Ground-up redesign of the existing site.
   Apple.
 - Core message: **make lending as easy as UPI** — one tap / one API call.
 - Design quality bar is very high. Every section should earn its place.
+- **Scope: this repo is the website only.** The chatbot and the ML model
+  (trained on Indian banking data) already exist and get integrated later —
+  do not design, build or hedge around them.
+- Design benchmark the lead gave for the next pass is
+  [nugget.com](https://www.nugget.com) (Zomato's CRM agents product):
+  ~8 sections, one accent, a photograph per card, carousels instead of
+  endless stacking, security badges as a strip.
 
 ## Stack
 
@@ -28,7 +35,20 @@ This matches the "Planned Stack" the team recorded in the old repo's
 npm run dev      # http://localhost:5173
 npm run build    # tsc + vite build → dist/
 npx tsc -p tsconfig.app.json --noEmit   # typecheck only
+
+npx vite --port 5180 --strictPort                      # v1 dev server
+npx vite preview --outDir .v2-build --port 5181        # frozen v2 snapshot
 ```
+
+`.v1-build/`, `.v2-build/`, `.v3-build/` are frozen `vite build` snapshots,
+one per version, so an old design can be served without switching branches.
+They are gitignored.
+
+## Versions
+
+Three designs were built on branches `v1`, `v2`, `v3`. **The lead picked `v1`
+and all work happens there**; `v2` and `v3` are parked for reference only.
+`main` is behind. Nothing has been pushed since the redesign started.
 
 ## Layout
 
@@ -37,6 +57,18 @@ are primitives, `components/layout` is the shell, `components/landing` is the
 `/` page (SaralAiChat, VideoReel), `components/home` is one file per section of
 `/home`, `pages/` is one file per route.
 
+Routes: `/` (Landing), `/home`, `/privacy`. `/products` and `/demo` redirect
+to the matching `#` anchor on `/home`.
+
+`/home` is eleven sections, in order: Hero, Photo, HowItWorks, UpiAnalogy,
+Products, Demo, MonthlyReview, InspectionReadiness, Benefits, TrackRecord,
+ClosingCta. Technology and About were deleted on the lead's instruction —
+nav is Overview and Products only. Two things died with them and have not
+been re-homed: the founder-approved pedigree line ("4+ decades of
+experience. 200+ banks of pedigree.") and the core-integration /
+compliance story. A Nugget-style security badge strip is the cheap
+substitute if the lead wants them back.
+
 ## Styling
 
 Everything is Tailwind v4 utilities + `motion/react` (Framer Motion) +
@@ -44,6 +76,15 @@ Everything is Tailwind v4 utilities + `motion/react` (Framer Motion) +
 (`bg-accent`, `text-ink`, `text-muted`, `shadow-glow`, `font-mono`, …).
 
 Conventions:
+- **Type**: nine named sizes in `@theme` (`text-label` … `text-display`).
+  Never write an arbitrary `text-[18px]` or a new `clamp()`; pick the
+  nearest step.
+- **Colour means status, never identity.** `accent` is the brand;
+  `green`/`amber`/`red` mean pass/warn/fail only. Modules, avatars and
+  chips are told apart by name and photograph, not by hue.
+  (This pass replaced 27 arbitrary sizes across 12 `clamp()` formulas with
+  nine tokens, and cut 24 colour tokens to 19 — `blue`, `purple` and
+  `peach` are gone. Do not reintroduce them.)
 - Scroll reveals: wrap in `<FadeIn>` or `<Stagger>`/`<Item>` from
   `components/ui/Reveal`; never hand-roll IntersectionObservers.
 - Looping visuals use `repeat: Infinity` with `repeatDelay` and respect
@@ -69,12 +110,15 @@ Conventions:
 
 ## Verifying UI changes
 
-There's no browser tool in this environment; use headless Edge via
-`puppeteer-core` from the scratchpad (see the session's `clip.mjs` /
-`shoot.mjs` pattern: launch
-`C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe`, scroll
-through to trigger reveals, screenshot in ~2900px clips at 1400px and
-400px, capture `console` errors). Always check:
+There may be no browser tool in this environment. `puppeteer-core` is not
+installed and nothing needs it: Node 24 ships a global `WebSocket`, so a
+~40-line CDP client can launch
+`C:/Program Files/Google/Chrome/Application/chrome.exe --headless=new
+--remote-debugging-port=…`, call `Emulation.setDeviceMetricsOverride`
+(required — `--window-size` floors at ~500px on Windows, which silently
+crops `--screenshot` output), scroll through to trigger reveals, then
+`Page.captureScreenshot`. Capture viewport clips at scroll offsets;
+`captureBeyondViewport` stalls on the full ~20,000px page. Always check:
 - zero console errors/warnings
 - `document.documentElement.scrollWidth <= viewport width` at 400px
 - the demo runs end-to-end after clicking `.demo-run`
@@ -107,5 +151,32 @@ doc); apply the same standard here.
 
 - Build fresh in this repo; do not modify the old codebase.
 - Commit as we go; small, descriptive commits.
+- **Never `git push` without the user saying so explicitly.** Standing
+  instruction; commits pile up locally until they approve.
+- **No `Co-Authored-By` trailer on commits.** The repo must show only the
+  user as contributor.
+- No unnecessary code, files or abstractions. Edit an existing file before
+  adding a new one.
 - Design direction comes from the user section by section — don't redesign
   ahead of that.
+
+## Open work
+
+- **Agents section** (next, started 2026-10-15). The lead wants an
+  `#agents` block on `/home` where anyone at an NBFC — underwriter, credit
+  officer, collections officer, RM, compliance, ops — picks a seat,
+  multi-selects the flows they want, and gets an assembled agent. Drive it
+  off the data that already exists: `ROLES` in `content/saral-ai.ts`,
+  `MODULES` and `CHALLENGES` in `content/site.ts`. A section on `/home`,
+  not a new page; it outputs a spec, not a deploy button; no
+  drag-and-drop canvas. Note that Nugget's own marketing page has no real
+  builder UI on it.
+- **Photographs are the blocker on the look.** The site has two images and
+  ~38 line icons; Nugget has a photograph per card. Needs ~8–12 real
+  Indian lending images (branch counter, field officer, ledger, borrower's
+  shopfront) plus the hi-res logo, from Vishal.
+- Section count is still 11 against Nugget's ~8. `MonthlyReview` and
+  `InspectionReadiness` are the candidates, but the lead only named
+  Technology and About — ask before cutting more.
+- Undecided with the lead: Saarthi vs Saral AI naming; login gate / token
+  tiers / social login; dark-mode toggle.

@@ -12,8 +12,8 @@ export function ClosingCta({ demo = false }: { demo?: boolean }) {
         <Container>
           <FadeIn className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
             <div>
-              <h2 className="display max-w-2xl text-[clamp(24px,3vw,36px)]">Ready to see what Saralya can do for your NBFC?</h2>
-              <p className="mt-2.5 text-[16px] text-muted">Get a personalised demo and explore use cases for your business.</p>
+              <h2 className="display max-w-2xl text-h2">Ready to see what Saralya can do for your NBFC?</h2>
+              <p className="mt-2.5 text-lede text-muted">Get a personalised demo and explore use cases for your business.</p>
             </div>
             <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="ink" size="lg" arrow className="shrink-0">
               Book a demo
@@ -31,14 +31,14 @@ export function ClosingCta({ demo = false }: { demo?: boolean }) {
           <div className="dots grid items-center gap-8 rounded-3xl bg-ink px-7 py-10 text-white md:grid-cols-[1fr_auto] md:px-12 md:py-14">
             <div>
               <div className="eyebrow mb-4 text-accent3">Free · public data only</div>
-              <h2 className="display max-w-xl text-[clamp(28px,3.6vw,44px)]">Get a free tech &amp; compliance read for your NBFC.</h2>
-              <p className="mt-3 text-[15px] text-white/60">No commitment. We read what is public and tell you what we see.</p>
+              <h2 className="display max-w-xl text-h2">Get a free tech &amp; compliance read for your NBFC.</h2>
+              <p className="mt-3 text-body text-white/60">No commitment. We read what is public and tell you what we see.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
               <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic%20for%20our%20NBFC`} variant="white" size="lg" arrow>
                 Get diagnostic
               </ButtonLink>
-              <ButtonLink to="/demo" variant="primary" size="lg">
+              <ButtonLink to="/home#demo" variant="primary" size="lg">
                 Try the live demo
               </ButtonLink>
             </div>

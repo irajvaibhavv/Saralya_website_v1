@@ -25,9 +25,9 @@ const RAILS = [
 ]
 const APPLICANTS = [
   { i: 'RK', n: 'Rahul K.', m: 'MSME · ₹4.5L · 24 months', c: 'bg-accent' },
-  { i: 'PS', n: 'Priya S.', m: 'Retail · ₹80K · 12 months', c: 'bg-blue' },
-  { i: 'AM', n: 'Anand M.', m: 'LAP · ₹22L · 84 months', c: 'bg-purple' },
-  { i: 'SG', n: 'SHG Group 14', m: 'JLG · ₹1.2L · 18 months', c: 'bg-amber' },
+  { i: 'PS', n: 'Priya S.', m: 'Retail · ₹80K · 12 months', c: 'bg-accent' },
+  { i: 'AM', n: 'Anand M.', m: 'LAP · ₹22L · 84 months', c: 'bg-accent' },
+  { i: 'SG', n: 'SHG Group 14', m: 'JLG · ₹1.2L · 18 months', c: 'bg-accent' },
 ]
 
 type P = { x: number; y: number }
@@ -130,7 +130,7 @@ export function HowItWorks() {
                         className="flex w-[104px] flex-col items-center justify-center gap-2 rounded-2xl bg-white px-2 py-4 text-center shadow-lg sm:w-[118px]"
                       >
                         <r.icon className="size-6 text-accent" strokeWidth={1.7} />
-                        <span className="text-[12px] font-semibold leading-tight text-ink2">{r.n}</span>
+                        <span className="text-small font-semibold leading-tight text-ink2">{r.n}</span>
                       </motion.div>
                     )
                   })}
@@ -143,33 +143,33 @@ export function HowItWorks() {
               <div ref={core} className="relative grid size-24 place-items-center rounded-3xl bg-ink text-white shadow-lg">
                 <span className="absolute inset-0 rounded-3xl bg-ink animate-pulse-ring" />
                 {/* the wordmark's initial, same weight and dot as the nav logo */}
-                <span className="relative flex items-start text-[44px] font-extrabold leading-none tracking-[-0.06em]">
+                <span className="relative flex items-start text-figure font-extrabold leading-none tracking-[-0.06em]">
                   S<span className="mt-[9px] ml-0.5 size-2.5 rounded-full bg-accent3" />
                 </span>
               </div>
-              <span className="font-mono text-[11px] text-hint">POST /v1/decisions</span>
+              <span className="font-mono text-label text-hint">POST /v1/decisions</span>
             </div>
 
             {/* the decision */}
             <div className="relative mx-auto w-full max-w-[300px] lg:mx-0 lg:pt-12">
               <div ref={out} className="rounded-3xl bg-white p-5 shadow-lg">
-                <div className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-hint">Decision out</div>
+                <div className="font-mono text-label uppercase tracking-[0.12em] text-hint">Decision out</div>
                 <div className="mt-3 h-[52px]">
                   <AnimatePresence mode="wait">
                     <motion.div key={a.n} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} className="flex items-center gap-3">
-                      <span className={`grid size-10 place-items-center rounded-xl text-[12px] font-bold text-white ${a.c}`}>{a.i}</span>
+                      <span className={`grid size-10 place-items-center rounded-xl text-small font-bold text-white ${a.c}`}>{a.i}</span>
                       <div>
-                        <div className="text-[15px] font-bold">{a.n}</div>
-                        <div className="font-mono text-[11px] text-muted">{a.m}</div>
+                        <div className="text-body font-bold">{a.n}</div>
+                        <div className="font-mono text-label text-muted">{a.m}</div>
                       </div>
                     </motion.div>
                   </AnimatePresence>
                 </div>
-                <div className="mt-4 flex items-center justify-between rounded-xl bg-bg px-3 py-2 text-[12.5px] ring-1 ring-line">
+                <div className="mt-4 flex items-center justify-between rounded-xl bg-bg px-3 py-2 text-small ring-1 ring-line">
                   <span className="text-muted">Score</span>
                   <span className="font-bold tabular-nums">742 / 850</span>
                 </div>
-                <div className="mt-3 grid h-11 place-items-center rounded-xl bg-ink text-[13.5px] font-bold uppercase tracking-[0.06em] text-white">Approve · STP</div>
+                <div className="mt-3 grid h-11 place-items-center rounded-xl bg-ink text-small font-bold uppercase tracking-[0.06em] text-white">Approve · STP</div>
               </div>
 
               {/* the outcome card sits on the corner of the decision */}
@@ -186,14 +186,14 @@ export function HowItWorks() {
                   </svg>
                 </span>
                 <div>
-                  <div className="text-[13.5px] font-bold">Sanctioned</div>
-                  <div className="font-mono text-[10.5px] text-muted">KFS sent · under 5 min</div>
+                  <div className="text-small font-bold">Sanctioned</div>
+                  <div className="font-mono text-label text-muted">KFS sent · under 5 min</div>
                 </div>
               </motion.div>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-line pt-5 font-mono text-[12px] text-muted">
+          <div className="mt-6 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-line pt-5 font-mono text-small text-muted">
             <span>
               Bureau + AA + GSTN one pull
             </span>

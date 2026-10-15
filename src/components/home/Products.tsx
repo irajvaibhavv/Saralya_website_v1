@@ -1,33 +1,30 @@
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { ClosingCta } from '../components/layout/ClosingCta'
-import { PageHero } from '../components/layout/PageHero'
-import { VISUALS } from '../components/products/ModuleVisuals'
-import { Container } from '../components/ui/Section'
-import { MODULES } from '../content/site'
+import { VISUALS } from '../products/ModuleVisuals'
+import { Container, Section, SectionHead } from '../ui/Section'
+import { MODULES } from '../../content/site'
 
-export function Products() {
+export function ProductsSection() {
   const [active, setActive] = useState(0)
 
   return (
-    <>
-      <PageHero
-        eyebrow="Products"
-        title={
-          <>
-            Six modules.
-            <br />
-            <span className="text-accent">One stack.</span>
-          </>
-        }
-        lede="Run the full stack, or plug in one module."
-      >
-        <div className="flex flex-wrap gap-2">
+    <Section id="products">
+      <Container>
+        <SectionHead
+          eyebrow="Products"
+          title={
+            <>
+              Six modules. <span className="text-accent">One stack.</span>
+            </>
+          }
+          lede="Run the full stack, or plug in one module."
+        />
+        <div className="mb-12 flex flex-wrap gap-2">
           {MODULES.map((m, i) => (
             <a
               key={m.code}
               href={`#${m.code}`}
-              className={`inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+              className={`inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-small font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
                 i === active ? m.color : 'text-ink2'
               }`}
             >
@@ -35,7 +32,7 @@ export function Products() {
             </a>
           ))}
         </div>
-      </PageHero>
+      </Container>
 
       {/* Scroll-driven showcase: sticky stage on the left swaps its visual as
           each module's block scrolls into view on the right. */}
@@ -77,9 +74,7 @@ export function Products() {
           </div>
         </div>
       </Container>
-
-      <ClosingCta />
-    </>
+    </Section>
   )
 }
 
@@ -108,15 +103,15 @@ function ModuleBlock({ index, onActive }: { index: number; onActive: () => void 
           <span className={`grid size-12 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
             <m.icon className="size-6" strokeWidth={2.2} />
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-hint">
+          <span className="font-mono text-label uppercase tracking-[0.12em] text-hint">
             {m.code} · {m.tag}
           </span>
         </div>
-        <h2 className="display mt-6 text-[clamp(34px,4.4vw,56px)]">{m.name}</h2>
-        <p className={`mt-3 text-[clamp(18px,2vw,24px)] font-semibold leading-snug ${m.color}`}>{m.short}</p>
+        <h2 className="display mt-6 text-display">{m.name}</h2>
+        <p className={`mt-3 text-h3 font-semibold leading-snug ${m.color}`}>{m.short}</p>
         <div className="mt-6 flex flex-wrap gap-2">
           {m.points.map((p) => (
-            <span key={p} className="rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink2 shadow-sm">
+            <span key={p} className="rounded-full bg-white px-3.5 py-1.5 text-small font-semibold text-ink2 shadow-sm">
               {p}
             </span>
           ))}
