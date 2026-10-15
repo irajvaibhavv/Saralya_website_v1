@@ -2,6 +2,7 @@ import { Building2, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 import { METRICS } from '../../content/saral-ai'
 import { HeroReel } from './HeroReel'
+import { ButtonLink } from '../ui/Button'
 
 /* One screen: the claim on the left, the reel open on the right, four
    numbers along the foot. Saral Saarthi waits in the corner. */
@@ -23,11 +24,14 @@ export function Hero() {
           </motion.span>
 
           <motion.h1 {...rise(0.1)} className="mt-4 text-display font-semibold leading-[1.06] tracking-[-0.03em] text-white">
-            Smarter lending decisions.
-            <br />
-            Within everyone’s reach.
+            Making Lending Saral for Bharat.
           </motion.h1>
 
+          <motion.div {...rise(0.25)} className="mt-7">
+            <ButtonLink to="/agents" variant="white" size="lg" arrow>
+              Make your own AI agents
+            </ButtonLink>
+          </motion.div>
 
         </div>
 
