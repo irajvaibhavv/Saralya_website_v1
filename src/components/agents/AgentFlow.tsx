@@ -1,20 +1,13 @@
 import { useReducedMotion } from 'motion/react'
 
-/* The agent drawn as one left-to-right flow. Fixed viewBox: every wire is
-   computed once from the node geometry, so the packets ride paths that
-   never move and only the labels change.
+/* Sources → the agent → a loop of specialist steps → what comes out.
 
-   The motion is one cycle, not a pile of unrelated loops: a file arrives on
-   the rails, the core lights while it thinks, the work fires, the answer
-   lands, the numbers tick. Every element gets a window inside the same
-   CYCLE, so the diagram reads left to right in time as well as in space —
-   which is the thing the page is actually claiming.
+   The loop is the point: the work is not a list that runs once, it is a
+   flywheel the file goes round until it is decided. Nodes sit on the rim,
+   the file travels the rim, and only then does anything leave.
 
-   Palette note: the reference was Nugget's cyan-on-black. This is the same
-   diagram in daylight — white cards, accent wires, and the core as the one
-   dark object, exactly as HowItWorks does it on /home. A single dark focal
-   point reads as machinery; a dark everything reads as somebody else's
-   site. */
+   Everything is placed off one geometry block, so the layout survives any
+   number of rails or steps it is handed. */
 
 export type Rail = { label: string; icon: keyof typeof ICONS }
 export type Stage = { title: string; sub: string }
@@ -29,33 +22,29 @@ export const ICONS = {
   voice: 'M12 3v18M8 7v10M16 7v10M4 10v4M20 10v4',
 }
 
-/* geometry */
-const IN = { x: 46, w: 246, h: 56, ys: [96, 170, 244, 318, 392] }
-const TRUNK = 350
-const CORE = { x: 440, y: 230, w: 210, h: 200 }
-const ST = { x: 742, w: 232, h: 74, ys: [176, 288, 400] }
-const OUT = { x: 1066, y: 252, w: 232, h: 156 }
-const MET = { x: 1366, w: 206, ys: [232, 330, 428] }
-const CY = CORE.y + CORE.h / 2
-const OY = OUT.y + OUT.h / 2
+/* Kept deliberately close to the rendered width: a 1560-wide viewBox scaled
+   into a ~1120px column renders 14px text at 10px. */
+const W = 1240
+const H = 412
+const TILE = { x: 36, size: 48, gap: 14 }
+const BOX = { x: 250, y: 68, w: 158, h: 290, r: 38 }
+const LOOP = { cx: 762, cy: 213, rx: 214, ry: 114 }
+const NODE_R = 26
+const MET = { x: 1048, ys: [124, 216, 308] }
+const CYCLE = 6
 
-/** one decision, start to finish */
-const CYCLE = 5.2
-
-const curve = (ax: number, ay: number, bx: number, by: number) => {
-  const dx = Math.max(50, (bx - ax) * 0.55)
-  return `M ${ax} ${ay} C ${ax + dx} ${ay}, ${bx - dx} ${by}, ${bx} ${by}`
-}
-/* rails run straight out to a shared trunk, then curve into the core */
-const feeder = (y: number) => `M ${IN.x + IN.w} ${y} L ${TRUNK} ${y} C ${TRUNK + 70} ${y}, ${CORE.x - 70} ${CY}, ${CORE.x} ${CY}`
-
-/* SMIL keyTimes must be strictly inside [0,1] and non-decreasing */
+const rad = (d: number) => (d * Math.PI) / 180
+const onLoop = (deg: number) => ({ x: LOOP.cx + LOOP.rx * Math.cos(rad(deg)), y: LOOP.cy + LOOP.ry * Math.sin(rad(deg)) })
 const f = (n: number) => Math.min(0.999, Math.max(0.001, n)).toFixed(3)
 
-/** A packet that rides its wire only during [from,to] of the shared cycle. */
-function Packet({ d, from, to }: { d: string; from: number; to: number }) {
+/* entry on the left, exit on the right, the rest top and bottom */
+const SEATS_ON_RIM = [180, 270, 0, 90]
+
+const dashes = (x1: number, x2: number, y: number) => `M ${x1} ${y} L ${x2} ${y}`
+
+function Packet({ d, from, to, r = 5 }: { d: string; from: number; to: number; r?: number }) {
   return (
-    <circle r={4.5} fill="var(--color-accent)" filter="url(#agentGlow)" opacity={0}>
+    <circle r={r} fill="var(--color-accent)" filter="url(#agGlow)" opacity={0}>
       <animateMotion dur={`${CYCLE}s`} repeatCount="indefinite" path={d} calcMode="linear" keyPoints="0;0;1;1" keyTimes={`0;${f(from)};${f(to)};1`} />
       <animate
         attributeName="opacity"
@@ -63,259 +52,168 @@ function Packet({ d, from, to }: { d: string; from: number; to: number }) {
         repeatCount="indefinite"
         calcMode="linear"
         values="0;0;1;1;0;0"
-        keyTimes={`0;${f(from)};${f(from + 0.012)};${f(to - 0.012)};${f(to)};1`}
+        keyTimes={`0;${f(from)};${f(from + 0.015)};${f(to - 0.015)};${f(to)};1`}
       />
     </circle>
   )
 }
 
-/** The wire: idle grey, lit only while its packet is on it. */
-function Wire({ d, from, to, reduce }: { d: string; from: number; to: number; reduce: boolean | null }) {
+function Link({ d, from, to, reduce, head }: { d: string; from: number; to: number; reduce: boolean | null; head?: [number, number] }) {
   return (
     <>
-      <path d={d} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} />
-      {reduce ? (
-        <path d={d} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0.4} />
-      ) : (
-        <>
-          <path d={d} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} strokeLinecap="round" strokeDasharray="3 13" opacity={0.12} className="animate-wire">
-            <animate
-              attributeName="opacity"
-              dur={`${CYCLE}s`}
-              repeatCount="indefinite"
-              calcMode="linear"
-              values="0.12;0.12;0.9;0.9;0.12;0.12"
-              keyTimes={`0;${f(from)};${f(from + 0.03)};${f(to)};${f(to + 0.06)};1`}
-            />
-          </path>
-          <Packet d={d} from={from} to={to} />
-        </>
-      )}
+      <path d={d} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} strokeDasharray="5 6" />
+      {head && <path d={`M ${head[0] - 8} ${head[1] - 5} L ${head[0]} ${head[1]} L ${head[0] - 8} ${head[1] + 5}`} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} />}
+      {!reduce && <Packet d={d} from={from} to={to} />}
     </>
   )
 }
 
-function Card({
-  x,
-  y,
-  w,
-  h,
-  title,
-  sub,
-  icon,
-  lit,
-  arrives,
+export function AgentFlow({
+  rails,
+  stages,
+  outcome,
+  metrics,
+  loopLabel = 'Credit decision',
 }: {
-  x: number
-  y: number
-  w: number
-  h: number
-  title: string
-  sub?: string
-  icon?: keyof typeof ICONS
-  lit?: boolean
-  /** fraction of the cycle at which this card's packet lands */
-  arrives?: number
+  rails: Rail[]
+  stages: Stage[]
+  outcome: Stage
+  metrics: Metric[]
+  loopLabel?: string
 }) {
-  const tx = icon ? x + 54 : x + 20
-  return (
-    <g className="group">
-      <rect
-        x={x}
-        y={y}
-        width={w}
-        height={h}
-        rx={15}
-        fill={lit ? 'var(--color-wash)' : '#ffffff'}
-        stroke={lit ? 'var(--color-accent)' : 'var(--color-line)'}
-        strokeWidth={lit ? 1.5 : 1}
-        filter="url(#agentShadow)"
-        className="transition-all group-hover:stroke-[var(--color-accent)]"
-      />
-      {/* a ring that flares once, as the packet lands */}
-      {arrives !== undefined && (
-        <rect x={x} y={y} width={w} height={h} rx={15} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0}>
-          <animate
-            attributeName="opacity"
-            dur={`${CYCLE}s`}
-            repeatCount="indefinite"
-            calcMode="linear"
-            values="0;0;0.95;0;0"
-            keyTimes={`0;${f(arrives - 0.01)};${f(arrives + 0.015)};${f(arrives + 0.1)};1`}
-          />
-        </rect>
-      )}
-      {icon && (
-        <path
-          d={ICONS[icon]}
-          transform={`translate(${x + 18} ${y + h / 2 - 10}) scale(.85)`}
-          fill="none"
-          stroke="var(--color-accent)"
-          strokeWidth={1.6}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      )}
-      <text x={tx} y={sub ? y + h / 2 - 4 : y + h / 2 + 5} className="fill-ink text-[15px] font-semibold">
-        {title}
-      </text>
-      {sub && (
-        <text x={tx} y={y + h / 2 + 16} className="fill-muted text-[12.5px]">
-          {sub}
-        </text>
-      )}
-    </g>
-  )
-}
-
-function Cap({ x, y, children }: { x: number; y: number; children: string }) {
-  return (
-    <text x={x} y={y} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
-      {children}
-    </text>
-  )
-}
-
-export function AgentFlow({ rails, stages, outcome, metrics }: { rails: Rail[]; stages: Stage[]; outcome: Stage; metrics: Metric[] }) {
   const reduce = useReducedMotion()
-  const shown = stages.slice(0, 3)
+  const shown = stages.slice(0, 4)
+  const degs = SEATS_ON_RIM.slice(0, Math.max(shown.length, 1))
 
-  /* three stages sit at fixed heights; with fewer, centre them */
-  const stageY = (i: number) => (shown.length >= 3 ? ST.ys[i] : shown.length === 2 ? [ST.ys[0] + 56, ST.ys[2] - 56][i] : [ST.ys[1]][i])
-
-  const railWires = rails.map((_, i) => ({ d: feeder(IN.ys[i] + IN.h / 2), from: 0.02 + i * 0.012, to: 0.23 + i * 0.012 }))
-  const stageWires = shown.map((_, i) => ({ d: curve(CORE.x + CORE.w, CY, ST.x, stageY(i) + ST.h / 2), from: 0.36 + i * 0.015, to: 0.56 + i * 0.015 }))
-  const outWires = shown.map((_, i) => ({ d: curve(ST.x + ST.w, stageY(i) + ST.h / 2, OUT.x, OY), from: 0.62 + i * 0.015, to: 0.8 + i * 0.015 }))
-  const metricWire = { d: curve(OUT.x + OUT.w, OY, MET.x - 28, OY), from: 0.85, to: 0.95 }
+  /* the rim, drawn as a path so a packet can ride it */
+  const rim = `M ${LOOP.cx - LOOP.rx} ${LOOP.cy} A ${LOOP.rx} ${LOOP.ry} 0 1 1 ${LOOP.cx + LOOP.rx} ${LOOP.cy} A ${LOOP.rx} ${LOOP.ry} 0 1 1 ${LOOP.cx - LOOP.rx} ${LOOP.cy}`
 
   return (
-    <svg viewBox="0 0 1600 512" className="block h-auto w-full min-w-[900px]" role="img" aria-label="How the agent moves data from your rails to a decision">
+    <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full min-w-[980px]" role="img" aria-label="Your rails feed the agent, the work runs as a loop, a decision comes out">
       <defs>
-        <filter id="agentGlow" x="-120%" y="-120%" width="340%" height="340%">
+        <filter id="agGlow" x="-120%" y="-120%" width="340%" height="340%">
           <feGaussianBlur stdDeviation="2.5" result="b" />
           <feMerge>
             <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <filter id="agentShadow" x="-20%" y="-40%" width="140%" height="200%">
-          <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#0d1614" floodOpacity="0.07" />
+        <filter id="agSoft" x="-60%" y="-60%" width="220%" height="220%">
+          <feDropShadow dx="0" dy="8" stdDeviation="14" floodColor="#107a66" floodOpacity="0.22" />
         </filter>
-        <filter id="agentSoft" x="-60%" y="-60%" width="220%" height="220%">
-          <feDropShadow dx="0" dy="7" stdDeviation="11" floodColor="#107a66" floodOpacity="0.25" />
-        </filter>
-        <pattern id="agentGrid" width="44" height="44" patternUnits="userSpaceOnUse">
-          <path d="M44 0H0v44" fill="none" stroke="rgba(13,22,20,0.05)" strokeWidth="1" />
-        </pattern>
-        <linearGradient id="agentCore" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#24233c" />
-          <stop offset="1" stopColor="#141420" />
+        <linearGradient id="agBox" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffffff" />
+          <stop offset="1" stopColor="#eef5f2" />
         </linearGradient>
-        <linearGradient id="agentScan" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--color-accent3)" stopOpacity="0" />
-          <stop offset="0.5" stopColor="var(--color-accent3)" stopOpacity="0.55" />
-          <stop offset="1" stopColor="var(--color-accent3)" stopOpacity="0" />
-        </linearGradient>
-        <clipPath id="agentCoreClip">
-          <rect x={CORE.x} y={CORE.y} width={CORE.w} height={CORE.h} rx={26} />
-        </clipPath>
       </defs>
 
-      <rect width="1600" height="512" fill="url(#agentGrid)" />
-
-      {[...railWires, ...stageWires, ...outWires, metricWire].map((w) => (
-        <Wire key={w.d + w.from} {...w} reduce={reduce} />
-      ))}
-
-      {/* rails */}
-      <Cap x={IN.x} y={IN.ys[0] - 22}>
+      {/* 1 — the rails, a loose cluster of tiles */}
+      <text x={TILE.x} y={48} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
         Your rails
-      </Cap>
-      {rails.map((r, i) => (
-        <Card key={r.label} x={IN.x} y={IN.ys[i]} w={IN.w} h={IN.h} title={r.label} icon={r.icon} />
-      ))}
-
-      {/* the core */}
-      <rect x={CORE.x} y={CORE.y} width={CORE.w} height={CORE.h} rx={26} fill="url(#agentCore)" stroke="var(--color-accent)" strokeWidth={1.5} filter="url(#agentSoft)" />
-      {Array.from({ length: 25 }).map((_, n) => {
-        const r = Math.floor(n / 5)
-        const c = n % 5
-        const gx = (CORE.w - 76) / 4
-        const gy = (CORE.h - 120) / 4
-        const x = CORE.x + 38 + c * gx
-        const y = CORE.y + 42 + r * gy
+      </text>
+      {rails.slice(0, 6).map((r, i) => {
+        const n = Math.min(rails.length, 6)
+        const step = 34
+        const col = i % 2
+        const x = TILE.x + col * (TILE.size + TILE.gap)
+        /* packed and centred on the box, so the cluster reads as a stack
+           of sources rather than five lonely squares */
+        const y = LOOP.cy - ((n - 1) * step) / 2 - TILE.size / 2 + i * step + (col ? 10 : 0)
         return (
-          <g key={n}>
-            {c < 4 && <line x1={x} y1={y} x2={x + gx} y2={y} stroke="rgba(76,195,165,0.4)" strokeWidth={1} />}
-            <circle cx={x} cy={y} r={3.2} fill="var(--color-accent3)" opacity={reduce ? 0.7 : undefined}>
-              {!reduce && <animate attributeName="opacity" values=".45;1;.45" dur="2.6s" begin={`${(n % 9) * 0.26}s`} repeatCount="indefinite" />}
+          <g key={r.label} className="group">
+            <rect x={x} y={y} width={TILE.size} height={TILE.size} rx={15} fill="#ffffff" stroke="var(--color-line)" className="transition-all group-hover:stroke-[var(--color-accent)]" />
+            <path
+              d={ICONS[r.icon]}
+              transform={`translate(${x + 12} ${y + 12}) scale(1)`}
+              fill="none"
+              stroke="var(--color-accent)"
+              strokeWidth={1.6}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <title>{r.label}</title>
+          </g>
+        )
+      })}
+
+      <Link d={dashes(TILE.x + TILE.size * 2 + TILE.gap + 16, BOX.x - 14, BOX.y + BOX.h / 2)} from={0.02} to={0.18} reduce={reduce} head={[BOX.x - 14, BOX.y + BOX.h / 2]} />
+
+      {/* 2 — the agent: a lattice, quietly working */}
+      <rect x={BOX.x} y={BOX.y} width={BOX.w} height={BOX.h} rx={BOX.r} fill="url(#agBox)" stroke="var(--color-accent)" strokeWidth={1.5} filter="url(#agSoft)" />
+      {Array.from({ length: 7 }).map((_, row) => {
+        const y = BOX.y + 40 + row * 32
+        const left = BOX.x + 44
+        const right = BOX.x + BOX.w - 44
+        const midX = row % 2 === 0 ? left : right
+        return (
+          <g key={row}>
+            {row < 6 && (
+              <>
+                <line x1={left} y1={y} x2={BOX.x + BOX.w / 2} y2={y + 32} stroke="var(--color-accent)" strokeWidth={1} opacity={0.3} />
+                <line x1={right} y1={y} x2={BOX.x + BOX.w / 2} y2={y + 32} stroke="var(--color-accent)" strokeWidth={1} opacity={0.3} />
+              </>
+            )}
+            <circle cx={midX} cy={y} r={3.4} fill="var(--color-accent)" opacity={reduce ? 0.8 : undefined}>
+              {!reduce && <animate attributeName="opacity" values=".3;1;.3" dur="2.4s" begin={`${row * 0.3}s`} repeatCount="indefinite" />}
+            </circle>
+            <circle cx={BOX.x + BOX.w / 2} cy={y + 16} r={3.4} fill="var(--color-accent3)" opacity={reduce ? 0.8 : undefined}>
+              {!reduce && <animate attributeName="opacity" values=".3;1;.3" dur="2.4s" begin={`${row * 0.3 + 0.15}s`} repeatCount="indefinite" />}
             </circle>
           </g>
         )
       })}
-      {/* it thinks: a sweep across the mesh, right after the rails land */}
-      {!reduce && (
-        <g clipPath="url(#agentCoreClip)">
-          <rect x={CORE.x} y={CORE.y - 70} width={CORE.w} height={70} fill="url(#agentScan)" opacity={0}>
-            <animate
-              attributeName="y"
-              dur={`${CYCLE}s`}
-              repeatCount="indefinite"
-              calcMode="linear"
-              values={`${CORE.y - 70};${CORE.y - 70};${CORE.y + CORE.h};${CORE.y + CORE.h}`}
-              keyTimes={`0;${f(0.24)};${f(0.38)};1`}
-            />
-            <animate
-              attributeName="opacity"
-              dur={`${CYCLE}s`}
-              repeatCount="indefinite"
-              calcMode="linear"
-              values="0;0;1;1;0;0"
-              keyTimes={`0;${f(0.235)};${f(0.25)};${f(0.36)};${f(0.38)};1`}
-            />
-          </rect>
-        </g>
-      )}
-      <text x={CORE.x + CORE.w / 2} y={CORE.y + CORE.h - 26} textAnchor="middle" className="fill-white/70 font-mono text-[10.5px] uppercase tracking-[0.16em]">
-        The agent
+      <text x={BOX.x + BOX.w / 2} y={BOX.y + BOX.h - 26} textAnchor="middle" className="fill-muted font-mono text-[11px] tracking-[0.04em]">
+        Reading…
       </text>
 
-      {/* what it runs */}
-      <Cap x={ST.x} y={ST.ys[0] - 22}>
-        What it runs
-      </Cap>
-      {shown.map((s, i) => (
-        <Card key={s.title} x={ST.x} y={stageY(i)} w={ST.w} h={ST.h} title={s.title} sub={s.sub} arrives={reduce ? undefined : 0.56 + i * 0.015} />
-      ))}
+      <Link d={dashes(BOX.x + BOX.w + 14, LOOP.cx - LOOP.rx - NODE_R - 12, LOOP.cy)} from={0.2} to={0.34} reduce={reduce} head={[LOOP.cx - LOOP.rx - NODE_R - 12, LOOP.cy]} />
 
-      {/* what comes back */}
-      <Cap x={OUT.x} y={OUT.y - 22}>
-        What comes back
-      </Cap>
-      <Card x={OUT.x} y={OUT.y} w={OUT.w} h={OUT.h} title={outcome.title} sub={outcome.sub} lit arrives={reduce ? undefined : 0.8} />
+      {/* 3 — the flywheel */}
+      <text x={LOOP.cx} y={LOOP.cy - LOOP.ry - 62} textAnchor="middle" className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
+        The loop
+      </text>
+      <ellipse cx={LOOP.cx} cy={LOOP.cy} rx={LOOP.rx} ry={LOOP.ry} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} strokeDasharray="5 7" />
+      {!reduce && (
+        <circle r={5} fill="var(--color-accent)" filter="url(#agGlow)">
+          <animateMotion dur={`${CYCLE}s`} repeatCount="indefinite" path={rim} calcMode="linear" keyPoints="0;0;1;1" keyTimes={`0;${f(0.34)};${f(0.82)};1`} />
+          <animate attributeName="opacity" dur={`${CYCLE}s`} repeatCount="indefinite" calcMode="linear" values="0;0;1;1;0;0" keyTimes={`0;${f(0.34)};${f(0.36)};${f(0.8)};${f(0.82)};1`} />
+        </circle>
+      )}
+      <text x={LOOP.cx} y={LOOP.cy + 5} textAnchor="middle" className="fill-muted text-[15px]">
+        {loopLabel}
+      </text>
 
-      {/* impact */}
-      <Cap x={MET.x} y={MET.ys[0] - 34}>
-        Impact
-      </Cap>
-      {metrics.map((m, i) => (
+      {degs.map((deg, i) => {
+        const p = onLoop(deg)
+        const above = deg === 270
+        return (
+          <g key={shown[i].title} className="group">
+            <circle cx={p.x} cy={p.y} r={NODE_R} fill="#ffffff" stroke="var(--color-accent)" strokeWidth={1.5} className="transition-all group-hover:fill-[var(--color-wash)]" />
+            <circle cx={p.x} cy={p.y} r={6} fill="var(--color-accent)" />
+            <text x={p.x} y={above ? p.y - NODE_R - 14 : p.y + NODE_R + 24} textAnchor="middle" className="fill-ink text-[15px] font-semibold">
+              {shown[i].title}
+            </text>
+          </g>
+        )
+      })}
+
+      <Link d={dashes(LOOP.cx + LOOP.rx + NODE_R + 12, MET.x - 40, LOOP.cy)} from={0.84} to={0.95} reduce={reduce} head={[MET.x - 40, LOOP.cy]} />
+
+      {/* 4 — what comes out */}
+      <text x={MET.x} y={48} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
+        Outcomes
+      </text>
+      <line x1={MET.x} y1={70} x2={W - 28} y2={70} stroke="var(--color-line)" />
+      <text x={MET.x} y={96} className="fill-ink text-[15px] font-semibold">
+        {outcome.title}
+      </text>
+      {metrics.slice(0, 3).map((m, i) => (
         <g key={m.label}>
-          <line x1={MET.x} y1={MET.ys[i] - 18} x2={MET.x + MET.w} y2={MET.ys[i] - 18} stroke="var(--color-line)" />
-          <text x={MET.x} y={MET.ys[i] + 4} className="fill-muted text-[13px]">
+          <text x={MET.x} y={MET.ys[i]} className="fill-muted text-[13px]">
             {m.label}
           </text>
-          <text x={MET.x} y={MET.ys[i] + 34} className="fill-accent text-[26px] font-extrabold" opacity={reduce ? 1 : 0.72}>
+          <text x={MET.x} y={MET.ys[i] + 32} className="fill-accent text-[28px] font-bold">
             {m.value}
-            {!reduce && (
-              <animate
-                attributeName="opacity"
-                dur={`${CYCLE}s`}
-                repeatCount="indefinite"
-                calcMode="linear"
-                values="0.72;0.72;1;1;0.72"
-                keyTimes={`0;${f(0.92 + i * 0.015)};${f(0.95 + i * 0.015)};0.99;1`}
-              />
-            )}
           </text>
         </g>
       ))}
@@ -335,7 +233,7 @@ export function AgentFrame({ badge, children }: { badge: string; children: React
         <span className="font-mono text-label uppercase tracking-[0.14em] text-hint">RBI-supervised by design</span>
       </div>
 
-      <div className="overflow-x-auto px-3 py-4 md:px-4">{children}</div>
+      <div className="overflow-x-auto p-4 md:p-6">{children}</div>
 
       <div className="grid gap-6 border-t border-line bg-white p-6 md:grid-cols-4 md:p-7">
         {[

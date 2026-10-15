@@ -86,18 +86,19 @@ export const SEATS: Seat[] = [
   },
 ]
 
-/* `brief` is the line this flow puts in tomorrow morning's message.
+/* `node` is the short name used on the flywheel rim; a sentence will not
+   fit there. `brief` is the line this flow puts in tomorrow morning's message.
    `perFile` is minutes saved on each file; `perMonth` is hours saved a month
    regardless of volume. A flow has one or the other, never both. */
-export const WORK: Record<ChallengeId, { brief: string; perFile?: number; perMonth?: number }> = {
-  tat: { brief: '14 files scored overnight. 11 cleared policy, 3 need your eyes.', perFile: 30 },
-  tabs: { brief: 'Bureau, bank, GST and MCA pulled on one consent. Nothing to open.', perFile: 8 },
-  fraud: { brief: 'Two applicants share a device with a written-off account. Held, SCN drafted.', perFile: 10 },
-  stress: { brief: 'Sharma Traders missed a NACH and skipped a GST filing. Tagged SMA-0 on day 1.', perMonth: 25 },
-  field: { brief: 'Today’s route: 9 visits, ordered by promise-to-pay. Two are due a call first.', perMonth: 40 },
-  mis: { brief: 'The board pack is written. The FY24 Q3 cohort is rolling 1.8× faster than Q2.', perMonth: 32 },
-  inspect: { brief: 'CRILC and NBS-9 generated from the ledger. Four KFS documents are missing.', perMonth: 45 },
-  core: { brief: 'Reading your core live. No migration, nothing retyped.' },
+export const WORK: Record<ChallengeId, { node: string; brief: string; perFile?: number; perMonth?: number }> = {
+  tat: { node: 'Turnaround', brief: '14 files scored overnight. 11 cleared policy, 3 need your eyes.', perFile: 30 },
+  tabs: { node: 'One pull', brief: 'Bureau, bank, GST and MCA pulled on one consent. Nothing to open.', perFile: 8 },
+  fraud: { node: 'Cluster check', brief: 'Two applicants share a device with a written-off account. Held, SCN drafted.', perFile: 10 },
+  stress: { node: 'Early warning', brief: 'Sharma Traders missed a NACH and skipped a GST filing. Tagged SMA-0 on day 1.', perMonth: 25 },
+  field: { node: 'Route planner', brief: 'Today’s route: 9 visits, ordered by promise-to-pay. Two are due a call first.', perMonth: 40 },
+  mis: { node: 'Board pack', brief: 'The board pack is written. The FY24 Q3 cohort is rolling 1.8× faster than Q2.', perMonth: 32 },
+  inspect: { node: 'Returns filer', brief: 'CRILC and NBS-9 generated from the ledger. Four KFS documents are missing.', perMonth: 45 },
+  core: { node: 'Core bridge', brief: 'Reading your core live. No migration, nothing retyped.' },
 }
 
 export const VOLUMES = [100, 500, 2000, 10000] as const
