@@ -1,8 +1,9 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { READY, SEATS } from '../content/agents'
-import { Architecture } from '../components/agents/Architecture'
+import type { ChallengeId } from '../content/saral-ai'
+import { READY, SEATS, VOLUMES, WORK } from '../content/agents'
 import { Builder } from '../components/agents/Builder'
+import { Flow } from '../components/agents/Flow'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
 import { Container, Section, SectionHead } from '../components/ui/Section'
@@ -13,19 +14,41 @@ import { Container, Section, SectionHead } from '../components/ui/Section'
 
 export function Agents() {
   const [seat, setSeat] = useState(0)
+  const [picked, setPicked] = useState<ChallengeId[]>(() => [...SEATS[0].does])
+  const [vol, setVol] = useState(1)
+
+  /* Switching seat resets the work to what that desk feels first, so the
+     diagram is never empty and never shows someone else's job. */
+  function chooseSeat(i: number) {
+    setSeat(i)
+    setPicked([...SEATS[i].does])
+  }
 
   function start(id: string) {
     const i = SEATS.findIndex((s) => s.id === id)
-    if (i >= 0) setSeat(i)
-    document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })
+    if (i >= 0) chooseSeat(i)
+    document.getElementById('architecture')?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  const perFile = picked.reduce((n, id) => n + (WORK[id].perFile ?? 0), 0)
+  const fixed = picked.reduce((n, id) => n + (WORK[id].perMonth ?? 0), 0)
+  const hours = Math.round((perFile * VOLUMES[vol]) / 60 + fixed)
+  /* 160 working hours in a month: the honest way to read a four-digit number. */
+  const people = (hours / 160).toFixed(1)
 
   return (
     <>
-      <Hero onSeat={setSeat} />
-      <Architecture seat={seat} onSeat={setSeat} />
+      <Hero onSeat={chooseSeat} />
+      <Flow
+        seat={seat}
+        onSeat={chooseSeat}
+        picked={picked}
+        onPick={(id) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
+        hours={hours}
+        people={people}
+      />
       <Ready onStart={start} />
-      <Builder seat={seat} onSeat={setSeat} />
+      <Builder seat={seat} picked={picked} vol={vol} onVol={setVol} perFile={perFile} fixed={fixed} hours={hours} people={people} />
       <Steps />
       <ClosingCta />
     </>
