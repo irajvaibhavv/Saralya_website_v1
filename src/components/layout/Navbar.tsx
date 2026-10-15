@@ -6,6 +6,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 const LINKS = [
   { to: '/home', label: 'Overview' },
   { to: '/home#products', label: 'Products' },
+  { to: '/agents', label: 'Agents' },
 ]
 
 export function Logo({ light }: { light?: boolean }) {
