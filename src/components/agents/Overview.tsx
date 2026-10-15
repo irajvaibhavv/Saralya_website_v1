@@ -41,7 +41,6 @@ export function Overview() {
               Your data goes in. A <span className="text-accent">decided file</span> comes out.
             </>
           }
-          lede="An agent is not a chat window. It is what it may read, what it may do, the limits it cannot cross, and what lands on your desk in the morning."
         />
         <FadeIn>
           <AgentFrame badge="Saralya agent">
