@@ -16,6 +16,7 @@ import { Container, Section, SectionHead } from '../ui/Section'
    with everything showing is the thing the lead keeps rejecting. */
 
 const SRC_ICONS = ['bureau', 'data', 'doc', 'shield', 'core', 'voice'] as const
+const RIM_ICONS = ['data', 'chart', 'pen', 'bell'] as const
 const STEPS = ['Who you are', 'Your day', 'Your agent']
 
 /* SVG text does not wrap, so anything going into the diagram is kept short
@@ -185,7 +186,7 @@ export function Wizard() {
                 <AgentFrame badge={`${s.label} agent`}>
                   <AgentFlow
                     rails={s.sees.slice(0, 5).map((label, i): Rail => ({ label, icon: SRC_ICONS[i % SRC_ICONS.length] }))}
-                    stages={flows.slice(0, 4).map((f): Stage => ({ title: WORK[f.id].node, sub: moduleName(f.module) }))}
+                    stages={flows.slice(0, 4).map((f, n): Stage => ({ title: WORK[f.id].node, sub: moduleName(f.module), icon: RIM_ICONS[n] }))}
                     outcome={{ title: `${hours.toLocaleString('en-IN')} hrs a month`, sub: `${people} people` }}
                     loopLabel={`${s.label}'s day`}
                     metrics={[
