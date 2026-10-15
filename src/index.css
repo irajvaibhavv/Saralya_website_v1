@@ -56,11 +56,19 @@
 
   --animate-marquee: marquee 40s linear infinite;
   --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
+  --animate-wire: wire 1.5s linear infinite;
 
   @keyframes marquee {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
+  /* the travelling dash on the agent diagram's wires */
+  @keyframes wire {
+    to {
+      stroke-dashoffset: -32;
+    }
+  }
+
   @keyframes pulse-ring {
     0% { box-shadow: 0 0 0 0 rgba(75, 63, 207, 0.45); }
     100% { box-shadow: 0 0 0 10px rgba(91, 61, 245, 0); }

@@ -1,10 +1,10 @@
-import { ArrowLeft, Building2, Check, Database, FileText, Landmark, Phone, RotateCcw, Server, Sparkles } from 'lucide-react'
+import { ArrowLeft, Check, RotateCcw, Sparkles } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { SEATS, VOLUMES, WORK } from '../../content/agents'
 import { CHALLENGES, type ChallengeId } from '../../content/saral-ai'
 import { CONTACT_EMAIL, MODULES } from '../../content/site'
-import { AgentFlow, Limits, type Source } from './AgentFlow'
+import { AgentFlow, AgentFrame, type Rail, type Stage } from './AgentFlow'
 import { ButtonLink } from '../ui/Button'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
@@ -15,8 +15,13 @@ import { Container, Section, SectionHead } from '../ui/Section'
    answers. One question on screen at a time is the whole point — a form
    with everything showing is the thing the lead keeps rejecting. */
 
-const SRC_ICONS = [Database, Landmark, FileText, Building2, Server, Phone]
+const SRC_ICONS = ['bureau', 'data', 'doc', 'shield', 'core', 'voice'] as const
 const STEPS = ['Who you are', 'Your day', 'Your agent']
+
+/* SVG text does not wrap, so anything going into the diagram is kept short
+   by construction rather than trusted to fit. */
+const clip = (t: string) => (t.length > 30 ? t.slice(0, 29).trimEnd() + '…' : t)
+const moduleName = (code: string | null) => MODULES.find((m) => m.code === code)?.name ?? 'Across your stack'
 
 /* "An underwriter", "a legal officer". */
 const an = (w: string) => (/^[aeiou]/i.test(w) ? 'an' : 'a')
@@ -180,30 +185,19 @@ export function Wizard() {
               </h3>
               <p className="mt-2 text-lede text-muted">Same five layers as the one above, filled in with your answers.</p>
 
-              <div className="mt-8 rounded-3xl bg-bg p-6 ring-1 ring-line md:p-9">
-                <AgentFlow
-                  seatKey={s.id}
-                  sources={s.sees.map((label, i): Source => ({ label, icon: SRC_ICONS[i % SRC_ICONS.length] }))}
-                  work={flows.map((f) => f.label)}
-                  outcome={
-                    <div className="space-y-4">
-                      <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-line">
-                        <div className="flex items-baseline gap-1.5">
-                          <motion.span key={hours} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="text-stat font-extrabold tabular-nums text-accent">
-                            {hours.toLocaleString('en-IN')}
-                          </motion.span>
-                          <span className="text-small text-muted">hrs a month</span>
-                        </div>
-                        <p className="mt-1 text-small text-muted">about {people} people, back on other work</p>
-                      </div>
-                      <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-line">
-                        <div className="font-mono text-label uppercase tracking-[0.12em] text-hint">Every morning</div>
-                        <p className="mt-2 text-small leading-relaxed text-ink2">{s.handsBack}</p>
-                      </div>
-                    </div>
-                  }
-                />
-                <Limits limits={s.cannot} seatKey={s.id} />
+              <div className="mt-8">
+                <AgentFrame badge={`${s.label} agent`}>
+                  <AgentFlow
+                    rails={s.sees.slice(0, 5).map((label, i): Rail => ({ label, icon: SRC_ICONS[i % SRC_ICONS.length] }))}
+                    stages={flows.slice(0, 3).map((f): Stage => ({ title: clip(f.label), sub: moduleName(f.module) }))}
+                    outcome={{ title: `${hours.toLocaleString('en-IN')} hrs a month`, sub: `${people} people, back on other work` }}
+                    metrics={[
+                      { label: 'Hours a month', value: `↑ ${hours.toLocaleString('en-IN')}` },
+                      { label: 'People, back on other work', value: `↑ ${people}` },
+                      { label: 'Hard limits it cannot cross', value: String(s.cannot.length) },
+                    ]}
+                  />
+                </AgentFrame>
               </div>
 
               {/* the brief + the arithmetic */}
