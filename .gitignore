@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local tooling scratch
+.playwright-mcp/
+dist.zip
+
+# Frozen preview snapshots, one per version
+.v1-build/
+.v2-build/
+.v3-build/
+
+# Design prototype, not part of the site
+public/agent-flow.html
