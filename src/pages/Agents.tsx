@@ -31,10 +31,6 @@ function Hero() {
           <h1 className="display max-w-4xl text-display">
             An agent for every desk in the <span className="text-accent">building</span>.
           </h1>
-          <p className="mt-5 max-w-2xl text-lede leading-relaxed text-muted">
-            Your underwriter, your collections officer and your compliance head do not do the same job, so they should not get the
-            same assistant. Pick a seat, pick the work, and we build that agent on your own data.
-          </p>
           <button
             type="button"
             onClick={() => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })}
@@ -55,7 +51,6 @@ function Ready() {
         <SectionHead
           eyebrow="Start from one of these"
           title="Six agents, already assembled."
-          lede="Every one of them is the same five layers, filled in. Open one and change whatever does not fit your book."
         />
         <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {READY.map((r) => (

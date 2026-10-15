@@ -35,7 +35,6 @@ export function Overview() {
     <Section id="architecture">
       <Container>
         <SectionHead
-          eyebrow="How an agent works"
           title={
             <>
               Your data goes in. A <span className="text-accent">decided file</span> comes out.
