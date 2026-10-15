@@ -9,10 +9,9 @@ import { ClosingCta } from '../components/layout/ClosingCta'
 import type { Role } from '../components/landing/SaralAiChat'
 import type { Starter } from '../content/saral-ai'
 
-/* The front door. The reel plays for ten seconds, then Saral Saarthi takes
-   over the hero itself — the page underneath is still there to scroll to.
-   The corner launcher opens the full sheet sooner, and every question on
-   the page opens it too. */
+/* The front door. The reel plays for ten seconds, then Saral Saarthi opens
+   on its own screen and the reel stops behind it; the corner launcher opens
+   it sooner, and every question on the page opens it too. */
 
 const HANDOVER_MS = 10_000
 
@@ -24,14 +23,13 @@ export function Landing() {
   const closeVideo = useCallback(() => setWatching(false), [])
 
   /* Once only: a visitor who closes it, or scrolls on to read the page, is
-     not handed the hero a second time. */
-  const [takeover, setTakeover] = useState(false)
+     not handed the window a second time. */
   const [handedOver, setHandedOver] = useState(false)
   useEffect(() => {
     if (handedOver) return
     const stop = () => setHandedOver(true)
     const t = window.setTimeout(() => {
-      setTakeover(true)
+      setOpen(true)
       setHandedOver(true)
     }, HANDOVER_MS)
     window.addEventListener('pointerdown', stop, { once: true })
@@ -46,7 +44,6 @@ export function Landing() {
   /* A fresh object each time so the same question can be asked twice. */
   const ask = (s: Starter) => {
     setPending({ ...s })
-    setTakeover(false)
     setOpen(true)
   }
   const close = () => {
@@ -56,7 +53,7 @@ export function Landing() {
 
   return (
     <>
-      <Hero takeover={takeover} seat={seat} onAsk={ask} onDismiss={() => setTakeover(false)} />
+      <Hero />
       <div id="explore" className="scroll-mt-16" />
       <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
       <Pillars />

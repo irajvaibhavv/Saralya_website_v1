@@ -5,9 +5,9 @@ import type { Starter } from '../../content/saral-ai'
 import { fileStarter, Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
 
-/* A launcher in the corner until it is opened; then Saral Saarthi takes the
-   whole page. No panel: the reel keeps playing at full size and the
-   conversation floats on it, carried by a wash dark enough to read against. */
+/* A launcher in the corner until it is opened; then Saral Saarthi fills the
+   screen on its own clean surface and the reel stops behind it. Not an
+   overlay on the video: the conversation gets the page to itself. */
 
 export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: { open: boolean; pending: Starter | null; seat: Role | null; onOpen: () => void; onAsk: (s: Starter) => void; onClose: () => void }) {
   // a one-time nudge beside the launcher so a first visitor knows what it is
@@ -124,26 +124,22 @@ export function SaralAiWidget({ open, pending, seat, onOpen, onAsk, onClose }: {
               key="sheet"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.25 } }}
-              transition={{ duration: 0.4 }}
-              onClick={onClose}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               role="dialog"
               aria-modal="true"
               aria-label="Saral Saarthi"
-              className="fixed inset-0 z-[90] overflow-hidden bg-gradient-to-b from-ink/40 via-ink/18 to-ink/65 backdrop-blur-[2px]"
+              className="fixed inset-0 z-[90] overflow-hidden bg-bg"
             >
-              <button onClick={onClose} aria-label="Close Saral Saarthi" className="absolute right-4 top-4 z-10 grid size-10 place-items-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white sm:right-6 sm:top-6">
+              <button onClick={onClose} aria-label="Close Saral Saarthi" className="absolute right-4 top-4 z-10 grid size-10 place-items-center rounded-full text-muted transition-colors hover:bg-black/5 hover:text-ink sm:right-6 sm:top-6">
                 <X className="size-5" />
               </button>
-              {/* only the column dims — the reel keeps its brightness either side */}
-              <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(58%_52%_at_50%_50%,rgba(10,10,16,0.62),rgba(10,10,16,0.18)_62%,transparent_78%)]" />
 
-              {/* a reading column; clicks inside it stay inside */}
+              {/* a reading column */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-                onClick={(e) => e.stopPropagation()}
+                transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 className="relative mx-auto h-full w-full max-w-[720px] px-5"
               >
                 {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}

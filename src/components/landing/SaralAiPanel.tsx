@@ -36,19 +36,19 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
   }
 
   return (
-    <div className="flex h-full flex-col justify-center overflow-y-auto py-10 text-white">
+    <div className="flex h-full flex-col justify-center overflow-y-auto py-10 text-ink">
       <div className="flex items-center gap-2.5">
         <span className="grid size-7 shrink-0 place-items-center rounded-md bg-accent text-white">
           <Mark className="text-body" />
         </span>
-        <span className="font-mono text-label uppercase tracking-[0.14em] text-white/60">Saral Saarthi</span>
+        <span className="font-mono text-label uppercase tracking-[0.14em] text-muted">Saral Saarthi</span>
         <span className="size-1.5 rounded-full bg-green animate-pulse-ring" />
       </div>
 
-      <h2 className="mt-5 max-w-[18ch] text-h2 font-semibold leading-[1.08] tracking-[-0.03em] [text-shadow:0_2px_20px_rgba(0,0,0,0.35)]">
-        Ask me anything<span className="text-accent3">.</span>
+      <h2 className="display mt-5 max-w-[18ch] text-h2">
+        Ask me anything<span className="text-accent">.</span>
       </h2>
-      <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-white/65">
+      <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-muted">
         {seat ? seat.hello : 'Credit risk, collections, RBI norms, compliance — or anything about our platform.'}
       </p>
 
@@ -67,20 +67,20 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
               variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } } }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onAsk(s)}
-              className="group flex items-center gap-3 rounded-2xl bg-white/[0.07] px-3 py-3 text-left ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-white/[0.14] hover:ring-white/30"
+              className="group flex items-center gap-3 rounded-2xl bg-white px-3 py-3 text-left shadow-sm ring-1 ring-line/70 transition hover:-translate-y-0.5 hover:shadow-md hover:ring-accent/30"
             >
               <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${TONE}`}>
                 <Icon className="size-3.5" />
               </span>
-              <span className="min-w-0 flex-1 text-small font-medium leading-snug text-white/90">{s.q}</span>
-              <ArrowRight className="size-3.5 shrink-0 text-white/35 transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-white" />
+              <span className="min-w-0 flex-1 text-small font-medium leading-snug">{s.q}</span>
+              <ArrowRight className="size-3.5 shrink-0 text-hint transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-accent" />
             </motion.button>
           )
         })}
       </motion.div>
 
-      <form onSubmit={submit} className="mt-3 flex items-center gap-1.5 rounded-2xl bg-white/[0.09] p-1.5 ring-1 ring-white/20 backdrop-blur-md transition focus-within:bg-white/[0.14] focus-within:ring-white/40">
-        <label aria-label="Add a file" title="Add a file" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-white/55 hover:bg-white/10 hover:text-white">
+      <form onSubmit={submit} className="mt-3 flex items-center gap-1.5 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-line transition focus-within:ring-accent">
+        <label aria-label="Add a file" title="Add a file" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-muted hover:bg-wash hover:text-accent">
           <Plus className="size-4" />
           <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
         </label>
@@ -90,14 +90,14 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
           placeholder={speech.listening ? 'Listening…' : 'Ask anything about lending…'}
           aria-label="Ask Saral AI"
           autoFocus
-          className="min-w-0 flex-1 bg-transparent px-1.5 text-body text-white outline-none placeholder:text-white/40"
+          className="min-w-0 flex-1 bg-transparent px-1.5 text-body outline-none placeholder:text-hint"
         />
         <MicButton speech={speech} />
         <button type="submit" aria-label="Send" className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white transition-colors hover:bg-accent2">
           <ArrowUp className="size-4" />
         </button>
       </form>
-      <p className="mt-3.5 text-small leading-relaxed text-white/45">
+      <p className="mt-3.5 text-small leading-relaxed text-hint">
         Our own ML model, trained on Indian banking data. General information, not financial or legal advice.
       </p>
     </div>
