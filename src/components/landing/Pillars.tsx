@@ -45,7 +45,7 @@ export function Pillars() {
               <Item key={p.n}>
                 <div
                   tabIndex={0}
-                  className="group flex h-full min-h-[27svh] cursor-pointer flex-col justify-between rounded-2xl border border-line2 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg focus-visible:-translate-y-1 focus-visible:border-accent/40 focus-visible:shadow-lg focus-visible:outline-none"
+                  className="group relative flex h-full min-h-[27svh] cursor-pointer flex-col justify-between rounded-2xl border border-line2 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg focus-visible:-translate-y-1 focus-visible:border-accent/40 focus-visible:shadow-lg focus-visible:outline-none lg:pb-[94px]"
                 >
                   <span className="grid size-12 place-items-center rounded-xl bg-wash text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-white group-focus-visible:bg-accent group-focus-visible:text-white">
                     <Icon className="size-6" strokeWidth={1.7} />
@@ -57,15 +57,12 @@ export function Pillars() {
                     </div>
                     <h3 className="mt-2 text-h3 font-semibold leading-snug">{p.title}</h3>
 
-                    {/* the gap under the title is there to be filled: hovering
-                        opens the card by animating the row from 0fr to 1fr */}
-                    <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out lg:grid-rows-[0fr] lg:group-hover:grid-rows-[1fr] lg:group-focus-visible:grid-rows-[1fr]">
-                      <div className="overflow-hidden">
-                        <p className="mt-4 border-t border-line pt-4 text-small leading-relaxed text-muted opacity-100 transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100">
-                          {p.body}
-                        </p>
-                      </div>
-                    </div>
+                    {/* the room for this line is held open whether or not the
+                        card is pointed at, so opening one leaves the other two
+                        exactly where they were */}
+                    <p className="mt-4 border-t border-line pt-4 text-small leading-relaxed text-muted lg:absolute lg:inset-x-7 lg:bottom-7 lg:mt-0 lg:translate-y-1 lg:opacity-0 lg:transition lg:duration-300 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:group-focus-visible:translate-y-0 lg:group-focus-visible:opacity-100">
+                      {p.body}
+                    </p>
                   </div>
                 </div>
               </Item>
