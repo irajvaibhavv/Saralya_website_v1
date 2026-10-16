@@ -30,7 +30,7 @@ export function Benefits() {
             </Card>
           </Item>
           <Item className="md:col-span-12">
-            <Card title="Compliance is the architecture." body="600+ RBI and DPDP checks on every loan.">
+            <Card title="Compliance is the architecture.">
               <Checks />
             </Card>
           </Item>
@@ -40,13 +40,13 @@ export function Benefits() {
   )
 }
 
-function Card({ title, body, children }: { title: string; body: string; children: React.ReactNode }) {
+function Card({ title, body, children }: { title: string; body?: string; children: React.ReactNode }) {
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg">
       <div className="relative h-[190px] overflow-hidden bg-gradient-to-b from-wash2 to-white">{children}</div>
       <div className="p-6 pt-5">
         <div className="text-h3 font-extrabold tracking-[-0.02em] leading-snug">{title}</div>
-        <p className="mt-2 text-body text-muted">{body}</p>
+        {body && <p className="mt-2 text-body text-muted">{body}</p>}
       </div>
     </div>
   )
