@@ -13,11 +13,11 @@ const LINKS = [
    white chip there and bare everywhere else */
 export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
   return (
-    <Link to="/" aria-label="Saralya" className={`inline-flex ${light ? 'rounded-xl bg-white/95 px-2 py-1' : ''}`}>
+    <Link to="/" aria-label="Saralya" className={`inline-flex ${light ? 'rounded-lg bg-white/95 px-1.5 py-0.5' : ''}`}>
       <img
         src={full ? '/img/logo-full.png' : '/img/logo.png'}
         alt="Saralya — Credit Simplified"
-        className={full ? 'h-16 w-auto' : 'h-7 w-auto'}
+        className={full ? 'h-16 w-auto' : 'h-6 w-auto'}
       />
     </Link>
   )
