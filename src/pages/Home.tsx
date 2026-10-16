@@ -5,7 +5,6 @@ import { MonthlyReview } from '../components/home/MonthlyReview'
 import { Hero } from '../components/home/Hero'
 import { HowItWorks } from '../components/home/HowItWorks'
 import { ProductsSection } from '../components/home/Products'
-import { TrackRecord } from '../components/home/TrackRecord'
 import { InspectionReadiness } from '../components/home/InspectionReadiness'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
 import { ClosingCta } from '../components/layout/ClosingCta'
@@ -26,7 +25,6 @@ export function Home() {
       <MonthlyReview />
       <InspectionReadiness />
       <Benefits />
-      <TrackRecord />
       <ClosingCta />
     </>
   )

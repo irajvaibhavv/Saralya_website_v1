@@ -23,7 +23,6 @@ export type Module = {
   color: string
   bar: string
   wash: string
-  points: string[]
 }
 
 export const MODULES: Module[] = [
@@ -38,7 +37,6 @@ export const MODULES: Module[] = [
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
-    points: ['CIBIL · Experian · CRIF', 'AA: all 9 ReBIT FI types', 'GSTN · MCA21 · CERSAI'],
   },
   {
     code: 'M2',
@@ -51,7 +49,6 @@ export const MODULES: Module[] = [
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
-    points: ['SMA-0 tagging at day 1', 'GST velocity + AA feeds', 'Vintage + roll-rate packs'],
   },
   {
     code: 'M3',
@@ -64,7 +61,6 @@ export const MODULES: Module[] = [
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
-    points: ['Cluster network analysis', '21-day SCN workflow', 'CRILC · NBS-9 · CIMS-ready'],
   },
   {
     code: 'M4',
@@ -77,7 +73,6 @@ export const MODULES: Module[] = [
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
-    points: ['AI-assisted PD', 'Day routed by PTP date', 'Visits logged with time + location'],
   },
   {
     code: 'M5',
@@ -90,7 +85,6 @@ export const MODULES: Module[] = [
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
-    points: ['RPC-first dialler', 'Skip-tracing + settlements', 'Sec 138 / SARFAESI prep'],
   },
 ]
 

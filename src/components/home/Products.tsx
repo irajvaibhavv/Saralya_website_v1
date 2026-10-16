@@ -119,13 +119,6 @@ function ModuleBlock({ index, onActive }: { index: number; onActive: () => void 
         </div>
         <h2 className="display mt-6 text-display">{m.name}</h2>
         <p className={`mt-3 text-h3 font-semibold leading-snug ${m.color}`}>{m.short}</p>
-        <div className="mt-6 flex flex-wrap gap-2">
-          {m.points.map((p) => (
-            <span key={p} className="rounded-full bg-white px-3.5 py-1.5 text-small font-semibold text-ink2 shadow-sm">
-              {p}
-            </span>
-          ))}
-        </div>
       </motion.div>
     </div>
   )
