@@ -1,4 +1,4 @@
-import { useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 /* Sources → the agent → a loop of specialist steps → what comes out.
 
@@ -46,6 +46,10 @@ const f = (n: number) => Math.min(0.999, Math.max(0.001, n)).toFixed(3)
 
 /* entry on the left, over the top, out at the right, back underneath */
 const RIM_DEGS = [180, 270, 0, 90]
+
+/** the rim runs clockwise; this is the heading of travel at a given degree */
+const heading = (deg: number) =>
+  (Math.atan2(LOOP.ry * Math.cos(rad(deg)), -LOOP.rx * Math.sin(rad(deg))) * 180) / Math.PI
 
 const line = (x1: number, x2: number, y: number) => `M ${x1} ${y} L ${x2} ${y}`
 
@@ -126,6 +130,10 @@ export function AgentFlow({
         <filter id="agSoft" x="-60%" y="-60%" width="220%" height="220%">
           <feDropShadow dx="0" dy="8" stdDeviation="14" floodColor="#107a66" floodOpacity="0.22" />
         </filter>
+        <radialGradient id="agAmbient">
+          <stop offset="0" stopColor="#4cc3a5" stopOpacity="0.5" />
+          <stop offset="1" stopColor="#4cc3a5" stopOpacity="0" />
+        </radialGradient>
         <linearGradient id="agBox" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#ffffff" />
           <stop offset="1" stopColor="#eef5f2" />
@@ -167,6 +175,9 @@ export function AgentFlow({
       <Link d={line(TILE.x + TILE.size * 2 + TILE.gap + 18, BOX.x - 14, LOOP.cy)} from={0.02} to={0.14} reduce={reduce} head={[BOX.x - 14, LOOP.cy]} />
 
       {/* 2 — the agent: a lattice, quietly working */}
+      <ellipse cx={BOX.x + BOX.w / 2} cy={BOX.y + BOX.h / 2} rx={BOX.w} ry={BOX.h * 0.62} fill="url(#agAmbient)" opacity={0.5}>
+        {!reduce && <animate attributeName="opacity" values="0.3;0.62;0.3" dur="6s" repeatCount="indefinite" />}
+      </ellipse>
       <rect x={BOX.x} y={BOX.y} width={BOX.w} height={BOX.h} rx={BOX.r} fill="url(#agBox)" stroke="var(--color-accent)" strokeWidth={1.5} filter="url(#agSoft)" />
       {Array.from({ length: 8 }).map((_, row) => {
         const y = BOX.y + 36 + row * 32
@@ -207,6 +218,21 @@ export function AgentFlow({
         The loop
       </text>
       <ellipse cx={LOOP.cx} cy={LOOP.cy} rx={LOOP.rx} ry={LOOP.ry} fill="none" stroke="var(--color-line2)" strokeWidth={1.5} strokeDasharray="5 7" />
+      {degs.map((deg, i) => {
+        const at = deg + (360 / degs.length) * 0.5
+        const p = onLoop(at)
+        return (
+          <path
+            key={`arrow-${i}`}
+            d="M -7 -5 L 0 0 L -7 5"
+            transform={`translate(${p.x} ${p.y}) rotate(${heading(at)})`}
+            fill="none"
+            stroke="var(--color-line2)"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+          />
+        )
+      })}
       {!reduce && (
         <circle r={5.5} fill="var(--color-accent)" filter="url(#agGlow)">
           <animateMotion dur={`${CYCLE}s`} repeatCount="indefinite" path={rim} calcMode="linear" keyPoints="0;0;1;1" keyTimes={`0;${f(LAP[0])};${f(LAP[1])};1`} />
@@ -279,6 +305,7 @@ export function AgentFlow({
                     />
                   </>
                 )}
+                <circle r={NODE_R + 7} fill="none" stroke="var(--color-accent)" strokeWidth={1.5} opacity={0} className="transition-opacity group-hover:opacity-40" />
                 <circle r={NODE_R} fill="#ffffff" stroke="var(--color-accent)" strokeWidth={1.5} className="transition-all group-hover:fill-[var(--color-wash)]" />
                 {s.icon ? <Glyph icon={s.icon} x={0} y={0} scale={0.92} /> : <circle r={6} fill="var(--color-accent)" />}
               </g>
@@ -310,6 +337,15 @@ export function AgentFlow({
               <text x={p.x} y={above ? p.y - NODE_R - 14 : p.y + NODE_R + 24} textAnchor="middle" className="fill-ink text-[15px] font-semibold">
                 {s.title}
               </text>
+              <text
+                x={p.x}
+                y={above ? p.y - NODE_R - 32 : p.y + NODE_R + 42}
+                textAnchor="middle"
+                opacity={0}
+                className="fill-muted text-[12px] transition-opacity group-hover:opacity-100"
+              >
+                {s.sub}
+              </text>
             </g>
           </g>
         )
@@ -326,14 +362,20 @@ export function AgentFlow({
         {outcome.title}
       </text>
       {metrics.slice(0, 3).map((m, i) => (
-        <g key={m.label}>
+        <motion.g
+          key={m.label}
+          initial={reduce ? undefined : { opacity: 0, y: 12 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, delay: 0.3 + i * 0.12 }}
+        >
           <text x={MET.x} y={MET.ys[i]} className="fill-muted text-[13px]">
             {m.label}
           </text>
           <text x={MET.x} y={MET.ys[i] + 32} className="fill-accent text-[28px] font-bold">
             {m.value}
           </text>
-        </g>
+        </motion.g>
       ))}
     </svg>
   )
