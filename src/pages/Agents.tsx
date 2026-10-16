@@ -6,6 +6,7 @@ import { Wizard } from '../components/agents/Wizard'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
 import { Container, Section, SectionHead } from '../components/ui/Section'
+import { scrollToEl } from '../lib/scroll'
 
 /* The page is a sequence, not a dashboard: see the machine running, then
    answer three questions and watch it rebuild as yours.
@@ -37,7 +38,7 @@ export function Agents() {
 }
 
 function Hero() {
-  const go = () => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })
+  const go = () => scrollToEl('build')
   return (
     <Section tight className="flex min-h-[100svh] items-center pt-14 md:pt-20">
       <Container>
@@ -146,7 +147,7 @@ function Ready() {
             <Item key={r.name}>
               <button
                 type="button"
-                onClick={() => document.getElementById('build')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => scrollToEl('build')}
                 className="group h-full w-full overflow-hidden rounded-2xl bg-white text-left shadow-sm ring-1 ring-line transition-shadow hover:shadow-lg"
               >
                 <div className="relative h-44 overflow-hidden">

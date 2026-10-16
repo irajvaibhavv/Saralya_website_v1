@@ -9,6 +9,7 @@ import { VideoModal } from '../components/landing/VideoModal'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import type { Role } from '../components/landing/SaralAiChat'
 import type { Starter } from '../content/saral-ai'
+import { scrollToEl, scrollToY } from '../lib/scroll'
 
 /* The front door is two screens stacked. The reel is a held stage: it stays
    where it is while Saral Saarthi rides up over it on its own opaque layer,
@@ -39,7 +40,7 @@ export function Landing() {
       if (y < target * 0.1) settled.current = false
       if (!settled.current && y > target * SETTLE_AT && y < target) {
         settled.current = true
-        window.scrollTo({ top: target, behavior: 'smooth' })
+        scrollToY(target)
       }
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -49,7 +50,7 @@ export function Landing() {
   /* A fresh object each time so the same question can be asked twice. */
   const ask = (s: Starter) => {
     setPending({ ...s })
-    document.getElementById('saarthi')?.scrollIntoView({ behavior: 'smooth' })
+    scrollToEl('saarthi')
   }
 
   return (

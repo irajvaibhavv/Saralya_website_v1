@@ -1,9 +1,10 @@
 import { UploadCloud } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useInView } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
 import type { Starter } from '../../content/saral-ai'
-import { fileStarter, SaralAiChat, type Role } from './SaralAiChat'
+import { fileStarter, Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
+import { scrollToEl } from '../../lib/scroll'
 
 /* Saral Saarthi is a screen, not a dialog. It sits below the reel and rides
    up over it as the visitor scrolls — the hero is held in place by the
@@ -22,6 +23,19 @@ export function SaralAiSection({
   onAsk: (s: Starter) => void
   onReset: () => void
 }) {
+  /* The corner launcher rides over the reel and steps aside once Saarthi
+     is on screen; it is the shortcut for anyone who would rather not
+     scroll. */
+  const stage = useRef<HTMLElement>(null)
+  const inView = useInView(stage, { amount: 0.25 })
+  const [hint, setHint] = useState(false)
+  useEffect(() => {
+    if (inView) { setHint(false); return }
+    const on = window.setTimeout(() => setHint(true), 2500)
+    const off = window.setTimeout(() => setHint(false), 9000)
+    return () => { window.clearTimeout(on); window.clearTimeout(off) }
+  }, [inView])
+
   /* Drop a file anywhere on the page: the conversation opens with it, or
      takes it if one is already running. */
   const [dragging, setDragging] = useState(false)
@@ -58,7 +72,7 @@ export function SaralAiSection({
 
   return (
     <>
-      <section id="saarthi" className="flex min-h-[100svh] scroll-mt-0 flex-col justify-center bg-bg px-5">
+      <section ref={stage} id="saarthi" className="flex min-h-[100svh] scroll-mt-0 flex-col justify-center bg-bg px-5">
         <div className="mx-auto h-[86svh] w-full max-w-[760px]">
           {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
         </div>
@@ -73,6 +87,44 @@ export function SaralAiSection({
           </button>
         )}
       </section>
+
+      <AnimatePresence>
+        {hint && (
+          <motion.div
+            key="hint"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4, transition: { duration: 0.15 } }}
+            className="fixed bottom-[76px] right-5 z-[90] max-w-[240px] rounded-xl bg-white px-3.5 py-2.5 text-small leading-snug text-ink2 shadow-md sm:bottom-[84px] sm:right-6"
+          >
+            Ask me anything about credit risk, collections or RBI norms.
+            <span className="absolute -bottom-1 right-6 size-2 rotate-45 bg-white" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {!inView && (
+          <motion.button
+            key="launch"
+            type="button"
+            onClick={() => scrollToEl('saarthi')}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.4, delay: 0.8 }}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            className="fixed bottom-5 right-5 z-[90] flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 text-ink shadow-md sm:bottom-6 sm:right-6"
+          >
+            <span className="relative grid size-8 place-items-center rounded-full bg-accent text-white">
+              <Mark className="text-lede" />
+              <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-green ring-2 ring-white" />
+            </span>
+            <span className="text-small font-medium">Saral Saarthi</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {dragging && (
