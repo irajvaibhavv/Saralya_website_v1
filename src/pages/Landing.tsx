@@ -19,8 +19,6 @@ import { lenis, scrollToEl } from '../lib/scroll'
    two are never on screen at once; below Saarthi the page scrolls the
    ordinary way. Scroll back up and each screen is still where it was. */
 
-/** the stacked screens: reel, platform, who are you, Saarthi */
-const SCREENS = 4
 /** one gesture, one screen — how long that screen takes to arrive */
 const TRAVEL = 1.05
 /** eased both ends, so the screen sets off and lands rather than snapping */
@@ -35,23 +33,43 @@ export function Landing() {
   /* One gesture pulls the next screen up whole. Lenis is held while we are
      inside the stack so nothing can come to rest between two screens, and
      handed back the moment the visitor leaves it at the bottom. */
-  const busy = useRef(false)
+  /* the clock the travel runs on, not a flag: a flag that is cleared by a
+     callback stays set for good if the travel is ever interrupted, and the
+     screens stop snapping */
+  const until = useRef(0)
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const h = () => window.innerHeight
-    const last = () => (SCREENS - 1) * h()
+
+    /* measured, not assumed: each screen is as tall as it renders, and a
+       hero a pixel off would otherwise drift the whole stack */
+    const tops = () => {
+      const out: number[] = []
+      let y = 0
+      for (const el of document.querySelectorAll<HTMLElement>('[data-screen]')) {
+        out.push(y)
+        y += el.offsetHeight
+      }
+      return out
+    }
+    const last = () => {
+      const t = tops()
+      return t[t.length - 1] ?? 0
+    }
 
     const page = (dir: number) => {
-      const i = Math.round(window.scrollY / h())
-      const to = Math.min(SCREENS - 1, Math.max(0, i + dir)) * h()
-      if (to === Math.round(window.scrollY)) return
-      busy.current = true
+      const t = tops()
+      const y = window.scrollY
+      /* the screen we are on is the nearest resting place below us */
+      let i = 0
+      for (let n = 0; n < t.length; n++) if (y >= t[n] - 2) i = n
+      const to = t[Math.min(t.length - 1, Math.max(0, i + dir))]
+      if (to === undefined || Math.abs(to - y) < 2) return
+      until.current = performance.now() + TRAVEL * 1000 + 80
       lenis.scrollTo(to, {
         force: true,
         duration: TRAVEL,
         easing: GLIDE,
         onComplete: () => {
-          busy.current = false
           /* landed on the last screen: the page below is ordinary scrolling
              again, so give the wheel straight back */
           if (to >= last() - 2) lenis.start()
@@ -70,8 +88,10 @@ export function Landing() {
         return false
       }
       e.preventDefault()
+      /* mid-travel: swallow the gesture, never restart the animation */
+      if (performance.now() < until.current) return true
       lenis.stop()
-      if (!busy.current) page(dir)
+      page(dir)
       return true
     }
 
@@ -110,19 +130,19 @@ export function Landing() {
     <>
       {/* layered screens, each held until the next one covers it */}
       <div className="relative">
-        <Held z={0}>
+        <Held z={0} data-screen>
           <Hero />
         </Held>
 
-        <Held z={10} id="explore" className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
+        <Held z={10} id="explore" data-screen className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
           <Pillars />
         </Held>
 
-        <Held z={20} className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
+        <Held z={20} data-screen className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
           <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
         </Held>
 
-        <div className="sticky top-0 z-30 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
+        <div data-screen className="sticky top-0 z-30 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <SaralAiSection pending={pending} seat={seat} onAsk={ask} onReset={() => setPending(null)} />
         </div>
 
