@@ -13,7 +13,7 @@
   --font-hero: "Boska", "Clash Display", Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
-  /* One type scale. Every size on the site is one of these nine. */
+  /* One type scale. Every size on the site is one of these ten. */
   --text-label: 11px;
   --text-label--line-height: 1.3;
   --text-small: 13px;
@@ -32,6 +32,9 @@
   --text-figure--line-height: 1;
   --text-display: clamp(38px, 5.6vw, 76px);
   --text-display--line-height: 1.04;
+  /* one step above display, for a screen that carries a single line */
+  --text-mega: clamp(44px, 7.4vw, 104px);
+  --text-mega--line-height: 1;
 
   --color-bg: #f4f7f6;
   --color-bg2: #e7eeec;
