@@ -29,7 +29,7 @@ export function HeroReel() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,11,0.18)_0%,rgba(10,10,11,0)_42%,rgba(10,10,11,0.38)_100%)]" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,11,0.34)_0%,rgba(10,10,11,0.18)_30%,rgba(10,10,11,0.04)_55%,rgba(10,10,11,0)_75%)]" />
       {/* the page below is white; the frame dissolves into it */}
-      <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-white" />
+      <div className="absolute inset-x-0 bottom-0 h-5 bg-gradient-to-b from-transparent to-white" />
     </div>
   )
 }
