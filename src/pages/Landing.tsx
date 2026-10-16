@@ -63,17 +63,19 @@ export function Landing() {
           <Hero />
         </div>
 
-        {/* one screen: what the platform is, and who is reading it */}
-        <div id="explore" className="relative z-10 flex min-h-[100svh] flex-col justify-center bg-bg py-10 shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)]">
+        <div id="explore" className="sticky top-0 z-10 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <Pillars />
-          <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
         </div>
 
         <div className="sticky top-0 z-20 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
+          <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
+        </div>
+
+        <div className="sticky top-0 z-30 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <SaralAiSection pending={pending} seat={seat} onAsk={ask} onReset={() => setPending(null)} />
         </div>
 
-        <div className="relative z-30 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
+        <div className="relative z-40 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
           <BookAtAGlance />
           <InAction onWatch={() => setWatching(true)} />
           <ClosingCta demo />
