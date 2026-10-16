@@ -29,12 +29,7 @@ export function Benefits() {
               <Stopwatch />
             </Card>
           </Item>
-          <Item className="md:col-span-5">
-            <Card title="Works with existing systems." body="Keep your CBS and LOS. Saralya plugs in beside them.">
-              <Plugs />
-            </Card>
-          </Item>
-          <Item className="md:col-span-7">
+          <Item className="md:col-span-12">
             <Card title="Compliance is the architecture." body="600+ RBI and DPDP checks on every loan.">
               <Checks />
             </Card>
@@ -119,52 +114,6 @@ function Stopwatch() {
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-function Plugs() {
-  const systems = ['FinnOne', 'Lentra', 'Finflux', 'Your CBS']
-  return (
-    <div className="absolute inset-0 flex items-center justify-center gap-6 px-6">
-      <div className="grid gap-2">
-        {systems.map((s, i) => (
-          <motion.div
-            key={s}
-            className="rounded-xl bg-white px-3 py-1.5 font-mono text-label text-ink2 shadow-sm"
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 + i * 0.1 }}
-          >
-            {s}
-          </motion.div>
-        ))}
-      </div>
-      <svg width="60" height="140" className="overflow-visible">
-        {systems.map((_, i) => (
-          <motion.path
-            key={i}
-            d={`M0 ${17 + i * 35} C 30 ${17 + i * 35}, 30 70, 60 70`}
-            fill="none"
-            stroke="var(--color-accent3)"
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            whileInView={{ pathLength: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 + i * 0.1 }}
-          />
-        ))}
-      </svg>
-      <motion.div
-        className="grid size-16 place-items-center rounded-2xl bg-ink text-label font-extrabold text-white shadow-lg"
-        initial={{ scale: 0.8, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
-      >
-        Saralya
-      </motion.div>
     </div>
   )
 }
