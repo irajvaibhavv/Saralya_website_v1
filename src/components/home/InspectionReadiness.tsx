@@ -83,7 +83,7 @@ export function InspectionReadiness() {
                   </span>
                 </div>
                 <p className="text-lede font-semibold leading-snug">
-                  {score === CHECKS.length ? 'Inspection-ready. Saral Comply keeps it that way.' : `${gaps.length} open to an inspection question.`}
+                  {score === CHECKS.length ? 'Inspection-ready. Saral Trust keeps it that way.' : `${gaps.length} open to an inspection question.`}
                 </p>
               </div>
 

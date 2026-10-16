@@ -376,4 +376,7 @@ export function ComplyVisual() {
   )
 }
 
-export const VISUALS = [AppraisalVisual, ScreenVisual, WatchVisual, RecoverVisual, InsightVisual, ComplyVisual]
+/* Parallel to MODULES in content/site.ts: Profile, Drishti, Trust, Mitra,
+   Samadhan. InsightVisual is kept for whichever product takes analytics as
+   its own card. */
+export const VISUALS = [AppraisalVisual, WatchVisual, ScreenVisual, RecoverVisual, ComplyVisual]

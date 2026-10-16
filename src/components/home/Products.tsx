@@ -14,7 +14,7 @@ export function ProductsSection() {
           eyebrow="Products"
           title={
             <>
-              Six modules. <span className="text-accent">One stack.</span>
+              Five agents. <span className="text-accent">One stack.</span>
             </>
           }
           lede="Run the full stack, or plug in one module."

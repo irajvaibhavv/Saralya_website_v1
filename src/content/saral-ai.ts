@@ -25,11 +25,11 @@ export const STAGES = ['Appraise', 'Screen', 'Watch', 'Recover', 'Report', 'Comp
 export const CHALLENGES = [
   { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', next: { to: '/demo', label: 'Watch a decision in minutes' }, does: 'Pulls bureau, Account Aggregator and GSTN on one consent, and puts a scored file on your desk.', tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
   { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', does: 'Collapses five tabs into one file view: bureau, bank, GST, MCA.', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types: stop asking borrowers for PDF statements.' },
-  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M2', next: { to: '/demo', label: 'Watch a decision run' }, does: 'Links applicants by phone, device, address and bank account, and flags the cluster before disbursal.', tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person: and build the 21-day SCN step in before you need it.' },
-  { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M3', does: 'Watches the first failed NACH and the skipped GST filing, and tags SMA-0 on day 1.', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
-  { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M4', does: 'Routes the day by promise-to-pay date, and logs every visit with time and location.', tip: 'Log every visit with time and location, and route the day by promise-to-pay date: not by who shouted loudest.' },
-  { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M5', does: 'Cuts the book by vintage and writes the roll-rate pack before anyone asks for it.', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
-  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M6', next: { to: '/home#readiness', label: 'Tick your six inspection checks' }, does: 'Generates CRILC and NBS-9 from the ledger, and names what is still missing.', tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
+  { id: 'fraud', label: 'Fraud shows up after disbursal', stage: 1, module: 'M3', next: { to: '/demo', label: 'Watch a decision run' }, does: 'Links applicants by phone, device, address and bank account, and flags the cluster before disbursal.', tip: 'Link applicants by phone, device, address and bank account. Most application fraud is a cluster, not a person: and build the 21-day SCN step in before you need it.' },
+  { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M2', does: 'Watches the first failed NACH and the skipped GST filing, and tags SMA-0 on day 1.', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
+  { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M5', does: 'Routes the day by promise-to-pay date, and logs every visit with time and location.', tip: 'Log every visit with time and location, and route the day by promise-to-pay date: not by who shouted loudest.' },
+  { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M2', does: 'Cuts the book by vintage and writes the roll-rate pack before anyone asks for it.', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
+  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M3', next: { to: '/home#readiness', label: 'Tick your six inspection checks' }, does: 'Generates CRILC and NBS-9 from the ledger, and names what is still missing.', tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
   { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, next: { to: '/technology', label: 'See how it plugs into your core' }, does: 'Reads your core through an API layer beside it, one product line at a time.', tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
 ] as const
 export type ChallengeId = (typeof CHALLENGES)[number]['id']
@@ -57,17 +57,17 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'How do I catch a fake bank statement?',
         a: 'Stop accepting them. Statements pulled over Account Aggregator come from the bank, so there is nothing to forge. For what still arrives as a PDF, cross-check it against GST turnover and bureau enquiries.',
-        link: { to: '/products#M2', label: 'Saral Screen' },
+        link: { to: '/products#M3', label: 'Saral Trust' },
       },
       {
         q: 'Can one applicant be linked to another?',
         a: 'Yes, and that is the point of screening. Applicants are linked by phone, device, address and bank account, because most application fraud is a cluster of files, not one person.',
-        link: { to: '/products#M2', label: 'Cluster network analysis' },
+        link: { to: '/products#M3', label: 'Cluster network analysis' },
       },
       {
         q: 'What must happen before I tag a file as fraud?',
         a: 'A show-cause notice and 21 days for the borrower to respond, under RBI’s MD-FRM 2024 after SBI vs. Rajesh Agarwal. Tag first and notify later, and the classification does not stand.',
-        link: { to: '/products#M2', label: 'The 21-day SCN workflow' },
+        link: { to: '/products#M3', label: 'The 21-day SCN workflow' },
       },
       {
         q: 'Do I still need a physical visit?',
@@ -91,7 +91,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'How much of the personal discussion can I do on data?',
         a: 'Most of the income and obligation questions are already answered by AA cash flows and GST filings. Keep the visit for what data cannot see: the premises, the stock, the people. Record it with time and location so it sits in the file, not in a diary.',
-        link: { to: '/products#M1', label: 'Saral Appraisal' },
+        link: { to: '/products#M1', label: 'Saral Profile' },
       },
       {
         q: 'Why was a file I would have approved rejected?',
@@ -101,7 +101,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'When should I raise a deviation?',
         a: 'When the file fails a rule you can justify in writing. Record the reason against the rule, not beside it: deviations that carry their own reason are the ones that survive an audit.',
-        link: { to: '/products#M6', label: 'Saral Comply' },
+        link: { to: '/products#M3', label: 'Saral Trust' },
       },
     ],
   },
@@ -120,7 +120,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'How do I underwrite a thin-file MSME?',
         a: 'On cash flow, not on bureau alone. Twelve months of AA bank data and GST filings give turnover, seasonality and bounce history, which says more than a bureau score does.',
-        link: { to: '/products#M1', label: 'Saral Appraisal' },
+        link: { to: '/products#M1', label: 'Saral Profile' },
       },
       {
         q: 'Can I change the rules without a release?',
@@ -144,22 +144,22 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'How do I know an account is slipping before DPD 30?',
         a: 'SMA-0 is the first special-mention bucket: overdue up to 30 days. Tag it the day the account slips. A first NACH bounce or a missed GST filing is your earliest signal, and lenders who wait for DPD 30 are already a month late.',
-        link: { to: '/products#M3', label: 'Saral Watch' },
+        link: { to: '/products#M2', label: 'Saral Drishti' },
       },
       {
         q: 'Which accounts should I call first?',
         a: 'The ones with a fresh signal: a bounced NACH, a skipped GST filing, a bureau enquiry with another lender. Rank by signal and promise-to-pay date, not by bucket.',
-        link: { to: '/products#M3', label: 'The deterioration index' },
+        link: { to: '/products#M2', label: 'The deterioration index' },
       },
       {
         q: 'How should I plan the field day?',
         a: 'Route it by promise-to-pay date, not by who shouted loudest. Every visit is logged with time, location, outcome and the next promise, so the day’s report writes itself.',
-        link: { to: '/products#M4', label: 'Saral Recover' },
+        link: { to: '/products#M5', label: 'Saral Samadhan' },
       },
       {
         q: 'What happens when an account goes legal?',
         a: 'Section 138 and SARFAESI prep is generated from the ledger, with the notice history attached, instead of being assembled by hand at the end of the quarter.',
-        link: { to: '/products#M4', label: 'Sec 138 / SARFAESI prep' },
+        link: { to: '/products#M5', label: 'Sec 138 / SARFAESI prep' },
       },
     ],
   },
@@ -178,17 +178,17 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'What can my officer tell a customer on the spot?',
         a: 'An in-principle answer, with the Key Fact Statement attached: amount, APR, every charge and the schedule. A customer who leaves the counter with a number does not go shopping with a competitor.',
-        link: { to: '/products#M1', label: 'Saral Appraisal' },
+        link: { to: '/products#M1', label: 'Saral Profile' },
       },
       {
         q: 'Where is my team losing applications?',
         a: 'Funnel by stage says it plainly: where files stall, which document request loses people, which branch converts. It is the same data the credit MIS runs on, cut by officer instead of by cohort.',
-        link: { to: '/products#M5', label: 'Saral Insight' },
+        link: { to: '/products#M2', label: 'Saral Drishti' },
       },
       {
         q: 'How do I know which officer needs help?',
         a: 'By files touched, time per stage and what each one converts, not by the month-end number. A productivity view per officer makes a coaching conversation specific instead of general.',
-        link: { to: '/products#M5', label: 'Saral Insight' },
+        link: { to: '/products#M2', label: 'Saral Drishti' },
       },
     ],
   },
