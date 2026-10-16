@@ -55,7 +55,7 @@ export const MODULES: Module[] = [
     tag: 'Fraud & compliance',
     name: 'Saral Trust',
     short: 'Catch fraud before it books.',
-    body: 'Real-time application and transaction fraud signals, network analysis across applicant clusters, and 600+ checks mapped to RBI MD-FRM, DLD 2025, KYC MD, DPDP and PMLA.',
+    body: 'Real-time application and transaction fraud signals, network analysis across applicant clusters, and the compliance checks an inspector asks for, mapped to the regimes they come from.',
     icon: ScanSearch,
     img: '/img/scrutiny.jpg',
     color: 'text-accent',
