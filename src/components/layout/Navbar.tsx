@@ -9,15 +9,15 @@ const LINKS = [
   { to: '/agents', label: 'Agents' },
 ]
 
-/* over the landing video the mark needs its own ground, so it sits on a
-   white chip there and bare everywhere else */
+/* over the landing video the mark is knocked out in white and lifted off
+   the footage by a shadow, so it needs no chip to sit on */
 export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
   return (
-    <Link to="/" aria-label="Saralya" className={`inline-flex ${light ? 'rounded-lg bg-white/95 px-1.5 py-0.5' : ''}`}>
+    <Link to="/" aria-label="Saralya" className="inline-flex">
       <img
-        src={full ? '/img/logo-full.png' : '/img/logo.png'}
+        src={full ? '/img/logo-full.png' : light ? '/img/logo-white.png' : '/img/logo.png'}
         alt="Saralya — Credit Simplified"
-        className={full ? 'h-16 w-auto' : 'h-6 w-auto'}
+        className={`${full ? 'h-16' : 'h-7'} w-auto ${light ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]' : ''}`}
       />
     </Link>
   )
