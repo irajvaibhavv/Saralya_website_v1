@@ -1,12 +1,13 @@
 import { ArrowLeft, ArrowRight, Check, RotateCcw, Sparkles } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PLANS, SEATS, VOLUMES, WANTS, type WantId } from '../../content/agents'
 import { CONTACT_EMAIL, MODULES } from '../../content/site'
 import { AgentFlow, AgentFrame, type Rail, type Stage } from './AgentFlow'
 import { ButtonLink } from '../ui/Button'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
+import { scrollToEl } from '../../lib/scroll'
 
 /* Four questions, one at a time, each answer opening the next: who you are,
    what you want taken off your desk (in your own words if ours don't fit),
@@ -31,6 +32,18 @@ export function Wizard() {
   const [picked, setPicked] = useState<WantId[]>([])
   const [note, setNote] = useState('')
   const [vol, setVol] = useState(1)
+
+  /* each answer makes the step above it shorter or longer, so bring the
+     question back to the top of the screen rather than leaving the next one
+     off it */
+  const first = useRef(true)
+  useEffect(() => {
+    if (first.current) {
+      first.current = false
+      return
+    }
+    scrollToEl('build-step', -90)
+  }, [step])
 
   const s = seat === null ? null : SEATS[seat]
   /* only this desk's five are offered: a longer list reads as a form */
@@ -94,6 +107,7 @@ export function Wizard() {
           )}
         </FadeIn>
 
+        <div id="build-step">
         <AnimatePresence mode="wait">
           {/* 1 — who are you */}
           {step === 0 && (
@@ -339,6 +353,7 @@ export function Wizard() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </Container>
     </Section>
   )
