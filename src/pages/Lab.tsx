@@ -1,14 +1,30 @@
 import { motion } from 'motion/react'
 import { Container, Section, SectionHead } from '../components/ui/Section'
 
-/* TEMPORARY: /lab — candidate visuals for the "Built ground-up for Digital
-   Lending" card, in the real card frame so they can be judged as they will
-   look. Pick one and this file, its route in App.tsx and every visual but
-   the chosen one go. */
+/* TEMPORARY: /lab — candidate charts for the "Built ground-up for Digital
+   Lending" card, in the real card frame. Charts a credit team reads, none
+   of them a bar. Pick one; this file, its route in App.tsx and the rest go.
+
+   Every figure is illustrative. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
+/** a gaussian, sampled across the width, as an SVG polyline */
+const bell = (mu: number, sd: number, h: number, w = 240, n = 60) =>
+  Array.from({ length: n + 1 }, (_, i) => {
+    const x = (i / n) * w
+    const y = h - Math.exp(-((x - mu) ** 2) / (2 * sd ** 2)) * h
+    return `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`
+  }).join(' ')
 
 export function Lab() {
+  const charts: [string, React.ReactNode][] = [
+    ['01 · Gains curve, against a generic model', <Gains key="1" />],
+    ['02 · KS separation — good files from bad', <KS key="2" />],
+    ['03 · Where the book flows', <Sankey key="3" />],
+    ['04 · Score distribution, cohort by cohort', <Ridge key="4" />],
+    ['05 · The book over twelve months', <Stream key="5" />],
+    ['06 · The line it draws', <Boundary key="6" />],
+  ]
   return (
     <Section>
       <Container>
@@ -16,24 +32,14 @@ export function Lab() {
           eyebrow="Lab · temporary"
           title={
             <>
-              Six ways to say <span className="text-accent">trained on BFSI data</span>.
+              Six charts, <span className="text-accent">no bars</span>.
             </>
           }
-          lede="Same card, same size. Tell me a number."
+          lede="Same card, same size, real chart types. Tell me a number."
         />
         <div className="grid gap-5 md:grid-cols-2">
-          {[
-            ['01 · Vocabulary', <Vocab key="1" />],
-            ['02 · Attention heatmap', <Heat key="2" />],
-            ['03 · A file being read', <FileRead key="3" />],
-            ['04 · Signals it watches', <Sparks key="4" />],
-            ['05 · What it has seen', <Scatter key="5" />],
-            ['06 · One consent, one answer', <Flow key="6" />],
-            ['07 · Same question, two answers', <TwoAnswers key="7" />],
-            ['08 · X-ray on the file', <Xray key="8" />],
-            ['09 · The account’s heartbeat', <Pulse key="9" />],
-          ].map(([label, node]) => (
-            <div key={String(label)} className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-line">
+          {charts.map(([label, node]) => (
+            <div key={label} className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-line">
               <div className="relative h-[190px] overflow-hidden bg-gradient-to-b from-wash2 to-white">{node}</div>
               <div className="p-6 pt-5">
                 <div className="font-mono text-label uppercase tracking-[0.12em] text-accent">{label}</div>
@@ -48,385 +54,310 @@ export function Lab() {
   )
 }
 
-function Badge() {
+function Badge({ children = 'BFSI-trained' }: { children?: string }) {
   return (
     <div className="absolute left-4 top-4 z-10 rounded-full bg-white px-2.5 py-1 font-mono text-label text-accent shadow-sm">
-      BFSI-trained
+      {children}
     </div>
   )
 }
 
-/* 01 — the words it was trained on, landing one by one */
-const TERMS = [
-  { t: 'NACH bounce', x: 6, y: 26 },
-  { t: 'SMA-0', x: 46, y: 12 },
-  { t: 'KFS', x: 72, y: 30 },
-  { t: 'GSTR-3B', x: 10, y: 56 },
-  { t: 'CRILC', x: 38, y: 44 },
-  { t: 'DPD 30', x: 66, y: 60 },
-  { t: 'SARFAESI', x: 20, y: 78 },
-  { t: 'roll-rate', x: 56, y: 82 },
-]
+/* 01 — the canonical model chart: what share of the defaults you catch in
+   the riskiest slice of the book. The diagonal is random; a generic model
+   barely beats it. */
+function Gains() {
+  const W = 250
+  const H = 112
+  const curve = (k: number) =>
+    Array.from({ length: 41 }, (_, i) => {
+      const x = i / 40
+      const y = 1 - (1 - x) ** k
+      return `${i ? 'L' : 'M'}${(x * W).toFixed(1)} ${(H - y * H).toFixed(1)}`
+    }).join(' ')
 
-function Vocab() {
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 px-6 pt-11">
       <Badge />
-      {TERMS.map((w, i) => (
-        <motion.span
-          key={w.t}
-          className="absolute rounded-full bg-white px-2.5 py-1 font-mono text-[11px] text-ink2 shadow-sm ring-1 ring-line"
-          style={{ left: `${w.x}%`, top: `${w.y}%` }}
-          initial={{ opacity: 0, y: 10, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: 0.1 + i * 0.09, ease: EASE }}
-        >
-          {w.t}
-        </motion.span>
-      ))}
-    </div>
-  )
-}
-
-/* 02 — attention over the signals, filling in waves */
-const ROWS = ['NACH', 'SMA-0', 'GST', 'Bureau', 'KYC']
-const COLS = 16
-
-function Heat() {
-  return (
-    <div className="absolute inset-0 px-4 pt-11">
-      <Badge />
-      <div className="space-y-1.5">
-        {ROWS.map((r, y) => (
-          <div key={r} className="flex items-center gap-2">
-            <span className="w-12 shrink-0 text-right font-mono text-[9px] uppercase text-hint">{r}</span>
-            <div className="flex flex-1 gap-1">
-              {Array.from({ length: COLS }, (_, x) => {
-                /* a deterministic ripple, so it reads as a pattern not noise */
-                const v = (Math.sin(x * 0.9 + y * 1.7) + 1) / 2
-                return (
-                  <motion.span
-                    key={x}
-                    className="h-4 flex-1 rounded-[3px] bg-accent"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 0.08 + v * 0.82 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.1 + (x + y) * 0.035 }}
-                  />
-                )
-              })}
-            </div>
-          </div>
+      <svg viewBox={`0 0 ${W} ${H + 16}`} className="h-[132px] w-full">
+        {[0.25, 0.5, 0.75].map((g) => (
+          <line key={g} x1="0" x2={W} y1={H - g * H} y2={H - g * H} className="stroke-line" strokeWidth="1" strokeDasharray="2 5" />
         ))}
-      </div>
-    </div>
-  )
-}
-
-/* 03 — a file scrolling past, three lines marked */
-const LINES = [
-  { w: 72 },
-  { w: 54, note: 'turnover ↓ 18%' },
-  { w: 84 },
-  { w: 44, note: 'NACH bounce' },
-  { w: 66 },
-  { w: 58, note: 'GST filing gap' },
-  { w: 78 },
-]
-
-function FileRead() {
-  return (
-    <div className="absolute inset-0 px-5 pt-11">
-      <Badge />
-      <div className="space-y-2.5">
-        {LINES.map((l, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <motion.span
-              className={`h-2 rounded-full ${l.note ? 'bg-accent' : 'bg-line2'}`}
-              initial={{ width: 0 }}
-              whileInView={{ width: `${l.w / 2}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
-            />
-            {l.note && (
-              <motion.span
-                className="whitespace-nowrap font-mono text-[10px] text-accent"
-                initial={{ opacity: 0, x: -6 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-              >
-                ◂ {l.note}
-              </motion.span>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-/* 04 — the signals it watches, as small multiples */
-const SERIES = [
-  { k: 'Cash flow', d: [8, 10, 9, 12, 11, 14, 13, 16], tone: 'stroke-accent' },
-  { k: 'Bounces', d: [3, 2, 4, 3, 6, 9, 12, 15], tone: 'stroke-red' },
-  { k: 'GST filings', d: [12, 12, 11, 12, 10, 7, 6, 4], tone: 'stroke-amber' },
-  { k: 'Enquiries', d: [2, 3, 3, 5, 4, 7, 9, 11], tone: 'stroke-ink2' },
-]
-
-function Sparks() {
-  const line = (d: number[]) =>
-    d.map((v, i) => `${i ? 'L' : 'M'}${(i / (d.length - 1)) * 60} ${22 - (v / 16) * 18}`).join(' ')
-  return (
-    <div className="absolute inset-0 grid grid-cols-2 gap-x-6 gap-y-3 px-5 pt-12">
-      <Badge />
-      {SERIES.map((s, i) => (
-        <div key={s.k} className="flex items-center gap-3">
-          <svg viewBox="0 0 60 24" className="h-6 w-16 shrink-0">
-            <motion.path
-              d={line(s.d)}
-              fill="none"
-              strokeWidth="2"
-              strokeLinecap="round"
-              className={s.tone}
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 + i * 0.12 }}
-            />
-          </svg>
-          <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-hint">{s.k}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-/* 05 — the book it has seen: every dot a file, the flagged ones apart */
-function Scatter() {
-  const dots = Array.from({ length: 90 }, (_, i) => {
-    const a = i * 2.39996
-    const r = Math.sqrt(i / 90)
-    return { x: 50 + Math.cos(a) * r * 38, y: 50 + Math.sin(a) * r * 34, bad: i % 11 === 0 }
-  })
-  return (
-    <div className="absolute inset-0">
-      <Badge />
-      {dots.map((d, i) => (
-        <motion.span
-          key={i}
-          className={`absolute size-1.5 rounded-full ${d.bad ? 'bg-red' : 'bg-accent/45'}`}
-          style={{ left: `${d.x}%`, top: `${d.y}%` }}
-          initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 1, scale: d.bad ? 1.6 : 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: i * 0.008 }}
-        />
-      ))}
-      <div className="absolute bottom-3 right-4 font-mono text-[10px] text-hint">
-        <span className="text-red">●</span> flagged before disbursal
-      </div>
-    </div>
-  )
-}
-
-/* 06 — four sources in, one answer out */
-const SRC = ['Bureau', 'Account Aggregator', 'GSTN', 'MCA21']
-
-function Flow() {
-  return (
-    <div className="absolute inset-0 px-5 pt-11">
-      <Badge />
-      <svg viewBox="0 0 280 120" className="size-full">
-        {SRC.map((s, i) => {
-          const y = 14 + i * 30
-          return (
-            <g key={s}>
-              <motion.text
-                x="0"
-                y={y + 3}
-                className="fill-muted font-mono text-[9px]"
-                initial={{ opacity: 0, x: -6 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                {s}
-              </motion.text>
-              <motion.path
-                d={`M96 ${y} C 140 ${y}, 150 60, 196 60`}
-                fill="none"
-                strokeWidth="2"
-                className="stroke-accent/50"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.2 + i * 0.1 }}
-              />
-            </g>
-          )
-        })}
-        <motion.rect
-          x="196"
-          y="44"
-          width="78"
-          height="32"
-          rx="10"
-          className="fill-ink"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          style={{ transformOrigin: '235px 60px' }}
-          transition={{ delay: 0.8, type: 'spring', stiffness: 300, damping: 20 }}
-        />
-        <motion.text
-          x="235"
-          y="64"
-          textAnchor="middle"
-          className="fill-white font-mono text-[10px]"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 1 }}
-        >
-          scored
-        </motion.text>
-      </svg>
-    </div>
-  )
-}
-
-/* 07 — the one thing a general model gets wrong. Nobody puts a model's
-   mistake on a marketing card; it is the fastest way to prove the claim. */
-function TwoAnswers() {
-  return (
-    <div className="absolute inset-0 px-4 pt-11">
-      <Badge />
-      <div className="font-mono text-[9px] uppercase tracking-[0.1em] text-hint">“Can we tag this account as fraud today?”</div>
-      <div className="mt-2.5 space-y-2">
-        <motion.div
-          className="flex items-start gap-2 rounded-xl bg-white px-3 py-2 ring-1 ring-line"
-          initial={{ opacity: 0, x: -8 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-        >
-          <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-red/10 font-mono text-[10px] text-red">✕</span>
-          <span className="min-w-0">
-            <span className="block font-mono text-[9px] uppercase tracking-[0.1em] text-hint">General model</span>
-            <span className="block text-[11px] leading-snug text-ink2">“Yes — flag it as fraud and close the file.”</span>
-          </span>
-        </motion.div>
-        <motion.div
-          className="flex items-start gap-2 rounded-xl bg-white px-3 py-2 ring-1 ring-accent/40"
-          initial={{ opacity: 0, x: -8 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-        >
-          <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-[10px] text-accent">✓</span>
-          <span className="min-w-0">
-            <span className="block font-mono text-[9px] uppercase tracking-[0.1em] text-accent">Saralya</span>
-            <span className="block text-[11px] leading-snug text-ink">“Not yet — the 21-day show-cause notice has to close first.”</span>
-          </span>
-        </motion.div>
-      </div>
-    </div>
-  )
-}
-
-/* 08 — a scan passes over the document and the fields come out of it */
-const FIELDS = [
-  { t: 'Turnover ₹1.4 Cr', top: 18 },
-  { t: 'EMI/NMI 46%', top: 44 },
-  { t: 'Bounce ×2', top: 70 },
-]
-
-function Xray() {
-  return (
-    <div className="absolute inset-0 overflow-hidden px-4 pt-11">
-      <Badge />
-      <div className="relative h-[120px] rounded-xl bg-white ring-1 ring-line">
-        {/* the page */}
-        <div className="space-y-2 p-3">
-          {[80, 62, 90, 54, 72, 44].map((w, i) => (
-            <span key={i} className="block h-1.5 rounded-full bg-line2" style={{ width: `${w}%` }} />
-          ))}
-        </div>
-        {/* the scan */}
-        <motion.span
-          className="absolute inset-y-0 w-14 bg-gradient-to-r from-transparent via-accent/25 to-transparent"
-          initial={{ x: -60 }}
-          whileInView={{ x: 320 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.8, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1.2 }}
-        />
-        {/* what it pulled out */}
-        {FIELDS.map((f, i) => (
-          <motion.span
-            key={f.t}
-            className="absolute right-3 rounded-md bg-ink px-2 py-1 font-mono text-[9px] text-white"
-            style={{ top: f.top }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 + i * 0.35 }}
-          >
-            {f.t}
-          </motion.span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-/* 09 — the account as an ECG: steady until the mandate fails */
-function Pulse() {
-  const d =
-    'M0 30 L22 30 L28 18 L34 42 L40 30 L70 30 L76 20 L82 40 L88 30 L118 30 ' +
-    'L124 6 L130 54 L136 30 L150 30 L156 10 L162 50 L168 30 L200 30 L206 22 L212 38 L218 30 L260 30'
-  return (
-    <div className="absolute inset-0 px-4 pt-12">
-      <Badge />
-      <svg viewBox="0 0 260 62" className="w-full">
-        <line x1="0" y1="30" x2="260" y2="30" className="stroke-line" strokeWidth="1" strokeDasharray="2 4" />
+        <line x1="0" y1={H} x2={W} y2={H} className="stroke-line2" strokeWidth="1" />
+        {/* random */}
+        <line x1="0" y1={H} x2={W} y2="0" className="stroke-ink2/25" strokeWidth="1.5" strokeDasharray="4 4" />
+        {/* a general model */}
         <motion.path
-          d={d}
+          d={curve(2)}
           fill="none"
-          strokeWidth="2"
+          strokeWidth="1.8"
+          className="stroke-ink2/45"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+        />
+        {/* ours */}
+        <motion.path
+          d={curve(7)}
+          fill="none"
+          strokeWidth="2.6"
           strokeLinecap="round"
-          strokeLinejoin="round"
           className="stroke-accent"
           initial={{ pathLength: 0 }}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 2, ease: 'easeInOut' }}
+          transition={{ duration: 1, delay: 0.35, ease: EASE }}
         />
-        <motion.circle
-          cx="127"
-          cy="30"
-          r="16"
-          className="fill-none stroke-red"
-          strokeWidth="1.5"
-          initial={{ opacity: 0, scale: 0.6 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          style={{ transformOrigin: '127px 30px' }}
-          transition={{ delay: 1.3, type: 'spring', stiffness: 300, damping: 18 }}
-        />
+        <text x={W * 0.3} y={H - 0.78 * H - 6} className="fill-accent font-mono text-[9px] font-bold">
+          ours
+        </text>
+        <text x={W * 0.54} y={H - 0.46 * H + 12} className="fill-muted font-mono text-[9px]">
+          general model
+        </text>
+        <text x="0" y={H + 13} className="fill-hint font-mono text-[9px]">
+          riskiest 10%
+        </text>
+        <text x={W} y={H + 13} textAnchor="end" className="fill-hint font-mono text-[9px]">
+          whole book
+        </text>
       </svg>
-      <motion.div
-        className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.08em]"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 1.6 }}
-      >
-        <span className="text-hint">Mandate healthy</span>
-        <span className="font-bold text-red">Day 1 · NACH failed</span>
-        <span className="text-hint">SMA-0 tagged</span>
-      </motion.div>
+    </div>
+  )
+}
+
+/* 02 — the separation itself: where the good files sit against the bad */
+function KS() {
+  const W = 240
+  const H = 80
+  return (
+    <div className="absolute inset-0 px-6 pt-11">
+      <Badge />
+      <svg viewBox={`0 0 ${W} ${H + 22}`} className="h-[132px] w-full">
+        <line x1="0" y1={H} x2={W} y2={H} className="stroke-line2" strokeWidth="1" />
+        <motion.path
+          d={`${bell(78, 30, H)} L ${W} ${H} L 0 ${H} Z`}
+          className="fill-red/15 stroke-red"
+          strokeWidth="1.6"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        />
+        <motion.path
+          d={`${bell(168, 34, H)} L ${W} ${H} L 0 ${H} Z`}
+          className="fill-accent/20 stroke-accent"
+          strokeWidth="2"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        />
+        <motion.line
+          x1="123"
+          x2="123"
+          y1="4"
+          y2={H}
+          className="stroke-ink"
+          strokeWidth="1.5"
+          strokeDasharray="3 3"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
+        />
+        <text x="123" y="0" dy="10" textAnchor="middle" className="fill-ink font-mono text-[9px] font-bold">
+          cut-off
+        </text>
+        <text x="50" y={H + 14} textAnchor="middle" className="fill-red font-mono text-[9px]">
+          defaults
+        </text>
+        <text x="186" y={H + 14} textAnchor="middle" className="fill-accent font-mono text-[9px]">
+          good files
+        </text>
+      </svg>
+    </div>
+  )
+}
+
+/* 03 — a sankey: what each bucket did this month, by weight of flow */
+const LINKS = [
+  { from: 0, to: 0, w: 15, tone: 'stroke-accent/50' },
+  { from: 0, to: 1, w: 4, tone: 'stroke-amber/60' },
+  { from: 1, to: 1, w: 6, tone: 'stroke-amber/60' },
+  { from: 1, to: 2, w: 9, tone: 'stroke-red/60' },
+  { from: 2, to: 2, w: 11, tone: 'stroke-red/60' },
+  { from: 2, to: 0, w: 5, tone: 'stroke-accent/50' },
+]
+const NODES = ['Current', 'SMA', 'NPA risk']
+
+function Sankey() {
+  const y = (i: number) => 18 + i * 38
+  return (
+    <div className="absolute inset-0 px-6 pt-11">
+      <Badge />
+      <svg viewBox="0 0 250 108" className="h-[132px] w-full">
+        {LINKS.map((l, i) => (
+          <motion.path
+            key={i}
+            d={`M70 ${y(l.from)} C 130 ${y(l.from)}, 130 ${y(l.to)}, 190 ${y(l.to)}`}
+            fill="none"
+            strokeWidth={l.w}
+            strokeLinecap="round"
+            className={l.tone}
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 + i * 0.08 }}
+          />
+        ))}
+        {NODES.map((n, i) => (
+          <g key={n}>
+            <rect x="60" y={y(i) - 13} width="6" height="26" rx="3" className="fill-ink" />
+            <rect x="194" y={y(i) - 13} width="6" height="26" rx="3" className="fill-ink" />
+            <text x="54" y={y(i) + 3} textAnchor="end" className="fill-muted font-mono text-[9px]">
+              {n}
+            </text>
+            <text x="206" y={y(i) + 3} className="fill-muted font-mono text-[9px]">
+              {n}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
+/* 04 — a ridgeline: the whole score distribution, one cohort per ridge */
+const RIDGES = [
+  { k: 'Sep', mu: 168, sd: 30 },
+  { k: 'Aug', mu: 152, sd: 32 },
+  { k: 'Jul', mu: 120, sd: 38 },
+  { k: 'Jun', mu: 142, sd: 30 },
+]
+
+function Ridge() {
+  return (
+    <div className="absolute inset-0 px-6 pt-11">
+      <Badge />
+      <svg viewBox="0 0 250 122" className="h-[132px] w-full">
+        {RIDGES.map((r, i) => (
+          <g key={r.k} transform={`translate(26, ${i * 26})`}>
+            <motion.path
+              d={`${bell(r.mu, r.sd, 34, 224)} L 224 34 L 0 34 Z`}
+              className={i === 2 ? 'fill-red/20 stroke-red' : 'fill-accent/15 stroke-accent/70'}
+              strokeWidth="1.5"
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.1 + i * 0.12 }}
+            />
+            <text x="-6" y="31" textAnchor="end" className={`font-mono text-[9px] ${i === 2 ? 'fill-red font-bold' : 'fill-hint'}`}>
+              {r.k}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
+/* 05 — a streamgraph: the shape of the book, month by month */
+const BANDS = [
+  { tone: 'fill-accent/70', amp: 16, base: 26, ph: 0 },
+  { tone: 'fill-accent/40', amp: 10, base: 18, ph: 1.2 },
+  { tone: 'fill-amber/50', amp: 7, base: 11, ph: 2.4 },
+  { tone: 'fill-red/45', amp: 5, base: 7, ph: 3.6 },
+]
+
+function Stream() {
+  const W = 250
+  const N = 40
+  let floor = Array.from({ length: N + 1 }, () => 100)
+  return (
+    <div className="absolute inset-0 px-6 pt-11">
+      <Badge />
+      <svg viewBox="0 0 250 108" className="h-[132px] w-full">
+        {BANDS.map((b, bi) => {
+          const top = floor.map((f, i) => f - (b.base + Math.sin(i / 5 + b.ph) * (b.amp / 2)))
+          const d =
+            top.map((t, i) => `${i ? 'L' : 'M'}${((i / N) * W).toFixed(1)} ${t.toFixed(1)}`).join(' ') +
+            ' ' +
+            floor
+              .map((_, i) => `L${(((N - i) / N) * W).toFixed(1)} ${floor[N - i].toFixed(1)}`)
+              .join(' ') +
+            ' Z'
+          floor = top
+          return (
+            <motion.path
+              key={bi}
+              d={d}
+              className={b.tone}
+              initial={{ opacity: 0, scaleY: 0.6 }}
+              whileInView={{ opacity: 1, scaleY: 1 }}
+              viewport={{ once: true }}
+              style={{ transformOrigin: '125px 100px' }}
+              transition={{ duration: 0.6, delay: 0.1 + bi * 0.1, ease: EASE }}
+            />
+          )
+        })}
+        <text x="0" y="106" className="fill-hint font-mono text-[9px]">
+          Apr
+        </text>
+        <text x={W} y="106" textAnchor="end" className="fill-hint font-mono text-[9px]">
+          Mar
+        </text>
+      </svg>
+    </div>
+  )
+}
+
+/* 06 — the decision boundary, drawn through the book it was trained on */
+function Boundary() {
+  const pts = Array.from({ length: 80 }, (_, i) => {
+    const a = i * 2.39996
+    const r = Math.sqrt(i / 80)
+    const x = 125 + Math.cos(a) * r * 108
+    const y = 56 + Math.sin(a) * r * 42
+    /* above the curve is approved, below it is not */
+    const line = 70 - (x - 125) * 0.26
+    return { x, y, bad: y > line + 4 }
+  })
+  const curve = 'M8 92 C 70 74, 150 58, 242 26'
+  return (
+    <div className="absolute inset-0 px-6 pt-11">
+      <Badge />
+      <svg viewBox="0 0 250 112" className="h-[132px] w-full">
+        {pts.map((p, i) => (
+          <motion.circle
+            key={i}
+            cx={p.x}
+            cy={p.y}
+            r={p.bad ? 2.6 : 2.2}
+            className={p.bad ? 'fill-red/70' : 'fill-accent/60'}
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.25, delay: i * 0.008 }}
+          />
+        ))}
+        <motion.path
+          d={curve}
+          fill="none"
+          strokeWidth="2"
+          strokeDasharray="5 4"
+          className="stroke-ink"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.7 }}
+        />
+        <text x="246" y="18" textAnchor="end" className="fill-accent font-mono text-[9px]">
+          approve
+        </text>
+        <text x="4" y="108" className="fill-red font-mono text-[9px]">
+          decline
+        </text>
+      </svg>
     </div>
   )
 }
