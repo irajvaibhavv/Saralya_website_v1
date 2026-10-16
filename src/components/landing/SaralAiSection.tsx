@@ -73,7 +73,7 @@ export function SaralAiSection({
   return (
     <>
       <section ref={stage} id="saarthi" className="flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center bg-bg px-5 pt-16">
-        <div className="mx-auto h-[80svh] w-full max-w-[760px]">
+        <div className="mx-auto h-[80svh] w-full max-w-[1060px]">
           {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
         </div>
 
