@@ -278,11 +278,3 @@ export const POPULAR_QS: Starter[] = [
   },
 ]
 
-/* Unverified, inherited from the reference design. Strike before launch
-   unless the founders can stand behind each one. */
-export const METRICS = [
-  { value: '100+', label: 'NBFCs trust us' },
-  { value: '40%', label: 'faster decisions' },
-  { value: '25%', label: 'lower default rates' },
-  { value: '2x', label: 'collection efficiency' },
-] as const

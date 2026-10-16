@@ -172,7 +172,7 @@ export function HeroOrbit() {
               className="absolute left-1/2 top-[8%] -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-small font-bold text-white shadow-lg sm:top-[14%] sm:text-small"
             >
               ₹{TICKETS[ticket].amt} sanctioned{' '}
-              <span className="ml-1 font-mono text-label font-medium text-[#c4b5fd]">{SECTORS[sector].t}</span>
+              <span className="ml-1 font-mono text-label font-medium text-[#4cc3a5]">{SECTORS[sector].t}</span>
             </motion.div>
           )}
         </AnimatePresence>

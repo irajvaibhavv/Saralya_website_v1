@@ -9,11 +9,16 @@ const LINKS = [
   { to: '/agents', label: 'Agents' },
 ]
 
-export function Logo({ light }: { light?: boolean }) {
+/* over the landing video the mark needs its own ground, so it sits on a
+   white chip there and bare everywhere else */
+export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
   return (
-    <Link to="/" className={`flex items-center gap-2 text-h3 font-extrabold tracking-[-0.04em] ${light ? 'text-white' : 'text-ink'}`}>
-      Saralya
-      <span className="inline-block size-2 rounded-full bg-accent" />
+    <Link to="/" aria-label="Saralya" className={`inline-flex ${light ? 'rounded-2xl bg-white/95 px-3 py-1.5 shadow-sm' : ''}`}>
+      <img
+        src={full ? '/img/logo-full.png' : '/img/logo.png'}
+        alt="Saralya — Credit Simplified"
+        className={full ? 'h-16 w-auto' : 'h-8 w-auto'}
+      />
     </Link>
   )
 }

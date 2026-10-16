@@ -1,15 +1,12 @@
-import { Building2, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
-import { METRICS } from '../../content/saral-ai'
 import { HeroReel } from './HeroReel'
 import { ButtonLink } from '../ui/Button'
 
-/* One screen: the claim on the left, the reel open on the right, four
-   numbers along the foot. Saral Saarthi waits in the corner. */
+/* One screen: the reel behind, the claim low over it, one button.
+   Saral Saarthi waits in the corner. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
 const rise = (delay: number) => ({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, ease: EASE, delay } })
-const ICONS = [Building2, Zap, TrendingUp, Users]
 
 export function Hero() {
   return (
@@ -35,22 +32,6 @@ export function Hero() {
 
         </div>
 
-        {/* the numbers run along the foot, quiet, under a hairline */}
-        <motion.dl {...rise(0.4)} className="mt-10 grid max-w-3xl grid-cols-2 gap-x-6 gap-y-4 border-t border-white/15 pt-5 [text-shadow:0_2px_8px_rgba(0,0,0,0.6)] sm:grid-cols-4">
-          {METRICS.map((m, i) => {
-            const Icon = ICONS[i]
-            return (
-              <div key={m.label} className="flex items-center gap-3">
-                <Icon className="hidden size-5 shrink-0 text-accent3 sm:block" strokeWidth={1.6} />
-                <div>
-                  <dt className="sr-only">{m.label}</dt>
-                  <dd className="font-mono text-h3 font-medium leading-none">{m.value}</dd>
-                  <dd className="mt-1 whitespace-nowrap text-small text-white/65">{m.label}</dd>
-                </div>
-              </div>
-            )
-          })}
-        </motion.dl>
       </div>
     </section>
   )

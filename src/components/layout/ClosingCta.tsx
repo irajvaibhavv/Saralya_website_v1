@@ -4,11 +4,11 @@ import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
 /* The default is the free diagnostic on an ink card; the landing page asks
-   for the demo on a soft lavender band instead. */
+   for the demo on a soft mint band instead. */
 export function ClosingCta({ demo = false }: { demo?: boolean }) {
   if (demo) {
     return (
-      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_70%_90%_at_10%_50%,#e6e4fa_0%,transparent_60%),radial-gradient(ellipse_60%_90%_at_95%_40%,#ece9fb_0%,transparent_60%),linear-gradient(180deg,#f8f8fc_0%,#f1f0fa_100%)] py-14 md:py-20">
+      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_70%_90%_at_10%_50%,#dcebe6_0%,transparent_60%),radial-gradient(ellipse_60%_90%_at_95%_40%,#eef5f2_0%,transparent_60%),linear-gradient(180deg,#f7faf9_0%,#eef4f2_100%)] py-14 md:py-20">
         <Container>
           <FadeIn className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
             <div>

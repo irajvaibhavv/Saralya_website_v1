@@ -176,7 +176,6 @@ export function BookAtAGlance() {
               Your whole book, <span className="text-accent">read out loud</span>.
             </>
           }
-          lede="Saral Insight writes the board pack from the ledger — vintage, roll-rate and funnel — before anyone asks for it."
         />
         <Stagger className="grid gap-5 lg:grid-cols-3" gap={0.08}>
           <Item>
