@@ -2,8 +2,8 @@ import { ArrowRight, Brain, FileInput, Play, ScanSearch, Target, Users } from 'l
 import { FadeIn, Item, Stagger } from '../ui/Reveal'
 import { Container } from '../ui/Section'
 
-/* The demo ask: one line, one film. The card is a still of the four steps;
-   the button on the left opens the film full screen. */
+/* The four steps, as a still card. The film and the ask that opened it came
+   out on the lead's instruction. */
 const STEPS = [
   { icon: FileInput, label: 'Application data' },
   { icon: Brain, label: 'AI analysis' },
@@ -12,7 +12,7 @@ const STEPS = [
 ]
 const TONE = 'bg-wash text-accent'
 
-export function InAction({ onWatch }: { onWatch: () => void }) {
+export function InAction() {
   return (
     <section className="bg-[linear-gradient(180deg,#f7f7fc_0%,#f0f0fa_100%)] py-16 md:py-24">
       <Container className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
@@ -23,18 +23,6 @@ export function InAction({ onWatch }: { onWatch: () => void }) {
           <h2 className="display mt-5 text-h2">
             From data to decisions <span className="text-accent">in minutes.</span>
           </h2>
-          <p className="mt-4 max-w-[42ch] text-lede leading-relaxed text-muted">
-            Watch how NBFCs use Saralya’s AI to assess credit risk, improve collections and stay compliant.
-          </p>
-          <button onClick={onWatch} className="group mt-7 inline-flex items-center gap-3 rounded-xl bg-ink py-2 pl-2 pr-5 text-left text-white transition-colors hover:bg-ink2">
-            <span className="grid size-9 place-items-center rounded-lg bg-white/15">
-              <Play className="ml-0.5 size-4 fill-current" />
-            </span>
-            <span>
-              <span className="block text-body font-semibold leading-tight">Watch product demo</span>
-              <span className="block text-small text-white/60">2 min</span>
-            </span>
-          </button>
         </FadeIn>
 
         <FadeIn delay={0.1}>

@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BookAtAGlance } from '../components/landing/BookAtAGlance'
 import { Hero } from '../components/landing/Hero'
 import { InAction } from '../components/landing/InAction'
 import { Pillars } from '../components/landing/Pillars'
 import { PopularQuestions } from '../components/landing/PopularQuestions'
 import { SaralAiSection } from '../components/landing/SaralAiSection'
-import { VideoModal } from '../components/landing/VideoModal'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { Held } from '../components/ui/Reveal'
 import type { Role } from '../components/landing/SaralAiChat'
@@ -27,8 +26,6 @@ const GLIDE = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2,
 export function Landing() {
   const [pending, setPending] = useState<Starter | null>(null)
   const [seat, setSeat] = useState<Role | null>(null)
-  const [watching, setWatching] = useState(false)
-  const closeVideo = useCallback(() => setWatching(false), [])
 
   /* One gesture pulls the next screen up whole. Lenis is held while we are
      inside the stack so nothing can come to rest between two screens, and
@@ -148,12 +145,10 @@ export function Landing() {
 
         <div className="relative z-40 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
           <BookAtAGlance />
-          <InAction onWatch={() => setWatching(true)} />
+          <InAction />
           <ClosingCta demo />
         </div>
       </div>
-
-      <VideoModal src="/video/borrowers.mp4" open={watching} onClose={closeVideo} />
     </>
   )
 }
