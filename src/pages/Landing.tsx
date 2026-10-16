@@ -10,11 +10,13 @@ import { ClosingCta } from '../components/layout/ClosingCta'
 import type { Role } from '../components/landing/SaralAiChat'
 import type { Starter } from '../content/saral-ai'
 
-/* The front door. The reel plays for ten seconds, then Saral Saarthi opens
-   on its own screen and the reel stops behind it; the corner launcher opens
-   it sooner, and every question on the page opens it too. */
+/* The front door. The reel plays, and Saral Saarthi waits until the visitor
+   has actually read a third of the page before it opens — a timer on the
+   reel just loses the ones who were still watching. The corner launcher
+   opens it sooner, and every question on the page opens it too. */
 
-const HANDOVER_MS = 10_000
+/** how far down the page the visitor has to get before the hand-over */
+const HANDOVER_AT = 0.3
 
 export function Landing() {
   const [open, setOpen] = useState(false)
@@ -23,23 +25,19 @@ export function Landing() {
   const [watching, setWatching] = useState(false)
   const closeVideo = useCallback(() => setWatching(false), [])
 
-  /* Once only: a visitor who closes it, or scrolls on to read the page, is
-     not handed the window a second time. */
+  /* Once only: whoever closes it is not handed the window a second time. */
   const [handedOver, setHandedOver] = useState(false)
   useEffect(() => {
     if (handedOver) return
-    const stop = () => setHandedOver(true)
-    const t = window.setTimeout(() => {
-      setOpen(true)
-      setHandedOver(true)
-    }, HANDOVER_MS)
-    window.addEventListener('pointerdown', stop, { once: true })
-    window.addEventListener('wheel', stop, { once: true, passive: true })
-    return () => {
-      window.clearTimeout(t)
-      window.removeEventListener('pointerdown', stop)
-      window.removeEventListener('wheel', stop)
+    const onScroll = () => {
+      const runway = document.documentElement.scrollHeight - window.innerHeight
+      if (runway > 0 && window.scrollY / runway >= HANDOVER_AT) {
+        setOpen(true)
+        setHandedOver(true)
+      }
     }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [handedOver])
 
   /* A fresh object each time so the same question can be asked twice. */
