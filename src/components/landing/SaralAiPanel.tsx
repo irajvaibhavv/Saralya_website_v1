@@ -1,4 +1,4 @@
-import { ArrowUp, Plus } from 'lucide-react'
+import { ArrowUp, Cpu, Lock, Plus, Table2 } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import type { Starter } from '../../content/saral-ai'
 import { ACCEPT, ask, fileStarter, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
@@ -7,9 +7,18 @@ import { ACCEPT, ask, fileStarter, Mark, MicButton, useSpeech, type Role } from 
    composer. The questions live on the screen before this one, picked by
    seat, so this screen asks nothing and waits.
 
-   TODO(Vikas): "trained on Indian banking data" under the composer is a
-   public technical claim — confirm before launch, and note that free-text
-   ask() is still scripted until the model endpoint lands. */
+   TODO(Vikas): three public claims sit under the composer — the model is
+   our own and trained on banking data, uploaded sheets come back as
+   portfolio analysis, and files are encrypted in the lender's own tenant.
+   Confirm all three before launch, and note that free-text ask() is still
+   scripted until the model endpoint lands. */
+
+/* Why ask here rather than a general assistant. */
+const EDGE = [
+  { icon: Cpu, title: 'Our own ML model', body: 'Trained for banking and lending data, not the open web.' },
+  { icon: Table2, title: 'Bring your sheets', body: 'Drop a monthly MIS or collections sheet; get the portfolio read back.' },
+  { icon: Lock, title: 'Encrypted with us', body: 'Stored in your own tenant, encrypted at rest.' },
+]
 
 export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; seat: Role | null }) {
   const [q, setQ] = useState('')
@@ -63,8 +72,24 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
           <ArrowUp className="size-4" />
         </button>
       </form>
-      <p className="mt-3.5 text-small leading-relaxed text-hint">
-        Our own ML model, trained on Indian banking data. General information, not financial or legal advice.
+      {/* what this answers that a general assistant cannot */}
+      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        {EDGE.map((e) => {
+          const Icon = e.icon
+          return (
+            <div key={e.title} className="rounded-2xl border border-line2 bg-white p-4">
+              <span className="grid size-9 place-items-center rounded-lg bg-wash text-accent">
+                <Icon className="size-4.5" strokeWidth={1.7} />
+              </span>
+              <div className="mt-3 text-small font-semibold leading-snug">{e.title}</div>
+              <p className="mt-1 text-small leading-snug text-muted">{e.body}</p>
+            </div>
+          )
+        })}
+      </div>
+
+      <p className="mt-4 text-small leading-relaxed text-hint">
+        General information, not financial or legal advice.
       </p>
     </div>
   )
