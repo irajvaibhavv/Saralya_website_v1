@@ -9,25 +9,13 @@ import { Container, Section, SectionHead } from '../components/ui/Section'
 import { scrollToEl } from '../lib/scroll'
 
 /* The page is a sequence, not a dashboard: see the machine running, then
-   answer three questions and watch it rebuild as yours.
-
-   The hero is a held stage: it stays put at full height while the
-   architecture slides up over it on its own opaque layer, a screen taking
-   over a screen rather than two things scrolling together. Sticky does
-   this on the compositor — scroll progress maps to travel exactly, with no
-   pin spacer to jump and nothing to tear down. */
+   answer three questions and watch it rebuild as yours. */
 
 export function Agents() {
   return (
     <>
-      <div className="relative">
-        <div className="sticky top-0 z-0 motion-reduce:static">
-          <Hero />
-        </div>
-        <div className="relative z-10 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.28)]">
-          <Overview />
-        </div>
-      </div>
+      <Hero />
+      <Overview />
       <Wizard />
       <Ready />
       <Trust />
@@ -40,7 +28,7 @@ export function Agents() {
 function Hero() {
   const go = () => scrollToEl('build')
   return (
-    <Section tight className="flex min-h-[100svh] items-center pt-14 md:pt-20">
+    <Section tight className="pt-14 md:pt-20">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-14">
           <FadeIn>
