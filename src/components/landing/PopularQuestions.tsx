@@ -1,35 +1,29 @@
-import { BarChart3, Database, IndianRupee, ShieldCheck, Users } from 'lucide-react'
-import { useEffect } from 'react'
+import { BarChart3, FileText, IndianRupee, ShieldCheck, Users } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ROLES, type Starter } from '../../content/saral-ai'
 import type { Role } from './SaralAiChat'
 import { FadeIn } from '../ui/Reveal'
-import { scrollToY } from '../../lib/scroll'
 import { Container } from '../ui/Section'
 
-/* Under the platform cards, on the same screen: say who you are, and the
-   questions your seat asks most rise into the gap below. Nothing is there
-   until a seat is picked. A click opens Saral with it; scroll past instead
-   and Saarthi takes over anyway. */
-const ICONS = [BarChart3, Database, IndianRupee, Users, ShieldCheck]
-const TONE = 'bg-wash text-accent'
-
+/* Its own screen: say who you are, and the questions your seat asks most
+   rise in underneath. A click opens Saral with one; scroll past instead
+   and Saarthi takes the screen anyway. */
+const SEAT_ICONS: Record<string, typeof Users> = {
+  verify: ShieldCheck,
+  credit: FileText,
+  uw: BarChart3,
+  collections: IndianRupee,
+  sales: Users,
+}
+const CARD_ICONS = [BarChart3, FileText, IndianRupee, Users, ShieldCheck]
 const EASE = [0.22, 1, 0.36, 1] as const
 
 export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) => void; seat: Role | null; onSeat: (r: Role | null) => void }) {
   const row = seat ? [...seat.qs, ...seat.qs] : []
   const still = useReducedMotion()
 
-  /* Picking a seat adds a row below the fold, so bring the screen up until
-     that row is on it — never past the screen's own top. */
-  useEffect(() => {
-    const el = document.getElementById('explore')
-    if (!seat || !el) return
-    scrollToY(Math.max(el.offsetTop, el.offsetTop + el.offsetHeight - window.innerHeight))
-  }, [seat])
-
   return (
-    <section className="pb-6">
+    <section className="flex h-full min-h-[100svh] flex-col justify-center pt-16">
       <Container>
         <FadeIn>
           <h2 className="display text-h2">
@@ -39,18 +33,25 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
             Pick your seat. Saral Saarthi answers in the language of your desk.
           </p>
 
-          <div role="group" aria-label="I am a" className="mt-7 flex flex-wrap gap-2.5">
+          <div role="group" aria-label="I am a" className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {ROLES.map((r) => {
               const on = seat?.id === r.id
+              const Icon = SEAT_ICONS[r.id] ?? Users
               return (
                 <button
                   key={r.id}
                   type="button"
                   aria-pressed={on}
                   onClick={() => onSeat(on ? null : r)}
-                  className={`rounded-full px-4 py-2.5 text-body font-medium ring-1 transition-colors ${on ? 'bg-accent text-white ring-accent' : 'bg-white text-ink2 ring-line hover:ring-accent/50'}`}
+                  className={`flex min-h-[24svh] flex-col justify-between rounded-2xl border p-5 text-left transition-colors ${on ? 'border-accent bg-accent text-white' : 'border-line2 bg-white text-ink hover:border-accent/40'}`}
                 >
-                  {r.label}
+                  <span className={`grid size-11 place-items-center rounded-xl ${on ? 'bg-white/15 text-white' : 'bg-wash text-accent'}`}>
+                    <Icon className="size-5" strokeWidth={1.7} />
+                  </span>
+                  <span>
+                    <span className="block text-body font-semibold leading-snug">{r.label}</span>
+                    <span className={`mt-1 block text-small leading-snug ${on ? 'text-white/70' : 'text-muted'}`}>{r.asks}</span>
+                  </span>
                 </button>
               )
             })}
@@ -60,42 +61,41 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
 
       <AnimatePresence mode="wait">
         {seat && (
-        <motion.div
-          key={seat.id}
-          initial={still ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10, transition: { duration: 0.18 } }}
-          transition={{ duration: 0.5, ease: EASE }}
-          id="asked"
-          className="mt-7"
-        >
-          <Container>
-            <div className="mb-5 flex items-baseline justify-between gap-4">
-              <h3 className="text-lede font-semibold tracking-tight">Most asked questions</h3>
-              <span className="hidden text-small text-hint sm:block">Click one to ask Saral</span>
+          <motion.div
+            key={seat.id}
+            initial={still ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10, transition: { duration: 0.18 } }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="mt-8"
+          >
+            <Container>
+              <div className="mb-4 flex items-baseline justify-between gap-4">
+                <h3 className="text-lede font-semibold tracking-tight">Most asked questions</h3>
+                <span className="hidden text-small text-hint sm:block">Click one to ask Saral</span>
+              </div>
+            </Container>
+            <div className="mask-fade-x overflow-hidden">
+              <div className="flex w-max animate-marquee gap-3 pl-3 [animation-duration:55s]">
+                {row.map((s, i) => {
+                  const Icon = CARD_ICONS[i % CARD_ICONS.length]
+                  return (
+                    <button
+                      key={`${s.q}-${i}`}
+                      type="button"
+                      onClick={() => onAsk(s)}
+                      className="flex min-h-[76px] w-[300px] items-center gap-3 rounded-2xl border border-line2 bg-white px-4 py-3.5 text-left"
+                    >
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-wash text-accent">
+                        <Icon className="size-4.5" />
+                      </span>
+                      <span className="text-body font-medium leading-snug text-ink">{s.q}</span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </Container>
-          <div className="mask-fade-x overflow-hidden">
-            <div className="flex w-max animate-marquee gap-3 pl-3 [animation-duration:55s]">
-              {row.map((s, i) => {
-                const Icon = ICONS[i % ICONS.length]
-                return (
-                  <button
-                    key={`${s.q}-${i}`}
-                    type="button"
-                    onClick={() => onAsk(s)}
-                    className="flex min-h-[76px] w-[300px] items-center gap-3 rounded-2xl border border-line2 bg-white px-4 py-3.5 text-left"
-                  >
-                    <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${TONE}`}>
-                      <Icon className="size-4.5" />
-                    </span>
-                    <span className="text-body font-medium leading-snug text-ink">{s.q}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>

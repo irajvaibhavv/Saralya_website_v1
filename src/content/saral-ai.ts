@@ -46,10 +46,11 @@ export const STARTERS: Starter[] = [
 /* The first thing Saral asks is who you are. Each role gets the questions
    people in that seat ask most, and maps to a department so the guided note
    can skip a step. */
-export const ROLES: { id: string; label: string; dept: DeptId; hello: string; qs: Starter[] }[] = [
+export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hello: string; qs: Starter[] }[] = [
   {
     id: 'verify',
     label: 'Verification Officer',
+    asks: 'Documents, linked applicants',
     dept: 'credit',
     hello: 'Verification officers ask me about forged documents and linked applicants.',
     qs: [
@@ -78,6 +79,7 @@ export const ROLES: { id: string; label: string; dept: DeptId; hello: string; qs
   {
     id: 'credit',
     label: 'Credit Officer',
+    asks: 'Files, PD, deviations',
     dept: 'credit',
     hello: 'Credit officers ask me what a file still needs and why one got rejected.',
     qs: [
@@ -106,6 +108,7 @@ export const ROLES: { id: string; label: string; dept: DeptId; hello: string; qs
   {
     id: 'uw',
     label: 'Underwriter',
+    asks: 'Score, thin files, policy',
     dept: 'credit',
     hello: 'Underwriters ask me what goes into the score and how to handle thin files.',
     qs: [
@@ -134,6 +137,7 @@ export const ROLES: { id: string; label: string; dept: DeptId; hello: string; qs
   {
     id: 'collections',
     label: 'Collection Manager',
+    asks: 'Early signals, field day',
     dept: 'collections',
     hello: 'Collections managers ask me about early signals and the field day.',
     qs: [
@@ -162,6 +166,7 @@ export const ROLES: { id: string; label: string; dept: DeptId; hello: string; qs
   {
     id: 'sales',
     label: 'Sales Manager',
+    asks: 'Turnaround, drop-off, targets',
     dept: 'leadership',
     hello: 'Sales managers ask me about turnaround, drop-off and what their team can promise.',
     qs: [
