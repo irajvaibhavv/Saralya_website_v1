@@ -5,9 +5,16 @@ import Lenis from 'lenis'
    Every programmatic scroll goes through here too — a native
    `scrollTo({ behavior: 'smooth' })` would fight Lenis's own loop. */
 
-/* A refresh should land on the reel, not halfway through the takeover the
-   visitor happened to leave off at. */
+/* A refresh should land at the top of the page, not halfway down it. */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+
+/* A `#section` link someone follows or pastes still jumps to that section.
+   Reloading on one, though, is someone starting the page again — so the
+   anchor is dropped and the page opens at the top. */
+const navType = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type
+if (navType === 'reload' && window.location.hash) {
+  history.replaceState(null, '', window.location.pathname + window.location.search)
+}
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
