@@ -38,25 +38,26 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
   }
 
   return (
-    <div className="flex h-full flex-col justify-center overflow-y-auto py-10 text-ink">
+    <div className="flex h-full flex-col justify-between overflow-y-auto py-8 text-ink">
       <div className="flex items-center gap-2.5">
-        <span className="grid size-7 shrink-0 place-items-center rounded-md bg-accent text-white">
-          <Mark className="text-body" />
+        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white">
+          <Mark className="text-lede" />
         </span>
         <span className="font-mono text-label uppercase tracking-[0.14em] text-muted">Saral Saarthi</span>
         <span className="size-1.5 rounded-full bg-green animate-pulse-ring" />
       </div>
 
-      <h2 className="display mt-5 max-w-[18ch] text-h2">
+      <h2 className="display mt-6 max-w-[18ch] text-display">
         Ask me anything<span className="text-accent">.</span>
       </h2>
       {/* only the seat speaks here; with no seat picked the heading stands
           on its own */}
-      {seat && <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-muted">{seat.hello}</p>}
+      {seat && <p className="mt-4 max-w-[52ch] text-lede leading-relaxed text-muted">{seat.hello}</p>}
 
-      <form onSubmit={submit} className="mt-7 flex items-center gap-1.5 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-line transition focus-within:ring-accent">
-        <label aria-label="Add a file" title="Add a file" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-muted hover:bg-wash hover:text-accent">
-          <Plus className="size-4" />
+      <div>
+      <form onSubmit={submit} className="flex items-center gap-2 rounded-3xl bg-white p-2.5 shadow-sm ring-1 ring-line transition focus-within:ring-accent">
+        <label aria-label="Add a file" title="Add a file" className="grid size-11 shrink-0 cursor-pointer place-items-center rounded-2xl text-muted hover:bg-wash hover:text-accent">
+          <Plus className="size-5" />
           <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
         </label>
         <input
@@ -65,32 +66,33 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
           placeholder={speech.listening ? 'Listening…' : 'Ask anything about lending…'}
           aria-label="Ask Saral AI"
           autoFocus
-          className="min-w-0 flex-1 bg-transparent px-1.5 text-body outline-none placeholder:text-hint"
+          className="min-w-0 flex-1 bg-transparent px-2 text-lede outline-none placeholder:text-hint"
         />
         <MicButton speech={speech} />
-        <button type="submit" aria-label="Send" className="grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-white transition-colors hover:bg-accent2">
-          <ArrowUp className="size-4" />
+        <button type="submit" aria-label="Send" className="grid size-11 shrink-0 place-items-center rounded-2xl bg-accent text-white transition-colors hover:bg-accent2">
+          <ArrowUp className="size-5" />
         </button>
       </form>
       {/* what this answers that a general assistant cannot */}
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+      <div className="mt-7 grid gap-4 sm:grid-cols-3">
         {EDGE.map((e) => {
           const Icon = e.icon
           return (
-            <div key={e.title} className="rounded-2xl border border-line2 bg-white p-4">
-              <span className="grid size-9 place-items-center rounded-lg bg-wash text-accent">
-                <Icon className="size-4.5" strokeWidth={1.7} />
+            <div key={e.title} className="rounded-2xl border border-line2 bg-white p-6">
+              <span className="grid size-11 place-items-center rounded-xl bg-wash text-accent">
+                <Icon className="size-5" strokeWidth={1.7} />
               </span>
-              <div className="mt-3 text-small font-semibold leading-snug">{e.title}</div>
-              <p className="mt-1 text-small leading-snug text-muted">{e.body}</p>
+              <div className="mt-4 text-body font-semibold leading-snug">{e.title}</div>
+              <p className="mt-1.5 text-small leading-relaxed text-muted">{e.body}</p>
             </div>
           )
         })}
       </div>
 
-      <p className="mt-4 text-small leading-relaxed text-hint">
+      <p className="mt-5 text-small leading-relaxed text-hint">
         General information, not financial or legal advice.
       </p>
+      </div>
     </div>
   )
 }
