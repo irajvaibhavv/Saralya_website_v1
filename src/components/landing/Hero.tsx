@@ -17,7 +17,11 @@ export function Hero() {
         {/* the frame stays open above; the title sits low like a film card */}
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
           <motion.h1 {...rise(0.1)} className="font-hero text-display font-bold leading-[1.04] tracking-[-0.01em] text-white">
-            Making Lending Saral for Bharat.
+            Making Lending{' '}
+            <em className="bg-gradient-to-r from-[#8fdcc6] to-[#35b296] bg-clip-text italic text-transparent">
+              Saral
+            </em>{' '}
+            for Bharat.
           </motion.h1>
 
           <motion.div {...rise(0.25)} className="mt-7">
