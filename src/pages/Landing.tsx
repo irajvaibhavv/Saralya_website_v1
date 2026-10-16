@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { BookAtAGlance } from '../components/landing/BookAtAGlance'
 import { Hero } from '../components/landing/Hero'
 import { InAction } from '../components/landing/InAction'
@@ -21,7 +22,9 @@ import { lenis, scrollToEl } from '../lib/scroll'
 /** the stacked screens: reel, platform, who are you, Saarthi */
 const SCREENS = 4
 /** one gesture, one screen — how long that screen takes to arrive */
-const TRAVEL = 0.9
+const TRAVEL = 1.05
+/** eased both ends, so the screen sets off and lands rather than snapping */
+const GLIDE = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 
 export function Landing() {
   const [pending, setPending] = useState<Starter | null>(null)
@@ -46,6 +49,7 @@ export function Landing() {
       lenis.scrollTo(to, {
         force: true,
         duration: TRAVEL,
+        easing: GLIDE,
         onComplete: () => {
           busy.current = false
           /* landed on the last screen: the page below is ordinary scrolling
@@ -106,17 +110,17 @@ export function Landing() {
     <>
       {/* layered screens, each held until the next one covers it */}
       <div className="relative">
-        <div className="sticky top-0 z-0 motion-reduce:static">
+        <Held i={0} className="z-0">
           <Hero />
-        </div>
+        </Held>
 
-        <div id="explore" className="sticky top-0 z-10 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
+        <Held i={1} id="explore" className="z-10 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
           <Pillars />
-        </div>
+        </Held>
 
-        <div className="sticky top-0 z-20 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
+        <Held i={2} className="z-20 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
           <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
-        </div>
+        </Held>
 
         <div className="sticky top-0 z-30 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <SaralAiSection pending={pending} seat={seat} onAsk={ask} onReset={() => setPending(null)} />
@@ -131,5 +135,32 @@ export function Landing() {
 
       <VideoModal src="/video/borrowers.mp4" open={watching} onClose={closeVideo} />
     </>
+  )
+}
+
+/* A screen that is held at the top while the next one covers it: as that
+   happens it settles back a little and dims, so the arriving screen reads
+   as a page laid over it rather than a cut. Screen `i` is covered between
+   its own top and the next screen's. The Saarthi layer is deliberately not
+   one of these — it carries the fixed launcher and overlay, which a
+   transform would re-anchor. */
+function Held({ i, id, className, children }: { i: number; id?: string; className: string; children: ReactNode }) {
+  const { scrollY } = useScroll()
+  const covered = useTransform(scrollY, (y) => {
+    const h = window.innerHeight || 1
+    return Math.min(Math.max((y - i * h) / h, 0), 1)
+  })
+  const scale = useTransform(covered, [0, 1], [1, 0.93])
+  const opacity = useTransform(covered, [0, 1], [1, 0.5])
+  const still = useReducedMotion()
+
+  return (
+    <motion.div
+      id={id}
+      style={still ? undefined : { scale, opacity }}
+      className={`sticky top-0 motion-reduce:static ${className}`}
+    >
+      {children}
+    </motion.div>
   )
 }
