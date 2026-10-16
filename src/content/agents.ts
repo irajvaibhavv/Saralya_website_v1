@@ -20,7 +20,7 @@ export type Seat = {
   label: string
   short: string
   sees: string[]
-  /** the wants this desk usually picks, marked as such in the list */
+  /** the five this desk is asked; the only ones it is shown */
   does: WantId[]
   cannot: string[]
   actsIn: string[]
@@ -33,7 +33,7 @@ export const SEATS: Seat[] = [
     label: 'Underwriter',
     short: 'Decides the file',
     sees: ['Credit bureaus', 'Account Aggregator', 'GSTN · MCA21', 'Your LOS'],
-    does: ['tat', 'onepull', 'thinfile'],
+    does: ['tat', 'onepull', 'thinfile', 'fraud', 'mis'],
     cannot: ['Sanction above your delegation matrix', 'Decide without reason codes', 'Skip the Key Fact Statement'],
     actsIn: ['The file screen', 'The credit note'],
     handsBack: 'A scored file with the reasons written out, and the three it will not call.',
@@ -43,7 +43,7 @@ export const SEATS: Seat[] = [
     label: 'Credit Officer',
     short: 'Works the file',
     sees: ['The file queue', 'Account Aggregator', 'GSTN', 'Field photographs'],
-    does: ['onepull', 'pd', 'tat'],
+    does: ['onepull', 'pd', 'tat', 'thinfile', 'fraud'],
     cannot: ['Approve its own deviation', 'Close a PD without the officer’s sign-off'],
     actsIn: ['The file screen', 'The branch tablet'],
     handsBack: 'The file with the gaps named, and the PD written up before you reach the office.',
@@ -53,7 +53,7 @@ export const SEATS: Seat[] = [
     label: 'Verification Officer',
     short: 'Proves who they are',
     sees: ['KYC records', 'Device and address graph', 'CERSAI', 'Field photographs'],
-    does: ['fraud', 'onepull'],
+    does: ['fraud', 'onepull', 'pd', 'inspect', 'tat'],
     cannot: ['Tag fraud without the 21-day SCN', 'Hold a document past its DPDP consent'],
     actsIn: ['The verification queue', 'The field app'],
     handsBack: 'The cluster, not the case: who else shares this device, address or account.',
@@ -63,7 +63,7 @@ export const SEATS: Seat[] = [
     label: 'Collections Manager',
     short: 'Brings the money back',
     sees: ['The ledger', 'NACH returns', 'Promise-to-pay history', 'Field GPS logs'],
-    does: ['stress', 'field', 'mis'],
+    does: ['stress', 'field', 'followup', 'mis', 'inspect'],
     cannot: ['Call outside 8am–7pm', 'Contact a third party', 'Act without DRA certification'],
     actsIn: ['The dialler', 'The field officer app', 'WhatsApp'],
     handsBack: 'Tomorrow’s route, ordered by who will actually pay.',
@@ -73,7 +73,7 @@ export const SEATS: Seat[] = [
     label: 'Sales Manager',
     short: 'Carries the target',
     sees: ['The lead book', 'The funnel by stage', 'Officer activity', 'Disbursal ledger'],
-    does: ['deck', 'pipeline', 'productivity'],
+    does: ['deck', 'pipeline', 'productivity', 'followup', 'target'],
     cannot: ['Quote a rate', 'Promise a sanction', 'Contact a lead who has opted out'],
     actsIn: ['The sales dashboard', 'WhatsApp', 'Your inbox'],
     handsBack: 'The month’s deck written from the ledger, and the three officers who need help.',
@@ -83,7 +83,7 @@ export const SEATS: Seat[] = [
     label: 'Branch Manager',
     short: 'Runs the counter',
     sees: ['Branch pipeline', 'Turnaround by stage', 'The exception log', 'Officer activity'],
-    does: ['tat', 'followup', 'productivity'],
+    does: ['tat', 'followup', 'productivity', 'pipeline', 'deck'],
     cannot: ['Override a credit decision', 'Act without an audit entry'],
     actsIn: ['The branch dashboard', 'The morning huddle'],
     handsBack: 'What is stuck at this branch this morning, and who it is waiting on.',
