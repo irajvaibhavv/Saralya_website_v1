@@ -21,7 +21,7 @@ export function Benefits() {
               title="Built ground-up for Digital Lending."
               body="Trained on BFSI data, not a generic model."
             >
-              <Radar />
+              <Ridge />
             </Card>
           </Item>
           <Item className="md:col-span-6">
@@ -49,107 +49,48 @@ function Card({ title, body, children }: { title: string; body?: string; childre
 
 /* Mini visuals. */
 
-/* What a model trained on this book knows, against one trained on the open
-   web: the same five axes, two very different shapes. Illustrative. */
-const AXES = ['Credit policy', 'Collections', 'RBI circulars', 'NBFC filings', 'Vernacular']
-const OURS = [0.95, 0.86, 0.98, 0.82, 0.9]
-const GENERAL = [0.42, 0.3, 0.22, 0.26, 0.34]
+/** a gaussian, sampled across the width, as an SVG path */
+const bell = (mu: number, sd: number, h: number, w = 240, n = 60) =>
+  Array.from({ length: n + 1 }, (_, i) => {
+    const x = (i / n) * w
+    const y = h - Math.exp(-((x - mu) ** 2) / (2 * sd ** 2)) * h
+    return `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`
+  }).join(' ')
 
-function Radar() {
-  /* a pentagon, starting at twelve o'clock */
-  const C = { x: 112, y: 84 }
-  const R = 56
-  const at = (i: number, k: number) => {
-    const a = (Math.PI * 2 * i) / AXES.length - Math.PI / 2
-    return [C.x + Math.cos(a) * R * k, C.y + Math.sin(a) * R * k] as const
-  }
-  const shape = (vals: number[]) => vals.map((v, i) => at(i, v).map((n) => n.toFixed(1)).join(' ')).join(' L ')
+/* The whole score distribution, one ridge per disbursal cohort: a model
+   trained on this book can separate them, and July sits left of the pack.
+   Illustrative figures. */
+const RIDGES = [
+  { k: 'Sep', mu: 168, sd: 30 },
+  { k: 'Aug', mu: 152, sd: 32 },
+  { k: 'Jul', mu: 120, sd: 38 },
+  { k: 'Jun', mu: 142, sd: 30 },
+]
 
+function Ridge() {
   return (
-    <div className="absolute inset-0">
-      <svg viewBox="0 0 224 168" className="size-full" role="img" aria-label="What the model knows, against a general model">
-        {/* the web */}
-        {[0.33, 0.66, 1].map((k) => (
-          <polygon
-            key={k}
-            points={AXES.map((_, i) => at(i, k).join(',')).join(' ')}
-            fill="none"
-            className="stroke-line"
-            strokeWidth="1"
-          />
-        ))}
-        {AXES.map((_, i) => (
-          <line key={i} x1={C.x} y1={C.y} x2={at(i, 1)[0]} y2={at(i, 1)[1]} className="stroke-line" strokeWidth="1" />
-        ))}
-
-        {/* a general model */}
-        <motion.path
-          d={`M ${shape(GENERAL)} Z`}
-          className="fill-ink2/10 stroke-ink2/40"
-          strokeWidth="1.5"
-          strokeDasharray="3 3"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          style={{ transformOrigin: `${C.x}px ${C.y}px` }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        />
-        {/* ours */}
-        <motion.path
-          d={`M ${shape(OURS)} Z`}
-          className="fill-accent/20 stroke-accent"
-          strokeWidth="2"
-          initial={{ opacity: 0, scale: 0.6 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          style={{ transformOrigin: `${C.x}px ${C.y}px` }}
-          transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        />
-        {OURS.map((v, i) => {
-          const [x, y] = at(i, v)
-          return (
-            <motion.circle
-              key={i}
-              cx={x}
-              cy={y}
-              r="2.5"
-              className="fill-accent"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.75 + i * 0.05 }}
-            />
-          )
-        })}
-
-        {/* the axes, named */}
-        {AXES.map((label, i) => {
-          const [x, y] = at(i, 1.26)
-          return (
-            <text
-              key={label}
-              x={x}
-              y={y + 3}
-              textAnchor={x > C.x + 6 ? 'start' : x < C.x - 6 ? 'end' : 'middle'}
-              className="fill-hint font-mono text-[8px] uppercase tracking-[0.08em]"
-            >
-              {label}
-            </text>
-          )
-        })}
-      </svg>
-
-      <div className="absolute left-0 top-3 rounded-full bg-white px-2.5 py-1 font-mono text-label text-accent shadow-sm">
+    <div className="absolute inset-0 px-6 pt-11">
+      <div className="absolute left-4 top-4 z-10 rounded-full bg-white px-2.5 py-1 font-mono text-label text-accent shadow-sm">
         BFSI-trained
       </div>
-      <div className="absolute bottom-2 right-3 flex gap-3 font-mono text-[9px] text-hint">
-        <span className="flex items-center gap-1.5">
-          <i className="size-1.5 rounded-full bg-accent" /> Ours
-        </span>
-        <span className="flex items-center gap-1.5">
-          <i className="size-1.5 rounded-full bg-ink2/40" /> General model
-        </span>
-      </div>
+      <svg viewBox="0 0 250 122" className="h-[132px] w-full">
+        {RIDGES.map((r, i) => (
+          <g key={r.k} transform={`translate(26, ${i * 26})`}>
+            <motion.path
+              d={`${bell(r.mu, r.sd, 34, 224)} L 224 34 L 0 34 Z`}
+              className={i === 2 ? 'fill-red/20 stroke-red' : 'fill-accent/15 stroke-accent/70'}
+              strokeWidth="1.5"
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.1 + i * 0.12 }}
+            />
+            <text x="-6" y="31" textAnchor="end" className={`font-mono text-[9px] ${i === 2 ? 'fill-red font-bold' : 'fill-hint'}`}>
+              {r.k}
+            </text>
+          </g>
+        ))}
+      </svg>
     </div>
   )
 }

@@ -4,14 +4,12 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
 import { Landing } from './pages/Landing'
-import { lenis } from './lib/scroll'
+import { holdTop, lenis } from './lib/scroll'
 
 // Only the landing ships in the first bundle; other pages load on navigation.
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
 const Agents = lazy(() => import('./pages/Agents').then((m) => ({ default: m.Agents })))
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
-/* TEMPORARY: candidate card visuals. Delete with pages/Lab.tsx. */
-const Lab = lazy(() => import('./pages/Lab').then((m) => ({ default: m.Lab })))
 
 /* Fetch the other pages once the landing has painted, so a click never waits
    on a chunk mid-transition. */
@@ -50,6 +48,9 @@ function RouteEffects() {
       }, 80)
       return () => window.clearInterval(id)
     }
+    /* A lazy page mounts short and grows, so the window can end up where
+       the last page left it. Hold the top until it has its real height. */
+    holdTop()
   }, [pathname, hash])
   useEffect(preload, [])
   return null
@@ -76,7 +77,6 @@ function Pages() {
               <Route key={id} path={`/${id}`} element={<Navigate to={`/home#${id}`} replace />} />
             ))}
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="/lab" element={<Lab />} />
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>
