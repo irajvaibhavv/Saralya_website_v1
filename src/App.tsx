@@ -31,13 +31,21 @@ function RouteEffects() {
   useEffect(() => {
     document.title = TITLES[pathname] ?? 'Saralya'
     if (hash) {
-      // Lazy pages mount a beat after the URL changes; poll briefly for the target.
+      /* Lazy pages mount a beat after the URL changes; poll for the target,
+         and keep polling until the scroll actually lands on it — Lenis
+         clamps to the page height it last measured, which on a page that
+         is still mounting is far shorter than it will be. */
       let tries = 0
       const id = window.setInterval(() => {
         const el = document.querySelector(hash)
-        if (el) lenis.scrollTo(el)
-        if (el || ++tries > 20) window.clearInterval(id)
-      }, 50)
+        if (el) {
+          lenis.resize()
+          const top = el.getBoundingClientRect().top + window.scrollY
+          lenis.scrollTo(top, { immediate: tries === 0 ? false : true, force: true })
+          if (Math.abs(window.scrollY - top) < 4) return window.clearInterval(id)
+        }
+        if (++tries > 40) window.clearInterval(id)
+      }, 80)
       return () => window.clearInterval(id)
     }
   }, [pathname, hash])
