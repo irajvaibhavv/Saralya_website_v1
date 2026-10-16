@@ -15,7 +15,8 @@ import { scrollToEl, scrollToY } from '../lib/scroll'
    where it is while Saral Saarthi rides up over it on its own opaque layer,
    one page covering another, driven straight off the scroll. Past a third
    of the way the takeover finishes itself, so nobody is left reading half
-   a screen. Scroll back and the reel is still there. */
+   a screen. Saarthi then stays stuck to the top while the rest of the page
+   rides up over it in turn. Scroll back and the reel is still there. */
 
 /** past this much of the takeover, it completes on its own */
 const SETTLE_AT = 0.3
@@ -55,21 +56,26 @@ export function Landing() {
 
   return (
     <>
+      {/* three layers, each stuck to the top until the next one covers it */}
       <div className="relative">
         <div className="sticky top-0 z-0 motion-reduce:static">
           <Hero />
         </div>
-        <div className="relative z-10 shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)]">
+
+        <div className="sticky top-0 z-10 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <SaralAiSection pending={pending} seat={seat} onAsk={ask} onReset={() => setPending(null)} />
+        </div>
+
+        <div className="relative z-20 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
+          <div id="explore" className="scroll-mt-16" />
+          <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
+          <BookAtAGlance />
+          <Pillars />
+          <InAction onWatch={() => setWatching(true)} />
+          <ClosingCta demo />
         </div>
       </div>
 
-      <div id="explore" className="scroll-mt-16" />
-      <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
-      <BookAtAGlance />
-      <Pillars />
-      <InAction onWatch={() => setWatching(true)} />
-      <ClosingCta demo />
       <VideoModal src="/video/borrowers.mp4" open={watching} onClose={closeVideo} />
     </>
   )
