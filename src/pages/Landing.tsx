@@ -106,14 +106,15 @@ export function Landing() {
     scrollToEl('saarthi')
   }
 
-  /* TRIAL: body face for this page only, while the lead compares. Georgia
-     by default, `/?font=tahoma` for the other one. Headings keep Clash and
-     the hero keeps Boska. Delete this once one is chosen. */
-  const face = new URLSearchParams(window.location.search).get('font')
-  const trial = face === 'tahoma' ? 'font-[Tahoma,_Verdana,_sans-serif]' : 'font-[Georgia,_serif]'
+  /* TRIAL: the body face for this page only, switched from the bar in the
+     corner, so the lead can read the same screens in each one. Headings
+     keep Clash and the hero keeps Boska. Delete this, the bar at the foot
+     of the file and the trial <link>s in index.html once one is chosen. */
+  const [face, setFace] = useState(FACES[0])
 
   return (
-    <div className={trial}>
+    <div style={{ fontFamily: face.stack }}>
+      <FaceBar face={face} onFace={setFace} />
       {/* layered screens, each held until the next one covers it */}
       <div className="relative">
         <Held i={0} className="z-0">
@@ -140,6 +141,36 @@ export function Landing() {
       </div>
 
       <VideoModal src="/video/borrowers.mp4" open={watching} onClose={closeVideo} />
+    </div>
+  )
+}
+
+/* TRIAL: the candidate body faces, and the bar that switches them. */
+const FACES = [
+  { name: 'Satoshi (now)', stack: '"Satoshi", system-ui, sans-serif' },
+  { name: 'Georgia', stack: 'Georgia, serif' },
+  { name: 'Source Serif', stack: '"Source Serif 4", Georgia, serif' },
+  { name: 'Tahoma', stack: 'Tahoma, Verdana, sans-serif' },
+  { name: 'Cabinet Grotesk', stack: '"Cabinet Grotesk", system-ui, sans-serif' },
+  { name: 'General Sans', stack: '"General Sans", system-ui, sans-serif' },
+  { name: 'Plus Jakarta', stack: '"Plus Jakarta Sans", system-ui, sans-serif' },
+  { name: 'Supreme', stack: '"Supreme", system-ui, sans-serif' },
+]
+
+function FaceBar({ face, onFace }: { face: (typeof FACES)[number]; onFace: (f: (typeof FACES)[number]) => void }) {
+  return (
+    <div className="fixed bottom-5 left-5 z-[95] flex max-w-[52vw] flex-wrap gap-1.5 rounded-2xl bg-white/95 p-2 shadow-lg ring-1 ring-line backdrop-blur">
+      {FACES.map((f) => (
+        <button
+          key={f.name}
+          type="button"
+          onClick={() => onFace(f)}
+          style={{ fontFamily: f.stack }}
+          className={`rounded-full px-3 py-1.5 text-small transition-colors ${f.name === face.name ? 'bg-ink text-white' : 'text-ink2 hover:bg-wash2'}`}
+        >
+          {f.name}
+        </button>
+      ))}
     </div>
   )
 }
