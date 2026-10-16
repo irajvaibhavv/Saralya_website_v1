@@ -106,8 +106,14 @@ export function Landing() {
     scrollToEl('saarthi')
   }
 
+  /* TRIAL: body face for this page only, while the lead compares. Georgia
+     by default, `/?font=tahoma` for the other one. Headings keep Clash and
+     the hero keeps Boska. Delete this once one is chosen. */
+  const face = new URLSearchParams(window.location.search).get('font')
+  const trial = face === 'tahoma' ? 'font-[Tahoma,_Verdana,_sans-serif]' : 'font-[Georgia,_serif]'
+
   return (
-    <>
+    <div className={trial}>
       {/* layered screens, each held until the next one covers it */}
       <div className="relative">
         <Held i={0} className="z-0">
@@ -134,7 +140,7 @@ export function Landing() {
       </div>
 
       <VideoModal src="/video/borrowers.mp4" open={watching} onClose={closeVideo} />
-    </>
+    </div>
   )
 }
 
