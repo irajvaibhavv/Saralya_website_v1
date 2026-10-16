@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
 import { Landing } from './pages/Landing'
+import { lenis } from './lib/scroll'
 
 // Only the landing ships in the first bundle; other pages load on navigation.
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
@@ -34,7 +35,7 @@ function RouteEffects() {
       let tries = 0
       const id = window.setInterval(() => {
         const el = document.querySelector(hash)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        if (el) lenis.scrollTo(el)
         if (el || ++tries > 20) window.clearInterval(id)
       }, 50)
       return () => window.clearInterval(id)
@@ -49,7 +50,7 @@ function RouteEffects() {
 function Pages() {
   const location = useLocation()
   return (
-    <AnimatePresence mode="wait" initial={false} onExitComplete={() => { if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' }) }}>
+    <AnimatePresence mode="wait" initial={false} onExitComplete={() => { if (!location.hash) lenis.scrollTo(0, { immediate: true }) }}>
       <motion.div
         key={location.pathname}
         initial={{ opacity: 0, y: 8 }}

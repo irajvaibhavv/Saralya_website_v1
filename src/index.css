@@ -85,7 +85,11 @@
 
 :root { color-scheme: light; }
 
-html { scroll-behavior: smooth; }
+/* Lenis drives the scroll; the native smooth behaviour would race its loop */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
 body {
   @apply bg-white text-ink font-sans antialiased;
