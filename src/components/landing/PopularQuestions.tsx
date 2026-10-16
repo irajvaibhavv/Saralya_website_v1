@@ -53,7 +53,7 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
                 key={`${s.q}-${i}`}
                 type="button"
                 onClick={() => onAsk(s)}
-                className="flex w-[300px] items-center gap-3 rounded-2xl bg-white px-4 py-3.5 text-left ring-1 ring-line"
+                className="flex min-h-[76px] w-[300px] items-center gap-3 rounded-2xl border border-line2 bg-white px-4 py-3.5 text-left"
               >
                 <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${TONE}`}>
                   <Icon className="size-4.5" />
