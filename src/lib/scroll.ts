@@ -37,7 +37,7 @@ export const scrollToEl = (id: string, offset = 0) => {
    can be a second after `load`. One call to the top is not enough, so the
    top is held briefly and given up the moment the visitor touches
    anything. */
-const holdTop = () => {
+export const holdTop = () => {
   if (window.location.hash) return
   let released = false
   const release = () => {
