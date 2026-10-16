@@ -128,7 +128,7 @@ function Ready() {
       <Container>
         <SectionHead
           eyebrow="Start from one of these"
-          title="Six agents, already assembled."
+          title="Nine agents, already assembled."
         />
         <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {READY.map((r) => (
