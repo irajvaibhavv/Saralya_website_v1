@@ -1,20 +1,24 @@
 import { BarChart3, Database, IndianRupee, ShieldCheck, Users } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ROLES, type Starter } from '../../content/saral-ai'
 import type { Role } from './SaralAiChat'
 import { FadeIn } from '../ui/Reveal'
 import { Container } from '../ui/Section'
 
-/* The screen after the platform cards: say who you are, and the questions
-   your seat asks most drift past. Nothing shows until a seat is picked —
-   the page asks one question at a time. A click opens Saral with it; scroll
-   past instead and Saarthi takes over anyway. */
+/* Under the platform cards, on the same screen: say who you are, and the
+   questions your seat asks most rise into the gap below. Nothing is there
+   until a seat is picked. A click opens Saral with it; scroll past instead
+   and Saarthi takes over anyway. */
 const ICONS = [BarChart3, Database, IndianRupee, Users, ShieldCheck]
 const TONE = 'bg-wash text-accent'
 
+const EASE = [0.22, 1, 0.36, 1] as const
+
 export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) => void; seat: Role | null; onSeat: (r: Role | null) => void }) {
   const row = seat ? [...seat.qs, ...seat.qs] : []
+  const still = useReducedMotion()
   return (
-    <section className="flex min-h-[100svh] flex-col justify-center py-16">
+    <section className="pb-10">
       <Container>
         <FadeIn>
           <h2 className="display text-h2">
@@ -43,8 +47,16 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
         </FadeIn>
       </Container>
 
-      {seat && (
-        <div className="mt-12">
+      <AnimatePresence mode="wait">
+        {seat && (
+        <motion.div
+          key={seat.id}
+          initial={still ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10, transition: { duration: 0.18 } }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="mt-10"
+        >
           <Container>
             <div className="mb-5 flex items-baseline justify-between gap-4">
               <h3 className="text-lede font-semibold tracking-tight">Most asked questions</h3>
@@ -52,7 +64,7 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
             </div>
           </Container>
           <div className="mask-fade-x overflow-hidden">
-            <div key={seat.id} className="flex w-max animate-marquee gap-3 pl-3 [animation-duration:55s]">
+            <div className="flex w-max animate-marquee gap-3 pl-3 [animation-duration:55s]">
               {row.map((s, i) => {
                 const Icon = ICONS[i % ICONS.length]
                 return (
@@ -71,8 +83,9 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
               })}
             </div>
           </div>
-        </div>
-      )}
+        </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

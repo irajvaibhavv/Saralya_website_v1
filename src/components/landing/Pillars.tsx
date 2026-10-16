@@ -12,7 +12,7 @@ const PILLARS = [
 
 export function Pillars() {
   return (
-    <section className="flex min-h-[100svh] items-center py-16">
+    <section className="pt-4 pb-10">
       <Container>
         <h2 className="display max-w-[22ch] text-h2">
           Lending infrastructure, built for <span className="text-accent">Bharat</span>.
