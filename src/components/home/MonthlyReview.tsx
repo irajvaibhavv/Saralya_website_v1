@@ -109,63 +109,153 @@ export function MonthlyReview() {
 
 const SPRING = { type: 'spring', stiffness: 120, damping: 20 } as const
 
-/* 1: vintage: 90+ DPD by disbursal cohort */
+/* 1: vintage curves — cumulative 90+ DPD against months on book, one line
+   per disbursal cohort. This is how a credit team actually reads a book:
+   the shape of the curve, not the height of a bar. Figures illustrative.
+
+   Each cohort is drawn from its 12-month peak: delinquency piles up fast
+   and flattens, so a power curve below 1 is the honest shape. */
+const MOB = 12
+const Y_MAX = 4
+const curve = (peak: number) => Array.from({ length: MOB + 1 }, (_, m) => peak * (m / MOB) ** 0.78)
+
+const COHORTS = [
+  { m: 'Apr', peak: 0.9 },
+  { m: 'May', peak: 1.3 },
+  { m: 'Jun', peak: 1.7 },
+  { m: 'Jul', peak: 3.6, hot: true },
+]
+
 function Vintage() {
-  const cohorts = [
-    { m: 'Apr', v: 18 },
-    { m: 'May', v: 26 },
-    { m: 'Jun', v: 34 },
-    { m: 'Jul', v: 72 },
-    { m: 'Aug', v: 41 },
-    { m: 'Sep', v: 29 },
-  ]
+  const reduce = useReducedMotion()
+  /* viewBox units: the chart scales, the type does not */
+  const W = 640
+  const H = 220
+  const PAD = { l: 34, r: 62, t: 10, b: 26 }
+  const x = (m: number) => PAD.l + (m / MOB) * (W - PAD.l - PAD.r)
+  const y = (v: number) => PAD.t + (1 - v / Y_MAX) * (H - PAD.t - PAD.b)
+  const path = (vals: number[]) => vals.map((v, m) => `${m ? 'L' : 'M'}${x(m).toFixed(1)} ${y(v).toFixed(1)}`).join(' ')
+
   return (
-    <div className="flex h-[220px] items-end gap-3 sm:gap-5">
-      {cohorts.map((c, i) => {
-        const hot = c.v > 60
-        return (
-          <div key={c.m} className="flex flex-1 flex-col items-center gap-2">
-            <span className={`font-mono text-label ${hot ? 'font-bold text-red' : 'text-hint'}`}>{(c.v / 20).toFixed(1)}%</span>
-            <motion.div
-              className={`w-full rounded-t-lg ${hot ? 'bg-red' : 'bg-accent/35'}`}
-              initial={{ height: 0 }}
-              animate={{ height: `${c.v * 2}px` }}
-              transition={{ ...SPRING, delay: i * 0.06 }}
-            />
-            <span className="font-mono text-label text-hint">{c.m}</span>
-          </div>
-        )
-      })}
+    <div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="h-[220px] w-full" role="img" aria-label="Cumulative 90+ DPD by disbursal cohort">
+        {/* the grid, in percent */}
+        {[1, 2, 3, 4].map((g) => (
+          <g key={g}>
+            <line x1={PAD.l} x2={W - PAD.r} y1={y(g)} y2={y(g)} className="stroke-line" strokeWidth="1" strokeDasharray="3 5" />
+            <text x={PAD.l - 8} y={y(g) + 3.5} textAnchor="end" className="fill-hint font-mono text-[10px]">
+              {g}%
+            </text>
+          </g>
+        ))}
+        <line x1={PAD.l} x2={W - PAD.r} y1={y(0)} y2={y(0)} className="stroke-line2" strokeWidth="1" />
+        {[3, 6, 9, 12].map((m) => (
+          <text key={m} x={x(m)} y={H - 8} textAnchor="middle" className="fill-hint font-mono text-[10px]">
+            {m}
+          </text>
+        ))}
+        <text x={PAD.l} y={H - 8} textAnchor="start" className="fill-hint font-mono text-[10px]">
+          months on book
+        </text>
+
+        {COHORTS.map((c, i) => {
+          const vals = curve(c.peak)
+          const end = vals[MOB]
+          return (
+            <g key={c.m}>
+              <motion.path
+                d={path(vals)}
+                fill="none"
+                strokeWidth={c.hot ? 2.6 : 1.8}
+                strokeLinecap="round"
+                className={c.hot ? 'stroke-red' : 'stroke-accent/45'}
+                initial={reduce ? undefined : { pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.9, delay: i * 0.12, ease: 'easeOut' }}
+              />
+              <motion.circle
+                cx={x(MOB)}
+                cy={y(end)}
+                r={c.hot ? 4 : 3}
+                className={c.hot ? 'fill-red' : 'fill-accent/60'}
+                initial={reduce ? undefined : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 + i * 0.12 }}
+              />
+              <motion.text
+                x={x(MOB) + 9}
+                y={y(end) + 3.5}
+                className={`font-mono text-[11px] ${c.hot ? 'fill-red font-bold' : 'fill-muted'}`}
+                initial={reduce ? undefined : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.95 + i * 0.12 }}
+              >
+                {c.m} {end.toFixed(1)}%
+              </motion.text>
+            </g>
+          )
+        })}
+      </svg>
+
+      <p className="mt-4 text-small leading-relaxed text-muted">
+        The <span className="font-semibold text-red">July cohort</span> is rolling 4× the April book at the same age, and it
+        parted from the pack by month three — a quarter before the totals showed it.
+      </p>
     </div>
   )
 }
 
-/* 2: roll-rate: how much of each bucket held */
+/* 2: roll-rate — where each bucket actually went this month. A single bar
+   only says how much held; the split says what to do about it. */
+const FLOWS = [
+  { from: 'Current', cured: 0, held: 94, fwd: 6 },
+  { from: 'SMA-0', cured: 31, held: 30, fwd: 39 },
+  { from: 'SMA-1', cured: 18, held: 20, fwd: 62 },
+  { from: 'SMA-2', cured: 9, held: 8, fwd: 83 },
+]
+
 function RollRate() {
-  const rows = [
-    { from: 'Current', pct: 94, tone: 'bg-green' },
-    { from: 'SMA-0', pct: 61, tone: 'bg-amber' },
-    { from: 'SMA-1', pct: 38, tone: 'bg-amber' },
-    { from: 'SMA-2', pct: 17, tone: 'bg-red' },
-  ]
   return (
-    <div className="space-y-5">
-      {rows.map((r, i) => (
-        <div key={r.from}>
-          <div className="flex items-baseline justify-between font-mono text-label">
-            <span className="text-ink2">{r.from} → held</span>
-            <span className="font-bold">{r.pct}%</span>
+    <div>
+      <div className="space-y-4">
+        {FLOWS.map((r, i) => (
+          <div key={r.from}>
+            <div className="flex items-baseline justify-between font-mono text-label">
+              <span className="text-ink2">{r.from}</span>
+              <span className={r.fwd > 50 ? 'font-bold text-red' : 'text-hint'}>{r.fwd}% forward</span>
+            </div>
+            <div className="mt-2 flex h-3 gap-0.5 overflow-hidden rounded-full">
+              {([
+                ['bg-green', r.cured],
+                ['bg-accent/35', r.held],
+                ['bg-red', r.fwd],
+              ] as const).map(([tone, pct], n) =>
+                pct === 0 ? null : (
+                  <motion.span
+                    key={tone}
+                    className={`h-full ${tone} ${n === 0 ? 'rounded-l-full' : ''} ${n === 2 ? 'rounded-r-full' : ''}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ ...SPRING, delay: i * 0.08 + n * 0.04 }}
+                  />
+                ),
+              )}
+            </div>
           </div>
-          <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-bg2">
-            <motion.div
-              className={`h-full rounded-full ${r.tone}`}
-              initial={{ width: 0 }}
-              animate={{ width: `${r.pct}%` }}
-              transition={{ ...SPRING, delay: i * 0.08 }}
-            />
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-mono text-label text-muted">
+        <span className="flex items-center gap-2">
+          <i className="size-2 rounded-full bg-green" /> Cured
+        </span>
+        <span className="flex items-center gap-2">
+          <i className="size-2 rounded-full bg-accent/35" /> Held
+        </span>
+        <span className="flex items-center gap-2">
+          <i className="size-2 rounded-full bg-red" /> Rolled forward
+        </span>
+      </div>
     </div>
   )
 }
