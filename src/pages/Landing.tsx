@@ -11,12 +11,13 @@ import type { Role } from '../components/landing/SaralAiChat'
 import type { Starter } from '../content/saral-ai'
 import { scrollToEl, scrollToY } from '../lib/scroll'
 
-/* The front door is two screens stacked. The reel is a held stage: it stays
-   where it is while Saral Saarthi rides up over it on its own opaque layer,
-   one page covering another, driven straight off the scroll. Past a third
-   of the way the takeover finishes itself, so nobody is left reading half
-   a screen. Saarthi then stays stuck to the top while the rest of the page
-   rides up over it in turn. Scroll back and the reel is still there. */
+/* The front door is a sequence of screens. The reel is a held stage: it
+   stays where it is while the rest rides up over it on its own opaque
+   layer, one page covering another, driven straight off the scroll. Past a
+   third of the way that first takeover finishes itself, so nobody is left
+   reading half a screen. Then: what the platform is, who you are, and
+   Saral Saarthi — which pins to the top while the rest of the page rides
+   up over it in turn. Scroll back and the reel is still there. */
 
 /** past this much of the takeover, it completes on its own */
 const SETTLE_AT = 0.3
@@ -34,7 +35,7 @@ export function Landing() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const onScroll = () => {
-      const sec = document.getElementById('saarthi')
+      const sec = document.getElementById('explore')
       if (!sec) return
       const target = Math.round(sec.getBoundingClientRect().top + window.scrollY)
       const y = window.scrollY
@@ -56,21 +57,23 @@ export function Landing() {
 
   return (
     <>
-      {/* three layers, each stuck to the top until the next one covers it */}
+      {/* layered screens, each held until the next one covers it */}
       <div className="relative">
         <div className="sticky top-0 z-0 motion-reduce:static">
           <Hero />
         </div>
 
-        <div className="sticky top-0 z-10 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
+        <div id="explore" className="relative z-10 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)]">
+          <Pillars />
+          <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
+        </div>
+
+        <div className="sticky top-0 z-20 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <SaralAiSection pending={pending} seat={seat} onAsk={ask} onReset={() => setPending(null)} />
         </div>
 
-        <div className="relative z-20 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
-          <div id="explore" className="scroll-mt-16" />
-          <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
+        <div className="relative z-30 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
           <BookAtAGlance />
-          <Pillars />
           <InAction onWatch={() => setWatching(true)} />
           <ClosingCta demo />
         </div>

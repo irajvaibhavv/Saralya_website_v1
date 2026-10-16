@@ -1,28 +1,30 @@
 import { BarChart3, Database, IndianRupee, ShieldCheck, Users } from 'lucide-react'
-import { POPULAR_QS, ROLES, type Starter } from '../../content/saral-ai'
+import { ROLES, type Starter } from '../../content/saral-ai'
 import type { Role } from './SaralAiChat'
 import { FadeIn } from '../ui/Reveal'
 import { Container } from '../ui/Section'
 
-/* Questions drift past under the hero. Pick a seat and they become the
-   ones that seat asks; a click opens Saral with the question. Every card
-   keeps the same hairline — nothing lifts or lights up on hover. */
+/* The screen after the platform cards: say who you are, and the questions
+   your seat asks most drift past. Nothing shows until a seat is picked —
+   the page asks one question at a time. A click opens Saral with it; scroll
+   past instead and Saarthi takes over anyway. */
 const ICONS = [BarChart3, Database, IndianRupee, Users, ShieldCheck]
 const TONE = 'bg-wash text-accent'
 
 export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) => void; seat: Role | null; onSeat: (r: Role | null) => void }) {
-  const qs = seat ? seat.qs : POPULAR_QS
-  const row = [...qs, ...qs]
+  const row = seat ? [...seat.qs, ...seat.qs] : []
   return (
-    <FadeIn className="py-10 md:py-14">
+    <section className="flex min-h-[100svh] flex-col justify-center py-16">
       <Container>
-        {/* step one: say who you are; the questions and Saral both follow */}
-        <div className="rounded-2xl bg-bg px-5 py-4 ring-1 ring-line sm:flex sm:items-center sm:gap-6">
-          <div className="shrink-0">
-            <div className="text-body font-semibold tracking-tight">Who are you?</div>
-            <div className="text-small text-muted">Pick your seat and Saral tailors the questions.</div>
-          </div>
-          <div role="group" aria-label="I am a" className="mt-3 flex flex-wrap gap-2 sm:mt-0">
+        <FadeIn>
+          <h2 className="display text-h2">
+            Who are you<span className="text-accent">?</span>
+          </h2>
+          <p className="mt-3 max-w-[46ch] text-lede leading-relaxed text-muted">
+            Pick your seat. Saral Saarthi answers in the language of your desk.
+          </p>
+
+          <div role="group" aria-label="I am a" className="mt-8 flex flex-wrap gap-2.5">
             {ROLES.map((r) => {
               const on = seat?.id === r.id
               return (
@@ -31,39 +33,46 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
                   type="button"
                   aria-pressed={on}
                   onClick={() => onSeat(on ? null : r)}
-                  className={`rounded-full px-3.5 py-2 text-small font-medium ring-1 transition-colors ${on ? 'bg-accent text-white ring-accent' : 'bg-white text-ink2 ring-line hover:ring-accent/50'}`}
+                  className={`rounded-full px-4 py-2.5 text-body font-medium ring-1 transition-colors ${on ? 'bg-accent text-white ring-accent' : 'bg-white text-ink2 ring-line hover:ring-accent/50'}`}
                 >
                   {r.label}
                 </button>
               )
             })}
           </div>
-        </div>
-        <div className="mb-5 mt-8 flex items-baseline justify-between gap-4">
-          <h2 className="text-lede font-semibold tracking-tight">{seat ? `What ${seat.label.toLowerCase()}s ask` : 'Popular questions from NBFCs'}</h2>
-          <span className="hidden text-small text-hint sm:block">Click one to ask Saral</span>
-        </div>
+        </FadeIn>
       </Container>
-      <div className="mask-fade-x overflow-hidden">
-        <div key={seat?.id ?? 'all'} className="flex w-max animate-marquee gap-3 pl-3 [animation-duration:55s]">
-          {row.map((s, i) => {
-            const Icon = ICONS[i % ICONS.length]
-            return (
-              <button
-                key={`${s.q}-${i}`}
-                type="button"
-                onClick={() => onAsk(s)}
-                className="flex min-h-[76px] w-[300px] items-center gap-3 rounded-2xl border border-line2 bg-white px-4 py-3.5 text-left"
-              >
-                <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${TONE}`}>
-                  <Icon className="size-4.5" />
-                </span>
-                <span className="text-body font-medium leading-snug text-ink">{s.q}</span>
-              </button>
-            )
-          })}
+
+      {seat && (
+        <div className="mt-12">
+          <Container>
+            <div className="mb-5 flex items-baseline justify-between gap-4">
+              <h3 className="text-lede font-semibold tracking-tight">Most asked questions</h3>
+              <span className="hidden text-small text-hint sm:block">Click one to ask Saral</span>
+            </div>
+          </Container>
+          <div className="mask-fade-x overflow-hidden">
+            <div key={seat.id} className="flex w-max animate-marquee gap-3 pl-3 [animation-duration:55s]">
+              {row.map((s, i) => {
+                const Icon = ICONS[i % ICONS.length]
+                return (
+                  <button
+                    key={`${s.q}-${i}`}
+                    type="button"
+                    onClick={() => onAsk(s)}
+                    className="flex min-h-[76px] w-[300px] items-center gap-3 rounded-2xl border border-line2 bg-white px-4 py-3.5 text-left"
+                  >
+                    <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${TONE}`}>
+                      <Icon className="size-4.5" />
+                    </span>
+                    <span className="text-body font-medium leading-snug text-ink">{s.q}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
         </div>
-      </div>
-    </FadeIn>
+      )}
+    </section>
   )
 }
