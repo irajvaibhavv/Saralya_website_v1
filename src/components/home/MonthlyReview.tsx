@@ -8,10 +8,10 @@ import { Container, Section, SectionHead } from '../ui/Section'
    Tabs auto-advance until the visitor takes over. Figures are illustrative. */
 
 const TABS = [
-  { id: 'vintage', label: 'Vintage', head: 'Which cohort is aging badly.', module: 'Saral Insight' },
-  { id: 'roll', label: 'Roll-rate', head: 'Where the book is sliding.', module: 'Saral Insight' },
-  { id: 'watch', label: 'Early warning', head: 'Stress flagged on day 1.', module: 'Saral Watch' },
-  { id: 'recover', label: 'Recovery', head: 'Which strategy is working.', module: 'Saral Recover' },
+  { id: 'vintage', label: 'Vintage', head: 'Which cohort is aging badly.', module: 'Saral Drishti' },
+  { id: 'roll', label: 'Roll-rate', head: 'Where the book is sliding.', module: 'Saral Drishti' },
+  { id: 'watch', label: 'Early warning', head: 'Stress flagged on day 1.', module: 'Saral Drishti' },
+  { id: 'recover', label: 'Recovery', head: 'Which strategy is working.', module: 'Saral Samadhan' },
 ]
 
 export function MonthlyReview() {
