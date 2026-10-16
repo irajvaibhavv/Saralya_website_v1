@@ -13,7 +13,6 @@ export function Benefits() {
         <SectionHead
           eyebrow="Why Saralya"
           title="What changes on day one."
-          lede="Organization level-up. Transforming operations. Elevating experience. Minimizing risk."
         />
 
         <Stagger className="grid gap-4 md:grid-cols-12">

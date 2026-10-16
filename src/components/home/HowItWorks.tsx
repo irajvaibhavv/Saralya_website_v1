@@ -93,7 +93,6 @@ export function HowItWorks() {
               </svg>
             </span>
           }
-          lede="Bureau, AA, GSTN, MCA21 and CERSAI in one pull. One call to us. A decided loan back."
         />
 
         <FadeIn>

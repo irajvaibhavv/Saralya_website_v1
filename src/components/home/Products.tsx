@@ -19,7 +19,6 @@ export function ProductsSection() {
               Five agents. <span className="text-accent">One stack.</span>
             </>
           }
-          lede="Run the full stack, or plug in one module."
         />
         <div className="mb-10 flex flex-wrap gap-2">
           {MODULES.map((m) => (
