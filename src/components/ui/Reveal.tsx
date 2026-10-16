@@ -128,7 +128,7 @@ export function Counter({
    and `offsetTop` moves with the scroll. So the resting place is measured
    while it is still below the line — on mount, on resize, and on any frame
    it is plainly not stuck. */
-export function Held({ id, className, z, children }: { id?: string; className?: string; z?: number; children: ReactNode }) {
+export function Held({ id, className, z, children, ...attrs }: { id?: string; className?: string; z?: number; children: ReactNode } & Record<string, unknown>) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
   const still = useReducedMotion()
@@ -164,6 +164,7 @@ export function Held({ id, className, z, children }: { id?: string; className?: 
       id={id}
       style={still ? { zIndex: z } : { scale, opacity, zIndex: z }}
       className={`sticky top-0 motion-reduce:static ${className ?? ''}`}
+      {...attrs}
     >
       {children}
     </motion.div>
