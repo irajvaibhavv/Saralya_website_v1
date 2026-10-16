@@ -12,18 +12,18 @@ const PILLARS = [
 
 export function Pillars() {
   return (
-    <section className="pt-4 pb-10">
+    <section className="pb-9">
       <Container>
         <h2 className="display max-w-[22ch] text-h2">
           Lending infrastructure, built for <span className="text-accent">Bharat</span>.
         </h2>
 
-        <Stagger className="mt-10 grid gap-5 md:grid-cols-3" gap={0.1}>
+        <Stagger className="mt-7 grid gap-5 md:grid-cols-3" gap={0.1}>
           {PILLARS.map((p) => {
             const Icon = p.icon
             return (
               <Item key={p.n}>
-                <div className="flex h-full items-start gap-4 rounded-2xl border border-line2 bg-white p-6">
+                <div className="flex h-full items-start gap-4 rounded-2xl border border-line2 bg-white p-5">
                   <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-wash text-accent">
                     <Icon className="size-5" />
                   </span>
