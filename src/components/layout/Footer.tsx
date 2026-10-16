@@ -35,9 +35,9 @@ export function Footer() {
       <Container className="py-14">
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <Logo />
+            <Logo full />
             <p className="mt-4 max-w-xs text-body leading-relaxed text-muted">
-              Lending infrastructure for under-banked India. Built in India, for India.
+              Lending infrastructure for under-banked India.
             </p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="mt-5 inline-block font-mono text-small text-accent hover:underline">
               {CONTACT_EMAIL}

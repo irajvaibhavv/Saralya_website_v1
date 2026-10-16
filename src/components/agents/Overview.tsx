@@ -12,6 +12,7 @@ const RAILS: Rail[] = [
   { label: 'GSTN · MCA21', icon: 'doc' },
   { label: 'CERSAI', icon: 'shield' },
   { label: 'Your core', icon: 'core' },
+  { label: 'CKYC · Video KYC', icon: 'lock' },
 ]
 
 /* rim names: short by necessity, a sentence will not fit on the loop */

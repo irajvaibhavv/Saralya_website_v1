@@ -40,8 +40,8 @@ export function AppraisalVisual() {
             />
             <defs>
               <linearGradient id="ag" x1="0" x2="1">
-                <stop offset="0" stopColor="#7f63ff" />
-                <stop offset="1" stopColor="#c034e8" />
+                <stop offset="0" stopColor="#107a66" />
+                <stop offset="1" stopColor="#4cc3a5" />
               </linearGradient>
             </defs>
           </svg>
@@ -69,7 +69,7 @@ export function AppraisalVisual() {
           animate={{ opacity: [0, 0, 1, 1, 0], scale: [0.9, 0.9, 1, 1, 0.95] }}
           transition={{ duration: 5, times: [0, 0.4, 0.5, 0.85, 1], ...LOOP }}
         >
-          <FileCheck2 className="size-4 text-[#c4b5fd]" /> Sanction ₹4,50,000
+          <FileCheck2 className="size-4 text-[#4cc3a5]" /> Sanction ₹4,50,000
         </motion.div>
       </div>
     </Stage>
@@ -107,7 +107,7 @@ export function ScreenVisual() {
           return (
             <motion.span
               key={i}
-              className={`absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${bad ? 'bg-red' : 'bg-[#c4b5fd]'}`}
+              className={`absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${bad ? 'bg-red' : 'bg-[#4cc3a5]'}`}
               style={{ left: `${x}%`, top: `${y}%` }}
               animate={bad ? { boxShadow: ['0 0 0 0 rgba(224,67,92,0.7)', '0 0 0 14px rgba(224,67,92,0)'] } : { opacity: [0.5, 1, 0.5] }}
               transition={{ duration: bad ? 1.4 : 2.4, repeat: Infinity, delay: i * 0.2 }}
@@ -146,8 +146,8 @@ export function WatchVisual() {
           <svg viewBox="0 0 360 120" className="h-full w-full overflow-visible" preserveAspectRatio="none">
             <defs>
               <linearGradient id="wg" x1="0" x2="1">
-                <stop offset="0" stopColor="#5b3df5" />
-                <stop offset="0.55" stopColor="#5b3df5" />
+                <stop offset="0" stopColor="#107a66" />
+                <stop offset="0.55" stopColor="#107a66" />
                 <stop offset="1" stopColor="#e08700" />
               </linearGradient>
             </defs>
@@ -307,7 +307,7 @@ export function InsightVisual() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.9, ease: EASE }}
         >
-          <div className="font-mono text-label uppercase tracking-[0.12em] text-[#c4b5fd]">Board pack · auto-generated</div>
+          <div className="font-mono text-label uppercase tracking-[0.12em] text-[#4cc3a5]">Board pack · auto-generated</div>
           <div className="mt-1 text-body font-bold">Q4 portfolio review</div>
           <div className="mt-2 grid grid-cols-3 gap-2 text-center">
             {[['NPA', '1.8%'], ['Roll 30→60', '11%'], ['LTV', '3.4×']].map(([k, v]) => (

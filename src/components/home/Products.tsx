@@ -99,6 +99,16 @@ function ModuleBlock({ index, onActive }: { index: number; onActive: () => void 
         viewport={{ once: true, margin: '-15% 0px' }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
+        {/* a photograph per module: the work this one touches */}
+        <div className="mb-7 overflow-hidden rounded-3xl">
+          <img
+            src={m.img}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="aspect-[16/9] w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
+          />
+        </div>
         <div className="flex items-center gap-3">
           <span className={`grid size-12 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
             <m.icon className="size-6" strokeWidth={2.2} />

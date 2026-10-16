@@ -20,6 +20,7 @@ export type Module = {
   short: string
   body: string
   icon: LucideIcon
+  img: string
   color: string
   bar: string
   wash: string
@@ -34,6 +35,7 @@ export const MODULES: Module[] = [
     short: 'Score and sanction in minutes.',
     body: 'Configurable BRE for SME, MSME, LAP, MFI JLG and unsecured retail. Bureau pulls, Account Aggregator, GSTN, MCA21 and CERSAI, all native.',
     icon: FileCheck2,
+    img: '/img/agreement.jpg',
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
@@ -46,6 +48,7 @@ export const MODULES: Module[] = [
     short: 'Catch fraud before it books.',
     body: 'Real-time application and transaction fraud signals. Network analysis across applicant clusters. 21-day SCN workflow built in.',
     icon: ScanSearch,
+    img: '/img/scrutiny.jpg',
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
@@ -58,6 +61,7 @@ export const MODULES: Module[] = [
     short: 'See stress on day 1, not day 31.',
     body: 'Post-disbursement deterioration index fed by AA, GST velocity, bureau activity on other lenders and behavioural data.',
     icon: Activity,
+    img: '/img/kirana.jpg',
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
@@ -70,6 +74,7 @@ export const MODULES: Module[] = [
     short: 'Strategy-led, not bucket-led.',
     body: 'Bucket-strategy collections with an RPC-first dialler, a DRA-trained field officer app, skip-tracing and automated Section 138 / SARFAESI prep.',
     icon: PhoneCall,
+    img: '/img/rider.jpg',
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
@@ -82,6 +87,7 @@ export const MODULES: Module[] = [
     short: 'Board-ready, auto-generated.',
     body: 'Vintage analysis, roll-rate dashboards, peer-cohort benchmarking and customer LTV. Daily, weekly and quarterly reports without a data team.',
     icon: BarChart3,
+    img: '/img/ledger.jpg',
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
@@ -94,6 +100,7 @@ export const MODULES: Module[] = [
     short: 'Inspection pack in 4 clicks.',
     body: '600+ checks mapped to RBI MD-FRM, DLD 2025, KYC MD, DPDP and PMLA. CRILC, NBS-9 and DNBS returns pre-mapped. CIMS-ready.',
     icon: ShieldCheck,
+    img: '/img/archive.jpg',
     color: 'text-accent',
     bar: 'bg-accent',
     wash: 'bg-wash',
