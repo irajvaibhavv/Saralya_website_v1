@@ -1,9 +1,10 @@
-import { Check } from 'lucide-react'
 import { motion } from 'motion/react'
 import { Counter, Item, Stagger } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
 
-/* Four benefits: copy per the founders' corrections brief (benefit 5 removed). */
+/* Two benefits: copy per the founders' corrections brief. The cards that
+   named other companies' systems, and the compliance one, came out on the
+   lead's instruction. */
 
 export function Benefits() {
   return (
@@ -16,7 +17,7 @@ export function Benefits() {
         />
 
         <Stagger className="grid gap-4 md:grid-cols-12">
-          <Item className="md:col-span-7">
+          <Item className="md:col-span-6">
             <Card
               title="Built ground-up for Digital Lending."
               body="Trained on BFSI data, not a generic model."
@@ -24,14 +25,9 @@ export function Benefits() {
               <Bars />
             </Card>
           </Item>
-          <Item className="md:col-span-5">
+          <Item className="md:col-span-6">
             <Card title="Approve loans through STP in under 5 minutes." body="Application to sanction, no manual touch.">
               <Stopwatch />
-            </Card>
-          </Item>
-          <Item className="md:col-span-12">
-            <Card title="Compliance is the architecture.">
-              <Checks />
             </Card>
           </Item>
         </Stagger>
@@ -118,36 +114,3 @@ function Stopwatch() {
   )
 }
 
-function Checks() {
-  const items = ['MD-FRM · 21-day SCN', 'DLD 2025 · KFS delivered', 'DPDP · consent logged', 'KYC MD · CKYC matched', 'CRILC · NBS-9 mapped']
-  return (
-    <div className="absolute inset-0 px-6 pt-5">
-      <div className="absolute right-6 top-4 rounded-full bg-white px-2.5 py-1 font-mono text-label text-green shadow-sm">
-        <Counter to={600} suffix="+ checks" />
-      </div>
-      <div className="space-y-1.5">
-        {items.map((t, i) => (
-          <motion.div
-            key={t}
-            className="flex items-center gap-2 text-small font-medium text-ink2"
-            initial={{ opacity: 0, x: -8 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 + i * 0.12 }}
-          >
-            <motion.span
-              className="grid size-4 place-items-center rounded-full bg-green text-white"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.25 + i * 0.12, type: 'spring', stiffness: 400, damping: 20 }}
-            >
-              <Check className="size-2.5" strokeWidth={3.5} />
-            </motion.span>
-            {t}
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  )
-}
