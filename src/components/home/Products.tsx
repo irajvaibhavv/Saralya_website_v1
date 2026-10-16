@@ -119,6 +119,9 @@ function ModuleBlock({ index, onActive }: { index: number; onActive: () => void 
         </div>
         <h2 className="display mt-6 text-display">{m.name}</h2>
         <p className={`mt-3 text-h3 font-semibold leading-snug ${m.color}`}>{m.short}</p>
+        {/* what the agent actually does, in place of the chips that named
+            the bureaus */}
+        <p className="mt-5 max-w-[52ch] text-lede leading-relaxed text-muted">{m.body}</p>
       </motion.div>
     </div>
   )
