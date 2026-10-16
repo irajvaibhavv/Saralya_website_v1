@@ -33,6 +33,8 @@ export function Wizard() {
   const [vol, setVol] = useState(1)
 
   const s = seat === null ? null : SEATS[seat]
+  /* only this desk's five are offered: a longer list reads as a form */
+  const asked = s ? s.does.map((id) => WANTS.find((w) => w.id === id)!).filter(Boolean) : []
   const wants = WANTS.filter((w) => picked.includes(w.id))
   const said = note.trim()
 
@@ -126,12 +128,11 @@ export function Wizard() {
                 <ArrowLeft className="size-3.5" /> Not {an(s.label)} {s.label.toLowerCase()}
               </button>
               <h3 className="display text-h2">What do you want from your agent?</h3>
-              <p className="mt-2 text-lede text-muted">Pick what should come off your desk. The ones your seat usually picks are marked.</p>
+              <p className="mt-2 text-lede text-muted">The five we hear most on this desk. Pick what should come off yours.</p>
 
               <div className="mt-7 grid gap-3 md:grid-cols-2">
-                {WANTS.map((w) => {
+                {asked.map((w) => {
                   const on = picked.includes(w.id)
-                  const usual = (s.does as readonly string[]).includes(w.id)
                   return (
                     <button
                       key={w.id}
@@ -149,13 +150,7 @@ export function Wizard() {
                       >
                         {on && <Check className="size-3.5" strokeWidth={3.5} />}
                       </span>
-                      <span className="min-w-0">
-                        <span className="block text-body text-ink">{w.label}</span>
-                        <span className="mt-1 flex flex-wrap gap-x-3 font-mono text-label uppercase tracking-[0.1em]">
-                          <span className="text-hint">{w.side === 'sales' ? 'Sales' : 'Credit'}</span>
-                          {usual && <span className="text-accent">Common on this desk</span>}
-                        </span>
-                      </span>
+                      <span className="min-w-0 text-body text-ink">{w.label}</span>
                     </button>
                   )
                 })}
