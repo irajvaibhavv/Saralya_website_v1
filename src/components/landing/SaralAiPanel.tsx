@@ -47,7 +47,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         <span className="size-1.5 rounded-full bg-green animate-pulse-ring" />
       </div>
 
-      <h2 className="display mt-5 max-w-[18ch] text-h2 [@media(min-height:880px)]:text-display">
+      <h2 className="display mt-5 max-w-[18ch] text-h2 [@media(min-height:720px)]:text-display">
         Ask me anything<span className="text-accent">.</span>
       </h2>
       {/* only the seat speaks here; with no seat picked the heading stands
