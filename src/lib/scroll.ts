@@ -19,9 +19,9 @@ export const lenis = new Lenis({
 
 export const scrollToY = (y: number, immediate = reduce) => lenis.scrollTo(y, { immediate })
 
-export const scrollToEl = (id: string) => {
+export const scrollToEl = (id: string, offset = 0) => {
   const el = document.getElementById(id)
-  if (el) lenis.scrollTo(el, { immediate: reduce })
+  if (el) lenis.scrollTo(el, { immediate: reduce, offset })
 }
 
 /* Chrome still puts the old offset back after the document loads, so take

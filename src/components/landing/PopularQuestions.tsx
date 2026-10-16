@@ -1,8 +1,10 @@
 import { BarChart3, Database, IndianRupee, ShieldCheck, Users } from 'lucide-react'
+import { useEffect } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ROLES, type Starter } from '../../content/saral-ai'
 import type { Role } from './SaralAiChat'
 import { FadeIn } from '../ui/Reveal'
+import { scrollToY } from '../../lib/scroll'
 import { Container } from '../ui/Section'
 
 /* Under the platform cards, on the same screen: say who you are, and the
@@ -17,8 +19,17 @@ const EASE = [0.22, 1, 0.36, 1] as const
 export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) => void; seat: Role | null; onSeat: (r: Role | null) => void }) {
   const row = seat ? [...seat.qs, ...seat.qs] : []
   const still = useReducedMotion()
+
+  /* Picking a seat adds a row below the fold, so bring the screen up until
+     that row is on it — never past the screen's own top. */
+  useEffect(() => {
+    const el = document.getElementById('explore')
+    if (!seat || !el) return
+    scrollToY(Math.max(el.offsetTop, el.offsetTop + el.offsetHeight - window.innerHeight))
+  }, [seat])
+
   return (
-    <section className="pb-10">
+    <section className="pb-6">
       <Container>
         <FadeIn>
           <h2 className="display text-h2">
@@ -28,7 +39,7 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
             Pick your seat. Saral Saarthi answers in the language of your desk.
           </p>
 
-          <div role="group" aria-label="I am a" className="mt-8 flex flex-wrap gap-2.5">
+          <div role="group" aria-label="I am a" className="mt-7 flex flex-wrap gap-2.5">
             {ROLES.map((r) => {
               const on = seat?.id === r.id
               return (
@@ -55,7 +66,8 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10, transition: { duration: 0.18 } }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="mt-10"
+          id="asked"
+          className="mt-7"
         >
           <Container>
             <div className="mb-5 flex items-baseline justify-between gap-4">

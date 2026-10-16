@@ -64,7 +64,7 @@ export function Landing() {
         </div>
 
         {/* one screen: what the platform is, and who is reading it */}
-        <div id="explore" className="relative z-10 flex min-h-[100svh] flex-col justify-center bg-bg py-16 shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)]">
+        <div id="explore" className="relative z-10 flex min-h-[100svh] flex-col justify-center bg-bg py-10 shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)]">
           <Pillars />
           <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
         </div>
