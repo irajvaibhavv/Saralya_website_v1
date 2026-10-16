@@ -1,12 +1,14 @@
-import { AnimatePresence, motion, useInView } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
 import { VISUALS } from '../products/ModuleVisuals'
+import { Held } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
-import { MODULES } from '../../content/site'
+import { MODULES, type Module } from '../../content/site'
+import { scrollToEl } from '../../lib/scroll'
+
+/* The stack, one agent per screen. Each screen is held at the top while the
+   next pulls up over it, the same movement as the landing page, so nothing
+   is ever read half-and-half. The rail jumps straight to one. */
 
 export function ProductsSection() {
-  const [active, setActive] = useState(0)
-
   return (
     <Section id="products">
       <Container>
@@ -19,110 +21,68 @@ export function ProductsSection() {
           }
           lede="Run the full stack, or plug in one module."
         />
-        <div className="mb-12 flex flex-wrap gap-2">
-          {MODULES.map((m, i) => (
-            <a
+        <div className="mb-10 flex flex-wrap gap-2">
+          {MODULES.map((m) => (
+            <button
               key={m.code}
-              href={`#${m.code}`}
-              className={`inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-small font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
-                i === active ? m.color : 'text-ink2'
-              }`}
+              type="button"
+              onClick={() => scrollToEl(m.code)}
+              className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-small font-semibold text-ink2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <m.icon className={`size-3.5 ${m.color}`} /> {m.name}
-            </a>
+            </button>
           ))}
         </div>
       </Container>
 
-      {/* Scroll-driven showcase: sticky stage on the left swaps its visual as
-          each module's block scrolls into view on the right. */}
-      <Container>
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="hidden lg:block">
-            <div className="sticky top-28">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -24, scale: 0.98 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {(() => {
-                    const V = VISUALS[active]
-                    return <V />
-                  })()}
-                </motion.div>
-              </AnimatePresence>
-              <div className="mt-5 flex justify-center gap-2">
-                {MODULES.map((m, i) => (
-                  <a
-                    key={m.code}
-                    href={`#${m.code}`}
-                    aria-label={m.name}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${i === active ? `w-8 ${m.bar}` : 'w-1.5 bg-line2'}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div>
-            {MODULES.map((m, i) => (
-              <ModuleBlock key={m.code} index={i} onActive={() => setActive(i)} />
-            ))}
-          </div>
-        </div>
-      </Container>
+      <div className="relative">
+        {MODULES.map((m, i) => (
+          <Held
+            key={m.code}
+            id={m.code}
+            z={i + 1}
+            className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)] motion-reduce:h-auto"
+          >
+            <Screen m={m} index={i} />
+          </Held>
+        ))}
+      </div>
     </Section>
   )
 }
 
-function ModuleBlock({ index, onActive }: { index: number; onActive: () => void }) {
-  const m = MODULES[index]
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { margin: '-45% 0px -45% 0px' })
-  useEffect(() => {
-    if (inView) onActive()
-  }, [inView, onActive])
+function Screen({ m, index }: { m: Module; index: number }) {
   const V = VISUALS[index]
-
   return (
-    <div ref={ref} id={m.code} className="flex scroll-mt-24 flex-col justify-center py-10 lg:min-h-[78vh] lg:py-0">
-      {/* On small screens each block carries its own visual */}
-      <div className="mb-6 lg:hidden">
-        <V />
+    <Container className="flex h-full min-h-[100svh] items-center py-14">
+      <div className="grid w-full items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="order-2 lg:order-1">
+          <V />
+        </div>
+
+        <div className="order-1 lg:order-2">
+          <div className="mb-7 overflow-hidden rounded-3xl">
+            <img
+              src={m.img}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="aspect-[16/9] w-full object-cover"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <span className={`grid size-11 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
+              <m.icon className="size-5" strokeWidth={2.2} />
+            </span>
+            <span className="font-mono text-label uppercase tracking-[0.12em] text-hint">
+              {m.code} &middot; {m.tag}
+            </span>
+          </div>
+          <h2 className="display mt-5 text-h2">{m.name}</h2>
+          <p className={`mt-2 text-h3 font-semibold leading-snug ${m.color}`}>{m.short}</p>
+          <p className="mt-4 max-w-[52ch] text-body leading-relaxed text-muted">{m.body}</p>
+        </div>
       </div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-15% 0px' }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* a photograph per module: the work this one touches */}
-        <div className="mb-7 overflow-hidden rounded-3xl">
-          <img
-            src={m.img}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="aspect-[16/9] w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
-          />
-        </div>
-        <div className="flex items-center gap-3">
-          <span className={`grid size-12 place-items-center rounded-2xl ${m.wash} ${m.color}`}>
-            <m.icon className="size-6" strokeWidth={2.2} />
-          </span>
-          <span className="font-mono text-label uppercase tracking-[0.12em] text-hint">
-            {m.code} · {m.tag}
-          </span>
-        </div>
-        <h2 className="display mt-6 text-display">{m.name}</h2>
-        <p className={`mt-3 text-h3 font-semibold leading-snug ${m.color}`}>{m.short}</p>
-        {/* what the agent actually does, in place of the chips that named
-            the bureaus */}
-        <p className="mt-5 max-w-[52ch] text-lede leading-relaxed text-muted">{m.body}</p>
-      </motion.div>
-    </div>
+    </Container>
   )
 }
