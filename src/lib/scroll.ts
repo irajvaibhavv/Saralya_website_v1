@@ -25,13 +25,28 @@ export const scrollToEl = (id: string, offset = 0) => {
   if (el) lenis.scrollTo(el, { immediate: reduce, offset, force: true })
 }
 
-/* Chrome still puts the old offset back after the document loads, so take
-   the top again once everything has settled. */
-const toTop = () => {
-  if (!window.location.hash) lenis.scrollTo(0, { immediate: true, force: true })
+/* Chrome puts the old offset back after the document loads, and does it
+   late — once images and fonts have given the page its real height, which
+   can be a second after `load`. One call to the top is not enough, so the
+   top is held briefly and given up the moment the visitor touches
+   anything. */
+const holdTop = () => {
+  if (window.location.hash) return
+  let released = false
+  const release = () => {
+    released = true
+  }
+  for (const ev of ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const) {
+    window.addEventListener(ev, release, { once: true, passive: true })
+  }
+  const until = performance.now() + 2000
+  const tick = () => {
+    if (released || performance.now() > until) return
+    if (window.scrollY !== 0) lenis.scrollTo(0, { immediate: true, force: true })
+    requestAnimationFrame(tick)
+  }
+  tick()
 }
-toTop()
-window.addEventListener('load', () => {
-  toTop()
-  requestAnimationFrame(toTop)
-})
+
+holdTop()
+window.addEventListener('load', holdTop)

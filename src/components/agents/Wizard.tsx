@@ -36,12 +36,12 @@ export function Wizard() {
   /* each answer makes the step above it shorter or longer, so bring the
      question back to the top of the screen rather than leaving the next one
      off it */
-  const first = useRef(true)
+  const seen = useRef(step)
   useEffect(() => {
-    if (first.current) {
-      first.current = false
-      return
-    }
+    /* comparing the step, not a first-run flag: in development React mounts
+       effects twice, and a flag would scroll the page on load */
+    if (seen.current === step) return
+    seen.current = step
     scrollToEl('build-step', -90)
   }, [step])
 
