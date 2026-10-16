@@ -43,14 +43,19 @@ export function PopularQuestions({ onAsk, seat, onSeat }: { onAsk: (s: Starter) 
                   type="button"
                   aria-pressed={on}
                   onClick={() => onSeat(on ? null : r)}
-                  className={`flex min-h-[24svh] flex-col justify-between rounded-2xl border p-5 text-left transition-colors ${on ? 'border-accent bg-accent text-white' : 'border-line2 bg-white text-ink hover:border-accent/40'}`}
+                  className={`group flex flex-col gap-7 rounded-2xl border p-5 text-left transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-24px_rgba(13,22,20,0.45)] focus-visible:-translate-y-1 focus-visible:outline-none ${on ? 'border-accent bg-accent text-white' : 'border-line2 bg-white text-ink hover:border-accent/40 focus-visible:border-accent/40'}`}
                 >
-                  <span className={`grid size-11 place-items-center rounded-xl ${on ? 'bg-white/15 text-white' : 'bg-wash text-accent'}`}>
+                  <span className={`grid size-11 place-items-center rounded-xl transition-colors duration-300 ${on ? 'bg-white/15 text-white' : 'bg-wash text-accent group-hover:bg-accent group-hover:text-white group-focus-visible:bg-accent group-focus-visible:text-white'}`}>
                     <Icon className="size-5" strokeWidth={1.7} />
                   </span>
-                  <span>
+                  <span className="mt-auto block">
                     <span className="block text-body font-semibold leading-snug">{r.label}</span>
-                    <span className={`mt-1 block text-small leading-snug ${on ? 'text-white/70' : 'text-muted'}`}>{r.asks}</span>
+                    {/* same rule as the platform cards: the accent runs across
+                        it on hover, and it never changes the tile's size */}
+                    <span className={`mt-3 block h-px w-full overflow-hidden ${on ? 'bg-white/25' : 'bg-line'}`}>
+                      <span className={`block h-px w-full origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 ${on ? 'bg-white/70' : 'bg-accent'}`} />
+                    </span>
+                    <span className={`mt-3 block text-small leading-snug ${on ? 'text-white/70' : 'text-muted'}`}>{r.asks}</span>
                   </span>
                 </button>
               )
