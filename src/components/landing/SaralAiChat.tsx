@@ -10,7 +10,7 @@ import { ButtonLink } from '../ui/Button'
 /* Saral AI, the landing chat. It opens by asking who you are; each role
    gets the questions that seat asks most (scripted answers from site facts),
    plus "Get a note for my NBFC", the guided diagnostic that ends in a
-   personal note, and "Talk to a human". `ask()` is where the model plugs in. */
+   personal note, and "Write to us". `ask()` is where the model plugs in. */
 
 type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string }; files?: { name: string; size: number }[]; gated?: true }
 
@@ -29,7 +29,7 @@ const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI no
 
 // TODO: point at the model endpoint once it is exposed.
 export async function ask(_q: string): Promise<string> {
-  return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Talk to a human” and it reaches them today.'
+  return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Write to us” and it reaches them today.'
 }
 
 /* Starting a conversation from files (the + in the opening view, or a drop
@@ -48,7 +48,7 @@ export const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg'
 const kb = (n: number) => (n < 1048576 ? `${Math.max(1, Math.round(n / 1024))} KB` : `${(n / 1048576).toFixed(1)} MB`)
 
 const NOTE = STARTERS.find((s) => s.note)!
-const HUMAN = STARTERS.find((s) => s.q === 'Talk to a human')!
+const HUMAN = STARTERS.find((s) => s.q === 'Write to us')!
 
 export type Role = (typeof ROLES)[number]
 

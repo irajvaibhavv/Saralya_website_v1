@@ -40,7 +40,7 @@ export const BOOK_SIZES = ['Under ₹100 Cr', '₹100–500 Cr', '₹500–2,000
 export type Starter = { q: string; a: string; link?: { to: string; label: string }; note?: true }
 export const STARTERS: Starter[] = [
   { q: 'Get a note for my NBFC', a: '', note: true },
-  { q: 'Talk to a human', a: 'The founders read every message and reply the same day.', link: { to: `mailto:${CONTACT_EMAIL}?subject=Question%20from%20the%20website`, label: 'Write to us' } },
+  { q: 'Write to us', a: 'The founders read every message and reply the same day.', link: { to: `mailto:${CONTACT_EMAIL}?subject=Question%20from%20the%20website`, label: 'Email the founders' } },
 ]
 
 /* The first thing Saral asks is who you are. Each role gets the questions
