@@ -50,9 +50,9 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
       <h2 className="display mt-5 max-w-[18ch] text-h2">
         Ask me anything<span className="text-accent">.</span>
       </h2>
-      <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-muted">
-        {seat ? seat.hello : 'Credit risk, collections, RBI norms, compliance — or anything about our platform.'}
-      </p>
+      {/* only the seat speaks here; with no seat picked the heading stands
+          on its own */}
+      {seat && <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-muted">{seat.hello}</p>}
 
       <form onSubmit={submit} className="mt-7 flex items-center gap-1.5 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-line transition focus-within:ring-accent">
         <label aria-label="Add a file" title="Add a file" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-muted hover:bg-wash hover:text-accent">
