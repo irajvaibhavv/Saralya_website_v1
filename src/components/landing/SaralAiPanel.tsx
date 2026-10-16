@@ -38,7 +38,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
   }
 
   return (
-    <div className="flex h-full flex-col justify-between overflow-y-auto py-8 text-ink">
+    <div className="flex h-full flex-col justify-between overflow-hidden py-6 text-ink">
       <div className="flex items-center gap-2.5">
         <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-accent text-white">
           <Mark className="text-lede" />
@@ -47,7 +47,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         <span className="size-1.5 rounded-full bg-green animate-pulse-ring" />
       </div>
 
-      <h2 className="display mt-6 max-w-[18ch] text-display">
+      <h2 className="display mt-5 max-w-[18ch] text-h2 [@media(min-height:880px)]:text-display">
         Ask me anything<span className="text-accent">.</span>
       </h2>
       {/* only the seat speaks here; with no seat picked the heading stands
@@ -74,22 +74,22 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         </button>
       </form>
       {/* what this answers that a general assistant cannot */}
-      <div className="mt-7 grid gap-4 sm:grid-cols-3">
+      <div className="mt-6 grid gap-3.5 sm:grid-cols-3">
         {EDGE.map((e) => {
           const Icon = e.icon
           return (
-            <div key={e.title} className="rounded-2xl border border-line2 bg-white p-6">
+            <div key={e.title} className="rounded-2xl border border-line2 bg-white p-5 [@media(min-height:880px)]:p-6">
               <span className="grid size-11 place-items-center rounded-xl bg-wash text-accent">
                 <Icon className="size-5" strokeWidth={1.7} />
               </span>
-              <div className="mt-4 text-body font-semibold leading-snug">{e.title}</div>
+              <div className="mt-3.5 text-body font-semibold leading-snug">{e.title}</div>
               <p className="mt-1.5 text-small leading-relaxed text-muted">{e.body}</p>
             </div>
           )
         })}
       </div>
 
-      <p className="mt-5 text-small leading-relaxed text-hint">
+      <p className="mt-4 text-small leading-relaxed text-hint">
         General information, not financial or legal advice.
       </p>
       </div>
