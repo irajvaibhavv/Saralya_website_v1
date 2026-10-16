@@ -1,26 +1,19 @@
-import { ArrowRight, ArrowUp, BarChart3, FileText, IndianRupee, Plus, ShieldCheck } from 'lucide-react'
-import { motion, useReducedMotion } from 'motion/react'
+import { ArrowUp, Plus } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
-import { HERO_QS, type Starter } from '../../content/saral-ai'
+import type { Starter } from '../../content/saral-ai'
 import { ACCEPT, ask, fileStarter, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
 
-/* The opening view, centred in the full-page sheet: one hello, four
-   questions, a composer. Picking or typing hands the question up, and the
-   sheet becomes the conversation.
+/* The opening view, centred in the full-page sheet: one hello and a
+   composer. The questions live on the screen before this one, picked by
+   seat, so this screen asks nothing and waits.
 
    TODO(Vikas): "trained on Indian banking data" under the composer is a
    public technical claim — confirm before launch, and note that free-text
    ask() is still scripted until the model endpoint lands. */
 
-const EASE = [0.22, 1, 0.36, 1] as const
-const ICONS = [BarChart3, FileText, IndianRupee, ShieldCheck]
-const TONE = 'bg-wash text-accent'
-
 export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; seat: Role | null }) {
   const [q, setQ] = useState('')
   const speech = useSpeech(setQ)
-  const still = useReducedMotion()
-  const qs = seat ? seat.qs.slice(0, 4) : HERO_QS
 
   /* a file picked here opens the conversation with it */
   const attach = (list: FileList | null) => {
@@ -52,34 +45,7 @@ export function SaralAiPanel({ onAsk, seat }: { onAsk: (s: Starter) => void; sea
         {seat ? seat.hello : 'Credit risk, collections, RBI norms, compliance — or anything about our platform.'}
       </p>
 
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={{ show: { transition: { staggerChildren: still ? 0 : 0.07, delayChildren: 0.15 } } }}
-        className="mt-7 grid gap-2 sm:grid-cols-2"
-      >
-        {qs.map((s, i) => {
-          const Icon = ICONS[i]
-          return (
-            <motion.button
-              key={s.q}
-              type="button"
-              variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } } }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => onAsk(s)}
-              className="group flex items-center gap-3 rounded-2xl bg-white px-3 py-3 text-left shadow-sm ring-1 ring-line/70 transition hover:-translate-y-0.5 hover:shadow-md hover:ring-accent/30"
-            >
-              <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${TONE}`}>
-                <Icon className="size-3.5" />
-              </span>
-              <span className="min-w-0 flex-1 text-small font-medium leading-snug">{s.q}</span>
-              <ArrowRight className="size-3.5 shrink-0 text-hint transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-accent" />
-            </motion.button>
-          )
-        })}
-      </motion.div>
-
-      <form onSubmit={submit} className="mt-3 flex items-center gap-1.5 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-line transition focus-within:ring-accent">
+      <form onSubmit={submit} className="mt-7 flex items-center gap-1.5 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-line transition focus-within:ring-accent">
         <label aria-label="Add a file" title="Add a file" className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-xl text-muted hover:bg-wash hover:text-accent">
           <Plus className="size-4" />
           <input type="file" multiple accept={ACCEPT} className="sr-only" onChange={(e) => { attach(e.target.files); e.target.value = '' }} />
