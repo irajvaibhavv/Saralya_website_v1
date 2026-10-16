@@ -78,7 +78,6 @@ export function DemoSection() {
               Run a decision. <span className="text-accent">Watch the report build.</span>
             </>
           }
-          lede="Sample data pre-loaded. Hit run."
         />
         <FadeIn>
           <div className="grid overflow-hidden rounded-3xl bg-white shadow-lg lg:grid-cols-[360px_1fr]">

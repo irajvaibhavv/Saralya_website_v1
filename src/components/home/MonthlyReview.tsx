@@ -39,7 +39,6 @@ export function MonthlyReview() {
               What lands on your desk on the 1st.
             </>
           }
-          lede="No data team. No ticket to IT."
         />
         <div ref={ref} className="mx-auto max-w-4xl">
           <div className="flex flex-wrap justify-center gap-2">
