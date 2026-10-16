@@ -11,12 +11,12 @@ import type { Role } from '../components/landing/SaralAiChat'
 import type { Starter } from '../content/saral-ai'
 
 /* The front door. The reel plays, and Saral Saarthi waits until the visitor
-   has actually read a third of the page before it opens — a timer on the
+   has actually read a quarter of the page before it opens — a timer on the
    reel just loses the ones who were still watching. The corner launcher
    opens it sooner, and every question on the page opens it too. */
 
 /** how far down the page the visitor has to get before the hand-over */
-const HANDOVER_AT = 0.3
+const HANDOVER_AT = 0.25
 
 export function Landing() {
   const [open, setOpen] = useState(false)
