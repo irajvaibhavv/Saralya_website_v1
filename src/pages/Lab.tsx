@@ -29,6 +29,9 @@ export function Lab() {
             ['04 · Signals it watches', <Sparks key="4" />],
             ['05 · What it has seen', <Scatter key="5" />],
             ['06 · One consent, one answer', <Flow key="6" />],
+            ['07 · Same question, two answers', <TwoAnswers key="7" />],
+            ['08 · X-ray on the file', <Xray key="8" />],
+            ['09 · The account’s heartbeat', <Pulse key="9" />],
           ].map(([label, node]) => (
             <div key={String(label)} className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-line">
               <div className="relative h-[190px] overflow-hidden bg-gradient-to-b from-wash2 to-white">{node}</div>
@@ -290,6 +293,140 @@ function Flow() {
           scored
         </motion.text>
       </svg>
+    </div>
+  )
+}
+
+/* 07 — the one thing a general model gets wrong. Nobody puts a model's
+   mistake on a marketing card; it is the fastest way to prove the claim. */
+function TwoAnswers() {
+  return (
+    <div className="absolute inset-0 px-4 pt-11">
+      <Badge />
+      <div className="font-mono text-[9px] uppercase tracking-[0.1em] text-hint">“Can we tag this account as fraud today?”</div>
+      <div className="mt-2.5 space-y-2">
+        <motion.div
+          className="flex items-start gap-2 rounded-xl bg-white px-3 py-2 ring-1 ring-line"
+          initial={{ opacity: 0, x: -8 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+        >
+          <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-red/10 font-mono text-[10px] text-red">✕</span>
+          <span className="min-w-0">
+            <span className="block font-mono text-[9px] uppercase tracking-[0.1em] text-hint">General model</span>
+            <span className="block text-[11px] leading-snug text-ink2">“Yes — flag it as fraud and close the file.”</span>
+          </span>
+        </motion.div>
+        <motion.div
+          className="flex items-start gap-2 rounded-xl bg-white px-3 py-2 ring-1 ring-accent/40"
+          initial={{ opacity: 0, x: -8 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.5 }}
+        >
+          <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-accent/15 font-mono text-[10px] text-accent">✓</span>
+          <span className="min-w-0">
+            <span className="block font-mono text-[9px] uppercase tracking-[0.1em] text-accent">Saralya</span>
+            <span className="block text-[11px] leading-snug text-ink">“Not yet — the 21-day show-cause notice has to close first.”</span>
+          </span>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
+/* 08 — a scan passes over the document and the fields come out of it */
+const FIELDS = [
+  { t: 'Turnover ₹1.4 Cr', top: 18 },
+  { t: 'EMI/NMI 46%', top: 44 },
+  { t: 'Bounce ×2', top: 70 },
+]
+
+function Xray() {
+  return (
+    <div className="absolute inset-0 overflow-hidden px-4 pt-11">
+      <Badge />
+      <div className="relative h-[120px] rounded-xl bg-white ring-1 ring-line">
+        {/* the page */}
+        <div className="space-y-2 p-3">
+          {[80, 62, 90, 54, 72, 44].map((w, i) => (
+            <span key={i} className="block h-1.5 rounded-full bg-line2" style={{ width: `${w}%` }} />
+          ))}
+        </div>
+        {/* the scan */}
+        <motion.span
+          className="absolute inset-y-0 w-14 bg-gradient-to-r from-transparent via-accent/25 to-transparent"
+          initial={{ x: -60 }}
+          whileInView={{ x: 320 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.8, ease: 'easeInOut', repeat: Infinity, repeatDelay: 1.2 }}
+        />
+        {/* what it pulled out */}
+        {FIELDS.map((f, i) => (
+          <motion.span
+            key={f.t}
+            className="absolute right-3 rounded-md bg-ink px-2 py-1 font-mono text-[9px] text-white"
+            style={{ top: f.top }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 + i * 0.35 }}
+          >
+            {f.t}
+          </motion.span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* 09 — the account as an ECG: steady until the mandate fails */
+function Pulse() {
+  const d =
+    'M0 30 L22 30 L28 18 L34 42 L40 30 L70 30 L76 20 L82 40 L88 30 L118 30 ' +
+    'L124 6 L130 54 L136 30 L150 30 L156 10 L162 50 L168 30 L200 30 L206 22 L212 38 L218 30 L260 30'
+  return (
+    <div className="absolute inset-0 px-4 pt-12">
+      <Badge />
+      <svg viewBox="0 0 260 62" className="w-full">
+        <line x1="0" y1="30" x2="260" y2="30" className="stroke-line" strokeWidth="1" strokeDasharray="2 4" />
+        <motion.path
+          d={d}
+          fill="none"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="stroke-accent"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 2, ease: 'easeInOut' }}
+        />
+        <motion.circle
+          cx="127"
+          cy="30"
+          r="16"
+          className="fill-none stroke-red"
+          strokeWidth="1.5"
+          initial={{ opacity: 0, scale: 0.6 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          style={{ transformOrigin: '127px 30px' }}
+          transition={{ delay: 1.3, type: 'spring', stiffness: 300, damping: 18 }}
+        />
+      </svg>
+      <motion.div
+        className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.08em]"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 1.6 }}
+      >
+        <span className="text-hint">Mandate healthy</span>
+        <span className="font-bold text-red">Day 1 · NACH failed</span>
+        <span className="text-hint">SMA-0 tagged</span>
+      </motion.div>
     </div>
   )
 }
