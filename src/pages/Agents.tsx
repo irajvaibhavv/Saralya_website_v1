@@ -1,8 +1,9 @@
 import { motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
 import { READY, SEATS } from '../content/agents'
 import { Overview } from '../components/agents/Overview'
 import { Trust } from '../components/agents/Trust'
-import { Wizard } from '../components/agents/Wizard'
+import { Wizard, type Preset } from '../components/agents/Wizard'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
 import { Container, Section, SectionHead } from '../components/ui/Section'
@@ -12,12 +13,14 @@ import { scrollToEl } from '../lib/scroll'
    answer three questions and watch it rebuild as yours. */
 
 export function Agents() {
+  /* the ready-made cards drive the wizard: pick one and it opens on the plan */
+  const [preset, setPreset] = useState<Preset | null>(null)
   return (
     <>
       <Hero />
       <Overview />
-      <Wizard />
-      <Ready />
+      <Wizard preset={preset} />
+      <Ready onPick={(seat) => setPreset({ seat })} />
       <Trust />
       <Steps />
       <ClosingCta />
@@ -122,7 +125,7 @@ function AgentCall() {
   )
 }
 
-function Ready() {
+function Ready({ onPick }: { onPick: (seat: string) => void }) {
   return (
     <Section id="ready">
       <Container>
@@ -135,7 +138,7 @@ function Ready() {
             <Item key={r.name}>
               <button
                 type="button"
-                onClick={() => scrollToEl('build')}
+                onClick={() => onPick(r.seat)}
                 className="group h-full w-full overflow-hidden rounded-2xl bg-white text-left shadow-sm ring-1 ring-line transition-shadow hover:shadow-lg"
               >
                 <div className="relative h-44 overflow-hidden">
@@ -150,7 +153,7 @@ function Ready() {
                 <div className="p-5">
                   <h3 className="text-h3 font-semibold">{r.name}</h3>
                   <p className="mt-2 text-small leading-relaxed text-muted">{r.line}</p>
-                  <span className="mt-4 inline-block font-mono text-label uppercase tracking-[0.12em] text-accent">Build this one →</span>
+                  <span className="mt-4 inline-block font-mono text-label uppercase tracking-[0.12em] text-accent">See the plan →</span>
                 </div>
               </button>
             </Item>

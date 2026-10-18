@@ -26,7 +26,12 @@ const moduleName = (code: string | null) => MODULES.find((m) => m.code === code)
 /* "An underwriter", "a sales manager". */
 const an = (w: string) => (/^[aeiou]/i.test(w) ? 'an' : 'a')
 
-export function Wizard() {
+/* A ready-made agent clicked further down the page: its desk, its work, and
+   straight to the pricing, which is the question that card is asking. A fresh
+   object each click so picking the same card twice still lands. */
+export type Preset = { seat: string }
+
+export function Wizard({ preset }: { preset?: Preset | null }) {
   const [step, setStep] = useState(0)
   const [seat, setSeat] = useState<number | null>(null)
   const [picked, setPicked] = useState<WantId[]>([])
@@ -44,6 +49,16 @@ export function Wizard() {
     seen.current = step
     scrollToEl('build-step', -90)
   }, [step])
+
+  useEffect(() => {
+    if (!preset) return
+    const i = SEATS.findIndex((x) => x.id === preset.seat)
+    if (i < 0) return
+    setSeat(i)
+    setPicked([...SEATS[i].does])
+    setStep(3)
+    scrollToEl('build-step', -90)
+  }, [preset])
 
   const s = seat === null ? null : SEATS[seat]
   /* only this desk's five are offered: a longer list reads as a form */
