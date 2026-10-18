@@ -132,9 +132,9 @@ export const READY: { name: string; img: string; seat: string; line: string }[] 
   { name: 'Field PD agent', img: '/img/kirana.jpg', seat: 'credit', line: 'Writes up the personal discussion from the visit, with photographs and location.' },
   { name: 'Early-warning agent', img: '/img/borrower.jpg', seat: 'collections', line: 'Catches the missed NACH long before the bucket does.' },
   { name: 'Collections agent', img: '/img/street.jpg', seat: 'collections', line: 'Routes the day by promise-to-pay and logs every visit with time and place.' },
-  { name: 'Target-deck agent', img: '/img/meeting.jpg', seat: 'sales', line: 'Builds the month’s sales deck from the ledger, by officer and by branch.' },
-  { name: 'Pipeline agent', img: '/img/market.jpg', seat: 'sales', line: 'Says where files are stuck, and which lead is about to go cold.' },
-  { name: 'Productivity agent', img: '/img/shopfront.jpg', seat: 'branch', line: 'Scores the desk, not the month: files touched, time per stage, conversion.' },
+  { name: 'Target-deck agent', img: '/img/desk-review.jpg', seat: 'sales', line: 'Builds the month’s sales deck from the ledger, by officer and by branch.' },
+  { name: 'Pipeline agent', img: '/img/handshake.jpg', seat: 'sales', line: 'Says where files are stuck, and which lead is about to go cold.' },
+  { name: 'Productivity agent', img: '/img/floor.jpg', seat: 'branch', line: 'Scores the desk, not the month: files touched, time per stage, conversion.' },
   { name: 'Verification agent', img: '/img/scrutiny.jpg', seat: 'verify', line: 'Links applicants by phone, device, address and bank account.' },
   { name: 'Inspection agent', img: '/img/files.jpg', seat: 'uw', line: 'Generates CRILC and NBS-9 from the ledger instead of retyping them.' },
 ]
