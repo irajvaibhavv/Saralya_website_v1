@@ -1,26 +1,27 @@
+import { ArrowRight, Check } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
-import { useState } from 'react'
-import { READY, SEATS } from '../content/agents'
-import { Overview } from '../components/agents/Overview'
+import { Platform } from '../components/agents/Platform'
+import { UseCases } from '../components/agents/UseCases'
 import { Trust } from '../components/agents/Trust'
-import { Wizard, type Preset } from '../components/agents/Wizard'
 import { ClosingCta } from '../components/layout/ClosingCta'
-import { FadeIn, Item, Stagger } from '../components/ui/Reveal'
-import { Container, Section, SectionHead } from '../components/ui/Section'
+import { CONTACT_EMAIL } from '../content/site'
+import { FadeIn } from '../components/ui/Reveal'
+import { Container, Section } from '../components/ui/Section'
 import { scrollToEl } from '../lib/scroll'
 
-/* The page is a sequence, not a dashboard: see the machine running, then
-   answer three questions and watch it rebuild as yours. */
+/* The page shows the agents we run, working, rather than asking anyone to
+   assemble one: three tracks, each with its own recording. An agent we have
+   not built yet is a conversation, so every card ends at a demo. */
+
+/** every ask on this page goes to the same place */
+export const demo = (what: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Demo: ${what}`)}`
 
 export function Agents() {
-  /* the ready-made cards drive the wizard: pick one and it opens on the plan */
-  const [preset, setPreset] = useState<Preset | null>(null)
   return (
     <>
       <Hero />
-      <Overview />
-      <Wizard preset={preset} />
-      <Ready onPick={(seat) => setPreset({ seat })} />
+      <Platform />
+      <UseCases />
       <Trust />
       <Steps />
       <ClosingCta />
@@ -29,7 +30,7 @@ export function Agents() {
 }
 
 function Hero() {
-  const go = () => scrollToEl('build')
+  const go = () => scrollToEl('platform')
   return (
     <Section tight className="pt-14 md:pt-20">
       <Container>
@@ -37,30 +38,23 @@ function Hero() {
           <FadeIn>
             <div className="eyebrow mb-4">Saralya agents</div>
             <h1 className="display text-display">
-              An agent for every desk in the <span className="text-accent">building</span>.
+              Agents that do the work, on every desk in the <span className="text-accent">building</span>.
             </h1>
-
-            {/* the seats, as labels: who the page is for, before any reading */}
-            <div className="mt-7 flex flex-wrap gap-2">
-              {SEATS.map((x) => (
-                <button
-                  key={x.id}
-                  type="button"
-                  onClick={go}
-                  className="rounded-full bg-white px-3.5 py-2 text-small text-ink2 ring-1 ring-line transition-colors hover:bg-wash2 hover:ring-accent/40"
-                >
-                  {x.label}
-                </button>
-              ))}
+            <div className="mt-7 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={go}
+                className="rounded-full bg-ink px-7 py-3.5 text-body font-medium text-white transition-colors hover:bg-ink2"
+              >
+                See them running &rarr;
+              </button>
+              <a
+                href={demo('Saralya agents')}
+                className="rounded-full bg-white px-7 py-3.5 text-body font-medium text-ink ring-1 ring-line transition hover:ring-accent"
+              >
+                Book a demo
+              </a>
             </div>
-
-            <button
-              type="button"
-              onClick={go}
-              className="mt-7 rounded-full bg-ink px-7 py-3.5 text-body font-medium text-white transition-colors hover:bg-ink2"
-            >
-              Build mine &rarr;
-            </button>
           </FadeIn>
 
           {/* min-w-0: a grid child defaults to min-width:auto, so the long
@@ -125,67 +119,50 @@ function AgentCall() {
   )
 }
 
-function Ready({ onPick }: { onPick: (seat: string) => void }) {
-  return (
-    <Section id="ready">
-      <Container>
-        <SectionHead
-          eyebrow="Start from one of these"
-          title="Nine agents, already assembled."
-        />
-        <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {READY.map((r) => (
-            <Item key={r.name}>
-              <button
-                type="button"
-                onClick={() => onPick(r.seat)}
-                className="group h-full w-full overflow-hidden rounded-2xl bg-white text-left shadow-sm ring-1 ring-line transition-shadow hover:shadow-lg"
-              >
-                <div className="relative h-44 overflow-hidden">
-                  <motion.img
-                    src={r.img}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-h3 font-semibold">{r.name}</h3>
-                  <p className="mt-2 text-small leading-relaxed text-muted">{r.line}</p>
-                  <span className="mt-4 inline-block font-mono text-label uppercase tracking-[0.12em] text-accent">See the plan →</span>
-                </div>
-              </button>
-            </Item>
-          ))}
-        </Stagger>
-      </Container>
-    </Section>
-  )
-}
-
-const STEPS = [
-  { n: '01', t: 'Describe the desk', d: 'Pick the seat and tick the work. Ten seconds on this page, or one call with us.' },
-  { n: '02', t: 'We wire it to your core', d: 'An API layer beside your LOS or core, read-only to begin with. Nothing gets ripped out.' },
-  { n: '03', t: 'It reports every morning', d: 'Live in 30 days, on your data, inside the tools your team already opens.' },
-]
+/* Anything not on the list is a conversation, not a configurator. */
+const BRING = ['Which desk it sits at', 'What it must decide', 'What it leaves in writing']
 
 function Steps() {
   return (
     <Section>
       <Container>
-        <SectionHead eyebrow="Getting one" title="Three steps, thirty days." />
-        <Stagger className="grid gap-5 md:grid-cols-3">
-          {STEPS.map((s) => (
-            <Item key={s.n}>
-              <div className="h-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-line">
-                <div className="font-mono text-label uppercase tracking-[0.12em] text-accent">{s.n}</div>
-                <h3 className="mt-3 text-h3 font-semibold">{s.t}</h3>
-                <p className="mt-2 text-small leading-relaxed text-muted">{s.d}</p>
+        <FadeIn className="relative overflow-hidden rounded-3xl bg-ink px-7 py-10 text-white md:px-12 md:py-14">
+          <span aria-hidden className="pointer-events-none absolute -right-24 -top-28 size-80 rounded-full bg-accent/35 blur-3xl" />
+          <span aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 size-80 rounded-full bg-petrol/40 blur-3xl" />
+
+          <div className="relative grid items-center gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
+            <div>
+              <div className="eyebrow text-accent3">Not on the list?</div>
+              <h2 className="display mt-3 max-w-[18ch] text-h2 md:text-display">
+                Build any other <span className="text-accent3">agent</span>.
+              </h2>
+              <p className="mt-4 max-w-[52ch] text-lede leading-relaxed text-white/70">
+                Tell us the desk and the work it should take off it. We build the agent, wire it beside the core you
+                already run, and it reports from day one.
+              </p>
+
+              <div className="mt-7 flex flex-wrap gap-2.5">
+                {BRING.map((b) => (
+                  <span key={b} className="flex items-center gap-2 rounded-full px-4 py-2 text-small text-white/80 ring-1 ring-white/20">
+                    <Check className="size-3.5 text-accent3" strokeWidth={2.4} />
+                    {b}
+                  </span>
+                ))}
               </div>
-            </Item>
-          ))}
-        </Stagger>
+            </div>
+
+            <div className="flex flex-col items-start gap-3 lg:items-end">
+              <a
+                href={demo('An agent we have not built yet')}
+                className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-semibold text-ink transition-colors hover:bg-wash"
+              >
+                Book a demo
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <span className="font-mono text-label uppercase tracking-[0.12em] text-white/40">30 minutes · on your book · under NDA</span>
+            </div>
+          </div>
+        </FadeIn>
       </Container>
     </Section>
   )

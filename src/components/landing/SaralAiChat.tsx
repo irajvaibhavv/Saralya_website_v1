@@ -2,7 +2,7 @@ import { ArrowRight, ArrowUp, Check, FileText, Lock, MessageCircle, Mic, Plus, R
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CONTACT_EMAIL, CONVICTIONS, MODULES } from '../../content/site'
 import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
 import { ButtonLink } from '../ui/Button'
@@ -559,6 +559,8 @@ export function MicButton({ speech }: { speech: ReturnType<typeof useSpeech> }) 
    address opens every answer for now. */
 function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => void; onUnlock: () => void }) {
   const [email, setEmail] = useState('')
+  /* signed in, so the conversation continues on its own surface */
+  const go = useNavigate()
   useEffect(() => {
     if (!open) return
     const key = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -586,7 +588,7 @@ function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => voi
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             onClick={(e) => e.stopPropagation()}
-            onSubmit={(e) => { e.preventDefault(); if (email.trim()) onUnlock() }}
+            onSubmit={(e) => { e.preventDefault(); if (!email.trim()) return; onUnlock(); go('/saralya-ai') }}
             className="relative w-full max-w-[400px] rounded-3xl bg-white p-7 text-ink shadow-[0_40px_100px_-30px_rgba(20,20,32,0.5)]"
           >
             <button type="button" onClick={onClose} aria-label="Close" className="absolute right-3 top-3 grid size-9 place-items-center rounded-full text-muted hover:bg-bg hover:text-ink">

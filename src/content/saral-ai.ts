@@ -43,26 +43,50 @@ export const STARTERS: Starter[] = [
   { q: 'Write to us', a: 'The founders read every message and reply the same day.', link: { to: `mailto:${CONTACT_EMAIL}?subject=Question%20from%20the%20website`, label: 'Email the founders' } },
 ]
 
-/* The first thing Saral asks is who you are. Each role gets the questions
-   people in that seat ask most, and maps to a department so the guided note
-   can skip a step. */
+/* Who is asking, in the order the lead set: the lender first, then the
+   people around the loan. Each role carries the questions that seat asks
+   most, and nothing shows until one is picked.
+
+   TODO(Vikas): the borrower, DSA and learning answers are general lending
+   information written here, not founder-approved copy. Read them before
+   launch. */
 export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hello: string; qs: Starter[] }[] = [
   {
-    id: 'verify',
-    label: 'Verification Officer',
-    asks: 'Documents, linked applicants',
+    id: 'nbfc',
+    label: 'Bank / NBFC',
+    asks: 'Files, score, collections',
     dept: 'credit',
-    hello: 'Verification officers ask me about forged documents and linked applicants.',
+    hello: 'Lenders ask me about turnaround, thin files, early stress and inspection.',
     qs: [
       {
-        q: 'How do I catch a fake bank statement?',
-        a: 'Stop accepting them. Statements pulled over Account Aggregator come from the bank, so there is nothing to forge. For what still arrives as a PDF, cross-check it against GST turnover and bureau enquiries.',
-        link: { to: '/products#M3', label: 'Saral Trust' },
+        q: 'Here is my sheet — give me the monthly performance and PQM',
+        a: 'Drop the MIS or collections sheet into the box above. It comes back as a portfolio read: disbursals and collections for the month, roll-rates between buckets, the branches and products moving against the book, and what changed since last month — then portfolio quality on top: bucket and vintage, SMA-0 / 1 / 2 and NPA movement, and the cohorts ageing faster than the rest.',
+        link: { to: '/home#board', label: 'See a monthly review' },
       },
       {
-        q: 'Can one applicant be linked to another?',
-        a: 'Yes, and that is the point of screening. Applicants are linked by phone, device, address and bank account, because most application fraud is a cluster of files, not one person.',
-        link: { to: '/products#M3', label: 'Cluster network analysis' },
+        q: 'Do a performance review of my team',
+        a: 'By officer and by branch: files touched, time per stage, approval and conversion rates, collections against promise-to-pay. The point is a coaching conversation that names a stage, not a month-end number.',
+        link: { to: '/products#M2', label: 'Saral Drishti' },
+      },
+      {
+        q: 'Help me build a credit policy',
+        a: 'Start from the product: ticket size, tenor, the income evidence you will accept, the obligation cap, the bureau and cash-flow cut-offs, and the deviations you will allow and who signs them. Each rule is written so it can fire on a file and carry a reason code when it does.',
+        link: { to: '/products#M1', label: 'Saral Profile' },
+      },
+      {
+        q: 'How do I underwrite a thin-file MSME?',
+        a: 'On cash flow, not on bureau alone. Twelve months of Account Aggregator bank data and GST filings give turnover, seasonality and bounce history, which says more than a bureau score does.',
+        link: { to: '/products#M1', label: 'Saral Profile' },
+      },
+      {
+        q: 'How do I know an account is slipping before DPD 30?',
+        a: 'SMA-0 is the first special-mention bucket: overdue up to 30 days. Tag it the day the account slips. A first NACH bounce or a missed GST filing is your earliest signal, and lenders who wait for DPD 30 are already a month late.',
+        link: { to: '/products#M2', label: 'Saral Drishti' },
+      },
+      {
+        q: 'Why was a file I would have approved rejected?',
+        a: 'Every decision comes back with reason codes naming the rules that fired. If a thin bureau file is the reason, adding Account Aggregator and GST data usually turns it into a scored file instead of a rejection.',
+        link: { to: '/demo', label: 'See the reason codes' },
       },
       {
         q: 'What must happen before I tag a file as fraud?',
@@ -70,125 +94,85 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
         link: { to: '/products#M3', label: 'The 21-day SCN workflow' },
       },
       {
-        q: 'Do I still need a physical visit?',
-        a: 'On small tickets, after sanction rather than before. Data covers most of the file; keep the visit for high-value or secured loans and log it with time and location.',
-        link: { to: '/demo', label: 'Watch a decision run' },
+        q: 'How long does inspection prep take?',
+        a: 'Weeks, when CRILC and NBS-9 are retyped. Generate them from the ledger instead, with an immutable audit trail behind them: that is the first thing an inspector asks for.',
+        link: { to: '/home#readiness', label: 'Tick your six inspection checks' },
       },
     ],
   },
   {
-    id: 'credit',
-    label: 'Credit Officer',
-    asks: 'Files, PD, deviations',
-    dept: 'credit',
-    hello: 'Credit officers ask me what a file still needs and why one got rejected.',
+    id: 'borrower',
+    label: 'Borrower',
+    asks: 'Eligibility, score, documents',
+    dept: 'other',
+    hello: 'Borrowers ask me how much they can get, and why a score moved.',
     qs: [
       {
-        q: 'What does this file still need before I recommend it?',
-        a: 'The system says so on the file itself: which pulls came back, which rule is waiting, and what a human still has to sign. One consent covers bureau, Account Aggregator and GSTN, so what is left is usually policy, not paperwork.',
-        link: { to: '/demo', label: 'Watch a decision run' },
+        q: 'My salary is ₹65,000 a month with a ₹9,000 car EMI. How much home loan can I get?',
+        a: 'Most lenders cap all your EMIs together at 50–60% of take-home pay. On ₹65,000 that is roughly ₹32,000–₹39,000, less the ₹9,000 you already pay, so about ₹23,000–₹30,000 of new EMI. At prevailing home-loan rates over 20 years that is broadly ₹25–35 lakh, before the lender’s own policy and the property valuation.',
       },
       {
-        q: 'How much of the personal discussion can I do on data?',
-        a: 'Most of the income and obligation questions are already answered by AA cash flows and GST filings. Keep the visit for what data cannot see: the premises, the stock, the people. Record it with time and location so it sits in the file, not in a diary.',
-        link: { to: '/products#M1', label: 'Saral Profile' },
+        q: 'My CIBIL score dropped by 40 points. What could have caused it?',
+        a: 'Usually one of four things: a payment reported late, card usage above about 30% of the limit, several loan enquiries in a short window, or an old account closed along with the history behind it. The report names the account that moved, and an error can be disputed with the bureau.',
       },
       {
-        q: 'Why was a file I would have approved rejected?',
-        a: 'Every decision comes back with reason codes naming the rules that fired. If a thin bureau file is the reason, adding AA and GST data usually turns it into a scored file instead of a rejection.',
-        link: { to: '/demo', label: 'See the reason codes' },
+        q: 'What documents do I need for a home loan as a salaried employee?',
+        a: 'Identity and address proof, three months of salary slips, six to twelve months of bank statements, Form 16 or the last two years’ returns, and the property papers. Statements shared over Account Aggregator come straight from your bank, so there is nothing to scan.',
       },
       {
-        q: 'When should I raise a deviation?',
-        a: 'When the file fails a rule you can justify in writing. Record the reason against the rule, not beside it: deviations that carry their own reason are the ones that survive an audit.',
-        link: { to: '/products#M3', label: 'Saral Trust' },
+        q: 'Why was my loan application rejected?',
+        a: 'Ask the lender for the reason, in writing. The common ones are obligations above the income cap, a thin or damaged bureau file, income that cannot be evidenced, and an address or employment that could not be verified.',
       },
     ],
   },
   {
-    id: 'uw',
-    label: 'Underwriter',
-    asks: 'Score, thin files, policy',
-    dept: 'credit',
-    hello: 'Underwriters ask me what goes into the score and how to handle thin files.',
+    id: 'dsa',
+    label: 'DSA / advisor',
+    asks: 'Files, rejections, turnaround',
+    dept: 'other',
+    hello: 'DSAs and advisors ask me what makes a file clear the first time.',
     qs: [
       {
-        q: 'Which data goes into the decision?',
-        a: 'Bureau, Account Aggregator (all nine FI types), GSTN and MCA21 in one pull, then a rule engine configured per product: SME, MSME, LAP, MFI JLG, unsecured retail. Every decision comes back with reason codes.',
+        q: 'Which files get rejected most often, and why?',
+        a: 'Files where income cannot be evidenced, where obligations cross the lender’s cap, and where the bureau record and the application disagree. Fix the evidence before the file goes in and most of those turn into questions rather than rejections.',
+      },
+      {
+        q: 'How fast can my client get an answer?',
+        a: 'Where the lender decides on data — bureau, Account Aggregator and GST on one consent — an in-principle answer takes minutes. The days usually go to collecting paper, not to deciding.',
         link: { to: '/demo', label: 'Watch a decision run' },
       },
       {
-        q: 'How do I underwrite a thin-file MSME?',
-        a: 'On cash flow, not on bureau alone. Twelve months of AA bank data and GST filings give turnover, seasonality and bounce history, which says more than a bureau score does.',
-        link: { to: '/products#M1', label: 'Saral Profile' },
+        q: 'How do I prepare a thin-file MSME case?',
+        a: 'Lead with cash flow: twelve months of bank data, the GST filings, and the bounce history. A clean statement of turnover and seasonality carries a case that a bureau score alone will not.',
       },
       {
-        q: 'Can I change the rules without a release?',
-        a: 'Yes. The rule engine is configured per product, so a policy change is a config change, and every decision records which rules decided it.',
-        link: { to: '/technology', label: 'The architecture' },
-      },
-      {
-        q: 'What has to be in the Key Fact Statement?',
-        a: 'APR, every charge, the repayment schedule and the cooling-off period, on every digital loan, before the borrower signs. Generate it from the sanction terms so it can never disagree with the ledger.',
-        link: { to: '/technology#compliance', label: 'How it is built in' },
+        q: 'What does the lender see that I do not?',
+        a: 'The rules that fired on the file and the reason codes behind them. Ask for the reason on every rejection; it tells you what to fix on the next one.',
       },
     ],
   },
   {
-    id: 'collections',
-    label: 'Collection Manager',
-    asks: 'Early signals, field day',
-    dept: 'collections',
-    hello: 'Collections managers ask me about early signals and the field day.',
+    id: 'learn',
+    label: 'Learning',
+    asks: 'How lending works',
+    dept: 'other',
+    hello: 'Here to learn how lending works? Start anywhere.',
     qs: [
       {
-        q: 'How do I know an account is slipping before DPD 30?',
-        a: 'SMA-0 is the first special-mention bucket: overdue up to 30 days. Tag it the day the account slips. A first NACH bounce or a missed GST filing is your earliest signal, and lenders who wait for DPD 30 are already a month late.',
-        link: { to: '/products#M2', label: 'Saral Drishti' },
+        q: 'What does an NBFC actually do?',
+        a: 'It lends without being a bank: no current or savings accounts, and no public deposits for most of them, so it funds itself from banks and the markets and lends on. RBI regulates it in layers — base, middle, upper — under Scale Based Regulation.',
       },
       {
-        q: 'Which accounts should I call first?',
-        a: 'The ones with a fresh signal: a bounced NACH, a skipped GST filing, a bureau enquiry with another lender. Rank by signal and promise-to-pay date, not by bucket.',
-        link: { to: '/products#M2', label: 'The deterioration index' },
+        q: 'How is a loan application underwritten?',
+        a: 'Four questions in order: who is the applicant, what do they earn, what do they already owe, and what happens if they stop paying. Identity and bureau answer the first and third, bank and GST data the second, collateral or guarantee the fourth.',
       },
       {
-        q: 'How should I plan the field day?',
-        a: 'Route it by promise-to-pay date, not by who shouted loudest. Every visit is logged with time, location, outcome and the next promise, so the day’s report writes itself.',
-        link: { to: '/products#M5', label: 'Saral Samadhan' },
+        q: 'What is Account Aggregator?',
+        a: 'An RBI-licensed way to share your own financial data with your consent: the bank sends it straight to the lender, for a stated purpose and a stated period, and you can revoke it. Nine kinds of financial information are covered.',
       },
       {
-        q: 'What happens when an account goes legal?',
-        a: 'Section 138 and SARFAESI prep is generated from the ledger, with the notice history attached, instead of being assembled by hand at the end of the quarter.',
-        link: { to: '/products#M5', label: 'Sec 138 / SARFAESI prep' },
-      },
-    ],
-  },
-  {
-    id: 'sales',
-    label: 'Sales Manager',
-    asks: 'Turnaround, drop-off, targets',
-    dept: 'leadership',
-    hello: 'Sales managers ask me about turnaround, drop-off and what their team can promise.',
-    qs: [
-      {
-        q: 'How do I cut turnaround for my team?',
-        a: 'Turnaround is mostly waiting, not working. Decide on data at the counter, move physical checks to after sanction on small tickets, and the days a file spends in a queue collapse into minutes of actual work.',
-        link: { to: '/demo', label: 'Watch a decision run' },
-      },
-      {
-        q: 'What can my officer tell a customer on the spot?',
-        a: 'An in-principle answer, with the Key Fact Statement attached: amount, APR, every charge and the schedule. A customer who leaves the counter with a number does not go shopping with a competitor.',
-        link: { to: '/products#M1', label: 'Saral Profile' },
-      },
-      {
-        q: 'Where is my team losing applications?',
-        a: 'Funnel by stage says it plainly: where files stall, which document request loses people, which branch converts. It is the same data the credit MIS runs on, cut by officer instead of by cohort.',
-        link: { to: '/products#M2', label: 'Saral Drishti' },
-      },
-      {
-        q: 'How do I know which officer needs help?',
-        a: 'By files touched, time per stage and what each one converts, not by the month-end number. A productivity view per officer makes a coaching conversation specific instead of general.',
-        link: { to: '/products#M2', label: 'Saral Drishti' },
+        q: 'What do DPD and SMA mean?',
+        a: 'DPD is days past due. SMA is the special-mention bucket before an account turns bad: SMA-0 up to 30 days overdue, SMA-1 to 60, SMA-2 to 90. Past 90 days it is an NPA.',
       },
     ],
   },

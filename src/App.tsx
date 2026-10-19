@@ -10,11 +10,13 @@ import { holdTop, lenis } from './lib/scroll'
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
 const Agents = lazy(() => import('./pages/Agents').then((m) => ({ default: m.Agents })))
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
+const Product = lazy(() => import('./pages/Product').then((m) => ({ default: m.Product })))
+const SaralyaAi = lazy(() => import('./pages/SaralyaAi').then((m) => ({ default: m.SaralyaAi })))
 
 /* Fetch the other pages once the landing has painted, so a click never waits
    on a chunk mid-transition. */
 function preload() {
-  const go = () => Promise.all([import('./pages/Home'), import('./pages/Agents'), import('./pages/Privacy')])
+  const go = () => Promise.all([import('./pages/Home'), import('./pages/Agents'), import('./pages/Product'), import('./pages/Privacy')])
   ;(window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500)))(go)
 }
 
@@ -22,7 +24,9 @@ const TITLES: Record<string, string> = {
   '/': 'Saral AI · Saralya',
   '/home': 'Saralya · Making Lending Saral for Bharat',
   '/agents': 'Agents · Saralya',
+  '/products': 'Product · Saralya',
   '/privacy': 'Privacy Policy · Saralya',
+  '/saralya-ai': 'Saralya AI',
 }
 
 /** Scroll to top on route change (or to the hash target if one is present) and set the tab title. */
@@ -73,10 +77,10 @@ function Pages() {
             <Route path="/" element={<Landing />} />
             <Route path="/home" element={<Home />} />
             <Route path="/agents" element={<Agents />} />
-            {['products', 'demo'].map((id) => (
-              <Route key={id} path={`/${id}`} element={<Navigate to={`/home#${id}`} replace />} />
-            ))}
+            <Route path="/products" element={<Product />} />
+            <Route path="/demo" element={<Navigate to="/home#demo" replace />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/saralya-ai" element={<SaralyaAi />} />
             <Route path="*" element={<Landing />} />
           </Routes>
         </Suspense>
@@ -85,15 +89,26 @@ function Pages() {
   )
 }
 
+/* Saralya AI is its own surface: it brings its own top bar and sidebar, so
+   the site chrome stands aside for it. */
+function Chrome() {
+  const app = useLocation().pathname.startsWith('/saralya-ai')
+  return (
+    <>
+      {!app && <Navbar />}
+      <main>
+        <Pages />
+      </main>
+      {!app && <Footer />}
+    </>
+  )
+}
+
 function App() {
   return (
     <BrowserRouter>
       <RouteEffects />
-      <Navbar />
-      <main>
-        <Pages />
-      </main>
-      <Footer />
+      <Chrome />
     </BrowserRouter>
   )
 }

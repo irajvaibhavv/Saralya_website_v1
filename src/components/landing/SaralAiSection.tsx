@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Starter } from '../../content/saral-ai'
 import { fileStarter, Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
-import { scrollToEl } from '../../lib/scroll'
+import { useNavigate } from 'react-router-dom'
 
 /* Saral Saarthi is a screen, not a dialog. It sits below the reel and rides
    up over it as the visitor scrolls — the hero is held in place by the
@@ -16,16 +16,19 @@ export function SaralAiSection({
   pending,
   seat,
   onAsk,
+  onSeat,
   onReset,
 }: {
   pending: Starter | null
   seat: Role | null
   onAsk: (s: Starter) => void
+  onSeat: (r: Role | null) => void
   onReset: () => void
 }) {
   /* The corner launcher rides over the reel and steps aside once Saarthi
      is on screen; it is the shortcut for anyone who would rather not
      scroll. */
+  const go = useNavigate()
   const stage = useRef<HTMLElement>(null)
   const inView = useInView(stage, { amount: 0.25 })
   const [hint, setHint] = useState(false)
@@ -72,9 +75,12 @@ export function SaralAiSection({
 
   return (
     <>
-      <section ref={stage} id="saarthi" className="flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center bg-bg px-5 pt-14">
-        <div className="mx-auto h-[84svh] w-full max-w-[1060px]">
-          {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} />}
+      <section ref={stage} id="saarthi" className="relative flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center overflow-hidden bg-bg px-5 pt-14">
+        {/* the screen's own weather: two soft green corners, nothing else */}
+        <div aria-hidden className="pointer-events-none absolute -right-52 -top-64 size-[46rem] rounded-full bg-accent/10 blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-72 -left-56 size-[42rem] rounded-full bg-accent/10 blur-3xl" />
+        <div className="relative mx-auto h-[84svh] w-full max-w-[1120px]">
+          {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} onSeat={onSeat} />}
         </div>
 
         {pending && (
@@ -108,7 +114,8 @@ export function SaralAiSection({
           <motion.button
             key="launch"
             type="button"
-            onClick={() => scrollToEl('saarthi')}
+            /* the corner launcher opens the full surface now, not the screen */
+            onClick={() => go('/saralya-ai')}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
