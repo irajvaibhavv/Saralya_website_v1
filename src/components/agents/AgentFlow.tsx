@@ -389,17 +389,11 @@ export function AgentFrame({ badge, children }: { badge: string; children: React
 
       <div className="overflow-x-auto p-4 md:p-6">{children}</div>
 
-      <div className="grid gap-6 border-t border-line bg-white p-6 md:grid-cols-4 md:p-7">
-        {[
-          ['Knows your book', 'Every rail you already hold, read-only.'],
-          ['Decides in the open', 'A reason code on every call.'],
-          ['Cannot cross the line', 'SCN clock, KFS, DPDP, calling window.'],
-          ['Lands on your desk', 'Hours removed, in numbers you can check.'],
-        ].map(([t, d]) => (
-          <div key={t}>
-            <h4 className="text-body font-semibold text-accent">{t}</h4>
-            <p className="mt-1.5 text-small leading-relaxed text-muted">{d}</p>
-          </div>
+      {/* the four, as labels: the sentences under them came out on the lead's
+          instruction */}
+      <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-line bg-white px-6 py-5 md:px-7">
+        {['Knows your book', 'Decides in the open', 'Cannot cross the line', 'Lands on your desk'].map((t) => (
+          <span key={t} className="text-body font-semibold text-accent">{t}</span>
         ))}
       </div>
     </div>
