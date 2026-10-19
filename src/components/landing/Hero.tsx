@@ -26,7 +26,7 @@ export function Hero() {
 
           <motion.div {...rise(0.25)} className="mt-7">
             <ButtonLink to="/agents" variant="white" size="lg" arrow>
-              Make your own AI agents
+              Build AI agents
             </ButtonLink>
           </motion.div>
 
