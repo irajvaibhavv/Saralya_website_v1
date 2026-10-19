@@ -6,7 +6,8 @@ import { Container, Section } from '../ui/Section'
 /* Two doors at the foot of the landing page: the platform an NBFC buys, and
    the agents it puts on each desk. Whole-card links, so the card is the
    button. The three points on the left are the founders' own lines. */
-const POINTS = ['Trained on BFSI data.', 'Private by default.', '4+ decades of experience. 200+ banks of pedigree.']
+const POINTS = ['Trained on banking data', 'Private by default', '4+ decades of experience, 200+ banks of pedigree']
+const AGENT_POINTS = ['Pick the desk and the work it takes off it', 'The agent comes back assembled', 'What it reads, what it decides, what it leaves in writing']
 
 export function TwoDoors() {
   return (
@@ -27,7 +28,7 @@ export function TwoDoors() {
               </span>
             </div>
 
-            <h2 className="display relative mt-4 max-w-[14ch] text-h2">Saralya for enterprise</h2>
+            <h2 className="display relative mt-4 whitespace-nowrap text-h3 md:text-h2">Saralya for enterprise</h2>
 
             <ul className="relative mt-6 space-y-3.5">
               {POINTS.map((p) => (
@@ -59,14 +60,18 @@ export function TwoDoors() {
               </span>
             </div>
 
-            <h2 className="display relative mt-4 max-w-[12ch] text-h2">
+            <h2 className="display relative mt-4 whitespace-nowrap text-h3 md:text-h2">
               Build AI <span className="text-accent3">agents</span>
             </h2>
 
-            <p className="relative mt-5 max-w-[42ch] text-body leading-relaxed text-white/70">
-              Pick the desk and the work it takes off that desk. The agent comes back assembled — what it reads, what it
-              decides, and what it leaves in writing.
-            </p>
+            <ul className="relative mt-6 space-y-3.5">
+              {AGENT_POINTS.map((p) => (
+                <li key={p} className="flex gap-3 text-body leading-snug text-white/75">
+                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent3" />
+                  {p}
+                </li>
+              ))}
+            </ul>
 
             <span className="relative mt-auto inline-flex items-center gap-2 self-start rounded-full bg-white px-7 py-3.5 text-body font-semibold text-ink transition-colors group-hover:bg-accent3">
               Build an agent

@@ -69,7 +69,7 @@ export function SaralAiPanel({
       <p className="relative mt-2 text-lede leading-relaxed text-muted">Your lending intelligence, in one secure workspace.</p>
       {/* what this answers that a general assistant cannot: three labels,
           nothing moving */}
-      <div className="relative mt-6 grid w-full max-w-[54rem] gap-3 sm:grid-cols-3">
+      <div className="relative mt-6 grid w-full gap-3 sm:grid-cols-3">
         {EDGE.map((e) => (
           <div
             key={e.title}
