@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { BookAtAGlance } from '../components/landing/BookAtAGlance'
 import { Hero } from '../components/landing/Hero'
-import { InAction } from '../components/landing/InAction'
-import { Pillars } from '../components/landing/Pillars'
-import { PopularQuestions } from '../components/landing/PopularQuestions'
+import { TwoDoors } from '../components/landing/TwoDoors'
 import { SaralAiSection } from '../components/landing/SaralAiSection'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { Held } from '../components/ui/Reveal'
@@ -34,6 +31,12 @@ export function Landing() {
      callback stays set for good if the travel is ever interrupted, and the
      screens stop snapping */
   const until = useRef(0)
+  /* how hard the visitor has pushed against the bottom of the Saarthi
+     screen, and when they last pushed: a nudge is not a scroll */
+  const push = useRef(0)
+  const pushed = useRef(0)
+  /* when the visitor last typed in Saarthi or picked a seat */
+  const touched = useRef(0)
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
@@ -78,15 +81,44 @@ export function Landing() {
     const take = (dir: number, e: Event) => {
       if (!dir) return false
       if ((e.target as Element | null)?.closest?.('[data-lenis-prevent]')) return false
+      /* still settling from the last gesture: swallow the rest of the flick,
+         wherever it has left us. A trackpad sends thirty of these, and
+         without this the page sails past the section it just landed on. */
+      if (performance.now() < until.current) {
+        e.preventDefault()
+        /* a flick is one gesture however long it runs: hold until it stops */
+        until.current = Math.max(until.current, performance.now() + 260)
+        return true
+      }
       const y = window.scrollY
+      /* typing in the box or picking a seat: the screen stays put until
+         they are done with it */
+      if (y >= last() - 2 && performance.now() - touched.current < 2500) {
+        e.preventDefault()
+        return true
+      }
+      /* on Saarthi, going down: below it the page is ordinary, but a light
+         scroll while someone is reading or typing should not move it. The
+         push has to add up before the page is handed back. */
+      if (dir > 0 && y >= last() - 2 && y <= last() + 2) {
+        const now = performance.now()
+        if (now - pushed.current > 400) push.current = 0
+        pushed.current = now
+        push.current += Math.abs((e as WheelEvent).deltaY || 70)
+        if (push.current < 240) {
+          e.preventDefault()
+          return true
+        }
+        push.current = 0
+        lenis.start()
+        return false
+      }
       /* below the stack, or stepping off its bottom edge: hands off */
       if (y > last() + 2 || (dir > 0 && y >= last() - 2)) {
         lenis.start()
         return false
       }
       e.preventDefault()
-      /* mid-travel: swallow the gesture, never restart the animation */
-      if (performance.now() < until.current) return true
       lenis.stop()
       page(dir)
       return true
@@ -94,6 +126,8 @@ export function Landing() {
 
     const onWheel = (e: WheelEvent) => void take(Math.sign(e.deltaY), e)
     const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null
+      if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return
       const dir = { ArrowDown: 1, PageDown: 1, ' ': 1, ArrowUp: -1, PageUp: -1 }[e.key]
       if (dir) take(dir, e)
     }
@@ -104,11 +138,19 @@ export function Landing() {
       if (Math.abs(dy) > 8) take(Math.sign(dy), e)
     }
 
+    const onTouched = (e: Event) => {
+      if ((e.target as Element | null)?.closest?.('#saarthi')) touched.current = performance.now()
+    }
+
+    window.addEventListener('input', onTouched, true)
+    window.addEventListener('pointerdown', onTouched, true)
     window.addEventListener('wheel', onWheel, { passive: false })
     window.addEventListener('keydown', onKey)
     window.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove', onTouchMove, { passive: false })
     return () => {
+      window.removeEventListener('input', onTouched, true)
+      window.removeEventListener('pointerdown', onTouched, true)
       window.removeEventListener('wheel', onWheel)
       window.removeEventListener('keydown', onKey)
       window.removeEventListener('touchstart', onTouchStart)
@@ -131,21 +173,12 @@ export function Landing() {
           <Hero />
         </Held>
 
-        <Held z={10} id="explore" data-screen className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
-          <Pillars />
-        </Held>
-
-        <Held z={20} data-screen className="h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:h-auto">
-          <PopularQuestions onAsk={ask} seat={seat} onSeat={setSeat} />
-        </Held>
-
         <div data-screen className="sticky top-0 z-30 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
-          <SaralAiSection pending={pending} seat={seat} onAsk={ask} onReset={() => setPending(null)} />
+          <SaralAiSection pending={pending} seat={seat} onAsk={ask} onSeat={setSeat} onReset={() => setPending(null)} />
         </div>
 
         <div className="relative z-40 bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.35)]">
-          <BookAtAGlance />
-          <InAction />
+          <TwoDoors />
           <ClosingCta demo />
         </div>
       </div>
