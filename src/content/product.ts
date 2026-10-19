@@ -16,7 +16,7 @@ export type Tone = 'good' | 'warn' | 'critical' | 'info' | 'neutral'
 /* ── the stack, as the hero draws it ──────────────────────────────────── */
 export const DECISIONS = ['Approve', 'Price', 'Verify', 'Disburse', 'Collect']
 export const SYSTEMS = ['Core banking', 'LOS / LMS', 'Bureau', 'Account Aggregator', 'Excel & WhatsApp']
-export const LAYER = ['Credit Machine Learning model (CML)', 'AI agents']
+export const LAYER = ['Credit Machine Learning models (CML)', 'AI agents']
 
 /* ── the three cards under the hero ───────────────────────────────────── */
 export const MODULES: { name: string; state: string }[] = [

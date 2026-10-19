@@ -179,7 +179,7 @@ function Three() {
             <span className="w-fit rounded-md bg-accent3/15 px-2.5 py-1 font-mono text-label uppercase tracking-[0.14em] text-accent3">
               02 · Core brain
             </span>
-            <h2 className="mt-4 text-h3 font-semibold">Credit Machine Learning model (CML)</h2>
+            <h2 className="mt-4 text-h3 font-semibold">Credit Machine Learning models (CML)</h2>
             <p className="mt-1.5 text-small leading-relaxed text-white/70">India-trained on 6 mn anonymised loans.</p>
             <div className="mt-auto border-t border-white/10 pt-4">
               <div className="font-mono text-label uppercase tracking-[0.14em] text-white/50">Three signals, one score</div>
