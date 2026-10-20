@@ -23,7 +23,7 @@ const SEAT_ICONS: Record<string, typeof User> = {
 
 /* Why ask here rather than a general assistant. */
 const EDGE = [
-  { icon: Cpu, title: 'Credit ML model', body: 'Trained on anonymised Indian banking data, tuned on RBI directions' },
+  { icon: Cpu, title: 'Credit ML model', body: 'Anonymised Indian banking data, tuned on RBI directions' },
   { icon: Table2, title: 'Sheets in, analytics out', body: 'Drop your files and get the analytics back' },
   { icon: Lock, title: 'Your data is encrypted', body: 'Masked at rest — only you see your files' },
 ]
