@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { CONTACT_EMAIL } from '../../content/site'
 
-/* The menu reads as a short contents page: what we sell, what runs on it,
-   and who we are — each with the one line that tells them apart. */
+/* The menu reads as a numbered contents page: what we sell, what runs on
+   it, and who we are. Three words, no explaining. */
 const LINKS = [
-  { to: '/products', label: 'Product', icon: Layers, hint: 'The platform an NBFC runs on' },
-  { to: '/agents', label: 'Agents', icon: Bot, hint: 'An agent per desk, already working' },
-  { to: '/about', label: 'About us', icon: Building2, hint: 'Who builds it, and why' },
+  { to: '/products', label: 'Product', icon: Layers },
+  { to: '/agents', label: 'Agents', icon: Bot },
+  { to: '/about', label: 'About us', icon: Building2 },
 ]
 
 /* over the landing video the mark is knocked out in white and lifted off
@@ -88,6 +88,9 @@ export function Navbar() {
                   >
                     {({ isActive }) => (
                       <>
+                        <span className={`font-mono text-label tabular-nums ${isActive ? 'text-accent' : 'text-hint'}`}>
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
                         <span
                           className={`grid size-9 shrink-0 place-items-center rounded-xl transition-colors ${
                             isActive ? 'bg-accent text-white' : 'bg-wash text-accent group-hover:bg-white'
@@ -95,10 +98,7 @@ export function Navbar() {
                         >
                           <l.icon className="size-4" strokeWidth={1.8} />
                         </span>
-                        <span className="min-w-0 flex-1">
-                          <span className={`block text-body font-semibold leading-tight ${isActive ? 'text-accent2' : 'text-ink'}`}>{l.label}</span>
-                          <span className="mt-0.5 block truncate text-label leading-snug text-muted">{l.hint}</span>
-                        </span>
+                        <span className={`display min-w-0 flex-1 text-h3 ${isActive ? 'text-accent2' : 'text-ink'}`}>{l.label}</span>
                         <ArrowRight className="size-4 shrink-0 text-hint transition-all group-hover:translate-x-0.5 group-hover:text-accent" />
                       </>
                     )}
