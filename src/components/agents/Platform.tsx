@@ -39,14 +39,21 @@ export function Platform() {
   }
 
   return (
-    <Section id="platform">
+    <Section id="platform" className="relative isolate overflow-hidden bg-lav-w">
       <Container>
         <FadeIn>
+          {/* the band's own geometry: one ring and one disc, cropped flat */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+            <div className="absolute -left-40 top-10 size-[30rem] rounded-full border-[30px] border-lav/50" />
+            <div className="absolute -right-24 bottom-0 size-64 rounded-full bg-accent/10" />
+          </div>
+
           <h2 className="display mx-auto max-w-[20ch] text-center text-h2 md:text-display">
-            One agentic platform for the whole <span className="text-accent">lending floor</span>.
+            One agentic platform for the whole{' '}
+            <span className="font-hero font-normal italic text-accent">lending floor</span>.
           </h2>
 
-          <div role="tablist" aria-label="Where agents work" className="mx-auto mt-8 flex w-fit flex-wrap justify-center gap-1 rounded-full bg-wash p-1.5">
+          <div role="tablist" aria-label="Where agents work" className="mx-auto mt-8 flex w-fit flex-wrap justify-center gap-px border border-ink/15 bg-ink/5 p-px">
             {TRACKS.map((x, i) => {
               const Icon = TAB_ICONS[x.id]
               const on = i === track
@@ -57,8 +64,8 @@ export function Platform() {
                   aria-selected={on}
                   type="button"
                   onClick={() => pick(i)}
-                  className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-small font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
-                    on ? 'bg-ink text-white shadow-[0_10px_24px_-14px_rgba(13,22,20,0.9)]' : 'text-muted hover:bg-white hover:text-ink'
+                  className={`flex items-center gap-2 px-5 py-3 font-mono text-small uppercase tracking-[0.08em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                    on ? 'bg-ink text-white' : 'bg-white/60 text-muted hover:bg-white hover:text-ink'
                   }`}
                 >
                   <Icon className={`size-4 ${on ? 'text-lime' : ''}`} strokeWidth={1.8} />
@@ -127,7 +134,7 @@ export function Platform() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
               transition={{ duration: 0.35 }}
-              className={`relative grid place-items-center overflow-hidden rounded-3xl p-7 ring-1 ring-ink/10 ${t.tint}`}
+              className={`relative grid place-items-center overflow-hidden p-7 ring-1 ring-ink/10 ${t.tint}`}
             >
               {/* the field behind the device: flat colour, combed with waves */}
               <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />

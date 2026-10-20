@@ -46,8 +46,9 @@ export function UseCases() {
             <span className="size-1.5 rounded-full bg-lime ring-2 ring-lime/30" />
             The agents
           </div>
-          <h2 className="display mx-auto mt-2 max-w-[26ch] text-h3 md:text-h2">
-            Enterprise-grade, end-to-end <span className="text-accent">agentic workflows</span>.
+          <h2 className="display mx-auto mt-2 max-w-[26ch] text-h2 md:text-display">
+            Enterprise-grade, end-to-end{' '}
+            <span className="font-hero font-normal italic text-accent">agentic workflows</span>.
           </h2>
         </FadeIn>
 
@@ -62,7 +63,7 @@ export function UseCases() {
                 aria-selected={on}
                 type="button"
                 onClick={() => setI(n)}
-                className={`relative -mb-px pb-2.5 text-small font-semibold transition-colors ${on ? 'text-ink' : 'text-muted hover:text-ink'}`}
+                className={`relative -mb-px pb-3 font-mono text-small uppercase tracking-[0.08em] transition-colors ${on ? 'text-ink' : 'text-muted hover:text-ink'}`}
               >
                 {x.tab}
                 {on && (
@@ -86,6 +87,10 @@ export function UseCases() {
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
               transition={{ duration: 0.35 }}
             >
+              <div className="mb-4 flex items-center gap-3">
+                <span className="bg-ink px-2 py-1 font-mono text-label text-lime">{String(i + 1).padStart(2, '0')}</span>
+                <span className="h-px flex-1 bg-line" />
+              </div>
               <h3 className="display max-w-[22ch] text-h3 md:text-h2">{u.title}</h3>
               <ul className="mt-5 space-y-3">
                 {u.points.map((p) => (
@@ -98,7 +103,7 @@ export function UseCases() {
             </motion.div>
           </AnimatePresence>
 
-          <div className={`relative grid place-items-center overflow-hidden rounded-3xl ring-1 ring-ink/10 transition-colors duration-500 ${FIELDS[i % FIELDS.length]} ${u.board ? 'p-5 md:p-6' : 'p-7'}`}>
+          <div className={`relative grid place-items-center overflow-hidden ring-1 ring-ink/10 transition-colors duration-500 ${FIELDS[i % FIELDS.length]} ${u.board ? 'p-5 md:p-6' : 'p-7'}`}>
             <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
             <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
             <AnimatePresence mode="wait">
