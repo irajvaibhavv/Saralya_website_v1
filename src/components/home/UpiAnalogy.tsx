@@ -38,7 +38,7 @@ export function UpiAnalogy() {
           eyebrow="The idea"
           title={
             <>
-              UPI made payments instant. We're doing it for credit.
+              UPI made payments <span className="font-hero font-normal italic text-accent">instant</span>. We're doing it for credit.
             </>
           }
         />

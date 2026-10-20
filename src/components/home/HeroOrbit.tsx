@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 const RINGS = [
   { r: 25, dur: 36, dir: 1, nodes: [{ a: 20, l: 'CKYC', s: 0 }, { a: 200, l: 'GSTN', s: 2 }] },
-  { r: 37, dur: 52, dir: -1, nodes: [{ a: 80, l: 'CIBIL', s: 1 }, { a: 260, l: 'Account Aggregator', s: 3 }] },
+  { r: 37, dur: 52, dir: -1, nodes: [{ a: 80, l: 'Bureau', s: 1 }, { a: 260, l: 'Account Aggregator', s: 3 }] },
   { r: 49, dur: 70, dir: 1, nodes: [{ a: 140, l: 'NPCI · NACH', s: 5 }, { a: 320, l: 'MCA21', s: 4 }] },
 ]
 const PULSES = [15, 105, 195, 285]

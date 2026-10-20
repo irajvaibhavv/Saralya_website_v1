@@ -10,8 +10,8 @@ import { Container, Section, SectionHead } from '../ui/Section'
 
 const RAILS = [
   [
-    { n: 'CIBIL', icon: Building2 },
-    { n: 'Experian', icon: Landmark },
+    { n: 'Bureau', icon: Building2 },
+    { n: 'CKYC', icon: Landmark },
   ],
   [
     { n: 'Account Aggregator', icon: Database },

@@ -12,7 +12,11 @@ export function Benefits() {
       <Container>
         <SectionHead
           eyebrow="Why Saralya"
-          title="What changes on day one."
+          title={
+            <>
+              What changes on <span className="font-hero font-normal italic text-accent">day one</span>.
+            </>
+          }
         />
 
         <Stagger className="grid gap-4 md:grid-cols-12">
@@ -37,9 +41,9 @@ export function Benefits() {
 
 function Card({ title, body, children }: { title: string; body?: string; children: React.ReactNode }) {
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg">
-      <div className="relative h-[190px] overflow-hidden bg-gradient-to-b from-wash2 to-white">{children}</div>
-      <div className="p-6 pt-5">
+    <div className="group flex h-full flex-col overflow-hidden border border-line bg-white transition-colors duration-300 hover:border-accent/40">
+      <div className="relative h-[190px] overflow-hidden bg-wash2">{children}</div>
+      <div className="border-t border-line p-6 pt-5">
         <div className="text-h3 font-extrabold tracking-[-0.02em] leading-snug">{title}</div>
         {body && <p className="mt-2 text-body text-muted">{body}</p>}
       </div>
