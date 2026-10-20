@@ -609,18 +609,19 @@ function How() {
       <Container>
         {/* the write-up on the left, the agent architecture running beside
             it: rails in, the engine, the loop of steps, a decided file out */}
-        <FadeIn className="grid items-center gap-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-8">
-          <div>
-            <div className="eyebrow">The solution · how it works</div>
-            {/* the column is 340 wide beside the diagram, so the headline
-                steps down there rather than breaking into five lines */}
-            <h2 className="display mt-3 text-h2 lg:text-h3">
-              The OS that improves with every lending <span className="text-accent">decision</span>.
-            </h2>
-            <p className="mt-3 text-body leading-relaxed text-muted lg:text-lede">From a system of record to a system of intelligence.</p>
-          </div>
+        {/* The diagram is a 1240-wide landscape object. Beside a column of
+            copy it can only be shrunk, and the headline pays for it, so the
+            headline owns the first row at full size and the diagram owns the
+            one beneath it at its own. */}
+        <FadeIn className="max-w-[820px]">
+          <div className="eyebrow">The solution · how it works</div>
+          <h2 className="display mt-3 text-h2 md:text-display">
+            The OS that improves with every lending <span className="text-accent">decision</span>.
+          </h2>
+          <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
+        </FadeIn>
 
-          {/* no frame, no badge row, no caption row: the diagram alone */}
+        <FadeIn className="mt-9">
           <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Credit decision" />
         </FadeIn>
 
