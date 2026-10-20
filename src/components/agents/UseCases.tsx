@@ -100,7 +100,7 @@ export function UseCases() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, transition: { duration: 0.15 } }}
                 transition={{ duration: 0.4 }}
-                className="w-full"
+                className={u.board ? 'w-full' : ''}
               >
                 {u.board ? <BoardPack every={BOARD} /> : <PhoneScreen screen={u.screen} />}
               </motion.div>
