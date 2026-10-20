@@ -79,8 +79,8 @@ export function SaralAiPanel({
               <e.icon className="size-3.5" strokeWidth={1.8} />
             </span>
             <span className="min-w-0">
-              <span className="block text-small font-semibold leading-snug text-accent2">{e.title}</span>
-              <span className="mt-0.5 block text-label leading-snug text-ink2">{e.body}</span>
+              <span className="block font-mono text-label uppercase tracking-[0.1em] text-accent2">{e.title}</span>
+              <span className="mt-1 block text-label leading-snug text-ink2">{e.body}</span>
             </span>
           </div>
         ))}
