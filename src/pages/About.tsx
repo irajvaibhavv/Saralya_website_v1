@@ -1,4 +1,5 @@
 import { Benefits } from '../components/home/Benefits'
+import { Founders } from '../components/home/Founders'
 import { DemoSection } from '../components/home/Demo'
 import { MonthlyReview } from '../components/home/MonthlyReview'
 import { Hero } from '../components/home/Hero'
@@ -21,6 +22,7 @@ export function About() {
       <MonthlyReview />
       <InspectionReadiness />
       <Benefits />
+      <Founders />
       <ClosingCta />
     </>
   )
