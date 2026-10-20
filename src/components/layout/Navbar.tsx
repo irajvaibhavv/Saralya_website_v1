@@ -1,12 +1,15 @@
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { Menu, X } from 'lucide-react'
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
+import { ArrowRight, Bot, Building2, Layers, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { CONTACT_EMAIL } from '../../content/site'
 
+/* The menu reads as a short contents page: what we sell, what runs on it,
+   and who we are — each with the one line that tells them apart. */
 const LINKS = [
-  { to: '/about', label: 'About' },
-  { to: '/products', label: 'Product' },
-  { to: '/agents', label: 'Agents' },
+  { to: '/products', label: 'Product', icon: Layers, hint: 'The platform an NBFC runs on' },
+  { to: '/agents', label: 'Agents', icon: Bot, hint: 'An agent per desk, already working' },
+  { to: '/about', label: 'About us', icon: Building2, hint: 'Who builds it, and why' },
 ]
 
 /* over the landing video the mark is knocked out in white and lifted off
@@ -28,6 +31,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
   const { scrollY } = useScroll()
   const location = useLocation()
+  const still = useReducedMotion()
 
   useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 12))
   useEffect(() => setOpen(false), [location.pathname])
@@ -62,24 +66,53 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-x-0 top-full px-4 pt-2 md:inset-x-auto md:right-6 md:w-64 md:px-0 lg:right-8"
+            initial={still ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98, transition: { duration: 0.14, ease: 'easeIn' } }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-x-0 top-full origin-top-right px-4 pt-2 md:inset-x-auto md:right-6 md:w-[332px] md:px-0 lg:right-8"
           >
-            <div className="rounded-3xl bg-white p-3 shadow-lg">
-              {LINKS.map((l) => (
-                <NavLink
+            <div className="overflow-hidden rounded-3xl bg-white p-2 shadow-[0_30px_70px_-30px_rgba(13,22,20,0.45)] ring-1 ring-line">
+              {LINKS.map((l, i) => (
+                <motion.div
                   key={l.to}
-                  to={l.to}
-                  className={({ isActive }) =>
-                    `block rounded-2xl px-4 py-3 text-body font-semibold ${isActive ? 'bg-wash2 text-accent' : 'text-ink'}`
-                  }
+                  initial={still ? false : { opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.22, delay: 0.04 * i, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {l.label}
-                </NavLink>
+                  <NavLink
+                    to={l.to}
+                    className={({ isActive }) =>
+                      `group flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors ${isActive ? 'bg-accent/10' : 'hover:bg-wash'}`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={`grid size-9 shrink-0 place-items-center rounded-xl transition-colors ${
+                            isActive ? 'bg-accent text-white' : 'bg-wash text-accent group-hover:bg-white'
+                          }`}
+                        >
+                          <l.icon className="size-4" strokeWidth={1.8} />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className={`block text-body font-semibold leading-tight ${isActive ? 'text-accent2' : 'text-ink'}`}>{l.label}</span>
+                          <span className="mt-0.5 block truncate text-label leading-snug text-muted">{l.hint}</span>
+                        </span>
+                        <ArrowRight className="size-4 shrink-0 text-hint transition-all group-hover:translate-x-0.5 group-hover:text-accent" />
+                      </>
+                    )}
+                  </NavLink>
+                </motion.div>
               ))}
+
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=Book%20a%20demo`}
+                className="mt-2 flex items-center justify-between gap-2 rounded-2xl bg-ink px-4 py-3 text-body font-semibold text-white transition-colors hover:bg-accent"
+              >
+                Book a demo
+                <ArrowRight className="size-4" />
+              </a>
             </div>
           </motion.div>
         )}

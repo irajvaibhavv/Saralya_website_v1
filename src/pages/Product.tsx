@@ -252,7 +252,9 @@ function Leaders() {
         </FadeIn>
 
         <div className="mt-10 grid gap-7 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
-          <div>
+          {/* min-w-0, or the scrolling strip of roles widens the page instead
+              of scrolling inside itself */}
+          <div className="min-w-0">
             <div role="group" aria-label="Choose a role" className="flex gap-1.5 overflow-x-auto pb-1.5 lg:flex-col lg:overflow-visible">
               {PERSONAS.map((x, n) => {
                 const on = n === i
