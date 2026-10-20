@@ -609,13 +609,15 @@ function How() {
       <Container>
         {/* the write-up on the left, the agent architecture running beside
             it: rails in, the engine, the loop of steps, a decided file out */}
-        <FadeIn className="grid items-center gap-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-8">
+        <FadeIn className="grid items-center gap-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-8">
           <div>
             <div className="eyebrow">The solution · how it works</div>
-            <h2 className="display mt-3 text-h2">
+            {/* the column is 340 wide beside the diagram, so the headline
+                steps down there rather than breaking into five lines */}
+            <h2 className="display mt-3 text-h2 lg:text-h3">
               The OS that improves with every lending <span className="text-accent">decision</span>.
             </h2>
-            <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
+            <p className="mt-3 text-body leading-relaxed text-muted lg:text-lede">From a system of record to a system of intelligence.</p>
           </div>
 
           {/* no frame, no badge row, no caption row: the diagram alone */}
