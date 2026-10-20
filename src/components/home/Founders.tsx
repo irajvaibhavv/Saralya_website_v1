@@ -1,5 +1,5 @@
-import { Item, Stagger } from '../ui/Reveal'
-import { FadeIn } from '../ui/Reveal'
+import { Check } from 'lucide-react'
+import { FadeIn, Item, Stagger } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
 /* The two people behind the platform, in the lead's own words. Company
@@ -9,7 +9,40 @@ import { Container, Section } from '../ui/Section'
    TODO(Vikas): confirm the bios and the "200+ Indian financial
    institutions" line read the way you want them in public. */
 
+/* One card runs on the brand green, the other on petrol — both brand
+   colours, so nothing here reads as a pass/warn/fail status. */
+type Tone = {
+  card: string
+  bloom: string
+  avatar: string
+  eyebrow: string
+  meta: string
+  tick: string
+  rule: string
+}
+
+const MINT: Tone = {
+  card: 'bg-gradient-to-br from-accent/22 via-accent3/10 to-white ring-accent/25',
+  bloom: 'bg-accent/30',
+  avatar: 'bg-gradient-to-br from-accent to-accent2 shadow-[0_12px_24px_-12px_rgba(16,122,102,0.8)]',
+  eyebrow: 'text-accent2',
+  meta: 'text-accent2',
+  tick: 'text-accent',
+  rule: 'border-accent/20',
+}
+
+const PETROL: Tone = {
+  card: 'bg-gradient-to-br from-petrol/22 via-accent3/12 to-white ring-petrol/25',
+  bloom: 'bg-petrol/30',
+  avatar: 'bg-gradient-to-br from-petrol to-ink shadow-[0_12px_24px_-12px_rgba(29,86,105,0.8)]',
+  eyebrow: 'text-petrol',
+  meta: 'text-petrol',
+  tick: 'text-petrol',
+  rule: 'border-petrol/20',
+}
+
 type Founder = {
+  tone: Tone
   initials: string
   role: string
   name: string
@@ -21,6 +54,7 @@ type Founder = {
 
 const FOUNDERS: Founder[] = [
   {
+    tone: MINT,
     initials: 'VC',
     role: 'Co-founder & CTO',
     name: 'Vikas Chaudhary',
@@ -39,6 +73,7 @@ const FOUNDERS: Founder[] = [
     ],
   },
   {
+    tone: PETROL,
     initials: 'VG',
     role: 'Co-founder & CEO',
     name: 'Vishal Gupta',
@@ -70,19 +105,23 @@ export function Founders() {
         <Stagger className="mt-9 grid gap-4 md:grid-cols-2">
           {FOUNDERS.map((f) => (
             <Item key={f.name}>
-              <article className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm ring-1 ring-line2 transition-shadow duration-300 hover:shadow-lg md:p-8">
-                <div className="flex items-center gap-4">
-                  <span className="display grid size-14 shrink-0 place-items-center rounded-full bg-ink text-body text-white">
+              <article
+                className={`relative flex h-full flex-col overflow-hidden rounded-3xl p-7 shadow-sm ring-1 transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(13,22,20,0.35)] md:p-8 ${f.tone.card}`}
+              >
+                <span aria-hidden className={`pointer-events-none absolute -right-20 -top-24 size-56 rounded-full blur-3xl ${f.tone.bloom}`} />
+
+                <div className="relative flex items-center gap-4">
+                  <span className={`display grid size-14 shrink-0 place-items-center rounded-2xl text-body text-white ${f.tone.avatar}`}>
                     {f.initials}
                   </span>
                   <div className="min-w-0">
-                    <div className="eyebrow">{f.role}</div>
+                    <div className={`eyebrow ${f.tone.eyebrow}`}>{f.role}</div>
                     <div className="display mt-0.5 text-h3">{f.name}</div>
-                    <div className="mt-0.5 text-small font-medium text-accent">{f.meta}</div>
+                    <div className={`mt-0.5 text-small font-medium ${f.tone.meta}`}>{f.meta}</div>
                   </div>
                 </div>
 
-                <p className="mt-5 text-body leading-relaxed text-ink2">
+                <p className="relative mt-5 text-body leading-relaxed text-ink2">
                   {f.bio.map((part, i) =>
                     typeof part === 'string' ? part : (
                       <b key={i} className="font-semibold text-ink">
@@ -92,10 +131,10 @@ export function Founders() {
                   )}
                 </p>
 
-                <ul className="mt-5 space-y-2.5 border-t border-line pt-5">
+                <ul className={`relative mt-6 space-y-2.5 border-t pt-5 ${f.tone.rule}`}>
                   {f.points.map((p) => (
                     <li key={p} className="flex gap-2.5 text-small leading-snug text-ink2">
-                      <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+                      <Check aria-hidden className={`mt-0.5 size-4 shrink-0 ${f.tone.tick}`} strokeWidth={2.4} />
                       {p}
                     </li>
                   ))}
