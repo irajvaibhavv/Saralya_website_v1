@@ -7,7 +7,7 @@ import { Landing } from './pages/Landing'
 import { holdTop, lenis } from './lib/scroll'
 
 // Only the landing ships in the first bundle; other pages load on navigation.
-const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })))
+const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })))
 const Agents = lazy(() => import('./pages/Agents').then((m) => ({ default: m.Agents })))
 const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.Privacy })))
 const Product = lazy(() => import('./pages/Product').then((m) => ({ default: m.Product })))
@@ -16,13 +16,13 @@ const SaralyaAi = lazy(() => import('./pages/SaralyaAi').then((m) => ({ default:
 /* Fetch the other pages once the landing has painted, so a click never waits
    on a chunk mid-transition. */
 function preload() {
-  const go = () => Promise.all([import('./pages/Home'), import('./pages/Agents'), import('./pages/Product'), import('./pages/Privacy')])
+  const go = () => Promise.all([import('./pages/About'), import('./pages/Agents'), import('./pages/Product'), import('./pages/Privacy')])
   ;(window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500)))(go)
 }
 
 const TITLES: Record<string, string> = {
   '/': 'Saral AI · Saralya',
-  '/home': 'Saralya · Making Lending Saral for Bharat',
+  '/about': 'About · Saralya · Making Lending Saral for Bharat',
   '/agents': 'Agents · Saralya',
   '/products': 'Product · Saralya',
   '/privacy': 'Privacy Policy · Saralya',
@@ -75,10 +75,11 @@ function Pages() {
         <Suspense fallback={<div className="min-h-screen" />}>
           <Routes location={location}>
             <Route path="/" element={<Landing />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/home" element={<Navigate to="/about" replace />} />
             <Route path="/agents" element={<Agents />} />
             <Route path="/products" element={<Product />} />
-            <Route path="/demo" element={<Navigate to="/home#demo" replace />} />
+            <Route path="/demo" element={<Navigate to="/about#demo" replace />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/saralya-ai" element={<SaralyaAi />} />
             <Route path="*" element={<Landing />} />

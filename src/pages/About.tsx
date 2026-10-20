@@ -12,7 +12,7 @@ import { Container } from '../components/ui/Section'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
 
-export function Home() {
+export function About() {
   return (
     <>
       <Hero />

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 
 const LINKS = [
-  { to: '/home', label: 'Overview' },
+  { to: '/about', label: 'About' },
   { to: '/products', label: 'Product' },
   { to: '/agents', label: 'Agents' },
 ]

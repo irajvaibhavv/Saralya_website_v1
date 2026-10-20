@@ -29,7 +29,7 @@ export const CHALLENGES = [
   { id: 'stress', label: 'Stress shows up at DPD 30, not day 1', stage: 2, module: 'M2', does: 'Watches the first failed NACH and the skipped GST filing, and tags SMA-0 on day 1.', tip: 'Watch the bounce, not the bucket. A first failed NACH or a skipped GST filing is the earliest signal you already own.' },
   { id: 'field', label: 'Field collections are a black box', stage: 3, module: 'M5', does: 'Routes the day by promise-to-pay date, and logs every visit with time and location.', tip: 'Log every visit with time and location, and route the day by promise-to-pay date: not by who shouted loudest.' },
   { id: 'mis', label: 'Portfolio MIS is a month-end spreadsheet', stage: 4, module: 'M2', does: 'Cuts the book by vintage and writes the roll-rate pack before anyone asks for it.', tip: 'Cut the book by vintage, not by product. Cohorts show trouble two quarters before totals do.' },
-  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M3', next: { to: '/home#readiness', label: 'Tick your six inspection checks' }, does: 'Generates CRILC and NBS-9 from the ledger, and names what is still missing.', tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
+  { id: 'inspect', label: 'Inspection prep takes weeks', stage: 5, module: 'M3', next: { to: '/about#readiness', label: 'Tick your six inspection checks' }, does: 'Generates CRILC and NBS-9 from the ledger, and names what is still missing.', tip: 'Generate CRILC and NBS-9 from the ledger, never retype them. An immutable audit trail is the first thing an inspector asks for.' },
   { id: 'core', label: 'Core system won’t talk to anything', stage: 0, module: null, next: { to: '/technology', label: 'See how it plugs into your core' }, does: 'Reads your core through an API layer beside it, one product line at a time.', tip: 'Don’t rip out the core. Put an API layer beside it and move one product line at a time.' },
 ] as const
 export type ChallengeId = (typeof CHALLENGES)[number]['id']
@@ -61,7 +61,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'Here is my sheet — run the monthly PQM',
         a: 'Drop the MIS or collections sheet into the box above. It comes back as a portfolio read: disbursals and collections for the month, roll-rates between buckets, the branches and products moving against the book, and what changed since last month — then portfolio quality on top: bucket and vintage, SMA-0 / 1 / 2 and NPA movement, and the cohorts ageing faster than the rest.',
-        link: { to: '/home#board', label: 'See a monthly review' },
+        link: { to: '/about#board', label: 'See a monthly review' },
       },
       {
         q: 'Do a performance review of my team',
@@ -96,7 +96,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'How long does inspection prep take?',
         a: 'Weeks, when CRILC and NBS-9 are retyped. Generate them from the ledger instead, with an immutable audit trail behind them: that is the first thing an inspector asks for.',
-        link: { to: '/home#readiness', label: 'Tick your six inspection checks' },
+        link: { to: '/about#readiness', label: 'Tick your six inspection checks' },
       },
     ],
   },

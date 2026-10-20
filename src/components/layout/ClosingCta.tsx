@@ -38,7 +38,7 @@ export function ClosingCta({ demo = false }: { demo?: boolean }) {
               <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Free%20diagnostic%20for%20our%20NBFC`} variant="white" size="lg" arrow>
                 Get diagnostic
               </ButtonLink>
-              <ButtonLink to="/home#demo" variant="primary" size="lg">
+              <ButtonLink to="/about#demo" variant="primary" size="lg">
                 Try the live demo
               </ButtonLink>
             </div>
