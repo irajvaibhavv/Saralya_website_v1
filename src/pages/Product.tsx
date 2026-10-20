@@ -618,7 +618,7 @@ function How() {
             <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
           </div>
 
-          <AgentFrame badge="Saralya agent" out={FLOW_OUTCOME}>
+          <AgentFrame badge="Saralya agent">
             <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Credit decision" />
           </AgentFrame>
         </FadeIn>
