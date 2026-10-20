@@ -11,6 +11,11 @@ import { Container, Section } from '../ui/Section'
    move on their own every few seconds — the visitor who waits sees all
    five; the visitor who clicks takes over and the wait restarts. */
 
+/* One field per agent, so six tabs do not read as the same green card six
+   times. All three are brand colours: the teal, the petrol beside it, and
+   the lavender the agent surfaces carry. */
+const FIELDS = ['bg-accent', 'bg-petrol', 'bg-lav2', 'bg-accent2', 'bg-petrol', 'bg-lav2']
+
 /** how long one agent holds the stage */
 const DWELL = 3200
 
@@ -37,7 +42,10 @@ export function UseCases() {
     <Section tight id="use-cases">
       <Container>
         <FadeIn className="text-center">
-          <div className="eyebrow">The agents</div>
+          <div className="eyebrow flex items-center justify-center gap-2">
+            <span className="size-1.5 rounded-full bg-lime ring-2 ring-lime/30" />
+            The agents
+          </div>
           <h2 className="display mx-auto mt-2 max-w-[26ch] text-h3 md:text-h2">
             Enterprise-grade, end-to-end <span className="text-accent">agentic workflows</span>.
           </h2>
@@ -60,7 +68,7 @@ export function UseCases() {
                 {on && (
                   <motion.span
                     layoutId="use-case-rule"
-                    className="absolute inset-x-0 -bottom-px block h-0.5 bg-accent"
+                    className="absolute inset-x-0 -bottom-px block h-0.5 bg-gradient-to-r from-accent to-lime"
                     transition={{ duration: 0.3 }}
                   />
                 )}
@@ -90,7 +98,7 @@ export function UseCases() {
             </motion.div>
           </AnimatePresence>
 
-          <div className={`relative grid place-items-center overflow-hidden rounded-3xl bg-accent ring-1 ring-ink/10 ${u.board ? 'p-5 md:p-6' : 'p-7'}`}>
+          <div className={`relative grid place-items-center overflow-hidden rounded-3xl ring-1 ring-ink/10 transition-colors duration-500 ${FIELDS[i % FIELDS.length]} ${u.board ? 'p-5 md:p-6' : 'p-7'}`}>
             <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
             <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
             <AnimatePresence mode="wait">
