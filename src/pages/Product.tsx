@@ -23,6 +23,7 @@ import {
   type Tone,
 } from '../content/product'
 import { CONTACT_EMAIL } from '../content/site'
+import { AgentFlow, AgentFrame, type Rail, type Stage } from '../components/agents/AgentFlow'
 import { FadeIn } from '../components/ui/Reveal'
 import { Container, Section } from '../components/ui/Section'
 
@@ -557,6 +558,34 @@ function Problem() {
 
 /* ── how it works: five agents, one profile ───────────────────────────── */
 
+/* What the architecture diagram is handed. The bureaus the prototype named
+   by brand are one "Bureau" rail: we do not name third parties on the site.
+   The metrics stay words, not percentages — the founders have struck
+   unverifiable numbers before. */
+const FLOW_RAILS: Rail[] = [
+  { label: 'Bureau', icon: 'bureau' },
+  { label: 'Account Aggregator', icon: 'data' },
+  { label: 'GSTN · MCA21', icon: 'doc' },
+  { label: 'CERSAI', icon: 'shield' },
+  { label: 'Your core', icon: 'core' },
+  { label: 'CKYC · Video KYC', icon: 'lock' },
+]
+
+const FLOW_STAGES: Stage[] = [
+  { title: 'Collector', sub: 'one pull, not five tabs', icon: 'data' },
+  { title: 'Policy engine', sub: 'your matrix, your cut-offs', icon: 'chart' },
+  { title: 'Reason writer', sub: 'reason codes, not a number', icon: 'pen' },
+  { title: 'Escalator', sub: 'what it may not decide', icon: 'split' },
+]
+
+const FLOW_OUTCOME: Stage = { title: 'Approve · STP', sub: 'sanctioned with the KFS attached' }
+
+const FLOW_METRICS = [
+  { label: 'Decision', value: 'Minutes' },
+  { label: 'Rails, one consent', value: '9 types' },
+  { label: 'Reason codes', value: 'Every call' },
+]
+
 function How() {
   const [i, setI] = useState(0)
   const [looping, setLooping] = useState(false)
@@ -578,12 +607,20 @@ function How() {
   return (
     <Section id="how" className="border-t border-line bg-bg">
       <Container>
-        <FadeIn className="max-w-[820px]">
-          <div className="eyebrow">The solution · how it works</div>
-          <h2 className="display mt-3 text-h2 md:text-display">
-            The OS that improves with every lending <span className="text-accent">decision</span>.
-          </h2>
-          <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
+        {/* the write-up on the left, the agent architecture running beside
+            it: rails in, the engine, the loop of steps, a decided file out */}
+        <FadeIn className="grid items-center gap-8 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-10">
+          <div>
+            <div className="eyebrow">The solution · how it works</div>
+            <h2 className="display mt-3 text-h2">
+              The OS that improves with every lending <span className="text-accent">decision</span>.
+            </h2>
+            <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
+          </div>
+
+          <AgentFrame badge="Saralya agent" out={FLOW_OUTCOME}>
+            <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Credit decision" />
+          </AgentFrame>
         </FadeIn>
 
         <div className="mt-10 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
