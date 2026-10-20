@@ -609,7 +609,7 @@ function How() {
       <Container>
         {/* the write-up on the left, the agent architecture running beside
             it: rails in, the engine, the loop of steps, a decided file out */}
-        <FadeIn className="grid items-center gap-8 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-10">
+        <FadeIn className="grid items-center gap-8 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-8">
           <div>
             <div className="eyebrow">The solution · how it works</div>
             <h2 className="display mt-3 text-h2">

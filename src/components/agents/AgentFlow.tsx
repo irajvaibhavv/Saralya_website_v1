@@ -131,8 +131,8 @@ export function AgentFlow({
   outcome: Stage
   metrics: Metric[]
   loopLabel?: string
-  /** beside a column of copy there is no room for the metrics panel, and
-      the rest has to fit without a scrollbar: drop it and crop the frame */
+  /** beside a column of copy the diagram has to scale rather than scroll,
+      so it gives up its minimum width and keeps all four parts */
   compact?: boolean
 }) {
   const reduce = useReducedMotion()
@@ -153,7 +153,7 @@ export function AgentFlow({
 
   return (
     <svg
-      viewBox={`0 0 ${compact ? MET.x + 20 : W} ${H}`}
+      viewBox={`0 0 ${W} ${H}`}
       className={`block h-auto w-full ${compact ? '' : 'min-w-[980px]'}`}
       role="img" aria-label="Your rails feed the agent, the work runs as a loop, a decision comes out">
       <defs>
@@ -344,24 +344,18 @@ export function AgentFlow({
         )
       })}
 
-      {!compact && (
-        <>
-          {!reduce && <Flow d={line(LOOP.cx + LOOP.rx + NODE_R + 14, MET.x - 42, LOOP.cy)} />}
-          <path
-            d={`M ${MET.x - 50} ${LOOP.cy - 5} L ${MET.x - 42} ${LOOP.cy} L ${MET.x - 50} ${LOOP.cy + 5}`}
-            fill="none"
-            stroke="var(--color-accent)"
-            strokeWidth={1.6}
-            strokeLinecap="round"
-          />
-        </>
-      )}
+      {!reduce && <Flow d={line(LOOP.cx + LOOP.rx + NODE_R + 14, MET.x - 42, LOOP.cy)} />}
+      <path
+        d={`M ${MET.x - 50} ${LOOP.cy - 5} L ${MET.x - 42} ${LOOP.cy} L ${MET.x - 50} ${LOOP.cy + 5}`}
+        fill="none"
+        stroke="var(--color-accent)"
+        strokeWidth={1.6}
+        strokeLinecap="round"
+      />
 
       {/* 4 — what comes out. Beside a column of copy only the call itself
           fits, so the metrics panel stands down and the call rides the
           arrow out of the loop. */}
-      {!compact && (
-        <>
       <text x={MET.x} y={48} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
         Outcomes
       </text>
@@ -386,8 +380,6 @@ export function AgentFlow({
           </text>
         </motion.g>
       ))}
-        </>
-      )}
     </svg>
   )
 }
