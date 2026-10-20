@@ -18,9 +18,9 @@ export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
   return (
     <Link to="/" aria-label="Saralya" className="inline-flex">
       <img
-        src={light ? '/img/logo-white.png' : full ? '/img/logo-full.png' : '/img/logo.png'}
+        src={full ? '/img/logo-full.png' : light ? '/img/logo-white.png' : '/img/logo.png'}
         alt="Saralya — Credit Simplified"
-        className={`${full ? (light ? 'h-9' : 'h-16') : 'h-7'} w-auto ${light && !full ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]' : ''}`}
+        className={`${full ? 'h-16' : 'h-7'} w-auto ${light ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]' : ''}`}
       />
     </Link>
   )
