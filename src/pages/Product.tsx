@@ -23,7 +23,6 @@ import {
   type Tone,
 } from '../content/product'
 import { CONTACT_EMAIL } from '../content/site'
-import { AgentFlow } from '../components/products/AgentFlow'
 import { FadeIn } from '../components/ui/Reveal'
 import { Container, Section } from '../components/ui/Section'
 
@@ -587,13 +586,7 @@ function How() {
           <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
         </FadeIn>
 
-        {/* the architecture first: how one agent gets from your rails to a
-            decision. The ring below then shows the five that run on it. */}
-        <FadeIn className="mt-10">
-          <AgentFlow />
-        </FadeIn>
-
-        <div className="mt-6 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
+        <div className="mt-10 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
           {/* the ring */}
           <div className="relative mx-auto aspect-square w-full max-w-[520px]">
             <svg viewBox="0 0 560 560" aria-hidden className="absolute inset-0 size-full overflow-visible">
