@@ -3,7 +3,6 @@ import { motion, useReducedMotion } from 'motion/react'
 import { Platform } from '../components/agents/Platform'
 import { UseCases } from '../components/agents/UseCases'
 import { Trust } from '../components/agents/Trust'
-import { ClosingCta } from '../components/layout/ClosingCta'
 import { CONTACT_EMAIL } from '../content/site'
 import { FadeIn } from '../components/ui/Reveal'
 import { Container, Section } from '../components/ui/Section'
@@ -24,7 +23,6 @@ export function Agents() {
       <UseCases />
       <Trust />
       <Steps />
-      <ClosingCta />
     </>
   )
 }
