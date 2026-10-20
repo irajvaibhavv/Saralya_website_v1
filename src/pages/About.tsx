@@ -4,7 +4,6 @@ import { DemoSection } from '../components/home/Demo'
 import { MonthlyReview } from '../components/home/MonthlyReview'
 import { Hero } from '../components/home/Hero'
 import { HowItWorks } from '../components/home/HowItWorks'
-import { ProductsSection } from '../components/home/Products'
 import { InspectionReadiness } from '../components/home/InspectionReadiness'
 import { UpiAnalogy } from '../components/home/UpiAnalogy'
 import { ClosingCta } from '../components/layout/ClosingCta'
@@ -19,7 +18,6 @@ export function About() {
       <Photo />
       <HowItWorks />
       <UpiAnalogy />
-      <ProductsSection />
       <DemoSection />
       <AgentsBand />
       <MonthlyReview />
