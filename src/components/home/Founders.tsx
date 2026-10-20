@@ -60,18 +60,11 @@ export function Founders() {
   return (
     <Section id="founders">
       <Container>
-        <FadeIn className="grid gap-6 md:grid-cols-2 md:gap-12">
-          <div>
-            <div className="eyebrow">Founders</div>
-            <h2 className="display mt-2 max-w-[16ch] text-h2">
-              Banking-technology veterans, <span className="text-accent">not lending tourists.</span>
-            </h2>
-          </div>
-          <p className="self-end text-lede leading-relaxed text-ink2">
-            Saralya is built by people who have spent their careers inside Indian banking infrastructure — not founders who
-            decided lending looks like an interesting wedge. Together, Vikas and Vishal have led platform decisions across more
-            than 200 Indian financial institutions, including PSU banks, listed private banks, cooperative banks, RRBs and NBFCs.
-          </p>
+        <FadeIn>
+          <div className="eyebrow">Founders</div>
+          <h2 className="display mt-2 max-w-[22ch] text-h2">
+            Banking-technology veterans, <span className="text-accent">not lending tourists.</span>
+          </h2>
         </FadeIn>
 
         <Stagger className="mt-9 grid gap-4 md:grid-cols-2">
