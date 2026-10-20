@@ -57,9 +57,11 @@ export function Platform() {
                   aria-selected={on}
                   type="button"
                   onClick={() => pick(i)}
-                  className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-small font-semibold transition ${on ? 'bg-ink text-white' : 'text-muted hover:text-ink'}`}
+                  className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-small font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                    on ? 'bg-ink text-white shadow-[0_10px_24px_-14px_rgba(13,22,20,0.9)]' : 'text-muted hover:bg-white hover:text-ink'
+                  }`}
                 >
-                  <Icon className="size-4" strokeWidth={1.8} />
+                  <Icon className={`size-4 ${on ? 'text-lime' : ''}`} strokeWidth={1.8} />
                   {x.tab}
                 </button>
               )
@@ -95,7 +97,7 @@ export function Platform() {
                       initial={{ scaleX: on && !still ? 0 : on ? 1 : 0 }}
                       animate={{ scaleX: on ? 1 : 0 }}
                       transition={{ duration: on && !still ? DWELL / 1000 : 0.25, ease: 'linear' }}
-                      className="block h-0.5 origin-left bg-accent"
+                      className="block h-0.5 origin-left bg-gradient-to-r from-accent to-lime"
                     />
                     <AnimatePresence initial={false}>
                       {on && (
