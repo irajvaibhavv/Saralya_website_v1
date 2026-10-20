@@ -76,9 +76,20 @@ export function SaralAiSection({
   return (
     <>
       <section ref={stage} id="saarthi" className="relative flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center overflow-hidden bg-bg px-5 pt-14">
-        {/* the screen's own weather: two soft green corners, nothing else */}
-        <div aria-hidden className="pointer-events-none absolute -right-52 -top-64 size-[46rem] rounded-full bg-accent/10 blur-3xl" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-72 -left-56 size-[42rem] rounded-full bg-accent/10 blur-3xl" />
+        {/* the light half of the page, on the same grid and the same flat
+            shapes as the dark half above it */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage:
+                'linear-gradient(to right, #0d1614 1px, transparent 1px), linear-gradient(to bottom, #0d1614 1px, transparent 1px)',
+              backgroundSize: '96px 96px',
+            }}
+          />
+          <div className="absolute -right-52 -top-56 size-[26rem] rounded-full border-[30px] border-lav/60" />
+          <div className="absolute -bottom-64 -left-48 size-[24rem] rounded-full bg-accent/10" />
+        </div>
         {/* the conversation fills a tall stage; the opening desk is only as
             tall as it needs to be, and the section centres it */}
         <div className={`relative mx-auto w-full max-w-[1120px] ${pending ? 'h-[84svh]' : ''}`}>
