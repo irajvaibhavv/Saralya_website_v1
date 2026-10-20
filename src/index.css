@@ -52,15 +52,6 @@
   --color-wash: #dcebe6;
   --color-wash2: #eef5f2;
 
-  /* The lead asked for a second and third colour beside the teal. Lavender
-     carries the agent surfaces — the thinking parts of the product — and
-     lime marks what is live right now, a few pixels at a time. Neither is
-     a status colour, and neither is used as a card background at scale. */
-  --color-lav: #cbb3e8;
-  --color-lav2: #8b6fb5;
-  --color-lav-w: #f1eafe;
-  --color-lime: #d4ff3f;
-
   /* status only: pass, warn, fail. Never identity. */
   --color-amber: #e08700;
   --color-amber-w: #fff2dc;
