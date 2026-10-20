@@ -16,6 +16,8 @@ export type Screen = {
   says: string
   /** the agent's own name on the bar */
   agent: string
+  /** the call the agent makes, drawn as the dial the live demo draws */
+  verdict?: { call: string; score: number; of: number }
 }
 
 export type UseCase = {
@@ -47,8 +49,9 @@ export const USE_CASES: UseCase[] = [
         { label: 'GST filings read', state: 'live' },
         { label: 'Policy engine · 14 rules', state: 'wait' },
       ],
-      says: 'Thin bureau file, but twelve months of clean cash flow. Recommending approval with a reason code.',
+      says: 'Thin bureau file, twelve months of clean cash flow.',
       agent: 'Decision agent',
+      verdict: { call: 'Approve · STP', score: 742, of: 850 },
     },
   },
   {

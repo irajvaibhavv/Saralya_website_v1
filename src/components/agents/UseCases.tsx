@@ -1,5 +1,5 @@
 import { Check, Mic, Phone } from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { USE_CASES, type Screen } from '../../content/use-cases'
 import { WAVE } from './Platform'
@@ -182,17 +182,21 @@ function PhoneScreen({ screen }: { screen: Screen }) {
               line is held from the start so nothing below it moves */}
           <div className="mt-2.5 min-h-[72px]">
           <AnimatePresence>
-            {step >= screen.rows.length - 1 && (
-              <motion.p
-                initial={still ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="rounded-xl bg-wash2 px-3 py-2 text-small leading-relaxed text-ink2"
-              >
-                {screen.says}
-              </motion.p>
-            )}
+            {step >= screen.rows.length - 1 &&
+              (screen.verdict ? (
+                <Verdict key="verdict" verdict={screen.verdict} says={screen.says} still={!!still} />
+              ) : (
+                <motion.p
+                  key="says"
+                  initial={still ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="rounded-xl bg-wash2 px-3 py-2 text-small leading-relaxed text-ink2"
+                >
+                  {screen.says}
+                </motion.p>
+              ))}
           </AnimatePresence>
           </div>
         </div>
@@ -221,5 +225,68 @@ function PhoneScreen({ screen }: { screen: Screen }) {
       </div>
       </div>
     </div>
+  )
+}
+
+/* The decision lands the way it lands in the live demo on /about: the dial
+   fills, the score counts up to it, and the call arrives on a green pill. */
+const R = 26
+const C = 2 * Math.PI * R
+
+function Verdict({ verdict, says, still }: { verdict: NonNullable<Screen['verdict']>; says: string; still: boolean }) {
+  const n = useMotionValue(still ? verdict.score : 0)
+  const score = useTransform(n, (v) => Math.round(v))
+  useEffect(() => {
+    if (still) return
+    const run = animate(n, verdict.score, { duration: 1.2, ease: [0.22, 1, 0.36, 1] })
+    return () => run.stop()
+  }, [n, still, verdict.score])
+
+  return (
+    <motion.div
+      initial={still ? false : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex items-center gap-3 rounded-xl bg-wash2 px-3 py-2"
+    >
+      <div className="relative size-[60px] shrink-0">
+        <svg width="60" height="60" viewBox="0 0 60 60" className="-rotate-90">
+          <circle cx="30" cy="30" r={R} fill="none" stroke="var(--color-line)" strokeWidth="6" />
+          <motion.circle
+            cx="30"
+            cy="30"
+            r={R}
+            fill="none"
+            stroke="url(#verdict-dial)"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            initial={{ strokeDashoffset: still ? C - C * (verdict.score / verdict.of) : C }}
+            animate={{ strokeDashoffset: C - C * (verdict.score / verdict.of) }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <defs>
+            <linearGradient id="verdict-dial" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="var(--color-accent)" />
+              <stop offset="1" stopColor="var(--color-accent3)" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <motion.span className="display absolute inset-0 grid place-items-center text-small tabular-nums">{score}</motion.span>
+      </div>
+
+      <div className="min-w-0">
+        <motion.span
+          initial={still ? false : { scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
+          className="inline-flex items-center gap-1.5 rounded-full bg-green px-2.5 py-1 text-label font-bold text-white"
+        >
+          <Check className="size-3" strokeWidth={3} /> {verdict.call}
+        </motion.span>
+        <span className="mt-1 block line-clamp-2 text-label leading-snug text-ink2">{says}</span>
+      </div>
+    </motion.div>
   )
 }
