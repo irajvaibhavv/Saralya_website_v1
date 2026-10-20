@@ -70,7 +70,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98, transition: { duration: 0.14, ease: 'easeIn' } }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-x-0 top-full origin-top-right px-4 pt-2 md:inset-x-auto md:right-6 md:w-[332px] md:px-0 lg:right-8"
+            className="absolute inset-x-0 top-full origin-top-right px-4 pt-2 md:inset-x-auto md:right-6 md:w-[244px] md:px-0 lg:right-8"
           >
             <div className="overflow-hidden rounded-3xl bg-white p-2 shadow-[0_30px_70px_-30px_rgba(13,22,20,0.45)] ring-1 ring-line">
               {LINKS.map((l, i) => (
