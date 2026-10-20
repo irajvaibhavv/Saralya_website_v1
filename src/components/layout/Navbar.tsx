@@ -2,7 +2,6 @@ import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScro
 import { ArrowRight, Bot, Building2, Layers, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { CONTACT_EMAIL } from '../../content/site'
 
 /* The menu reads as a numbered contents page: what we sell, what runs on
    it, and who we are. Three words, no explaining. */
@@ -105,14 +104,6 @@ export function Navbar() {
                   </NavLink>
                 </motion.div>
               ))}
-
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=Book%20a%20demo`}
-                className="mt-2 flex items-center justify-between gap-2 rounded-2xl bg-ink px-4 py-3 text-body font-semibold text-white transition-colors hover:bg-accent"
-              >
-                Book a demo
-                <ArrowRight className="size-4" />
-              </a>
             </div>
           </motion.div>
         )}
