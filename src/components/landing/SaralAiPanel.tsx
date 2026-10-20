@@ -23,9 +23,9 @@ const SEAT_ICONS: Record<string, typeof User> = {
 
 /* Why ask here rather than a general assistant. */
 const EDGE = [
-  { icon: Cpu, title: 'Credit ML model' },
-  { icon: Table2, title: 'Bring your data into analytics' },
-  { icon: Lock, title: 'Your data is encrypted' },
+  { icon: Cpu, title: 'Credit ML model', body: 'Trained on anonymised Indian banking data, tuned on RBI directions' },
+  { icon: Table2, title: 'Bring your data into analytics', body: 'One module or the full stack, every endpoint on REST and webhooks' },
+  { icon: Lock, title: 'Your data is encrypted', body: 'Masked at rest — only you see your files' },
 ]
 
 export function SaralAiPanel({
@@ -73,12 +73,15 @@ export function SaralAiPanel({
         {EDGE.map((e) => (
           <div
             key={e.title}
-            className="flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-br from-accent/15 to-accent/5 px-4 py-3.5 ring-1 ring-accent/20"
+            className="flex items-start gap-2.5 rounded-xl bg-gradient-to-br from-accent/15 to-accent/5 px-3 py-2.5 ring-1 ring-accent/20"
           >
-            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-white/80 text-accent shadow-sm">
-              <e.icon className="size-4" strokeWidth={1.8} />
+            <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-white/80 text-accent shadow-sm">
+              <e.icon className="size-3.5" strokeWidth={1.8} />
             </span>
-            <span className="text-small font-semibold leading-snug text-accent2">{e.title}</span>
+            <span className="min-w-0">
+              <span className="block text-small font-semibold leading-snug text-accent2">{e.title}</span>
+              <span className="mt-0.5 block text-label leading-snug text-ink2">{e.body}</span>
+            </span>
           </div>
         ))}
       </div>
