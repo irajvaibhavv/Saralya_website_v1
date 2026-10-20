@@ -23,7 +23,7 @@ import {
   type Tone,
 } from '../content/product'
 import { CONTACT_EMAIL } from '../content/site'
-import { AgentFlow, AgentFrame, type Rail, type Stage } from '../components/agents/AgentFlow'
+import { AgentFlow, type Rail, type Stage } from '../components/agents/AgentFlow'
 import { FadeIn } from '../components/ui/Reveal'
 import { Container, Section } from '../components/ui/Section'
 
@@ -618,9 +618,8 @@ function How() {
             <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
           </div>
 
-          <AgentFrame badge="Saralya agent">
-            <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Credit decision" />
-          </AgentFrame>
+          {/* no frame, no badge row, no caption row: the diagram alone */}
+          <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Credit decision" />
         </FadeIn>
 
         <div className="mt-10 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
