@@ -20,8 +20,8 @@ export function Hero() {
             backgroundSize: '96px 96px',
           }}
         />
-        <div className="absolute -right-56 -top-64 size-[28rem] rounded-full bg-lime" />
-        <div className="absolute -bottom-80 -left-64 size-[34rem] rounded-full border-[34px] border-lav" />
+        <div className="absolute -right-56 -top-64 size-[28rem] rounded-full bg-lav" />
+        <div className="absolute -bottom-80 -left-64 size-[34rem] rounded-full border-[34px] border-lime/70" />
         <div className="absolute left-[34%] top-0 h-24 w-px bg-lime" />
       </div>
 

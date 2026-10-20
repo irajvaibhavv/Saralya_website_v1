@@ -22,16 +22,18 @@ export const WAVE =
 export function Platform() {
   const [track, setTrack] = useState(0)
   const [open, setOpen] = useState(0)
+  /* a row that opens itself under the cursor is a bug, not a feature */
+  const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const t = TRACKS[track]
 
   /* the rows open themselves, one after the next; a click restarts the
      wait rather than ending it */
   useEffect(() => {
-    if (still) return
+    if (still || held) return
     const id = window.setTimeout(() => setOpen((o) => (o + 1) % t.items.length), DWELL)
     return () => window.clearTimeout(id)
-  }, [still, open, t])
+  }, [still, held, open, t])
 
   const pick = (i: number) => {
     setTrack(i)
@@ -39,7 +41,14 @@ export function Platform() {
   }
 
   return (
-    <Section id="platform" className="relative isolate overflow-hidden bg-lav-w">
+    <Section
+      id="platform"
+      className="relative isolate overflow-hidden bg-lav-w"
+      onMouseEnter={() => setHeld(true)}
+      onMouseLeave={() => setHeld(false)}
+      onFocusCapture={() => setHeld(true)}
+      onBlurCapture={() => setHeld(false)}
+    >
       <Container>
         <FadeIn>
           {/* the band's own geometry: one ring and one disc, cropped flat */}

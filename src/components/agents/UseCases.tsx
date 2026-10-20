@@ -24,6 +24,8 @@ const BOARD = 2400
 
 export function UseCases() {
   const [i, setI] = useState(0)
+  /* anyone reading or tabbing through holds the stage where it is */
+  const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const u = USE_CASES[i]
 
@@ -33,13 +35,20 @@ export function UseCases() {
   const dwell = u.board ? BOARD * boards : DWELL
 
   useEffect(() => {
-    if (still) return
+    if (still || held) return
     const id = window.setTimeout(() => setI((n) => (n + 1) % USE_CASES.length), dwell)
     return () => window.clearTimeout(id)
-  }, [still, i, dwell])
+  }, [still, held, i, dwell])
 
   return (
-    <Section tight id="use-cases">
+    <Section
+      tight
+      id="use-cases"
+      onMouseEnter={() => setHeld(true)}
+      onMouseLeave={() => setHeld(false)}
+      onFocusCapture={() => setHeld(true)}
+      onBlurCapture={() => setHeld(false)}
+    >
       <Container>
         <FadeIn className="text-center">
           <div className="eyebrow flex items-center justify-center gap-2">
