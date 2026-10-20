@@ -79,7 +79,9 @@ export function SaralAiSection({
         {/* the screen's own weather: two soft green corners, nothing else */}
         <div aria-hidden className="pointer-events-none absolute -right-52 -top-64 size-[46rem] rounded-full bg-accent/10 blur-3xl" />
         <div aria-hidden className="pointer-events-none absolute -bottom-72 -left-56 size-[42rem] rounded-full bg-accent/10 blur-3xl" />
-        <div className="relative mx-auto h-[84svh] w-full max-w-[1120px]">
+        {/* the conversation fills a tall stage; the opening desk is only as
+            tall as it needs to be, and the section centres it */}
+        <div className={`relative mx-auto w-full max-w-[1120px] ${pending ? 'h-[84svh]' : ''}`}>
           {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} onSeat={onSeat} />}
         </div>
 
