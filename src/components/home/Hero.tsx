@@ -7,7 +7,23 @@ const EASE = [0.22, 1, 0.36, 1] as const
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-12 pb-12 md:pt-20 md:pb-16">
+    <section className="relative isolate overflow-hidden bg-lav-w pt-12 pb-12 md:pt-20 md:pb-16">
+      {/* flat shapes, cropped by the frame — the agents page runs ink with
+          a lime disc, so this one runs light with the teal low and the
+          lime high, and reads as the same family rather than the same page */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, #0d1614 1px, transparent 1px), linear-gradient(to bottom, #0d1614 1px, transparent 1px)',
+            backgroundSize: '96px 96px',
+          }}
+        />
+        <div className="absolute -bottom-60 -left-48 size-[30rem] rounded-full bg-accent/12" />
+        <div className="absolute -right-28 -top-40 size-[26rem] rounded-full border-[26px] border-lime/70" />
+        <div className="absolute bottom-0 left-[38%] h-24 w-px bg-accent/40" />
+      </div>
 
       <Container>
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
@@ -16,9 +32,9 @@ export function Hero() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-small font-semibold text-ink2 shadow-sm"
+              className="inline-flex items-center gap-2.5 border border-ink/15 bg-white px-3.5 py-2 font-mono text-label uppercase tracking-[0.14em] text-ink2"
             >
-              <span className="size-1.5 rounded-full bg-accent animate-pulse-ring" />
+              <span className="size-2 bg-lime" />
               Lending infrastructure for India's banks &amp; NBFCs
             </motion.div>
 
@@ -36,7 +52,7 @@ export function Hero() {
                   >
                     {parts.length === 2 ? (
                       <>
-                        <span className="text-accent">{parts[0]}</span>
+                        <span className="font-hero font-normal italic text-accent">{parts[0]}</span>
                         {parts[1]}
                       </>
                     ) : (

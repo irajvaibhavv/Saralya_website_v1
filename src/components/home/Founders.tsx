@@ -22,9 +22,9 @@ type Tone = {
 }
 
 const MINT: Tone = {
-  card: 'bg-gradient-to-br from-accent/22 via-accent3/10 to-white ring-accent/25',
-  bloom: 'bg-accent/30',
-  avatar: 'bg-gradient-to-br from-accent to-accent2 shadow-[0_12px_24px_-12px_rgba(16,122,102,0.8)]',
+  card: 'bg-wash2 ring-accent/30',
+  bloom: 'bg-accent/15',
+  avatar: 'bg-accent',
   eyebrow: 'text-accent2',
   meta: 'text-accent2',
   tick: 'text-accent',
@@ -32,9 +32,9 @@ const MINT: Tone = {
 }
 
 const PETROL: Tone = {
-  card: 'bg-gradient-to-br from-petrol/22 via-accent3/12 to-white ring-petrol/25',
-  bloom: 'bg-petrol/30',
-  avatar: 'bg-gradient-to-br from-petrol to-ink shadow-[0_12px_24px_-12px_rgba(29,86,105,0.8)]',
+  card: 'bg-lav-w ring-lav',
+  bloom: 'bg-lav/40',
+  avatar: 'bg-lav2',
   eyebrow: 'text-petrol',
   meta: 'text-petrol',
   tick: 'text-petrol',
@@ -96,9 +96,13 @@ export function Founders() {
     <Section id="founders">
       <Container>
         <FadeIn>
-          <div className="eyebrow">Founders</div>
+          <div className="eyebrow flex items-center gap-2.5">
+            <span aria-hidden className="size-2 bg-lime" />
+            Founders
+          </div>
           <h2 className="display mt-2 max-w-[22ch] text-h2">
-            Banking-technology veterans, <span className="text-accent">not lending tourists.</span>
+            Banking-technology veterans,{' '}
+            <span className="font-hero font-normal italic text-accent">not lending tourists</span>.
           </h2>
         </FadeIn>
 
@@ -106,16 +110,16 @@ export function Founders() {
           {FOUNDERS.map((f) => (
             <Item key={f.name}>
               <article
-                className={`relative flex h-full flex-col overflow-hidden rounded-3xl p-7 shadow-sm ring-1 transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(13,22,20,0.35)] md:p-8 ${f.tone.card}`}
+                className={`relative flex h-full flex-col overflow-hidden p-7 ring-1 transition-colors duration-300 md:p-8 ${f.tone.card}`}
               >
                 <span aria-hidden className={`pointer-events-none absolute -right-20 -top-24 size-56 rounded-full blur-3xl ${f.tone.bloom}`} />
 
                 <div className="relative flex items-center gap-4">
-                  <span className={`display grid size-14 shrink-0 place-items-center rounded-2xl text-body text-white ${f.tone.avatar}`}>
+                  <span className={`display grid size-14 shrink-0 place-items-center text-body text-white ${f.tone.avatar}`}>
                     {f.initials}
                   </span>
                   <div className="min-w-0">
-                    <div className={`eyebrow ${f.tone.eyebrow}`}>{f.role}</div>
+                    <div className={`font-mono text-label uppercase tracking-[0.16em] ${f.tone.eyebrow}`}>{f.role}</div>
                     <div className="display mt-0.5 text-h3">{f.name}</div>
                     <div className={`mt-0.5 text-small font-medium ${f.tone.meta}`}>{f.meta}</div>
                   </div>

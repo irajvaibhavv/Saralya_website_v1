@@ -5,7 +5,7 @@ import { FadeIn } from '../ui/Reveal'
 import { Container, Section, SectionHead } from '../ui/Section'
 
 const LOAD_STEPS = [
-  'Fetching CIBIL bureau report…',
+  'Fetching the bureau report…',
   'Pulling GST filing history…',
   'Analysing 6 months of bank statements…',
   'Running risk model…',
