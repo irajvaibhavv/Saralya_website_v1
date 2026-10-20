@@ -368,3 +368,22 @@ export const FIXES = [
 ]
 
 export const CML_LEARNS = ['Credit experts', 'Actual repayments', 'Back-tests on past books', '6 mn anonymised loans']
+
+/* ── the architecture: how an agent moves data from your rails to a
+      decision. Ported from the lead's agent-flow prototype; the three
+      bureaus it named by brand are one "Bureau" rail here, because we do
+      not name third parties on the site. ─────────────────────────────── */
+export const FLOW_RUN: { name: string; how: string }[] = [
+  { name: 'Reads the file whole', how: 'one pull, not five tabs' },
+  { name: 'Scores against your policy', how: 'your matrix, your cut-offs' },
+  { name: 'Writes every reason', how: 'reason codes, not a number' },
+]
+
+export const FLOW_OUT = { call: 'Approve · STP', note: 'sanctioned, with the KFS attached' }
+
+export const FLOW_RULES: { t: string; d: string }[] = [
+  { t: 'Knows your book', d: 'Every rail, policy and past file you already hold — read-only, on your consent' },
+  { t: 'Decides in the open', d: 'A reason code on every call, never a score with nothing behind it' },
+  { t: 'Cannot cross the line', d: 'The SCN clock, the KFS, DPDP consent and the calling window are limits in the system' },
+  { t: 'Lands on your desk', d: 'You make the credit decision; the agent arrives with the work already done' },
+]
