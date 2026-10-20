@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { FadeIn } from './Reveal'
 
 export function Container({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -11,14 +11,21 @@ export function Section({
   className = '',
   id,
   tight,
+  ...rest
 }: {
   children: ReactNode
   className?: string
   id?: string
   tight?: boolean
-}) {
+  /* so a section that rotates on its own can be held by a pointer or a
+     keyboard without every caller rebuilding the element */
+} & Omit<ComponentPropsWithoutRef<'section'>, 'className' | 'id' | 'children'>) {
   return (
-    <section id={id} className={`relative ${id ? 'scroll-mt-16' : ''} ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}>
+    <section
+      id={id}
+      className={`relative ${id ? 'scroll-mt-16' : ''} ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}
+      {...rest}
+    >
       {children}
     </section>
   )

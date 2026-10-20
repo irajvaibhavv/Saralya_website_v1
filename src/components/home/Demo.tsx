@@ -82,7 +82,7 @@ export function DemoSection() {
           }}
         />
         <div className="absolute -left-40 -top-44 size-[26rem] rounded-full border-[28px] border-lav/60" />
-        <div className="absolute -bottom-52 -right-40 size-[24rem] rounded-full bg-lime/80" />
+        <div className="absolute -bottom-52 -right-40 size-[24rem] rounded-full border-[26px] border-lime/70" />
       </div>
 
       <Container className="relative">

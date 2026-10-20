@@ -46,8 +46,8 @@ function Hero() {
             backgroundSize: '96px 96px',
           }}
         />
-        <div className="absolute -bottom-72 -left-60 size-[26rem] rounded-full bg-lime" />
-        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[32px] border-lav" />
+        <div className="absolute -bottom-72 -left-60 size-[26rem] rounded-full bg-lav" />
+        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[32px] border-lime/70" />
         <div className="absolute right-[12%] top-0 h-28 w-px bg-lime" />
         <div className="absolute bottom-0 left-[46%] h-20 w-px bg-lav" />
       </div>
