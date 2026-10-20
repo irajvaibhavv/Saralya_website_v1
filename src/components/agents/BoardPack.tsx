@@ -2,10 +2,12 @@ import { ArrowUpRight } from 'lucide-react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Section, SectionHead } from '../ui/Section'
+/* The board pack the monthly review agent writes: four things a CEO or CRO
+   actually opens on the 1st. The tabs advance on their own until the
+   visitor takes over. Figures are illustrative.
 
-/* The monthly-review view: four things a CEO/CRO actually opens on the 1st.
-   Tabs auto-advance until the visitor takes over. Figures are illustrative. */
+   This used to be a section of its own on the overview page; it is the
+   agent's screen now, so it carries no heading of its own. */
 
 const TABS = [
   { id: 'vintage', label: 'Vintage', head: 'Which cohort is aging badly.', module: 'Saral Drishti' },
@@ -14,7 +16,7 @@ const TABS = [
   { id: 'recover', label: 'Recovery', head: 'Which strategy is working.', module: 'Saral Samadhan' },
 ]
 
-export function MonthlyReview() {
+export function BoardPack({ every = 5200 }: { every?: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { margin: '-20% 0px' })
   const reduce = useReducedMotion()
@@ -23,25 +25,15 @@ export function MonthlyReview() {
 
   useEffect(() => {
     if (!inView || held || reduce) return
-    const id = window.setInterval(() => setActive((i) => (i + 1) % TABS.length), 5200)
+    const id = window.setInterval(() => setActive((i) => (i + 1) % TABS.length), every)
     return () => clearInterval(id)
-  }, [inView, held, reduce])
+  }, [inView, held, reduce, every])
 
   const tab = TABS[active]
 
   return (
-    <Section id="board">
-      <Container>
-        <SectionHead
-          eyebrow="Monthly review"
-          title={
-            <>
-              What lands on your desk on the 1st.
-            </>
-          }
-        />
-        <div ref={ref} className="mx-auto max-w-4xl">
-          <div className="flex flex-wrap justify-center gap-2">
+        <div ref={ref} className="w-full">
+          <div className="flex flex-wrap gap-2">
             {TABS.map((t, i) => (
               <button
                 key={t.id}
@@ -50,13 +42,13 @@ export function MonthlyReview() {
                   setHeld(true)
                 }}
                 className={`relative rounded-full px-4 py-2 text-small font-semibold transition-colors ${
-                  i === active ? 'text-white' : 'text-ink2 hover:text-ink'
+                  i === active ? 'text-ink' : 'text-white/75 hover:text-white'
                 }`}
               >
                 {i === active && (
                   <motion.span
                     layoutId="board-pill"
-                    className="absolute inset-0 -z-10 rounded-full bg-ink"
+                    className="absolute inset-0 -z-10 rounded-full bg-white"
                     transition={{ type: 'spring', stiffness: 400, damping: 34 }}
                   />
                 )}
@@ -65,7 +57,7 @@ export function MonthlyReview() {
             ))}
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-3xl bg-white p-6 shadow-lg md:p-9">
+          <div className="mt-4 overflow-hidden rounded-3xl bg-white p-5 shadow-lg md:p-7">
             <div className="flex items-start justify-between gap-4">
               <AnimatePresence mode="wait">
                 <motion.h3
@@ -87,7 +79,7 @@ export function MonthlyReview() {
               </Link>
             </div>
 
-            <div className="mt-7 min-h-[220px]">
+            <div className="mt-6 min-h-[356px]">
               <AnimatePresence mode="wait">
                 <motion.div key={tab.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
                   {active === 0 && <Vintage />}
@@ -101,8 +93,6 @@ export function MonthlyReview() {
             <p className="mt-6 font-mono text-label uppercase tracking-[0.12em] text-hint">Sample board pack · illustrative figures</p>
           </div>
         </div>
-      </Container>
-    </Section>
   )
 }
 

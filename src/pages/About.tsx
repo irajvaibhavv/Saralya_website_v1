@@ -1,7 +1,6 @@
 import { Benefits } from '../components/home/Benefits'
 import { Founders } from '../components/home/Founders'
 import { DemoSection } from '../components/home/Demo'
-import { MonthlyReview } from '../components/home/MonthlyReview'
 import { Hero } from '../components/home/Hero'
 import { HowItWorks } from '../components/home/HowItWorks'
 import { InspectionReadiness } from '../components/home/InspectionReadiness'
@@ -19,7 +18,6 @@ export function About() {
       <HowItWorks />
       <UpiAnalogy />
       <DemoSection />
-      <MonthlyReview />
       <InspectionReadiness />
       <Benefits />
       <Founders />

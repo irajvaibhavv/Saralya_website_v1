@@ -61,7 +61,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       {
         q: 'Here is my sheet — run the monthly PQM',
         a: 'Drop the MIS or collections sheet into the box above. It comes back as a portfolio read: disbursals and collections for the month, roll-rates between buckets, the branches and products moving against the book, and what changed since last month — then portfolio quality on top: bucket and vintage, SMA-0 / 1 / 2 and NPA movement, and the cohorts ageing faster than the rest.',
-        link: { to: '/about#board', label: 'See a monthly review' },
+        link: { to: '/agents#use-cases', label: 'See a monthly review' },
       },
       {
         q: 'Do a performance review of my team',
