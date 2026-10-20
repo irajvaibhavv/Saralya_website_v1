@@ -2,7 +2,7 @@ import { AlertTriangle, Check, FileText, Play, RotateCcw } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { FadeIn } from '../ui/Reveal'
-import { Container, Section, SectionHead } from '../ui/Section'
+import { Container, Section } from '../ui/Section'
 
 const LOAD_STEPS = [
   'Fetching the bureau report…',
@@ -69,18 +69,36 @@ export function DemoSection() {
   }
 
   return (
-    <Section id="demo">
-      <Container>
-        <SectionHead
-          eyebrow="Live demo"
-          title={
-            <>
-              Run a decision. <span className="text-accent">Watch the report build.</span>
-            </>
-          }
+    /* the page's one dark band: the demo is the moment the product does
+       something, so it gets the ink, the grid and the cropped shapes */
+    <Section id="demo" className="relative isolate overflow-hidden bg-ink text-white">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0 opacity-[0.1]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundSize: '96px 96px',
+          }}
         />
+        <div className="absolute -left-40 -top-44 size-[26rem] rounded-full border-[28px] border-lav/60" />
+        <div className="absolute -bottom-52 -right-40 size-[24rem] rounded-full bg-lime/80" />
+      </div>
+
+      <Container className="relative">
+        <FadeIn className="mb-10 md:mb-12">
+          <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime">
+            <span aria-hidden className="size-2 bg-lime" />
+            Live demo
+          </div>
+          <h2 className="display mt-4 max-w-[18ch] text-h2 md:text-display">
+            Run a decision.{' '}
+            <span className="font-hero font-normal italic text-lime">Watch the report build</span>.
+          </h2>
+        </FadeIn>
+
         <FadeIn>
-          <div className="grid overflow-hidden rounded-3xl bg-white shadow-lg lg:grid-cols-[360px_1fr]">
+          <div className="grid overflow-hidden bg-white text-ink lg:grid-cols-[360px_1fr]">
             {/* form */}
             <div className="border-b border-line p-7 lg:border-b-0 lg:border-r">
               <div className="text-h3 font-extrabold tracking-[-0.02em]">New application</div>
@@ -89,7 +107,7 @@ export function DemoSection() {
               <Field label="Loan amount (₹)" defaultValue="4,20,000" />
               <label className="mb-4 block">
                 <span className="mb-1.5 block font-mono text-label uppercase tracking-[0.1em] text-hint">Product type</span>
-                <select className="w-full rounded-xl bg-bg px-3.5 py-2.5 text-body font-medium outline-none ring-accent/40 focus:ring-2" defaultValue="MSME · Working capital">
+                <select className="w-full border border-line bg-wash2 px-3.5 py-2.5 text-body font-medium outline-none focus:border-accent" defaultValue="MSME · Working capital">
                   <option>MSME · Working capital</option>
                   <option>Retail · Personal loan</option>
                   <option>SME · Term loan</option>
@@ -101,13 +119,13 @@ export function DemoSection() {
                 <button
                   onClick={run}
                   disabled={phase === 'loading'}
-                  className="demo-run group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3 text-body font-bold text-white transition hover:bg-accent2 hover:shadow-glow disabled:opacity-60"
+                  className="demo-run group inline-flex flex-1 items-center justify-center gap-2 bg-ink py-3.5 font-mono text-small uppercase tracking-[0.1em] text-lime transition hover:bg-ink2 disabled:opacity-60"
                 >
                   <Play className="size-4 fill-current" />
                   {phase === 'report' ? 'Run again' : 'Run decision'}
                 </button>
                 {phase !== 'empty' && (
-                  <button onClick={reset} aria-label="Reset" className="grid size-12 place-items-center rounded-full bg-bg text-muted hover:text-ink">
+                  <button onClick={reset} aria-label="Reset" className="grid size-12 place-items-center border border-line bg-white text-muted hover:text-ink">
                     <RotateCcw className="size-4" />
                   </button>
                 )}
@@ -125,7 +143,7 @@ export function DemoSection() {
                     exit={{ opacity: 0 }}
                     className="relative flex h-full min-h-[440px] flex-col items-center justify-center text-center"
                   >
-                    <span className="grid size-16 place-items-center rounded-3xl bg-white text-hint shadow-sm">
+                    <span className="grid size-16 place-items-center border border-line bg-white text-hint">
                       <FileText className="size-7" />
                     </span>
                     <div className="mt-5 text-h3 font-extrabold">No decision yet</div>
@@ -148,7 +166,7 @@ export function DemoSection() {
                         <motion.div
                           key={label}
                           animate={{ opacity: done || now ? 1 : 0.35, x: 0 }}
-                          className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-sm"
+                          className="flex items-center gap-3 border border-line bg-white px-4 py-3"
                         >
                           <span className={`grid size-6 place-items-center rounded-full ${done ? 'bg-accent text-white' : 'bg-bg'}`}>
                             {done ? (
@@ -177,7 +195,7 @@ export function DemoSection() {
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
-                        className="inline-flex items-center gap-2 rounded-full bg-green px-4 py-2 text-body font-bold text-white shadow-[0_12px_24px_-10px_rgba(20,160,107,0.6)]"
+                        className="inline-flex items-center gap-2 bg-green px-4 py-2 text-body font-bold text-white"
                       >
                         <Check className="size-4" strokeWidth={3} /> Approve · STP
                       </motion.div>
@@ -188,7 +206,7 @@ export function DemoSection() {
                       </div>
                     </div>
 
-                    <div className="mt-6 grid gap-6 rounded-3xl bg-white p-6 shadow-sm sm:grid-cols-[150px_1fr] sm:items-center">
+                    <div className="mt-6 grid gap-6 border border-line bg-white p-6 sm:grid-cols-[150px_1fr] sm:items-center">
                       <div className="relative mx-auto size-[130px]">
                         <svg width="130" height="130" viewBox="0 0 130 130" className="-rotate-90">
                           <circle cx="65" cy="65" r={R} fill="none" stroke="var(--color-line)" strokeWidth="10" />
@@ -237,7 +255,7 @@ export function DemoSection() {
                       </div>
                     </div>
 
-                    <div className="mt-4 rounded-3xl bg-white p-6 shadow-sm">
+                    <div className="mt-4 border border-line bg-white p-6">
                       <div className="mb-3 font-mono text-label uppercase tracking-[0.1em] text-hint">Signals checked</div>
                       <div className="space-y-2">
                         <Flag ok>No fraud markers · identity verified</Flag>
@@ -272,7 +290,7 @@ function Field({ label, defaultValue }: { label: string; defaultValue: string })
       <input
         type="text"
         defaultValue={defaultValue}
-        className="w-full rounded-xl bg-bg px-3.5 py-2.5 text-body font-medium outline-none ring-accent/40 focus:ring-2"
+        className="w-full border border-line bg-wash2 px-3.5 py-2.5 text-body font-medium outline-none focus:border-accent"
       />
     </label>
   )

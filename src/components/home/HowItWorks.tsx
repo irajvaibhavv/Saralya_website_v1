@@ -126,7 +126,7 @@ export function HowItWorks() {
                         }}
                         animate={{ y: [0, -4, 0] }}
                         transition={{ duration: 4 + (idx % 3), repeat: Infinity, ease: 'easeInOut', delay: idx * 0.4 }}
-                        className="flex w-[104px] flex-col items-center justify-center gap-2 rounded-2xl bg-white px-2 py-4 text-center shadow-lg sm:w-[118px]"
+                        className="flex w-[104px] flex-col items-center justify-center gap-2 border border-line bg-white px-2 py-4 text-center sm:w-[118px]"
                       >
                         <r.icon className="size-6 text-accent" strokeWidth={1.7} />
                         <span className="text-small font-semibold leading-tight text-ink2">{r.n}</span>
@@ -139,8 +139,8 @@ export function HowItWorks() {
 
             {/* the core */}
             <div className="relative flex flex-col items-center justify-center gap-3">
-              <div ref={core} className="relative grid size-24 place-items-center rounded-3xl bg-ink text-white shadow-lg">
-                <span className="absolute inset-0 rounded-3xl bg-ink animate-pulse-ring" />
+              <div ref={core} className="relative grid size-24 place-items-center bg-ink text-white">
+                <span className="absolute inset-0 bg-ink animate-pulse-ring" />
                 {/* the wordmark's initial, same weight and dot as the nav logo */}
                 <span className="relative flex items-start text-figure font-extrabold leading-none tracking-[-0.06em]">
                   S<span className="mt-[9px] ml-0.5 size-2.5 rounded-full bg-accent3" />
@@ -151,7 +151,7 @@ export function HowItWorks() {
 
             {/* the decision */}
             <div className="relative mx-auto w-full max-w-[300px] lg:mx-0 lg:pt-12">
-              <div ref={out} className="rounded-3xl bg-white p-5 shadow-lg">
+              <div ref={out} className="border border-line bg-white p-5">
                 <div className="font-mono text-label uppercase tracking-[0.12em] text-hint">Decision out</div>
                 <div className="mt-3 h-[52px]">
                   <AnimatePresence mode="wait">
@@ -177,7 +177,7 @@ export function HowItWorks() {
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
-                className="mx-auto -mt-4 flex w-fit items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-lg lg:absolute lg:-right-6 lg:-top-2 lg:mt-0"
+                className="mx-auto -mt-4 flex w-fit items-center gap-3 border border-line bg-white px-4 py-3 lg:absolute lg:-right-6 lg:-top-2 lg:mt-0"
               >
                 <span className="relative grid size-10 place-items-center rounded-full bg-green-w text-green ring-1 ring-green/20">
                   <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
