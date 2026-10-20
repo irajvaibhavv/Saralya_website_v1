@@ -1,6 +1,7 @@
 import { Check, Mic, Phone } from 'lucide-react'
 import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { BoardPack } from './BoardPack'
 import { USE_CASES, type Screen } from '../../content/use-cases'
 import { WAVE } from './Platform'
 import { FadeIn } from '../ui/Reveal'
@@ -13,16 +14,24 @@ import { Container, Section } from '../ui/Section'
 /** how long one agent holds the stage */
 const DWELL = 3200
 
+/** how long one view of the board pack holds */
+const BOARD = 2400
+
 export function UseCases() {
   const [i, setI] = useState(0)
   const still = useReducedMotion()
   const u = USE_CASES[i]
 
+  /* the board agent has four views of its own to get through, so it holds
+     the stage for all four rather than being cut off after the first */
+  const boards = 4
+  const dwell = u.board ? BOARD * boards : DWELL
+
   useEffect(() => {
     if (still) return
-    const id = window.setTimeout(() => setI((n) => (n + 1) % USE_CASES.length), DWELL)
+    const id = window.setTimeout(() => setI((n) => (n + 1) % USE_CASES.length), dwell)
     return () => window.clearTimeout(id)
-  }, [still, i])
+  }, [still, i, dwell])
 
   return (
     <Section tight id="use-cases">
@@ -60,7 +69,7 @@ export function UseCases() {
           })}
         </div>
 
-        <div className="mt-8 grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className={`mt-8 grid items-center gap-8 lg:gap-12 ${u.board ? 'lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)]' : 'lg:grid-cols-2'}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={u.id}
@@ -81,7 +90,7 @@ export function UseCases() {
             </motion.div>
           </AnimatePresence>
 
-          <div className="relative grid place-items-center overflow-hidden rounded-3xl bg-accent p-7 ring-1 ring-ink/10">
+          <div className={`relative grid place-items-center overflow-hidden rounded-3xl bg-accent ring-1 ring-ink/10 ${u.board ? 'p-5 md:p-6' : 'p-7'}`}>
             <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
             <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
             <AnimatePresence mode="wait">
@@ -91,8 +100,9 @@ export function UseCases() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, transition: { duration: 0.15 } }}
                 transition={{ duration: 0.4 }}
+                className="w-full"
               >
-                <PhoneScreen screen={u.screen} />
+                {u.board ? <BoardPack every={BOARD} /> : <PhoneScreen screen={u.screen} />}
               </motion.div>
             </AnimatePresence>
           </div>

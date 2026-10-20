@@ -26,6 +26,8 @@ export type UseCase = {
   title: string
   points: string[]
   screen: Screen
+  /** this agent's work is a board pack, so it is drawn wide, not on a phone */
+  board?: true
 }
 
 export const USE_CASES: UseCase[] = [
@@ -76,6 +78,31 @@ export const USE_CASES: UseCase[] = [
       ],
       says: 'FY24 Q2 is ageing twice as fast as the rest. Eleven accounts carry most of it.',
       agent: 'Analytics agent',
+    },
+  },
+  {
+    id: 'monthly',
+    tab: 'Monthly review agent',
+    title: 'Write the monthly review before anyone asks for it',
+    points: [
+      'Reads the ledger on the 1st and builds the pack from it, not from a template',
+      'Puts the vintage curves, the roll rates and the early warnings on one page',
+      'Says which cohort parted from the pack, and in which month it happened',
+      'Keeps the same four views every month, so the board compares like with like',
+    ],
+    board: true,
+    screen: {
+      app: 'Saral Drishti',
+      title: 'Monthly review · October',
+      sub: 'Board pack · four views',
+      rows: [
+        { label: 'Vintage curves', state: 'done' },
+        { label: 'Roll-rate', state: 'done' },
+        { label: 'Early warning', state: 'live' },
+        { label: 'Recovery', state: 'wait' },
+      ],
+      says: 'The July cohort is rolling four times the April book at the same age.',
+      agent: 'Monthly review agent',
     },
   },
   {
