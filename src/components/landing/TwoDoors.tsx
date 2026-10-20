@@ -17,7 +17,7 @@ export function TwoDoors() {
           {/* the platform */}
           <Link
             to="/products"
-            className="group relative flex min-h-[340px] flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-accent/20 via-accent/10 to-wash2 p-8 ring-1 ring-accent/25 transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(13,22,20,0.4)] md:p-10"
+            className="group relative flex min-h-[392px] flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-accent/20 via-accent/10 to-wash2 p-8 ring-1 ring-accent/25 transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(13,22,20,0.4)] md:p-10"
           >
             <span aria-hidden className="pointer-events-none absolute -right-20 -top-24 size-64 rounded-full bg-accent/25 blur-3xl" />
 
@@ -48,7 +48,7 @@ export function TwoDoors() {
           {/* the agents */}
           <Link
             to="/agents"
-            className="group relative flex min-h-[340px] flex-col overflow-hidden rounded-3xl bg-ink p-8 text-white ring-1 ring-ink transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(13,22,20,0.6)] md:p-10"
+            className="group relative flex min-h-[392px] flex-col overflow-hidden rounded-3xl bg-ink p-8 text-white ring-1 ring-ink transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(13,22,20,0.6)] md:p-10"
           >
             <span aria-hidden className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-accent/35 blur-3xl" />
             <span aria-hidden className="pointer-events-none absolute -bottom-28 -left-20 size-64 rounded-full bg-petrol/40 blur-3xl" />
@@ -74,7 +74,7 @@ export function TwoDoors() {
             </ul>
 
             <span className="relative mt-auto inline-flex items-center gap-2 self-start rounded-full bg-white px-7 py-3.5 text-body font-semibold text-ink transition-colors group-hover:bg-accent3">
-              Build an agent
+              AI agents
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </span>
           </Link>
