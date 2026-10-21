@@ -232,8 +232,8 @@ function Leaders() {
     <Section id="leaders">
       <Container>
         <FadeIn>
-          <div className="eyebrow">Trusted by Indian lenders</div>
-          <h2 className="display mt-3 text-h2 md:whitespace-nowrap">
+          <div className="eyebrow text-small font-bold">Trusted by Indian lenders</div>
+          <h2 className="display mt-3 text-h2 md:whitespace-nowrap md:text-h1">
             Built for leaders who demand <span className="text-accent">precision</span>.
           </h2>
         </FadeIn>
