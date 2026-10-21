@@ -29,7 +29,7 @@ export const TOOLS: Tool[] = [
 
 /* What has to be said on every screen of this surface. */
 export const GUARDS = [
-  { icon: 'spark', title: 'An AI assistant — it can be wrong', body: 'Saralya AI is an assistant, not a lender or a human adviser. It gives general information — not a loan offer, and not financial, legal or investment advice.' },
+  { icon: 'spark', title: 'An AI assistant that can be wrong', body: 'Saralya AI is an assistant, not a lender or a human adviser. It gives general information, not a loan offer, and not financial, legal or investment advice.' },
   { icon: 'bank', title: 'Not a lender', body: 'Saralya is a technology provider, not a lender. Nothing here is a loan offer.' },
   { icon: 'shield', title: 'Keep identifiers to yourself', body: 'Please don’t share Aadhaar, PAN, account numbers or passwords. Conversations without an account stay on this browser.' },
 ]
@@ -37,6 +37,6 @@ export const GUARDS = [
 export const WORKSPACE = {
   eyebrow: 'For lenders and the companies that work with them',
   title: 'Your Saralya LMS workspace',
-  body: 'Credit, portfolio, collections, borrower channels and compliance — ask for a sandbox of your own.',
+  body: 'Credit, portfolio, collections, borrower channels and compliance. Ask for a sandbox of your own.',
   cta: 'Open the workspace',
 }

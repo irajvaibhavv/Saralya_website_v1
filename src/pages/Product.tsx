@@ -431,7 +431,7 @@ function Problem() {
                     {BLANKS.map((b) => (
                       <div key={b} className="flex flex-col justify-between rounded-lg bg-white px-2.5 py-2 ring-1 ring-dashed ring-line2">
                         <span className="text-label text-muted">{b}</span>
-                        <span className="text-h3 font-semibold leading-none text-line2">—</span>
+                        <span aria-hidden className="block h-0.5 w-7 bg-line2" />
                       </div>
                     ))}
                   </div>
@@ -616,7 +616,7 @@ function How() {
             </h2>
           </div>
           <p className="text-body leading-relaxed text-muted xl:whitespace-nowrap xl:pb-3.5">
-            The OS that improves with every lending decision — from a system of record to a system of intelligence.
+            The OS that improves with every lending decision: from a system of record to a system of intelligence.
           </p>
         </FadeIn>
 

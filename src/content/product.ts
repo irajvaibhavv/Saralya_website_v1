@@ -243,7 +243,7 @@ export const AGENTS: Agent[] = [
     soft: 'rgba(23,119,95,0.18)',
     status: 'Live',
     tone: 'good',
-    does: 'Fills the application with the borrower by voice — no typing.',
+    does: 'Fills the application with the borrower by voice, no typing.',
     kpis: ['Fewer repeat visits', 'Lower CAC'],
     at: { x: 50, y: 14.29 },
     label: { x: 50, y: 22.7 },

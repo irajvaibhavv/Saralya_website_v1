@@ -59,8 +59,8 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
     hello: 'Lenders ask me about turnaround, thin files, early stress and inspection.',
     qs: [
       {
-        q: 'Here is my sheet — run the monthly PQM',
-        a: 'Drop the MIS or collections sheet into the box above. It comes back as a portfolio read: disbursals and collections for the month, roll-rates between buckets, the branches and products moving against the book, and what changed since last month — then portfolio quality on top: bucket and vintage, SMA-0 / 1 / 2 and NPA movement, and the cohorts ageing faster than the rest.',
+        q: 'Here is my sheet, run the monthly PQM',
+        a: 'Drop the MIS or collections sheet into the box above. It comes back as a portfolio read: disbursals and collections for the month, roll-rates between buckets, the branches and products moving against the book, and what changed since last month. Then portfolio quality on top: bucket and vintage, SMA-0 / 1 / 2 and NPA movement, and the cohorts ageing faster than the rest.',
         link: { to: '/agents#use-cases', label: 'See a monthly review' },
       },
       {
@@ -138,7 +138,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
       },
       {
         q: 'How fast can my client get an answer?',
-        a: 'Where the lender decides on data — bureau, Account Aggregator and GST on one consent — an in-principle answer takes minutes. The days usually go to collecting paper, not to deciding.',
+        a: 'Where the lender decides on data (bureau, Account Aggregator and GST on one consent), an in-principle answer takes minutes. The days usually go to collecting paper, not to deciding.',
         link: { to: '/demo', label: 'Watch a decision run' },
       },
       {
@@ -160,7 +160,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
     qs: [
       {
         q: 'What does an NBFC actually do?',
-        a: 'It lends without being a bank: no current or savings accounts, and no public deposits for most of them, so it funds itself from banks and the markets and lends on. RBI regulates it in layers — base, middle, upper — under Scale Based Regulation.',
+        a: 'It lends without being a bank: no current or savings accounts, and no public deposits for most of them, so it funds itself from banks and the markets and lends on. RBI regulates it in layers (base, middle, upper) under Scale Based Regulation.',
       },
       {
         q: 'How is a loan application underwritten?',
