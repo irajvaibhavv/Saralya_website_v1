@@ -30,6 +30,9 @@
   --text-h2--line-height: 1.12;
   --text-figure: 44px;
   --text-figure--line-height: 1;
+  /* between h2 and display, for a headline that must hold one line */
+  --text-h1: clamp(34px, 4.6vw, 60px);
+  --text-h1--line-height: 1.08;
   --text-display: clamp(38px, 5.6vw, 76px);
   --text-display--line-height: 1.04;
   /* one step above display, for a screen that carries a single line */
