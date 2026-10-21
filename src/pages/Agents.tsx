@@ -27,28 +27,55 @@ export function Agents() {
   )
 }
 
+/* The hero is a solid block, not a page with decoration on it: ink field,
+   a lime disc and a lavender ring cropped by the edges, a rule grid, and
+   the three faces we already load played against each other — Clash for
+   the headline, Boska italic for the word it turns on, Geist Mono for the
+   labels. Every shape is flat: no blur, no glass, no glow. */
 function Hero() {
   const go = () => scrollToEl('platform')
   return (
-    <Section tight className="pt-14 md:pt-20">
-      <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-14">
+    <section className="relative isolate overflow-hidden bg-ink text-white">
+      {/* the shapes, all solid, all cropped by the frame */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundSize: '96px 96px',
+          }}
+        />
+        <div className="absolute -bottom-72 -left-60 size-[26rem] rounded-full bg-lav" />
+        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[32px] border-lime/70" />
+        <div className="absolute right-[12%] top-0 h-28 w-px bg-lime" />
+        <div className="absolute bottom-0 left-[46%] h-20 w-px bg-lav" />
+      </div>
+
+      <Container className="relative py-14 md:py-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_minmax(0,500px)] lg:gap-16">
           <FadeIn>
-            <div className="eyebrow mb-4">Saralya agents</div>
-            <h1 className="display text-display">
-              Agents that do the work, on every desk in the <span className="text-accent">building</span>
+            <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime">
+              <span className="size-2 bg-lime" />
+              Saralya agents
+            </div>
+
+            <h1 className="display mt-6 max-w-[14ch] text-display leading-[0.98]">
+              Agents that do the work, on every desk in the{' '}
+              <span className="font-hero font-normal italic text-lime">building</span>
             </h1>
-            <div className="mt-7 flex flex-wrap gap-3">
+
+            <div className="mt-9 flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={go}
-                className="rounded-full bg-ink px-7 py-3.5 text-body font-medium text-white transition-colors hover:bg-ink2"
+                className="bg-lime px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime"
               >
-                See them running &rarr;
+                See them running
               </button>
               <a
                 href={demo('Saralya agents')}
-                className="rounded-full bg-white px-7 py-3.5 text-body font-medium text-ink ring-1 ring-line transition hover:ring-accent"
+                className="border border-white/35 px-8 py-4 text-body font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lav"
               >
                 Book a demo
               </a>
@@ -62,7 +89,10 @@ function Hero() {
           </FadeIn>
         </div>
       </Container>
-    </Section>
+
+      {/* the band ends on a hard lime rule, not a fade */}
+      <div aria-hidden className="h-2 w-full bg-lime" />
+    </section>
   )
 }
 
@@ -82,7 +112,7 @@ const CALL: [string, string][] = [
 function AgentCall() {
   const reduce = useReducedMotion()
   return (
-    <div className="min-w-0 overflow-hidden rounded-3xl bg-ink ring-1 ring-ink">
+    <div className="relative min-w-0 overflow-hidden border-l-8 border-lime bg-[#0a110f] ring-1 ring-white/15">
       <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5">
         <span className="font-mono text-label tracking-[0.06em] text-accent3">POST /v1/agents</span>
         <span className="font-mono text-label uppercase tracking-[0.12em] text-white/35">application/json</span>
@@ -109,7 +139,7 @@ function AgentCall() {
         transition={{ duration: 0.4, delay: 0.9 }}
         className="flex items-center gap-2.5 border-t border-white/10 px-5 py-3.5"
       >
-        <span className="size-1.5 rounded-full bg-accent3" />
+        <span className="size-1.5 rounded-full bg-lime" />
         <span className="font-mono text-label tracking-[0.06em] text-white/70">201 Created</span>
         <span className="ml-auto font-mono text-label uppercase tracking-[0.12em] text-white/35">live in 30 days</span>
       </motion.div>
@@ -124,25 +154,29 @@ function Steps() {
   return (
     <Section>
       <Container>
-        <FadeIn className="relative overflow-hidden rounded-3xl bg-ink px-7 py-10 text-white md:px-12 md:py-14">
-          <span aria-hidden className="pointer-events-none absolute -right-24 -top-28 size-80 rounded-full bg-accent/35 blur-3xl" />
-          <span aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 size-80 rounded-full bg-petrol/40 blur-3xl" />
+        <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
+          {/* two discs and a rule, cropped: the same vocabulary as the hero */}
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
+            <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />
+            <div className="absolute left-0 top-0 h-full w-2 bg-ink" />
+          </div>
 
-          <div className="relative grid items-center gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
+          <div className="relative grid items-end gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
             <div>
-              <div className="eyebrow text-accent3">Not on the list?</div>
-              <h2 className="display mt-3 max-w-[18ch] text-h2 md:text-display">
-                Build any other <span className="text-accent3">agent</span>
+              <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-ink/70">
+                <span className="size-2 bg-ink" />
+                Not on the list?
+              </div>
+              <h2 className="display mt-4 max-w-[16ch] text-h2 md:text-display">
+                Build any other{' '}
+                <span className="font-hero font-normal italic">agent</span>
               </h2>
-              <p className="mt-4 max-w-[52ch] text-lede leading-relaxed text-white/70">
-                Tell us the desk and the work it should take off it. We build the agent, wire it beside the core you
-                already run, and it reports from day one.
-              </p>
 
-              <div className="mt-7 flex flex-wrap gap-2.5">
+              <div className="mt-7 flex flex-wrap gap-x-7 gap-y-2.5">
                 {BRING.map((b) => (
-                  <span key={b} className="flex items-center gap-2 rounded-full px-4 py-2 text-small text-white/80 ring-1 ring-white/20">
-                    <Check className="size-3.5 text-accent3" strokeWidth={2.4} />
+                  <span key={b} className="flex items-center gap-2 text-small font-semibold text-ink/80">
+                    <Check className="size-3.5" strokeWidth={3} />
                     {b}
                   </span>
                 ))}
@@ -152,12 +186,12 @@ function Steps() {
             <div className="flex flex-col items-start gap-3 lg:items-end">
               <a
                 href={demo('An agent we have not built yet')}
-                className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-semibold text-ink transition-colors hover:bg-wash"
+                className="group inline-flex items-center gap-2.5 bg-ink px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-lime transition hover:bg-ink2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 Book a demo
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </a>
-              <span className="font-mono text-label uppercase tracking-[0.12em] text-white/40">30 minutes · on your book · under NDA</span>
+              <span className="font-mono text-label uppercase tracking-[0.14em] text-ink/60">30 minutes · on your book · under NDA</span>
             </div>
           </div>
         </FadeIn>

@@ -12,6 +12,11 @@ import { Container, Section } from '../ui/Section'
    move on their own every few seconds — the visitor who waits sees all
    five; the visitor who clicks takes over and the wait restarts. */
 
+/* One field per agent, so six tabs do not read as the same green card six
+   times. All three are brand colours: the teal, the petrol beside it, and
+   the lavender the agent surfaces carry. */
+const FIELDS = ['bg-accent', 'bg-petrol', 'bg-lav2', 'bg-accent2', 'bg-petrol', 'bg-lav2']
+
 /** how long one agent holds the stage */
 const DWELL = 3200
 
@@ -20,6 +25,8 @@ const BOARD = 2400
 
 export function UseCases() {
   const [i, setI] = useState(0)
+  /* anyone reading or tabbing through holds the stage where it is */
+  const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const u = USE_CASES[i]
 
@@ -29,17 +36,24 @@ export function UseCases() {
   const dwell = u.board ? BOARD * boards : DWELL
 
   useEffect(() => {
-    if (still) return
+    if (still || held) return
     const id = window.setTimeout(() => setI((n) => (n + 1) % USE_CASES.length), dwell)
     return () => window.clearTimeout(id)
-  }, [still, i, dwell])
+  }, [still, held, i, dwell])
 
   return (
-    <Section tight id="use-cases">
+    <Section
+      tight
+      id="use-cases"
+      onMouseEnter={() => setHeld(true)}
+      onMouseLeave={() => setHeld(false)}
+      onFocusCapture={() => setHeld(true)}
+      onBlurCapture={() => setHeld(false)}
+    >
       <Container>
         <FadeIn className="text-center">
           <h2 className="display mx-auto text-h3 md:whitespace-nowrap md:text-h2">
-            End-to-end agentic <span className="text-accent">use cases for lenders</span>
+            End-to-end agentic <span className="font-hero font-normal italic text-accent">use cases for lenders</span>
           </h2>
         </FadeIn>
 
@@ -54,13 +68,13 @@ export function UseCases() {
                 aria-selected={on}
                 type="button"
                 onClick={() => setI(n)}
-                className={`relative -mb-px pb-2.5 text-small font-semibold transition-colors ${on ? 'text-ink' : 'text-muted hover:text-ink'}`}
+                className={`relative -mb-px pb-3 font-mono text-small uppercase tracking-[0.08em] transition-colors ${on ? 'text-ink' : 'text-muted hover:text-ink'}`}
               >
                 {x.tab}
                 {on && (
                   <motion.span
                     layoutId="use-case-rule"
-                    className="absolute inset-x-0 -bottom-px block h-0.5 bg-accent"
+                    className="absolute inset-x-0 -bottom-px block h-0.5 bg-gradient-to-r from-accent to-lime"
                     transition={{ duration: 0.3 }}
                   />
                 )}
@@ -79,6 +93,10 @@ export function UseCases() {
               transition={{ duration: 0.35 }}
               className="lg:pt-10"
             >
+              <div className="mb-4 flex items-center gap-3">
+                <span className="bg-ink px-2 py-1 font-mono text-label text-lime">{String(i + 1).padStart(2, '0')}</span>
+                <span className="h-px flex-1 bg-line" />
+              </div>
               <h3 className="display max-w-[22ch] text-h3 md:text-h2">{u.title}</h3>
               <ul className="mt-5 space-y-3">
                 {u.points.map((p) => (
@@ -99,7 +117,7 @@ export function UseCases() {
             </motion.div>
           </AnimatePresence>
 
-          <div className={`relative grid place-items-center overflow-hidden rounded-3xl bg-accent ring-1 ring-ink/10 p-7`}>
+          <div className={`relative grid place-items-center overflow-hidden p-7 ring-1 ring-ink/10 transition-colors duration-500 ${FIELDS[i % FIELDS.length]}`}>
             <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
             <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
             <AnimatePresence mode="wait">

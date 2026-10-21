@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { HeroReel } from './HeroReel'
-import { ButtonLink } from '../ui/Button'
+import { Link } from 'react-router-dom'
 import { lenis } from '../../lib/scroll'
 
 /* One screen: the reel behind, the claim low over it, one button. The reel
@@ -71,23 +71,40 @@ export function Hero() {
       <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
         {/* the frame stays open above; the title sits low like a film card */}
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
-          <motion.h1 {...rise(0.1)} className="font-hero text-display font-bold leading-[1.04] tracking-[-0.01em] text-white">
+          <motion.div
+            {...rise(0)}
+            className="mb-5 flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime [text-shadow:none]"
+          >
+            <span aria-hidden className="size-2 bg-lime" />
+            Lending infrastructure for Bharat
+          </motion.div>
+
+          <motion.h1 {...rise(0.1)} className="display text-display leading-[1.0] text-white">
             Making Lending{' '}
-            <em className="bg-gradient-to-r from-[#8fdcc6] to-[#35b296] bg-clip-text italic text-transparent">
-              Saral
-            </em>{' '}
+            <em className="font-hero font-normal italic text-lime">Saral</em>{' '}
             for Bharat.
           </motion.h1>
 
-          <motion.div {...rise(0.25)} className="pointer-events-auto mt-7">
-            <ButtonLink to="/agents" variant="white" size="lg" arrow>
+          <motion.div {...rise(0.25)} className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/agents"
+              className="bg-lime px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime"
+            >
               AI agents
-            </ButtonLink>
+            </Link>
+            <Link
+              to="/products"
+              className="border border-white/40 px-8 py-4 text-body font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lav"
+            >
+              See the platform
+            </Link>
           </motion.div>
 
         </div>
 
       </div>
+
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2 bg-lime" />
     </section>
   )
 }

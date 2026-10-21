@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScro
 import { ArrowRight, Bot, Layers, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { CONTACT_EMAIL } from '../../content/site'
 
 /* The menu reads as a numbered contents page: what we sell, what runs on
    it, and who we are. Three words, no explaining. */
@@ -16,9 +17,9 @@ export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
   return (
     <Link to="/" aria-label="Saralya" className="inline-flex">
       <img
-        src={full ? '/img/logo-full.png' : light ? '/img/logo-white.png' : '/img/logo.png'}
+        src={light ? '/img/logo-white.png' : full ? '/img/logo-full.png' : '/img/logo.png'}
         alt="Saralya, Credit Simplified"
-        className={`${full ? 'h-16' : 'h-7'} w-auto ${light ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]' : ''}`}
+        className={`${full ? (light ? 'h-9' : 'h-16') : 'h-7'} w-auto ${light && !full ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]' : ''}`}
       />
     </Link>
   )
@@ -49,10 +50,44 @@ export function Navbar() {
         <div className="mx-auto flex h-[64px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
           <Logo light={light} />
 
-
+          {/* three pages do not belong behind a menu on a desktop */}
+          <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
+            {LINKS.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                className={({ isActive }) =>
+                  `relative py-1 font-mono text-small uppercase tracking-[0.1em] transition-colors ${
+                    isActive
+                      ? light
+                        ? 'text-white'
+                        : 'text-ink'
+                      : light
+                        ? 'text-white/65 hover:text-white'
+                        : 'text-muted hover:text-ink'
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {l.label}
+                    {isActive && <span aria-hidden className="absolute -bottom-0.5 left-0 h-0.5 w-full bg-lime" />}
+                  </>
+                )}
+              </NavLink>
+            ))}
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=Book%20a%20demo`}
+              className={`px-5 py-2.5 font-mono text-small uppercase tracking-[0.08em] transition-colors ${
+                light ? 'bg-white text-ink hover:bg-lime' : 'bg-ink text-lime hover:bg-accent hover:text-white'
+              }`}
+            >
+              Book a demo
+            </a>
+          </nav>
 
           <button
-            className="-mr-2 grid size-10 place-items-center rounded-full bg-white shadow-sm"
+            className={`-mr-2 grid size-10 place-items-center md:hidden ${light ? 'bg-white/15 text-white' : 'bg-ink text-white'}`}
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
           >
@@ -68,9 +103,9 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98, transition: { duration: 0.14, ease: 'easeIn' } }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-x-0 top-full origin-top-right px-4 pt-2 md:inset-x-auto md:right-6 md:w-[244px] md:px-0 lg:right-8"
+            className="absolute inset-x-0 top-full origin-top-right px-4 pt-2 md:hidden"
           >
-            <div className="overflow-hidden rounded-3xl bg-white p-2 shadow-[0_30px_70px_-30px_rgba(13,22,20,0.45)] ring-1 ring-line">
+            <div className="overflow-hidden bg-white p-2 shadow-[0_30px_70px_-30px_rgba(13,22,20,0.45)] ring-1 ring-line">
               {LINKS.map((l, i) => (
                 <motion.div
                   key={l.to}
@@ -81,7 +116,7 @@ export function Navbar() {
                   <NavLink
                     to={l.to}
                     className={({ isActive }) =>
-                      `group flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors ${isActive ? 'bg-accent/10' : 'hover:bg-wash'}`
+                      `group flex items-center gap-3 px-3 py-2.5 transition-colors ${isActive ? 'bg-wash2' : 'hover:bg-wash'}`
                     }
                   >
                     {({ isActive }) => (
@@ -90,8 +125,8 @@ export function Navbar() {
                           {String(i + 1).padStart(2, '0')}
                         </span>
                         <span
-                          className={`grid size-9 shrink-0 place-items-center rounded-xl transition-colors ${
-                            isActive ? 'bg-accent text-white' : 'bg-wash text-accent group-hover:bg-white'
+                          className={`grid size-9 shrink-0 place-items-center transition-colors ${
+                            isActive ? 'bg-ink text-lime' : 'bg-wash text-accent group-hover:bg-white'
                           }`}
                         >
                           <l.icon className="size-4" strokeWidth={1.8} />

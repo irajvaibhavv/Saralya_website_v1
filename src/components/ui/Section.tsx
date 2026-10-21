@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { FadeIn } from './Reveal'
 
 export function Container({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -11,14 +11,21 @@ export function Section({
   className = '',
   id,
   tight,
+  ...rest
 }: {
   children: ReactNode
   className?: string
   id?: string
   tight?: boolean
-}) {
+  /* so a section that rotates on its own can be held by a pointer or a
+     keyboard without every caller rebuilding the element */
+} & Omit<ComponentPropsWithoutRef<'section'>, 'className' | 'id' | 'children'>) {
   return (
-    <section id={id} className={`relative ${id ? 'scroll-mt-16' : ''} ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}>
+    <section
+      id={id}
+      className={`relative ${id ? 'scroll-mt-16' : ''} ${tight ? 'py-10 md:py-14' : 'border-t border-line py-16 md:py-24'} ${className}`}
+      {...rest}
+    >
       {children}
     </section>
   )
@@ -39,7 +46,12 @@ export function SectionHead({
   return (
     <FadeIn className={`mb-10 grid gap-4 md:mb-12 lg:grid-cols-[1fr_minmax(0,380px)] lg:items-end lg:gap-10 ${className}`}>
       <div>
-        {eyebrow && <div className="eyebrow mb-3">{eyebrow}</div>}
+        {eyebrow && (
+          <div className="eyebrow mb-3 flex items-center gap-2.5">
+            <span aria-hidden className="size-2 bg-lime" />
+            {eyebrow}
+          </div>
+        )}
         <h2 className="display max-w-2xl text-h2">{title}</h2>
       </div>
       {lede && <p className="text-lede leading-relaxed text-muted lg:pb-1">{lede}</p>}
