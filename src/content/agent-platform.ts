@@ -67,7 +67,7 @@ export const TRACKS: Track[] = [
     ],
     video: null,
     poster: null,
-    tint: 'bg-amber',
+    tint: 'bg-lav2',
     waiting: 'The portfolio-quality monitor, on a live book',
   },
   {

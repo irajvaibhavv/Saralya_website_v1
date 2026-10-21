@@ -22,16 +22,18 @@ export const WAVE =
 export function Platform() {
   const [track, setTrack] = useState(0)
   const [open, setOpen] = useState(0)
+  /* a row that opens itself under the cursor is a bug, not a feature */
+  const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const t = TRACKS[track]
 
   /* the rows open themselves, one after the next; a click restarts the
      wait rather than ending it */
   useEffect(() => {
-    if (still) return
+    if (still || held) return
     const id = window.setTimeout(() => setOpen((o) => (o + 1) % t.items.length), DWELL)
     return () => window.clearTimeout(id)
-  }, [still, open, t])
+  }, [still, held, open, t])
 
   const pick = (i: number) => {
     setTrack(i)
@@ -39,14 +41,27 @@ export function Platform() {
   }
 
   return (
-    <Section id="platform">
+    <Section
+      id="platform"
+      className="relative isolate overflow-hidden bg-lav-w"
+      onMouseEnter={() => setHeld(true)}
+      onMouseLeave={() => setHeld(false)}
+      onFocusCapture={() => setHeld(true)}
+      onBlurCapture={() => setHeld(false)}
+    >
       <Container>
         <FadeIn>
+          {/* the band's own geometry: one ring and one disc, cropped flat */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+            <div className="absolute -left-40 top-10 size-[30rem] rounded-full border-[30px] border-lav/50" />
+            <div className="absolute -right-24 bottom-0 size-64 rounded-full bg-accent/10" />
+          </div>
+
           <h2 className="display mx-auto text-center text-h2 md:text-display">
-            One agentic <span className="text-accent">platform</span>
+            One agentic <span className="font-hero font-normal italic text-accent">platform</span>
           </h2>
 
-          <div role="tablist" aria-label="Where agents work" className="mx-auto mt-8 flex w-fit flex-wrap justify-center gap-1 rounded-full bg-wash p-1.5">
+          <div role="tablist" aria-label="Where agents work" className="mx-auto mt-8 flex w-fit flex-wrap justify-center gap-px border border-ink/15 bg-ink/5 p-px">
             {TRACKS.map((x, i) => {
               const Icon = TAB_ICONS[x.id]
               const on = i === track
@@ -57,9 +72,11 @@ export function Platform() {
                   aria-selected={on}
                   type="button"
                   onClick={() => pick(i)}
-                  className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-small font-semibold transition ${on ? 'bg-ink text-white' : 'text-muted hover:text-ink'}`}
+                  className={`flex items-center gap-2 px-5 py-3 font-mono text-small uppercase tracking-[0.08em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                    on ? 'bg-ink text-white' : 'bg-white/60 text-muted hover:bg-white hover:text-ink'
+                  }`}
                 >
-                  <Icon className="size-4" strokeWidth={1.8} />
+                  <Icon className={`size-4 ${on ? 'text-lime' : ''}`} strokeWidth={1.8} />
                   {x.tab}
                 </button>
               )
@@ -95,7 +112,7 @@ export function Platform() {
                       initial={{ scaleX: on && !still ? 0 : on ? 1 : 0 }}
                       animate={{ scaleX: on ? 1 : 0 }}
                       transition={{ duration: on && !still ? DWELL / 1000 : 0.25, ease: 'linear' }}
-                      className="block h-0.5 origin-left bg-accent"
+                      className="block h-0.5 origin-left bg-gradient-to-r from-accent to-lime"
                     />
                     <AnimatePresence initial={false}>
                       {on && (
@@ -125,7 +142,7 @@ export function Platform() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
               transition={{ duration: 0.35 }}
-              className={`relative grid place-items-center overflow-hidden rounded-3xl p-7 ring-1 ring-ink/10 ${t.tint}`}
+              className={`relative grid place-items-center overflow-hidden p-7 ring-1 ring-ink/10 ${t.tint}`}
             >
               {/* the field behind the device: flat colour, combed with waves */}
               <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />

@@ -79,9 +79,26 @@ Conventions:
 - **Type**: nine named sizes in `@theme` (`text-label` … `text-display`).
   Never write an arbitrary `text-[18px]` or a new `clamp()`; pick the
   nearest step.
-- **Colour means status, never identity.** `accent` is the brand;
-  `green`/`amber`/`red` mean pass/warn/fail only. Modules, avatars and
-  chips are told apart by name and photograph, not by hue.
+- **Colour means status, never identity**, with one exception the lead
+  asked for directly (2026-10-20): `lav` carries the agent surfaces and
+  `lime` marks action or a live state. `green`/`amber`/`red` still mean
+  pass/warn/fail only, and modules, avatars and chips are still told apart
+  by name, not hue.
+- **One solid lime field per page.** Outlines, rules, markers and buttons
+  are exempt; a filled disc or band the size of a section is not. Today:
+  the closing block on `/agents`, the idea band on `/about`, the agents
+  card on `/`.
+- **Never set text in `lime` on a light surface** — it fails AA. Lime text
+  belongs on `ink` only; everywhere else lime is a fill with ink on top.
+- **Anything that rotates on its own pauses on hover and on focus**
+  (`held` state + `onMouseEnter`/`onFocusCapture` on the `Section`), so a
+  carousel never moves while someone is reading or tabbing through it.
+- **Shapes are flat**: solid discs, ring outlines, 96px rule grids, cropped
+  by the section edge. No blur, no glass, no glow, and `pointer-events-none`
+  on every decorative layer.
+- **Three faces, each with a job**: Clash Display for headlines, Boska
+  italic for the one word a headline turns on, Geist Mono in caps for
+  labels, tabs, chips and buttons. Body copy stays in the sans.
   (This pass replaced 27 arbitrary sizes across 12 `clamp()` formulas with
   nine tokens, and cut 24 colour tokens to 19 — `blue`, `purple` and
   `peach` are gone. Do not reintroduce them.)
