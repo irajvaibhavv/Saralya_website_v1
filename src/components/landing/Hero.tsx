@@ -1,4 +1,6 @@
-import { motion } from 'motion/react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { HeroReel } from './HeroReel'
 import { ButtonLink } from '../ui/Button'
 import { lenis } from '../../lib/scroll'
@@ -10,17 +12,51 @@ import { lenis } from '../../lib/scroll'
 const EASE = [0.22, 1, 0.36, 1] as const
 const rise = (delay: number) => ({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, ease: EASE, delay } })
 
+/** the reel fades out this long before Saarthi is put in its place */
+const FADE = 380
+
 export function Hero() {
-  /* the same travel the wheel gets in Landing: one screen, eased both ends */
+  const still = useReducedMotion()
+  const [veil, setVeil] = useState(false)
+
+  /* Clicking the reel dissolves rather than travels: the frame fades down
+     to black, the page is moved underneath it, and Saarthi fades up in its
+     place. The veil is portalled to the body — inside the hero it would be
+     painted under the Saarthi screen, which is its own stacking layer. */
   const open = () => {
     const screens = document.querySelectorAll<HTMLElement>('[data-screen]')
     const to = screens[0]?.offsetHeight ?? window.innerHeight
-    lenis.scrollTo(to, { force: true, duration: 1.05, easing: (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) })
+    if (still) {
+      lenis.scrollTo(to, { force: true, immediate: true })
+      return
+    }
+    setVeil(true)
+    window.setTimeout(() => {
+      lenis.scrollTo(to, { force: true, immediate: true })
+      setVeil(false)
+    }, FADE)
   }
 
   return (
     <section className="relative isolate -mt-[65px] overflow-hidden bg-[#0a0a0b] pt-[65px] text-white">
       <HeroReel />
+
+      {createPortal(
+        <AnimatePresence>
+          {veil && (
+            <motion.div
+              key="dissolve"
+              aria-hidden
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: FADE / 1000, ease: 'linear' }}
+              className="pointer-events-none fixed inset-0 z-[100] bg-[#0a0a0b]"
+            />
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
 
       {/* the reel is the door: click it and Saarthi rides up */}
       <button

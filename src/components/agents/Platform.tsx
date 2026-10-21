@@ -42,8 +42,8 @@ export function Platform() {
     <Section id="platform">
       <Container>
         <FadeIn>
-          <h2 className="display mx-auto max-w-[20ch] text-center text-h2 md:text-display">
-            One agentic platform for the whole <span className="text-accent">lending floor</span>.
+          <h2 className="display mx-auto text-center text-h2 md:text-display">
+            One agentic <span className="text-accent">platform</span>.
           </h2>
 
           <div role="tablist" aria-label="Where agents work" className="mx-auto mt-8 flex w-fit flex-wrap justify-center gap-1 rounded-full bg-wash p-1.5">
