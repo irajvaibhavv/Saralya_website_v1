@@ -31,7 +31,7 @@ export function ClosingCta({ demo = false }: { demo?: boolean }) {
           <div className="dots grid items-center gap-8 rounded-3xl bg-ink px-7 py-10 text-white md:grid-cols-[1fr_auto] md:px-12 md:py-14">
             <div>
               <div className="eyebrow mb-4 text-accent3">Free · public data only</div>
-              <h2 className="display max-w-xl text-h2">Get a free tech &amp; compliance read for your NBFC.</h2>
+              <h2 className="display max-w-xl text-h2">Get a free tech &amp; compliance read for your NBFC</h2>
               <p className="mt-3 text-body text-white/60">No commitment. We read what is public and tell you what we see.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:flex-col">

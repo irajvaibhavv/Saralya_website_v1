@@ -295,7 +295,7 @@ function Ask({
       </div>
 
       <h1 className="display mt-3.5 max-w-[26ch] text-h3 md:text-h2">
-        Ask anything about <span className="text-accent">lending</span>. Get the answer an underwriter would give.
+        Ask anything about <span className="text-accent">lending</span>. Get the answer an underwriter would give
       </h1>
       <p className="mt-2.5 text-body leading-relaxed text-muted">
         India’s lending copilot, for borrowers, businesses and the people who lend to them.
