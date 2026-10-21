@@ -410,20 +410,20 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem">
+    <Section id="problem" tight>
       <Container>
         <FadeIn>
           <div className="eyebrow text-amber">The problem · why legacy ops erode ROE</div>
-          <h2 className="display mt-3 text-h2 md:text-display">21st-century capital. 19th-century cockpit.</h2>
-          <p className="mt-3 text-lede leading-relaxed text-muted xl:whitespace-nowrap">
+          <h2 className="display mt-2 text-h2">21st-century capital. 19th-century cockpit.</h2>
+          <p className="mt-2 text-lede leading-relaxed text-muted xl:whitespace-nowrap">
             You are held accountable for every basis point of NIM and GNPA, yet your teams are forced to fly without precision instruments.
           </p>
         </FadeIn>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {PROBLEMS.map((p) => (
-            <article key={p.n} className="rounded-2xl bg-white p-5 ring-1 ring-line2">
-              <div className="grid h-[140px] place-items-center rounded-xl bg-bg p-3">
+            <article key={p.n} className="rounded-2xl bg-white p-4 ring-1 ring-line2">
+              <div className="grid h-[116px] place-items-center rounded-xl bg-bg p-2.5">
                 {p.kind === 'blanks' && (
                   <div className="grid size-full grid-cols-2 gap-2">
                     {BLANKS.map((b) => (
@@ -469,18 +469,20 @@ function Problem() {
                   </div>
                 )}
               </div>
-              <div className="mt-3 font-mono text-label uppercase tracking-[0.14em] text-amber">{p.n}</div>
-              <h3 className="mt-1.5 text-h3 font-semibold leading-snug">{p.t}</h3>
+              <h3 className="mt-2.5 flex gap-2 text-body font-semibold leading-snug">
+                <span className="font-mono text-label uppercase tracking-[0.14em] text-amber">{p.n}</span>
+                {p.t}
+              </h3>
             </article>
           ))}
         </div>
 
-        <div className="mt-10">
+        <div className="mt-6">
           <div className="eyebrow">All of this leads to</div>
-          <div className="mt-4 grid gap-5 lg:grid-cols-3">
+          <div className="mt-3 grid gap-4 lg:grid-cols-3">
             {PRESSURES.map((x) => (
-              <article key={x.t} className="rounded-2xl bg-white p-5 ring-1 ring-line2">
-                <div className="grid h-[132px] place-items-center rounded-xl bg-amber-w/40 p-3">
+              <article key={x.t} className="flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line2">
+                <div className="grid h-[104px] place-items-center rounded-xl bg-amber-w/40 p-2.5">
                   {x.kind === 'nim' && (
                     <svg viewBox="0 0 280 112" role="img" aria-label="Yield falls towards the cost of funds, so the margin narrows" className="w-full">
                       <path d="M8 20 L272 44 L272 70 L8 76 Z" className="fill-amber-w" />
@@ -518,9 +520,9 @@ function Problem() {
                     </svg>
                   )}
                 </div>
-                <h3 className="mt-3 text-h3 font-semibold">{x.t}</h3>
+                <h3 className="mt-2.5 text-body font-semibold">{x.t}</h3>
                 {x.chips.length > 0 && (
-                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  <div className="mt-2 flex flex-wrap gap-1.5">
                     {x.chips.map((c) => (
                       <span key={c} className="rounded-full bg-amber-w px-2.5 py-1 text-label font-semibold text-amber">
                         {c}
@@ -528,13 +530,13 @@ function Problem() {
                     ))}
                   </div>
                 )}
-                {x.body && <p className="mt-2.5 text-small leading-relaxed text-muted">{x.body}</p>}
+                {x.body && <p className="mt-2 text-small leading-snug text-muted">{x.body}</p>}
               </article>
             ))}
           </div>
         </div>
 
-        <p className="display mx-auto mt-10 max-w-[860px] text-center text-h2">
+        <p className="display mx-auto mt-6 max-w-[860px] text-center text-h3">
           The fix isn’t more people. It’s an <span className="text-accent">operating system</span>.
         </p>
       </Container>
