@@ -26,7 +26,7 @@ export type UseCase = {
   title: string
   points: string[]
   screen: Screen
-  /** this agent's work is a board pack, so it is drawn wide, not on a phone */
+  /** this agent's work is a board pack, so its panel plays four views */
   board?: true
 }
 
@@ -34,7 +34,7 @@ export const USE_CASES: UseCase[] = [
   {
     id: 'decision',
     tab: 'Decision agent',
-    title: 'Decide the file while the borrower is still at the counter',
+    title: 'Decide at the counter',
     points: [
       'Pulls bureau, Account Aggregator and GSTN on one consent, in one run',
       'Scores against the policy for that product, not a single generic cut-off',
@@ -59,7 +59,7 @@ export const USE_CASES: UseCase[] = [
   {
     id: 'analytics',
     tab: 'Analytics agent',
-    title: 'Read the whole book before the first meeting of the day',
+    title: 'Read the whole book, every morning',
     points: [
       'Cuts the portfolio by bucket, vintage, product, branch and ticket size',
       'Tracks SMA-0 / 1 / 2 and NPA movement against last month, not last year',
@@ -83,7 +83,7 @@ export const USE_CASES: UseCase[] = [
   {
     id: 'monthly',
     tab: 'Monthly review agent',
-    title: 'Write the monthly review before anyone asks for it',
+    title: 'The monthly review',
     points: [
       'Reads the ledger on the 1st and builds the pack from it, not from a template',
       'Puts the vintage curves, the roll rates and the early warnings on one page',
@@ -108,7 +108,7 @@ export const USE_CASES: UseCase[] = [
   {
     id: 'onboarding',
     tab: 'Onboarding agent',
-    title: 'Walk a borrower from the first tap to a complete file',
+    title: 'First tap to a complete file',
     points: [
       'Takes identity, address and bank in one consented run, in the borrower’s language',
       'Puts the Key Fact Statement in front of them before anything is signed',
@@ -132,7 +132,7 @@ export const USE_CASES: UseCase[] = [
   {
     id: 'underwriting',
     tab: 'Underwriting agent',
-    title: 'Underwrite the thin file on cash flow, not on a bureau score',
+    title: 'Underwrite on cash flow',
     points: [
       'Reads twelve months of bank data for turnover, seasonality and bounces',
       'Checks the GST filings against what the application claims',
@@ -156,7 +156,7 @@ export const USE_CASES: UseCase[] = [
   {
     id: 'fieldpd',
     tab: 'Field PD agent',
-    title: 'Run the personal discussion, and write it up on the spot',
+    title: 'The PD, written on the spot',
     points: [
       'Runs the discussion as a conversation, with a face and a name, not a form',
       'Probes the answer that does not add up instead of recording it',

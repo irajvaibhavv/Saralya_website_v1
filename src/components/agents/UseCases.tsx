@@ -1,8 +1,9 @@
-import { Check, Mic, Phone } from 'lucide-react'
+import { ArrowUpRight, Check, Mic, Phone } from 'lucide-react'
 import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { BoardPack } from './BoardPack'
 import { USE_CASES, type Screen } from '../../content/use-cases'
+import { CONTACT_EMAIL } from '../../content/site'
 import { WAVE } from './Platform'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
@@ -68,7 +69,7 @@ export function UseCases() {
           })}
         </div>
 
-        <div className={`mt-8 grid items-center gap-8 lg:gap-12 ${u.board ? 'lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)]' : 'lg:grid-cols-2'}`}>
+        <div className="mt-8 grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <AnimatePresence mode="wait">
             <motion.div
               key={u.id}
@@ -76,6 +77,7 @@ export function UseCases() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
               transition={{ duration: 0.35 }}
+              className="lg:pt-10"
             >
               <h3 className="display max-w-[22ch] text-h3 md:text-h2">{u.title}</h3>
               <ul className="mt-5 space-y-3">
@@ -86,10 +88,18 @@ export function UseCases() {
                   </li>
                 ))}
               </ul>
+
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Demo: ${u.tab}`)}`}
+                className="group mt-7 inline-flex items-center gap-2.5 rounded-full bg-accent px-7 py-3.5 font-mono text-small uppercase tracking-[0.1em] text-white transition-colors hover:bg-accent2"
+              >
+                Ask for a demo
+                <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={2.2} />
+              </a>
             </motion.div>
           </AnimatePresence>
 
-          <div className={`relative grid place-items-center overflow-hidden rounded-3xl bg-accent ring-1 ring-ink/10 ${u.board ? 'p-5 md:p-6' : 'p-7'}`}>
+          <div className={`relative grid place-items-center overflow-hidden rounded-3xl bg-accent ring-1 ring-ink/10 p-7`}>
             <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
             <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
             <AnimatePresence mode="wait">
