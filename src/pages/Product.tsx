@@ -412,10 +412,10 @@ function Problem() {
   return (
     <Section id="problem">
       <Container>
-        <FadeIn className="max-w-[840px]">
+        <FadeIn>
           <div className="eyebrow text-amber">The problem · why legacy ops erode ROE</div>
           <h2 className="display mt-3 text-h2 md:text-display">21st-century capital. 19th-century cockpit.</h2>
-          <p className="mt-3 text-lede leading-relaxed text-muted">
+          <p className="mt-3 text-lede leading-relaxed text-muted xl:whitespace-nowrap">
             You are held accountable for every basis point of NIM and GNPA, yet your teams are forced to fly without precision instruments.
           </p>
         </FadeIn>
