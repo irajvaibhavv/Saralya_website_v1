@@ -231,9 +231,9 @@ function Leaders() {
   return (
     <Section id="leaders">
       <Container>
-        <FadeIn className="max-w-[780px]">
+        <FadeIn>
           <div className="eyebrow">Trusted by Indian lenders</div>
-          <h2 className="display mt-3 text-h2 md:text-display">
+          <h2 className="display mt-3 text-h2 md:whitespace-nowrap">
             Built for leaders who demand <span className="text-accent">precision</span>.
           </h2>
         </FadeIn>
