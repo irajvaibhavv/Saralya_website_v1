@@ -39,7 +39,7 @@ export function UseCases() {
       <Container>
         <FadeIn className="text-center">
           <h2 className="display mx-auto text-h3 md:whitespace-nowrap md:text-h2">
-            End-to-end agentic <span className="text-accent">use cases for lenders</span>.
+            End-to-end agentic <span className="text-accent">use cases for lenders</span>
           </h2>
         </FadeIn>
 

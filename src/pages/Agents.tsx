@@ -36,7 +36,7 @@ function Hero() {
           <FadeIn>
             <div className="eyebrow mb-4">Saralya agents</div>
             <h1 className="display text-display">
-              Agents that do the work, on every desk in the <span className="text-accent">building</span>.
+              Agents that do the work, on every desk in the <span className="text-accent">building</span>
             </h1>
             <div className="mt-7 flex flex-wrap gap-3">
               <button
@@ -132,7 +132,7 @@ function Steps() {
             <div>
               <div className="eyebrow text-accent3">Not on the list?</div>
               <h2 className="display mt-3 max-w-[18ch] text-h2 md:text-display">
-                Build any other <span className="text-accent3">agent</span>.
+                Build any other <span className="text-accent3">agent</span>
               </h2>
               <p className="mt-4 max-w-[52ch] text-lede leading-relaxed text-white/70">
                 Tell us the desk and the work it should take off it. We build the agent, wire it beside the core you

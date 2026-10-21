@@ -74,7 +74,7 @@ function Hero() {
           <FadeIn>
             <div className="eyebrow text-accent3">Making lending Saral</div>
             <h1 className="display mt-4 text-display">
-              The enterprise-grade <span className="text-accent3">operating system</span> for lenders.
+              The enterprise-grade <span className="text-accent3">operating system</span> for lenders
             </h1>
             <p className="mt-4 max-w-[46ch] text-lede leading-relaxed text-white/70">
               The intelligence layer behind every lending decision.
@@ -233,7 +233,7 @@ function Leaders() {
         <FadeIn>
           <div className="eyebrow text-small font-bold">Trusted by Indian lenders</div>
           <h2 className="display mt-3 text-h2 md:whitespace-nowrap md:text-h1">
-            Built for leaders who demand <span className="text-accent">precision</span>.
+            Built for leaders who demand <span className="text-accent">precision</span>
           </h2>
         </FadeIn>
 
@@ -413,7 +413,7 @@ function Problem() {
       <Container>
         <FadeIn>
           <div className="eyebrow text-amber">The problem · why legacy ops erode ROE</div>
-          <h2 className="display mt-2 text-h2">21st-century capital. 19th-century cockpit.</h2>
+          <h2 className="display mt-2 text-h2">21st-century capital. 19th-century cockpit</h2>
           <p className="mt-2 text-lede leading-relaxed text-muted xl:whitespace-nowrap">
             You are held accountable for every basis point of NIM and GNPA, yet your teams are forced to fly without precision instruments.
           </p>
@@ -797,7 +797,7 @@ function How() {
         </div>
 
         <div className="mt-10">
-          <h3 className="display text-h2">Every problem, fixed at the source.</h3>
+          <h3 className="display text-h2">Every problem, fixed at the source</h3>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {FIXES.map((f) => (
               <article key={f.problem} className="flex flex-col rounded-2xl bg-white p-5 ring-1 ring-line2">
