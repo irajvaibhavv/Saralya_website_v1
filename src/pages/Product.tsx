@@ -787,15 +787,6 @@ function How() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 font-mono text-label uppercase tracking-[0.16em] text-accent">
-          {['Observe', 'Reason', 'Act', 'Learn', 'Repeat'].map((s, n) => (
-            <span key={s} className="flex items-center gap-3.5">
-              {s}
-              {n < 4 && <span className="text-line2">→</span>}
-            </span>
-          ))}
-        </div>
-
         <div className="mt-10">
           <h3 className="display text-h2">Every problem, fixed at the source</h3>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
