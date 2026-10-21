@@ -6,7 +6,6 @@ import {
   ARC_PATHS,
   BLANKS,
   CHAIN,
-  CML_LEARNS,
   DECISIONS,
   FIXES,
   LAYER,
@@ -420,7 +419,10 @@ function Problem() {
           </p>
         </FadeIn>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <div>
+            <div className="eyebrow">What it looks like on the floor</div>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
             <article key={p.n} className="rounded-2xl bg-white p-4 ring-1 ring-line2">
               <div className="grid h-[116px] place-items-center rounded-xl bg-bg p-2.5">
@@ -475,35 +477,36 @@ function Problem() {
               </h3>
             </article>
           ))}
-        </div>
+            </div>
+          </div>
 
-        <div className="mt-6">
-          <div className="eyebrow">All of this leads to</div>
-          <div className="mt-3 grid gap-4 lg:grid-cols-3">
+          <div>
+            <div className="eyebrow">All of this leads to</div>
+            <div className="mt-3 grid gap-4">
             {PRESSURES.map((x) => (
-              <article key={x.t} className="flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line2">
-                <div className="grid h-[104px] place-items-center rounded-xl bg-amber-w/40 p-2.5">
+              <article key={x.t} className="flex items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-line2">
+                <div className="grid h-[96px] w-[224px] shrink-0 place-items-center rounded-xl bg-amber-w/40 p-2.5">
                   {x.kind === 'nim' && (
                     <svg viewBox="0 0 280 112" role="img" aria-label="Yield falls towards the cost of funds, so the margin narrows" className="w-full">
                       <path d="M8 20 L272 44 L272 70 L8 76 Z" className="fill-amber-w" />
                       <path d="M8 20 L272 44" className="stroke-accent" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                       <path d="M8 76 L272 70" className="stroke-amber" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                      <text x="10" y="13" className="fill-accent text-[11px] font-semibold">Yield</text>
-                      <text x="10" y="94" className="fill-amber text-[11px] font-semibold">Cost of funds</text>
-                      <text x="264" y="61" textAnchor="end" className="fill-amber text-[12px] font-bold">NIM ↓</text>
+                      <text x="10" y="13" className="fill-accent text-[14px] font-semibold">Yield</text>
+                      <text x="10" y="94" className="fill-amber text-[14px] font-semibold">Cost of funds</text>
+                      <text x="264" y="61" textAnchor="end" className="fill-amber text-[15px] font-bold">NIM ↓</text>
                     </svg>
                   )}
                   {x.kind === 'unit' && (
                     <div className="flex w-full items-end justify-between gap-1">
                       {[
-                        { t: 'CAC ↑', h: 70, c: 'bg-amber' },
-                        { t: 'Productivity ↓', h: 22, c: 'bg-amber' },
-                        { t: 'Delinquency ↑', h: 58, c: 'bg-red' },
-                        { t: 'Margin ↓', h: 6, c: 'bg-red' },
+                        { t: 'CAC ↑', h: 44, c: 'bg-amber' },
+                        { t: 'Productivity ↓', h: 14, c: 'bg-amber' },
+                        { t: 'Delinquency ↑', h: 36, c: 'bg-red' },
+                        { t: 'Margin ↓', h: 4, c: 'bg-red' },
                       ].map((b, n) => (
                         <div key={b.t} className="flex flex-1 items-end gap-1">
                           <div className="flex flex-1 flex-col items-center gap-1.5">
-                            <div className={`w-7 rounded-t ${b.c}`} style={{ height: b.h }} />
+                            <div className={`w-5 rounded-t ${b.c}`} style={{ height: b.h }} />
                             <span className="text-center text-label leading-tight">{b.t}</span>
                           </div>
                           {n < 3 && <span className="pb-6 text-muted">{n === 2 ? '=' : '+'}</span>}
@@ -515,12 +518,13 @@ function Problem() {
                     <svg viewBox="0 0 280 112" role="img" aria-label="Headcount rises in step with the loan book" className="w-full">
                       <path d="M10 96 C 90 86, 170 56, 268 16" className="stroke-accent" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                       <path d="M10 104 C 90 95, 170 66, 268 28" className="stroke-amber" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeDasharray="5 5" />
-                      <text x="266" y="9" textAnchor="end" className="fill-accent text-[11px] font-semibold">Loan book</text>
-                      <text x="266" y="46" textAnchor="end" className="fill-amber text-[11px] font-semibold">Headcount</text>
+                      <text x="266" y="9" textAnchor="end" className="fill-accent text-[14px] font-semibold">Loan book</text>
+                      <text x="10" y="22" className="fill-amber text-[14px] font-semibold">Headcount</text>
                     </svg>
                   )}
                 </div>
-                <h3 className="mt-2.5 text-body font-semibold">{x.t}</h3>
+                <div className="min-w-0">
+                <h3 className="text-body font-semibold">{x.t}</h3>
                 {x.chips.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {x.chips.map((c) => (
@@ -531,8 +535,10 @@ function Problem() {
                   </div>
                 )}
                 {x.body && <p className="mt-2 text-small leading-snug text-muted">{x.body}</p>}
+                </div>
               </article>
             ))}
+            </div>
           </div>
         </div>
 
@@ -578,7 +584,6 @@ function How() {
   const [i, setI] = useState(0)
   const [looping, setLooping] = useState(false)
   const still = useReducedMotion()
-  const a = AGENTS[i]
 
   useEffect(() => {
     if (!looping || still) return
@@ -601,16 +606,34 @@ function How() {
             copy it can only be shrunk, and the headline pays for it, so the
             headline owns the first row at full size and the diagram owns the
             one beneath it at its own. */}
-        <FadeIn className="max-w-[820px]">
-          <div className="eyebrow">The solution · how it works</div>
-          <h2 className="display mt-3 text-h2 md:text-display">
-            The OS that improves with every lending <span className="text-accent">decision</span>.
-          </h2>
-          <p className="mt-3 text-lede leading-relaxed text-muted">From a system of record to a system of intelligence.</p>
+        {/* the name is two words, so it sits on the line with its
+            description rather than floating alone over the diagram */}
+        <FadeIn className="grid gap-3 border-b border-line pb-6 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
+          <div>
+            <div className="eyebrow">The solution · how it works</div>
+            <h2 className="display mt-3 whitespace-nowrap text-h2 md:text-h1">
+              Saralya <span className="text-accent">OS</span>
+            </h2>
+          </div>
+          <p className="text-body leading-relaxed text-muted xl:whitespace-nowrap xl:pb-3.5">
+            The OS that improves with every lending decision — from a system of record to a system of intelligence.
+          </p>
         </FadeIn>
 
         <FadeIn className="mt-9">
-          <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Credit decision" />
+          <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Saralya CML" />
+        </FadeIn>
+
+        {/* the same engine read end to end: six stops */}
+        <FadeIn className="mt-4 flex flex-wrap items-stretch justify-center gap-2">
+          {STAGES.map((s, n) => (
+            <div key={s.name} className="flex items-stretch gap-2">
+              <div className="flex items-center rounded-xl bg-white px-4 py-2.5 ring-1 ring-line2">
+                <span className="whitespace-nowrap text-body font-semibold">{s.name}</span>
+              </div>
+              {n < STAGES.length - 1 && <span aria-hidden className="self-center text-line2">›</span>}
+            </div>
+          ))}
         </FadeIn>
 
         <div className="mt-10 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
@@ -692,29 +715,60 @@ function How() {
             ))}
           </div>
 
-          {/* the agent that ring is showing */}
+          {/* every agent listed, the one the ring is showing opened */}
           <div>
-            <h3 className="text-h3 font-semibold md:text-h2">Five agents. One shared borrower profile.</h3>
-            <motion.div key={a.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="mt-5">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-full text-body font-bold text-white" style={{ background: a.color }}>
-                  {a.no}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-h3 font-semibold">{a.name}</span>
-                  <span className="block text-small text-muted">{a.role}</span>
-                </span>
-                <span className={`whitespace-nowrap rounded-full px-3 py-1 text-small font-semibold ${TONE[a.tone]}`}>{a.status}</span>
-              </div>
-              <p className="mt-3.5 text-lede leading-relaxed text-ink2">{a.does}</p>
-              <div className="mt-3.5 flex flex-wrap gap-2">
-                {a.kpis.map((k) => (
-                  <span key={k} className="rounded-full bg-wash px-3 py-1.5 text-small font-semibold text-accent2">
-                    {k}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+            <ul className="border-t border-line">
+              {AGENTS.map((x, n) => {
+                const on = n === i
+                return (
+                  <li key={x.name} className="border-b border-line">
+                    <button
+                      type="button"
+                      aria-expanded={on}
+                      onClick={() => {
+                        setLooping(false)
+                        setI(n)
+                      }}
+                      className="flex w-full items-center gap-3 py-3 text-left transition-colors hover:bg-wash/60"
+                    >
+                      <span
+                        className="grid size-9 shrink-0 place-items-center rounded-full text-small font-bold transition"
+                        style={{
+                          background: on ? x.color : '#ffffff',
+                          color: on ? '#ffffff' : x.color,
+                          border: `2px solid ${x.color}`,
+                        }}
+                      >
+                        {x.no}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-body font-semibold">{x.name}</span>
+                        <span className="block text-small text-muted">{x.role}</span>
+                      </span>
+                      <span className={`whitespace-nowrap rounded-full px-3 py-1 text-label font-semibold ${TONE[x.tone]}`}>{x.status}</span>
+                    </button>
+
+                    {on && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="pb-4 pl-12"
+                      >
+                        <p className="text-body leading-relaxed text-ink2">{x.does}</p>
+                        <div className="mt-2.5 flex flex-wrap gap-2">
+                          {x.kpis.map((k) => (
+                            <span key={k} className="rounded-full bg-wash px-3 py-1.5 text-small font-semibold text-accent2">
+                              {k}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <button
@@ -730,10 +784,6 @@ function How() {
               </button>
               <span className="font-mono text-label uppercase tracking-[0.1em] text-muted">Step {i + 1} of 5</span>
             </div>
-
-            <p className="mt-5 border-t border-line pt-4 text-small leading-relaxed text-ink2">
-              Agents act inside your policy and log every reason. <b>You make every credit decision.</b>
-            </p>
           </div>
         </div>
 
@@ -744,49 +794,6 @@ function How() {
               {n < 4 && <span className="text-line2">→</span>}
             </span>
           ))}
-        </div>
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-2">
-          <article className="rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-8">
-            <div className="eyebrow">The core brain</div>
-            <h3 className="mt-3 text-h3 font-semibold">What the CML learns from</h3>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              {CML_LEARNS.map((c) => (
-                <span key={c} className="rounded-full px-3 py-2 text-center text-small font-semibold ring-1 ring-line2">
-                  {c}
-                </span>
-              ))}
-            </div>
-            <div className="my-4 text-center text-muted">↓</div>
-            <div className="mx-auto grid aspect-square w-[210px] max-w-full place-items-center rounded-full bg-ink text-center text-white ring-[10px] ring-wash">
-              <div>
-                <div className="display text-mega leading-none">CML</div>
-                <div className="mt-1 text-small text-white/70">Explainable and private</div>
-              </div>
-            </div>
-            <div className="my-4 text-center text-muted">↓</div>
-            <div className="rounded-2xl bg-wash px-5 py-4 text-center">
-              <div className="text-h3 font-bold leading-snug text-accent2">18% more approvals at the same loss rate*</div>
-              <div className="mt-1 text-label text-ink2">*Back-test on one NBFC’s 2021–24 loan applications.</div>
-            </div>
-          </article>
-
-          <article className="rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-8">
-            <div className="eyebrow">One engine · whole loan lifecycle</div>
-            <h3 className="mt-3 text-h3 font-semibold">From the first WhatsApp to the last EMI.</h3>
-            <div className="mt-4">
-              {STAGES.map((s) => (
-                <div key={s.name} className="grid grid-cols-[12px_minmax(0,1fr)_auto] items-start gap-3 border-t border-line py-3">
-                  <span className={`mt-1.5 size-3 rounded-full ${s.tone === 'good' ? 'bg-accent' : s.tone === 'info' ? 'bg-petrol' : 'bg-line2'}`} />
-                  <span>
-                    <span className="block text-body font-semibold">{s.name}</span>
-                    <span className="block text-small text-muted">{s.how}</span>
-                  </span>
-                  <span className={`whitespace-nowrap rounded-full px-2.5 py-1 text-label font-semibold ${TONE[s.tone]}`}>{s.chip}</span>
-                </div>
-              ))}
-            </div>
-          </article>
         </div>
 
         <div className="mt-10">

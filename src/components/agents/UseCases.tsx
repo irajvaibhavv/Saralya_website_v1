@@ -37,9 +37,8 @@ export function UseCases() {
     <Section tight id="use-cases">
       <Container>
         <FadeIn className="text-center">
-          <div className="eyebrow">The agents</div>
-          <h2 className="display mx-auto mt-2 max-w-[26ch] text-h3 md:text-h2">
-            Enterprise-grade, end-to-end <span className="text-accent">agentic workflows</span>.
+          <h2 className="display mx-auto text-h3 md:whitespace-nowrap md:text-h2">
+            End-to-end agentic <span className="text-accent">use cases for lenders</span>.
           </h2>
         </FadeIn>
 
@@ -238,7 +237,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
   )
 }
 
-/* The decision lands the way it lands in the live demo on /about: the dial
+/* The decision lands the way it landed in the old live demo: the dial
    fills, the score counts up to it, and the call arrives on a green pill. */
 const R = 26
 const C = 2 * Math.PI * R
