@@ -1,8 +1,8 @@
-import { CheckCheck, Mic, Video } from 'lucide-react'
+import { Check, CheckCheck, Mic, Video } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 
-/* What the three tracks look like while they run, built rather than filmed:
+/* What the four tracks look like while they run, built rather than filmed:
    the WhatsApp journey that opens a file, the AI personal discussion, and
    the portfolio-quality monitor. Each one loops.
 
@@ -24,9 +24,10 @@ function useBeats(n: number, pause = 2) {
   return Math.min(i, n)
 }
 
-export function TrackMock({ id }: { id: 'app' | 'workflow' | 'analytics' }) {
+export function TrackMock({ id }: { id: 'app' | 'workflow' | 'analytics' | 'custom' }) {
   if (id === 'app') return <Whatsapp />
   if (id === 'workflow') return <Interview />
+  if (id === 'custom') return <Custom />
   return <Pqm />
 }
 
@@ -234,6 +235,81 @@ function Pqm() {
         <p className="mt-3 rounded-lg bg-wash px-3 py-2 text-small leading-relaxed text-ink2">
           FY24 Q2 is ageing twice as fast as the rest — eleven accounts carry most of it.
         </p>
+      </div>
+    </div>
+  )
+}
+
+/* ── a problem, said once, assembled into an agent ────────────────── */
+
+const BUILD = [
+  { k: 'Reads', v: 'Ledger · NACH returns · promise-to-pay log' },
+  { k: 'Decides', v: 'Who to call today, in what order' },
+  { k: 'Writes', v: 'The call list, into the collections queue' },
+  { k: 'Stops at', v: 'Any waiver — that stays with the manager' },
+]
+
+function Custom() {
+  const step = useBeats(BUILD.length + 1, 3)
+  return (
+    <div className="w-[460px] max-w-full overflow-hidden rounded-2xl bg-white shadow-[0_40px_80px_-30px_rgba(13,22,20,0.6)] ring-1 ring-white/40">
+      <div className="flex items-center gap-2 border-b border-line2 bg-wash2 px-3 py-2">
+        <span className="flex gap-1">
+          {['bg-red', 'bg-amber', 'bg-green'].map((c) => (
+            <span key={c} className={`size-2 rounded-full ${c} opacity-70`} />
+          ))}
+        </span>
+        <span className="mx-auto rounded-full bg-white px-3 py-0.5 font-mono text-label text-muted ring-1 ring-line2">
+          build an agent
+        </span>
+      </div>
+
+      <div className="px-4 py-3.5">
+        {/* what the lender said */}
+        <div className="font-mono text-label uppercase tracking-[0.14em] text-hint">Your problem</div>
+        <p className="mt-1.5 rounded-xl bg-wash px-3 py-2.5 text-small leading-snug text-ink">
+          “Nobody gets to the 1–30 bucket before it rolls. I want the calls made the day a payment breaks.”
+        </p>
+
+        <div className="mt-3.5 font-mono text-label uppercase tracking-[0.14em] text-hint">Assembling</div>
+        <ul className="mt-1.5 space-y-1.5">
+          {BUILD.map((b, i) => {
+            const on = i < step
+            return (
+              <li
+                key={b.k}
+                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 ring-1 transition-colors ${
+                  on ? 'bg-white ring-line2' : 'bg-wash2/60 ring-transparent'
+                }`}
+              >
+                <span
+                  className={`grid size-5 shrink-0 place-items-center rounded-full transition-colors ${
+                    on ? 'bg-accent text-white' : 'bg-line2 text-white'
+                  }`}
+                >
+                  <Check className="size-3" strokeWidth={3} />
+                </span>
+                <span className={`w-[68px] shrink-0 font-mono text-label uppercase tracking-[0.1em] ${on ? 'text-accent2' : 'text-hint'}`}>
+                  {b.k}
+                </span>
+                <span className={`min-w-0 flex-1 truncate text-small ${on ? 'text-ink2' : 'text-hint'}`}>{b.v}</span>
+              </li>
+            )
+          })}
+        </ul>
+
+        <motion.div
+          initial={false}
+          animate={{ opacity: step > BUILD.length ? 1 : 0.25 }}
+          transition={{ duration: 0.3 }}
+          className="mt-3 flex items-center gap-2.5 rounded-xl bg-ink px-3.5 py-3 text-white"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="block font-mono text-label uppercase tracking-[0.12em] text-accent3">Agent ready</span>
+            <span className="block text-small font-semibold leading-snug">Bucket-1 recovery agent</span>
+          </span>
+          <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-1 font-mono text-label">Runs 7:00 daily</span>
+        </motion.div>
       </div>
     </div>
   )

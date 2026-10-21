@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
-import { ArrowRight, Bot, Building2, Layers, Menu, X } from 'lucide-react'
+import { ArrowRight, Bot, Layers, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 
@@ -8,7 +8,6 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 const LINKS = [
   { to: '/products', label: 'Product', icon: Layers },
   { to: '/agents', label: 'Agents', icon: Bot },
-  { to: '/about', label: 'About us', icon: Building2 },
 ]
 
 /* over the landing video the mark is knocked out in white and lifted off

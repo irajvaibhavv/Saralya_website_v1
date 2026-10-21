@@ -367,4 +367,3 @@ export const FIXES = [
   { problem: 'Six versions of the truth', fix: 'One borrower profile, one number', kpi: 'Engagement ↑' },
 ]
 
-export const CML_LEARNS = ['Credit experts', 'Actual repayments', 'Back-tests on past books', '6 mn anonymised loans']

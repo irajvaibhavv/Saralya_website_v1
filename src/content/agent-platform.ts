@@ -1,4 +1,4 @@
-/* The three places a Saralya agent works: inside the borrower's app, inside
+/* The four places a Saralya agent works: inside the borrower's app, inside
    the officer's day, and on top of the book. Each one is shown running, in
    its own recording.
 
@@ -8,7 +8,7 @@
    and the portfolio-quality monitor. */
 
 export type Track = {
-  id: 'app' | 'workflow' | 'analytics'
+  id: 'app' | 'workflow' | 'analytics' | 'custom'
   tab: string
   title: string
   lede: string
@@ -69,5 +69,21 @@ export const TRACKS: Track[] = [
     poster: null,
     tint: 'bg-amber',
     waiting: 'The portfolio-quality monitor, on a live book',
+  },
+  {
+    id: 'custom',
+    tab: 'Custom agents',
+    title: 'Custom agents',
+    lede: 'The work that is eating your week, described in your words and handed back as an agent.',
+    items: [
+      { title: 'Describe the problem, not a workflow', body: 'The queue nobody clears, the report assembled by hand every Monday, the check a person does on every file. Said plainly, in the words your floor already uses.' },
+      { title: 'Assembled, not coded', body: 'The agent is put together from the same reading, reasoning and writing parts the live agents run on — not a bespoke build with its own release cycle.' },
+      { title: 'Your policy, your formats', body: 'It works inside your credit policy, your limits and your templates, and it stops where your delegation of authority says it stops.' },
+      { title: 'Watch it before it works', body: 'It runs beside the desk first: every decision visible with its reason, until the desk is willing to let it carry the queue.' },
+    ],
+    video: null,
+    poster: null,
+    tint: 'bg-petrol',
+    waiting: 'An agent assembled from one lender’s problem, start to finish',
   },
 ]

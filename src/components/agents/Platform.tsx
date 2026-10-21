@@ -1,4 +1,4 @@
-import { BarChart3, ChevronDown, Smartphone, Workflow } from 'lucide-react'
+import { BarChart3, ChevronDown, Smartphone, Sparkles, Workflow } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { TRACKS } from '../../content/agent-platform'
@@ -6,14 +6,14 @@ import { TrackMock } from './TrackMock'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-/* One platform, three places it works. The tab picks the track, the rows
+/* One platform, four places it works. The tab picks the track, the rows
    open one at a time, and the panel beside them plays that track running.
    Until the recordings land the panel says which one is coming. */
 
 /** how long a row stays open before the next one takes over */
 const DWELL = 3500
 
-const TAB_ICONS = { app: Smartphone, workflow: Workflow, analytics: BarChart3 } as const
+const TAB_ICONS = { app: Smartphone, workflow: Workflow, analytics: BarChart3, custom: Sparkles } as const
 
 /** the comb of waves every panel wears, drawn once */
 export const WAVE =

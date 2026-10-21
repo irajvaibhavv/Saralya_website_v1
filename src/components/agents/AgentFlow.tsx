@@ -192,7 +192,7 @@ export function AgentFlow({
       </defs>
 
       {/* 1 — the rails, each streaming into the engine */}
-      <text x={TILE.x} y={48} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
+      <text x={TILE.x} y={48} className="fill-muted font-mono text-[10.5px] font-bold uppercase tracking-[0.16em]">
         Your rails
       </text>
       {tiles.map((r, i) => {

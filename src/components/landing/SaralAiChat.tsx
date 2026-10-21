@@ -461,7 +461,7 @@ function Note({ who, chosen, custom, mail }: { who: string; chosen: (typeof CHAL
           <ButtonLink to={mail} variant="primary" size="lg" arrow>
             Start with the walkthrough
           </ButtonLink>
-          <ButtonLink to="/about" variant="ghost" size="lg">
+          <ButtonLink to="/products" variant="ghost" size="lg">
             Explore Saralya
           </ButtonLink>
         </div>
@@ -481,10 +481,10 @@ function Explainer() {
         </motion.div>
       ))}
       <div className="flex flex-wrap gap-3 pt-2">
-        <ButtonLink to="/about" variant="ink" arrow>
+        <ButtonLink to="/products" variant="ink" arrow>
           Explore Saralya
         </ButtonLink>
-        <ButtonLink to="/about" variant="ghost">
+        <ButtonLink to="/products" variant="ghost">
           Who’s behind it
         </ButtonLink>
       </div>
