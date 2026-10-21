@@ -236,9 +236,6 @@ function Leaders() {
           <h2 className="display mt-3 text-h2 md:text-display">
             Built for leaders who demand <span className="text-accent">precision</span>.
           </h2>
-          <p className="mt-3 text-lede leading-relaxed text-muted">
-            Every desk gets its own Portfolio Quality &amp; Productivity Management (PQM) view.
-          </p>
         </FadeIn>
 
         <div className="mt-10 grid gap-7 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
