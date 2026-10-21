@@ -21,8 +21,8 @@ export const LAYER = ['Credit Machine Learning models (CML)', 'AI agents']
 /* ── the three cards under the hero ───────────────────────────────────── */
 export const MODULES: { name: string; state: string }[] = [
   { name: 'Onboarding', state: 'Live' },
-  { name: 'CML', state: 'Live' },
-  { name: 'Mitra co-pilot', state: 'In development' },
+  { name: 'Underwriting', state: 'Live' },
+  { name: 'EWS', state: 'In development' },
   { name: 'Collections', state: 'Live' },
 ]
 

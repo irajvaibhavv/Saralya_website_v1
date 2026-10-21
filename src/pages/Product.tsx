@@ -150,7 +150,7 @@ function Rails({ still, delay = 0 }: { still: boolean | null; delay?: number }) 
   )
 }
 
-/* ── architecture, brain, deployment ──────────────────────────────────── */
+/* ── modules, model, overlay ───────────────────────────────────────────── */
 
 function Three() {
   return (
@@ -158,16 +158,12 @@ function Three() {
       <Container>
         <div className="grid gap-5 lg:grid-cols-3">
           <article className="flex flex-col rounded-2xl bg-white p-6 ring-1 ring-line2">
-            <span className="w-fit rounded-md bg-wash px-2.5 py-1 font-mono text-label uppercase tracking-[0.14em] text-accent2">
-              01 · Architecture
-            </span>
-            <h2 className="mt-4 text-h3 font-semibold">Modular &amp; API-first</h2>
-            <p className="mt-1.5 text-small leading-relaxed text-muted">One module or the full stack.</p>
-            <div className="mt-auto border-t border-line pt-4">
+            <h2 className="text-h3 font-semibold">Modular &amp; API-first</h2>
+            <div className="mt-4 flex flex-1 flex-col border-t border-line pt-4">
               <div className="font-mono text-label uppercase tracking-[0.14em] text-muted">Plug-and-play modules</div>
-              <div className="mt-2.5 grid grid-cols-2 gap-2">
+              <div className="mt-2.5 grid flex-1 grid-cols-2 gap-2">
                 {MODULES.map((m) => (
-                  <div key={m.name} className="rounded-xl bg-bg px-3 py-2.5 ring-1 ring-line">
+                  <div key={m.name} className="flex flex-col justify-center rounded-xl bg-bg px-3 py-2.5 ring-1 ring-line">
                     <div className="text-small font-semibold">{m.name}</div>
                     <div className="text-label text-muted">{m.state}</div>
                   </div>
@@ -177,17 +173,14 @@ function Three() {
           </article>
 
           <article className="flex flex-col rounded-2xl bg-ink p-6 text-white">
-            <span className="w-fit rounded-md bg-accent3/15 px-2.5 py-1 font-mono text-label uppercase tracking-[0.14em] text-accent3">
-              02 · Core brain
-            </span>
-            <h2 className="mt-4 text-h3 font-semibold">Credit Machine Learning models (CML)</h2>
-            <p className="mt-1.5 text-small leading-relaxed text-white/70">India-trained on 6 mn anonymised loans.</p>
-            <div className="mt-auto border-t border-white/10 pt-4">
+            <h2 className="text-h3 font-semibold">Saralya Credit ML Model</h2>
+            <p className="mt-1.5 text-small leading-relaxed text-white/70">Trained on Indian banking data.</p>
+            <div className="mt-4 flex flex-1 flex-col border-t border-white/10 pt-4">
               <div className="font-mono text-label uppercase tracking-[0.14em] text-white/50">Three signals, one score</div>
-              <div className="mt-2.5 flex items-stretch gap-1.5">
+              <div className="mt-2.5 flex flex-1 items-stretch gap-1.5">
                 {SIGNALS.map((s, i) => (
                   <div key={s.k} className="flex flex-1 items-center gap-1.5">
-                    <div className="flex-1 rounded-xl bg-white/[0.06] px-2 py-2.5 text-center ring-1 ring-white/10">
+                    <div className="flex flex-1 flex-col justify-center rounded-xl bg-white/[0.06] px-2 py-2.5 text-center ring-1 ring-white/10">
                       <div className="text-small font-bold text-accent3">{s.k}</div>
                       <div className="text-label text-white/50">{s.v}</div>
                     </div>
@@ -199,20 +192,16 @@ function Three() {
           </article>
 
           <article className="flex flex-col rounded-2xl bg-white p-6 ring-1 ring-line2">
-            <span className="w-fit rounded-md bg-wash px-2.5 py-1 font-mono text-label uppercase tracking-[0.14em] text-accent2">
-              03 · Deployment
-            </span>
-            <h2 className="mt-4 text-h3 font-semibold">AI agents on your existing systems</h2>
-            <p className="mt-1.5 text-small leading-relaxed text-muted">They work beside your teams. You make every credit decision.</p>
-            <div className="mt-auto border-t border-line pt-4">
-              <div className="font-mono text-label uppercase tracking-[0.14em] text-muted">Zero-disruption overlay</div>
-              <div className="mt-2.5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 rounded-xl bg-bg p-2 ring-1 ring-line">
-                <div className="px-1 text-center">
+            <h2 className="text-h3 font-semibold">Zero-disruption overlay</h2>
+            <div className="mt-4 flex flex-1 flex-col border-t border-line pt-4">
+              <div className="font-mono text-label uppercase tracking-[0.14em] text-muted">Agents beside your stack</div>
+              <div className="mt-2.5 grid flex-1 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-2 rounded-xl bg-bg p-2 ring-1 ring-line">
+                <div className="flex flex-col justify-center px-1 text-center">
                   <div className="text-small font-bold">Your LOS / LMS</div>
                   <div className="text-label text-muted">System of record</div>
                 </div>
-                <div className="text-center font-mono text-label font-semibold text-accent">⇄ 2-way</div>
-                <div className="rounded-lg bg-accent px-1 py-1.5 text-center text-white">
+                <div className="self-center text-center font-mono text-label font-semibold text-accent">⇄ 2-way</div>
+                <div className="flex flex-col justify-center rounded-lg bg-accent px-1 py-1.5 text-center text-white">
                   <div className="text-small font-bold">Saralya agents</div>
                   <div className="text-label text-white/70">System of intelligence</div>
                 </div>
