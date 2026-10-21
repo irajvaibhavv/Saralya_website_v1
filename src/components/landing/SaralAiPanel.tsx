@@ -25,7 +25,7 @@ const SEAT_ICONS: Record<string, typeof User> = {
 const EDGE = [
   { icon: Cpu, title: 'Credit ML model', body: 'Anonymised Indian banking data, tuned on RBI directions' },
   { icon: Table2, title: 'Sheets in, analytics out', body: 'Drop your files and get the analytics back' },
-  { icon: Lock, title: 'Your data is encrypted', body: 'Masked at rest — only you see your files' },
+  { icon: Lock, title: 'Your data is encrypted', body: 'Masked at rest, only you see your files' },
 ]
 
 export function SaralAiPanel({
@@ -64,9 +64,9 @@ export function SaralAiPanel({
       </div>
 
       <h2 className="display relative text-h2 [@media(min-height:800px)]:text-display">
-        AI Desk for lenders<span className="text-accent">.</span>
+        AI Desk for lenders
       </h2>
-      <p className="relative -mt-1 text-lede leading-relaxed text-muted">Your lending intelligence, in one secure workspace.</p>
+      <p className="relative -mt-1 text-lede leading-relaxed text-muted">Your lending intelligence, in one secure workspace</p>
       {/* the ask block, left-aligned under the heading: who you are, the
           box, and the questions that seat asks. It carries its own top
           margin so the air sits between the two groups, not under them. */}

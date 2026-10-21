@@ -298,7 +298,7 @@ function Ask({
         Ask anything about <span className="text-accent">lending</span>. Get the answer an underwriter would give.
       </h1>
       <p className="mt-2.5 text-body leading-relaxed text-muted">
-        India’s lending copilot — for borrowers, businesses and the people who lend to them.
+        India’s lending copilot, for borrowers, businesses and the people who lend to them.
       </p>
 
       <div role="group" aria-label="I am a" className="mt-6">
@@ -329,7 +329,7 @@ function Ask({
           <Mark className="text-body" />
         </span>
         <p className="max-w-[72ch] text-small leading-relaxed text-ink2">
-          {seat?.hello ?? 'Ask me about a loan, a credit score, a policy, or a portfolio — whatever your side of the table.'}
+          {seat?.hello ?? 'Ask me about a loan, a credit score, a policy, or a portfolio, whatever your side of the table.'}
         </p>
       </div>
 
@@ -360,7 +360,7 @@ function Ask({
             <div className="font-mono text-label uppercase tracking-[0.14em] text-hint">Beyond answers</div>
             <h2 className="display mt-1.5 text-h3">What Saralya AI can do</h2>
             <p className="mt-2 max-w-[60ch] text-small leading-relaxed text-muted">
-              Calculators anyone can use, and reports that open with an account — each built the way a lender reads a file.
+              Calculators anyone can use, and reports that open with an account, each built the way a lender reads a file.
             </p>
           </div>
           <button type="button" onClick={onTools} className="text-small font-semibold text-accent hover:underline">
@@ -426,7 +426,7 @@ function Tools() {
       <div className="font-mono text-label uppercase tracking-[0.14em] text-hint">Beyond answers</div>
       <h1 className="display mt-1.5 text-h3 md:text-h2">What Saralya AI can do</h1>
       <p className="mt-2.5 max-w-[62ch] text-body leading-relaxed text-muted">
-        Calculators anyone can use, and reports that open with an account — each built the way a lender reads a file.
+        Calculators anyone can use, and reports that open with an account, each built the way a lender reads a file.
       </p>
       <ToolGrid />
       <Guards />

@@ -81,7 +81,7 @@ function Whatsapp() {
 /* ── the personal discussion, run by an agent with a face ─────────────── */
 
 const SAID = [
-  'Tell me about the shop — how many years at this counter?',
+  'Tell me about the shop. How many years at this counter?',
   'Eleven years, sir. My father ran it before me.',
   'Your bank credits read ₹41,000 a month. Which months are cash sales?',
   'Festive months, mostly. October and March are the big ones.',
@@ -233,7 +233,7 @@ function Pqm() {
         </div>
 
         <p className="mt-3 rounded-lg bg-wash px-3 py-2 text-small leading-relaxed text-ink2">
-          FY24 Q2 is ageing twice as fast as the rest — eleven accounts carry most of it.
+          FY24 Q2 is ageing twice as fast as the rest. Eleven accounts carry most of it.
         </p>
       </div>
     </div>
@@ -246,7 +246,7 @@ const BUILD = [
   { k: 'Reads', v: 'Ledger · NACH returns · promise-to-pay log' },
   { k: 'Decides', v: 'Who to call today, in what order' },
   { k: 'Writes', v: 'The call list, into the collections queue' },
-  { k: 'Stops at', v: 'Any waiver — that stays with the manager' },
+  { k: 'Stops at', v: 'Any waiver, which stays with the manager' },
 ]
 
 function Custom() {

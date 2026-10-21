@@ -188,7 +188,7 @@ function Vintage() {
 
       <p className="mt-4 text-small leading-relaxed text-muted">
         The <span className="font-semibold text-red">July cohort</span> is rolling 4× the April book at the same age, and it
-        parted from the pack by month three — a quarter before the totals showed it.
+        parted from the pack by month three, a quarter before the totals showed it.
       </p>
     </div>
   )
