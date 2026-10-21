@@ -155,6 +155,11 @@ function Three() {
   return (
     <section className="border-b border-line bg-bg py-12 md:py-16">
       <Container>
+        {/* the chapter this section opens */}
+        <div className="-mt-4 mb-7 flex justify-center">
+          <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Architecture</span>
+        </div>
+
         <div className="grid gap-5 lg:grid-cols-3">
           <article className="flex flex-col rounded-2xl bg-white p-6 ring-1 ring-line2">
             <h2 className="text-h3 font-semibold">Modular &amp; API-first</h2>
@@ -231,8 +236,10 @@ function Leaders() {
     <Section id="leaders">
       <Container>
         <FadeIn>
-          <div className="eyebrow text-small font-bold">Trusted by Indian lenders</div>
-          <h2 className="display mt-3 text-h2 md:whitespace-nowrap md:text-h1">
+          <div className="-mt-4 mb-7 flex justify-center">
+            <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Trusted by Indian lenders</span>
+          </div>
+          <h2 className="display text-center text-h2 md:whitespace-nowrap md:text-h1">
             Built for leaders who demand <span className="text-accent">precision</span>
           </h2>
         </FadeIn>
@@ -412,26 +419,28 @@ function Problem() {
     <Section id="problem" tight>
       <Container>
         <FadeIn>
-          <div className="eyebrow text-amber">The problem · why legacy ops erode ROE</div>
-          <h2 className="display mt-2 text-h2">21st-century capital. 19th-century cockpit</h2>
-          <p className="mt-2 text-lede leading-relaxed text-muted xl:whitespace-nowrap">
+          <div className="-mt-3 mb-5 flex justify-center">
+            <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The problem</span>
+          </div>
+          <h2 className="display text-center text-h2">21st-century capital. 19th-century cockpit</h2>
+          <p className="mt-2 text-center text-lede leading-relaxed text-muted xl:whitespace-nowrap">
             You are held accountable for every basis point of NIM and GNPA, yet your teams are forced to fly without precision instruments.
           </p>
         </FadeIn>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <div className="mt-5 grid gap-6 lg:grid-cols-2">
           <div>
             <div className="eyebrow">What it looks like on the floor</div>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
             <article key={p.n} className="rounded-2xl bg-white p-4 ring-1 ring-line2">
-              <div className="grid h-[116px] place-items-center rounded-xl bg-bg p-2.5">
+              <div className="grid h-[76px] place-items-center rounded-xl bg-bg p-2">
                 {p.kind === 'blanks' && (
-                  <div className="grid size-full grid-cols-2 gap-2">
+                  <div className="grid size-full grid-cols-4 gap-1.5">
                     {BLANKS.map((b) => (
-                      <div key={b} className="flex flex-col justify-between rounded-lg bg-white px-2.5 py-2 ring-1 ring-dashed ring-line2">
-                        <span className="text-label text-muted">{b}</span>
-                        <span aria-hidden className="block h-0.5 w-7 bg-line2" />
+                      <div key={b} className="flex flex-col justify-between rounded-lg bg-white px-1.5 py-1.5 ring-1 ring-dashed ring-line2">
+                        <span className="text-label leading-tight text-muted">{b}</span>
+                        <span aria-hidden className="block h-0.5 w-5 bg-line2" />
                       </div>
                     ))}
                   </div>
@@ -452,7 +461,7 @@ function Problem() {
                   </div>
                 )}
                 {p.kind === 'leaves' && (
-                  <div className="flex w-full flex-col gap-1.5">
+                  <div className="flex w-full flex-wrap items-center justify-center gap-1.5">
                     {LEAVES.map((l) => (
                       <span key={l} className="w-fit rounded-full bg-white px-3 py-1 text-label ring-1 ring-dashed ring-line2">
                         {l}
@@ -461,9 +470,9 @@ function Problem() {
                   </div>
                 )}
                 {p.kind === 'truths' && (
-                  <div className="grid size-full grid-cols-3 gap-1.5">
+                  <div className="grid size-full grid-cols-3 gap-1">
                     {TRUTHS.map((t) => (
-                      <div key={t.k} className="rounded-lg bg-white px-2 py-1.5 ring-1 ring-line2">
+                      <div key={t.k} className="rounded-lg bg-white px-1.5 py-1 ring-1 ring-line2">
                         <div className="text-label text-muted">{t.k}</div>
                         <div className="whitespace-nowrap text-label font-bold tabular-nums">{t.v}</div>
                       </div>
@@ -471,10 +480,6 @@ function Problem() {
                   </div>
                 )}
               </div>
-              <h3 className="mt-2.5 flex gap-2 text-body font-semibold leading-snug">
-                <span className="font-mono text-label uppercase tracking-[0.14em] text-amber">{p.n}</span>
-                {p.t}
-              </h3>
             </article>
           ))}
             </div>
@@ -485,7 +490,7 @@ function Problem() {
             <div className="mt-3 grid gap-4">
             {PRESSURES.map((x) => (
               <article key={x.t} className="flex items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-line2">
-                <div className="grid h-[96px] w-[224px] shrink-0 place-items-center rounded-xl bg-amber-w/40 p-2.5">
+                <div className="grid h-[84px] w-[224px] shrink-0 place-items-center rounded-xl bg-amber-w/40 p-2">
                   {x.kind === 'nim' && (
                     <svg viewBox="0 0 280 112" role="img" aria-label="Yield falls towards the cost of funds, so the margin narrows" className="w-full">
                       <path d="M8 20 L272 44 L272 70 L8 76 Z" className="fill-amber-w" />
@@ -499,9 +504,9 @@ function Problem() {
                   {x.kind === 'unit' && (
                     <div className="flex w-full items-end justify-between gap-1">
                       {[
-                        { t: 'CAC ↑', h: 44, c: 'bg-amber' },
-                        { t: 'Productivity ↓', h: 14, c: 'bg-amber' },
-                        { t: 'Delinquency ↑', h: 36, c: 'bg-red' },
+                        { t: 'CAC ↑', h: 34, c: 'bg-amber' },
+                        { t: 'Productivity ↓', h: 11, c: 'bg-amber' },
+                        { t: 'Delinquency ↑', h: 28, c: 'bg-red' },
                         { t: 'Margin ↓', h: 4, c: 'bg-red' },
                       ].map((b, n) => (
                         <div key={b.t} className="flex flex-1 items-end gap-1">
@@ -542,7 +547,7 @@ function Problem() {
           </div>
         </div>
 
-        <p className="display mx-auto mt-6 max-w-[860px] text-center text-h3">
+        <p className="display mx-auto mt-5 max-w-[860px] text-center text-h3">
           The fix isn’t more people. It’s an <span className="text-accent">operating system</span>.
         </p>
       </Container>
@@ -583,6 +588,7 @@ const FLOW_METRICS = [
 function How() {
   const [i, setI] = useState(0)
   const [looping, setLooping] = useState(false)
+  const a = AGENTS[i]
   const still = useReducedMotion()
 
   useEffect(() => {
@@ -608,16 +614,18 @@ function How() {
             one beneath it at its own. */}
         {/* the name is two words, so it sits on the line with its
             description rather than floating alone over the diagram */}
-        <FadeIn className="grid gap-3 border-b border-line pb-6 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
-          <div>
-            <div className="eyebrow">The solution · how it works</div>
-            <h2 className="display mt-3 whitespace-nowrap text-h2 md:text-h1">
+        <FadeIn className="border-b border-line pb-6">
+          <div className="-mt-4 mb-7 flex justify-center">
+            <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
+          </div>
+          <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
+            <h2 className="display whitespace-nowrap text-h2 md:text-h1">
               Saralya <span className="text-accent">OS</span>
             </h2>
+            <p className="text-body leading-relaxed text-muted xl:whitespace-nowrap xl:pb-3.5">
+              The OS that improves with every lending decision: from a system of record to a system of intelligence.
+            </p>
           </div>
-          <p className="text-body leading-relaxed text-muted xl:whitespace-nowrap xl:pb-3.5">
-            The OS that improves with every lending decision: from a system of record to a system of intelligence.
-          </p>
         </FadeIn>
 
         <FadeIn className="mt-9">
@@ -715,60 +723,28 @@ function How() {
             ))}
           </div>
 
-          {/* every agent listed, the one the ring is showing opened */}
+          {/* the agent the ring is showing */}
           <div>
-            <ul className="border-t border-line">
-              {AGENTS.map((x, n) => {
-                const on = n === i
-                return (
-                  <li key={x.name} className="border-b border-line">
-                    <button
-                      type="button"
-                      aria-expanded={on}
-                      onClick={() => {
-                        setLooping(false)
-                        setI(n)
-                      }}
-                      className="flex w-full items-center gap-3 py-3 text-left transition-colors hover:bg-wash/60"
-                    >
-                      <span
-                        className="grid size-9 shrink-0 place-items-center rounded-full text-small font-bold transition"
-                        style={{
-                          background: on ? x.color : '#ffffff',
-                          color: on ? '#ffffff' : x.color,
-                          border: `2px solid ${x.color}`,
-                        }}
-                      >
-                        {x.no}
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-body font-semibold">{x.name}</span>
-                        <span className="block text-small text-muted">{x.role}</span>
-                      </span>
-                      <span className={`whitespace-nowrap rounded-full px-3 py-1 text-label font-semibold ${TONE[x.tone]}`}>{x.status}</span>
-                    </button>
-
-                    {on && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="pb-4 pl-12"
-                      >
-                        <p className="text-body leading-relaxed text-ink2">{x.does}</p>
-                        <div className="mt-2.5 flex flex-wrap gap-2">
-                          {x.kpis.map((k) => (
-                            <span key={k} className="rounded-full bg-wash px-3 py-1.5 text-small font-semibold text-accent2">
-                              {k}
-                            </span>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
+            <motion.div key={a.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-full text-body font-bold text-white" style={{ background: a.color }}>
+                  {a.no}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-h3 font-semibold">{a.name}</span>
+                  <span className="block text-small text-muted">{a.role}</span>
+                </span>
+                <span className={`whitespace-nowrap rounded-full px-3 py-1 text-small font-semibold ${TONE[a.tone]}`}>{a.status}</span>
+              </div>
+              <p className="mt-3.5 text-lede leading-relaxed text-ink2">{a.does}</p>
+              <div className="mt-3.5 flex flex-wrap gap-2">
+                {a.kpis.map((k) => (
+                  <span key={k} className="rounded-full bg-wash px-3 py-1.5 text-small font-semibold text-accent2">
+                    {k}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <button

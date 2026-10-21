@@ -136,9 +136,9 @@ export function SaralAiPanel({
           {EDGE.map((e) => (
             <div
               key={e.title}
-              className="flex items-start gap-2.5 bg-white px-3.5 py-3 ring-1 ring-line [@media(min-height:800px)]:py-3.5"
+              className="flex items-start gap-2.5 bg-wash2 px-3.5 py-3 ring-1 ring-accent/25 [@media(min-height:800px)]:py-3.5"
             >
-              <span className="grid size-7 shrink-0 place-items-center bg-wash2 text-accent">
+              <span className="grid size-7 shrink-0 place-items-center bg-white text-accent">
                 <e.icon className="size-3.5" strokeWidth={1.8} />
               </span>
               <span className="min-w-0">

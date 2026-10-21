@@ -331,10 +331,10 @@ export const STAGES: { name: string; how: string; chip: string; tone: Tone }[] =
 
 /* ── the problem, and what fixes it ───────────────────────────────────── */
 export const PROBLEMS = [
-  { n: '01', t: 'You can’t measure your field.', kind: 'blanks' as const },
-  { n: '02', t: 'Every decision runs on people.', kind: 'chain' as const },
-  { n: '03', t: 'Your best judgement walks out the door.', kind: 'leaves' as const },
-  { n: '04', t: 'Six versions of the truth.', kind: 'truths' as const },
+  { n: '01', t: 'The field is unmeasured', kind: 'blanks' as const },
+  { n: '02', t: 'Decisions run on people', kind: 'chain' as const },
+  { n: '03', t: 'Judgement walks out', kind: 'leaves' as const },
+  { n: '04', t: 'Six versions of the truth', kind: 'truths' as const },
 ]
 
 export const BLANKS = ['Time per file', 'Rework %', 'Error rate', 'CAC per file']
@@ -352,12 +352,12 @@ export const TRUTHS = [
 export const PRESSURES = [
   {
     t: 'Pressure on NIM',
-    chips: ['Funding stays costly', 'Banks undercut on price', 'RBI watches pricing'],
-    body: 'Control what you can: cost to serve and credit losses.',
+    chips: ['Funding stays costly', 'Banks undercut on price'],
+    body: '',
     kind: 'nim' as const,
   },
   { t: 'Unit economics under pressure', chips: [], body: '', kind: 'unit' as const },
-  { t: 'Scaling gets harder', chips: [], body: 'Double the book, double the team.', kind: 'scale' as const },
+  { t: 'Scaling gets harder', chips: [], body: '', kind: 'scale' as const },
 ]
 
 export const FIXES = [
