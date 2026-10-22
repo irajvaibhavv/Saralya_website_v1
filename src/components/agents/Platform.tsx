@@ -10,8 +10,8 @@ import { Container, Section } from '../ui/Section'
    open one at a time, and the panel beside them plays that track running.
    Until the recordings land the panel says which one is coming. */
 
-/** how long a tab holds before the next one takes over */
-const DWELL = 3000
+/** how long a row stays open; the tab turns once every row has had a turn */
+const DWELL = 3600
 
 const TAB_ICONS = { app: Smartphone, workflow: Workflow, analytics: BarChart3, custom: Sparkles } as const
 
@@ -34,11 +34,12 @@ export function Platform() {
   useEffect(() => {
     if (still || held) return
     const id = window.setTimeout(() => {
+      if (open + 1 < t.items.length) return setOpen(open + 1)
       setTrack((n) => (n + 1) % TRACKS.length)
       setOpen(0)
     }, DWELL)
     return () => window.clearTimeout(id)
-  }, [still, held, track])
+  }, [still, held, open, t])
 
   /* the ink block is one element parked under the strip; it moves to the
      chosen tab rather than being redrawn inside it */
@@ -136,7 +137,7 @@ export function Platform() {
                       className="flex w-full items-center justify-between gap-4 py-4 text-left"
                     >
                       <span className={`text-body font-semibold transition-colors ${on ? 'text-ink' : 'text-muted'}`}>{item.title}</span>
-                      <ChevronDown className={`size-4 shrink-0 text-muted transition-transform duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`size-4 shrink-0 text-muted transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? 'rotate-180' : ''}`} />
                     </button>
                     {/* the accent rule under the open row, the way the rest of
                         the site marks a live item */}
@@ -156,8 +157,8 @@ export function Platform() {
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{
-                            height: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
-                            opacity: { duration: 0.26, ease: 'easeOut', delay: on ? 0.1 : 0 },
+                            height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+                            opacity: { duration: 0.2, ease: 'easeOut', delay: on ? 0.06 : 0 },
                           }}
                           className="overflow-hidden text-small leading-relaxed text-muted"
                         >
