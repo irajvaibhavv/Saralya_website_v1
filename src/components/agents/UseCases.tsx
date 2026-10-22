@@ -1,6 +1,6 @@
 import { ArrowUpRight, Check, Mic, Phone } from 'lucide-react'
 import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { BoardPack } from './BoardPack'
 import { USE_CASES, type Screen } from '../../content/use-cases'
 import { CONTACT_EMAIL } from '../../content/site'
@@ -35,6 +35,22 @@ export function UseCases() {
   const boards = 4
   const dwell = u.board ? BOARD * boards : DWELL
 
+  /* the lit rule is parked under the strip and moved to the chosen tab */
+  const strip = useRef<HTMLDivElement>(null)
+  const [mark, setMark] = useState({ x: 0, y: 0, w: 0 })
+  useLayoutEffect(() => {
+    const box = strip.current
+    if (!box) return
+    const read = () => {
+      const el = box.querySelectorAll<HTMLElement>('[role="tab"]')[i]
+      if (el) setMark({ x: el.offsetLeft, y: el.offsetTop + el.offsetHeight - 2, w: el.offsetWidth })
+    }
+    read()
+    const ro = new ResizeObserver(read)
+    ro.observe(box)
+    return () => ro.disconnect()
+  }, [i])
+
   useEffect(() => {
     if (still || held) return
     const id = window.setTimeout(() => setI((n) => (n + 1) % USE_CASES.length), dwell)
@@ -42,14 +58,7 @@ export function UseCases() {
   }, [still, held, i, dwell])
 
   return (
-    <Section
-      tight
-      id="use-cases"
-      onMouseEnter={() => setHeld(true)}
-      onMouseLeave={() => setHeld(false)}
-      onFocusCapture={() => setHeld(true)}
-      onBlurCapture={() => setHeld(false)}
-    >
+    <Section tight id="use-cases">
       <Container>
         <FadeIn className="text-center">
           <h2 className="display mx-auto text-h3 md:whitespace-nowrap md:text-h2">
@@ -57,8 +66,25 @@ export function UseCases() {
           </h2>
         </FadeIn>
 
-        {/* the tabs, as a rule with one lit */}
-        <div role="tablist" aria-label="Our agents" className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-2 border-b border-line">
+        {/* the tabs, as a rule with one lit: the rule is one element that
+            slides to the chosen tab, so the strip reads as a track */}
+        <div
+          role="tablist"
+          ref={strip}
+          aria-label="Our agents"
+          onMouseEnter={() => setHeld(true)}
+          onMouseLeave={() => setHeld(false)}
+          onFocusCapture={() => setHeld(true)}
+          onBlurCapture={() => setHeld(false)}
+          className="relative mt-6 flex flex-wrap justify-center gap-x-7 gap-y-2 border-b border-line"
+        >
+          <motion.span
+            aria-hidden
+            initial={false}
+            animate={{ x: mark.x, y: mark.y, width: mark.w }}
+            transition={still ? { duration: 0 } : { duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+            className="pointer-events-none absolute left-0 top-0 block h-0.5 bg-gradient-to-r from-accent to-lime"
+          />
           {USE_CASES.map((x, n) => {
             const on = n === i
             return (
@@ -71,13 +97,6 @@ export function UseCases() {
                 className={`relative -mb-px pb-3 font-mono text-small uppercase tracking-[0.08em] transition-colors ${on ? 'text-ink' : 'text-muted hover:text-ink'}`}
               >
                 {x.tab}
-                {on && (
-                  <motion.span
-                    layoutId="use-case-rule"
-                    className="absolute inset-x-0 -bottom-px block h-0.5 bg-gradient-to-r from-accent to-lime"
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
               </button>
             )
           })}
