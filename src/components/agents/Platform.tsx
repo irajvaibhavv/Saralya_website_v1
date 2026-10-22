@@ -22,7 +22,8 @@ export const WAVE =
 export function Platform() {
   const [track, setTrack] = useState(0)
   const [open, setOpen] = useState(0)
-  /* a row that opens itself under the cursor is a bug, not a feature */
+  /* the strip stops walking while a pointer is on it, so a tab never moves
+     out from under the cursor; the rest of the band is free to scroll past */
   const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const t = TRACKS[track]
@@ -65,10 +66,6 @@ export function Platform() {
     <Section
       id="platform"
       className="relative isolate overflow-hidden bg-lav-w"
-      onMouseEnter={() => setHeld(true)}
-      onMouseLeave={() => setHeld(false)}
-      onFocusCapture={() => setHeld(true)}
-      onBlurCapture={() => setHeld(false)}
     >
       <Container>
         <FadeIn>
@@ -86,6 +83,10 @@ export function Platform() {
             role="tablist"
             ref={strip}
             aria-label="Where agents work"
+            onMouseEnter={() => setHeld(true)}
+            onMouseLeave={() => setHeld(false)}
+            onFocusCapture={() => setHeld(true)}
+            onBlurCapture={() => setHeld(false)}
             className="relative mx-auto mt-8 flex w-fit flex-wrap justify-center border border-ink/15 bg-white/60"
           >
             <motion.span
