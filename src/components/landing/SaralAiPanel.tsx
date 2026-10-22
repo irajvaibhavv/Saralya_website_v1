@@ -64,7 +64,7 @@ export function SaralAiPanel({
       </div>
 
       <h2 className="display relative text-h2 [@media(min-height:800px)]:text-display">
-        AI Desk for <span className="font-hero font-normal italic text-accent">lenders</span>
+        AI Desk for lenders
       </h2>
       <p className="relative -mt-1 text-lede leading-relaxed text-muted">Your lending intelligence, in one secure workspace</p>
       {/* the ask block, left-aligned under the heading: who you are, the

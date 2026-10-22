@@ -1,6 +1,6 @@
 import { BarChart3, ChevronDown, Smartphone, Sparkles, Workflow } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TRACKS } from '../../content/agent-platform'
 import { TrackMock } from './TrackMock'
 import { FadeIn } from '../ui/Reveal'
@@ -10,8 +10,8 @@ import { Container, Section } from '../ui/Section'
    open one at a time, and the panel beside them plays that track running.
    Until the recordings land the panel says which one is coming. */
 
-/** how long a row stays open before the next one takes over */
-const DWELL = 3500
+/** how long a tab holds before the next one takes over */
+const DWELL = 3000
 
 const TAB_ICONS = { app: Smartphone, workflow: Workflow, analytics: BarChart3, custom: Sparkles } as const
 
@@ -27,13 +27,34 @@ export function Platform() {
   const still = useReducedMotion()
   const t = TRACKS[track]
 
-  /* the rows open themselves, one after the next; a click restarts the
-     wait rather than ending it */
+  /* the strip walks itself through the four tracks and loops; a click
+     restarts the wait rather than ending it, and a pointer over the band
+     holds it where it is */
   useEffect(() => {
     if (still || held) return
-    const id = window.setTimeout(() => setOpen((o) => (o + 1) % t.items.length), DWELL)
+    const id = window.setTimeout(() => {
+      setTrack((n) => (n + 1) % TRACKS.length)
+      setOpen(0)
+    }, DWELL)
     return () => window.clearTimeout(id)
-  }, [still, held, open, t])
+  }, [still, held, track])
+
+  /* the ink block is one element parked under the strip; it moves to the
+     chosen tab rather than being redrawn inside it */
+  const strip = useRef<HTMLDivElement>(null)
+  const [mark, setMark] = useState({ x: 0, y: 0, w: 0, h: 0 })
+  useLayoutEffect(() => {
+    const box = strip.current
+    if (!box) return
+    const read = () => {
+      const el = box.querySelectorAll<HTMLElement>('[role="tab"]')[track]
+      if (el) setMark({ x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight })
+    }
+    read()
+    const ro = new ResizeObserver(read)
+    ro.observe(box)
+    return () => ro.disconnect()
+  }, [track])
 
   const pick = (i: number) => {
     setTrack(i)
@@ -61,7 +82,19 @@ export function Platform() {
             One agentic <span className="font-hero font-normal italic text-accent">platform</span>
           </h2>
 
-          <div role="tablist" aria-label="Where agents work" className="mx-auto mt-8 flex w-fit flex-wrap justify-center gap-px border border-ink/15 bg-ink/5 p-px">
+          <div
+            role="tablist"
+            ref={strip}
+            aria-label="Where agents work"
+            className="relative mx-auto mt-8 flex w-fit flex-wrap justify-center border border-ink/15 bg-white/60"
+          >
+            <motion.span
+              aria-hidden
+              initial={false}
+              animate={{ x: mark.x, y: mark.y, width: mark.w, height: mark.h }}
+              transition={still ? { duration: 0 } : { duration: 0.58, ease: [0.4, 0, 0.2, 1] }}
+              className="pointer-events-none absolute left-0 top-0 bg-ink"
+            />
             {TRACKS.map((x, i) => {
               const Icon = TAB_ICONS[x.id]
               const on = i === track
@@ -72,11 +105,11 @@ export function Platform() {
                   aria-selected={on}
                   type="button"
                   onClick={() => pick(i)}
-                  className={`flex items-center gap-2 px-5 py-3 font-mono text-small uppercase tracking-[0.08em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
-                    on ? 'bg-ink text-white' : 'bg-white/60 text-muted hover:bg-white hover:text-ink'
-                  }`}
+                  className={`relative flex items-center gap-2 px-5 py-3 font-mono text-small uppercase tracking-[0.08em] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                    i ? 'border-l border-ink/10' : ''
+                  } ${on ? 'text-white' : 'text-muted hover:text-ink'}`}
                 >
-                  <Icon className={`size-4 ${on ? 'text-lime' : ''}`} strokeWidth={1.8} />
+                  <Icon className={`size-4 transition-colors duration-300 ${on ? 'text-lime' : ''}`} strokeWidth={1.8} />
                   {x.tab}
                 </button>
               )
@@ -86,7 +119,7 @@ export function Platform() {
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-start lg:gap-14">
           {/* the rows */}
-          <div>
+          <motion.div key={t.id} initial={still ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
             <h3 className="text-h3 font-semibold">{t.title}</h3>
             <p className="mt-2 max-w-[52ch] text-small leading-relaxed text-muted">{t.lede}</p>
 
@@ -102,7 +135,7 @@ export function Platform() {
                       className="flex w-full items-center justify-between gap-4 py-4 text-left"
                     >
                       <span className={`text-body font-semibold transition-colors ${on ? 'text-ink' : 'text-muted'}`}>{item.title}</span>
-                      <ChevronDown className={`size-4 shrink-0 text-muted transition-transform ${on ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`size-4 shrink-0 text-muted transition-transform duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? 'rotate-180' : ''}`} />
                     </button>
                     {/* the accent rule under the open row, the way the rest of
                         the site marks a live item */}
@@ -121,7 +154,10 @@ export function Platform() {
                           initial={still ? false : { height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25 }}
+                          transition={{
+                            height: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+                            opacity: { duration: 0.26, ease: 'easeOut', delay: on ? 0.1 : 0 },
+                          }}
                           className="overflow-hidden text-small leading-relaxed text-muted"
                         >
                           <span className="block py-4">{item.body}</span>
@@ -132,7 +168,7 @@ export function Platform() {
                 )
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* the recording */}
           <AnimatePresence mode="wait">
