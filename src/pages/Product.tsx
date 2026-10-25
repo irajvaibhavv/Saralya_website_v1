@@ -80,10 +80,10 @@ function Hero() {
               The intelligence layer behind every lending decision.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href={demo} className="bg-lime px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white">
+              <a href={demo} className="rounded-full bg-white px-7 py-3.5 text-body font-semibold text-ink transition-colors hover:bg-wash">
                 Request a demo
               </a>
-              <a href="#how" className="border border-white/35 px-8 py-4 text-body font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink">
+              <a href="#how" className="rounded-full px-7 py-3.5 text-body font-semibold text-white ring-1 ring-white/35 transition hover:ring-white">
                 See how it works
               </a>
             </div>
@@ -169,7 +169,7 @@ function Three() {
                 {MODULES.map((m) => (
                   <div key={m.name} className="flex flex-col justify-center rounded-xl bg-bg px-3 py-2.5 ring-1 ring-line">
                     <div className="text-small font-semibold">{m.name}</div>
-                    <div className="text-small text-muted">{m.state}</div>
+                    <div className="text-label text-muted">{m.state}</div>
                   </div>
                 ))}
               </div>
@@ -186,7 +186,7 @@ function Three() {
                   <div key={s.k} className="flex flex-1 items-center gap-1.5">
                     <div className="flex flex-1 flex-col justify-center rounded-xl bg-white/[0.06] px-2 py-2.5 text-center ring-1 ring-white/10">
                       <div className="text-small font-bold text-accent3">{s.k}</div>
-                      <div className="text-small text-white/50">{s.v}</div>
+                      <div className="text-label text-white/50">{s.v}</div>
                     </div>
                     {i < SIGNALS.length - 1 && <span className="font-bold text-white/40">+</span>}
                   </div>
@@ -202,12 +202,12 @@ function Three() {
               <div className="mt-2.5 grid flex-1 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-2 rounded-xl bg-bg p-2 ring-1 ring-line">
                 <div className="flex flex-col justify-center px-1 text-center">
                   <div className="text-small font-bold">Your LOS / LMS</div>
-                  <div className="text-small text-muted">System of record</div>
+                  <div className="text-label text-muted">System of record</div>
                 </div>
                 <div className="self-center text-center font-mono text-label font-semibold text-accent">⇄ 2-way</div>
                 <div className="flex flex-col justify-center rounded-lg bg-accent px-1 py-1.5 text-center text-white">
                   <div className="text-small font-bold">Saralya agents</div>
-                  <div className="text-small text-white/70">System of intelligence</div>
+                  <div className="text-label text-white/70">System of intelligence</div>
                 </div>
               </div>
             </div>
@@ -236,12 +236,10 @@ function Leaders() {
     <Section id="leaders">
       <Container>
         <FadeIn>
-          {/* openers alternate centre / left down the page, so five
-              sections do not all start the same way */}
-          <div className="-mt-4 mb-5 flex">
+          <div className="-mt-4 mb-7 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Trusted by Indian lenders</span>
           </div>
-          <h2 className="display text-h2 md:whitespace-nowrap">
+          <h2 className="display text-center text-h2 md:whitespace-nowrap">
             Built for leaders who demand <span className="text-accent">precision</span>
           </h2>
         </FadeIn>
@@ -275,7 +273,7 @@ function Leaders() {
             <button
               type="button"
               onClick={() => setRunning((r) => !r)}
-              className="mt-3 bg-white px-4 py-2 font-mono text-label uppercase tracking-[0.1em] text-ink2 ring-1 ring-line2 transition hover:ring-accent"
+              className="mt-3 rounded-full bg-white px-5 py-2 text-small font-semibold text-ink2 ring-1 ring-line2 transition hover:ring-accent"
             >
               {running ? 'Pause' : 'Play'}
             </button>
@@ -418,7 +416,7 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-16">
+    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-20">
       <Container>
         <FadeIn>
           <div className="-mt-3 mb-3 flex justify-center">
@@ -432,14 +430,14 @@ function Problem() {
             <div className="eyebrow">What it looks like on the floor</div>
             <div className="mt-3 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
-            <article key={p.n} className="flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line2">
+            <article key={p.n} className="flex rounded-2xl bg-white p-4 ring-1 ring-line2">
               <div className="grid min-h-[76px] flex-1 place-items-center rounded-xl bg-bg p-2">
                 {p.kind === 'blanks' && (
                   <div className="grid size-full grid-cols-2 gap-1.5">
                     {BLANKS.map((b) => (
                       <div key={b} className="flex flex-col justify-between rounded-lg bg-white px-1.5 py-1.5 ring-1 ring-dashed ring-line2">
-                        <span className="whitespace-nowrap text-small leading-tight text-muted">{b}</span>
-                        <span className="font-mono text-stat leading-none text-muted/50" aria-label="not tracked">—</span>
+                        <span className="whitespace-nowrap text-label leading-tight text-muted">{b}</span>
+                        <span aria-hidden className="block h-0.5 w-5 bg-line2" />
                       </div>
                     ))}
                   </div>
@@ -449,7 +447,7 @@ function Problem() {
                     <div className="flex items-center justify-between">
                       {CHAIN.map((c, n) => (
                         <div key={c} className="flex items-center gap-1">
-                          <span className="text-small text-muted">{c}</span>
+                          <span className="text-label text-muted">{c}</span>
                           {n < CHAIN.length - 1 && <span className="text-line2">›</span>}
                         </div>
                       ))}
@@ -461,8 +459,8 @@ function Problem() {
                 )}
                 {p.kind === 'leaves' && (
                   <div className="flex w-full flex-wrap items-center justify-center gap-1.5">
-                    {LEAVES.map((l, n) => (
-                      <span key={l} style={{ opacity: 1 - n * 0.3 }} className="w-fit rounded-full bg-white px-3 py-1 text-small ring-1 ring-dashed ring-line2">
+                    {LEAVES.map((l) => (
+                      <span key={l} className="w-fit rounded-full bg-white px-3 py-1 text-label ring-1 ring-dashed ring-line2">
                         {l}
                       </span>
                     ))}
@@ -472,14 +470,13 @@ function Problem() {
                   <div className="grid size-full grid-cols-3 gap-1">
                     {TRUTHS.map((t) => (
                       <div key={t.k} className="rounded-lg bg-white px-1.5 py-1 ring-1 ring-line2">
-                        <div className="text-small text-muted">{t.k}</div>
-                        <div className="whitespace-nowrap text-small font-bold tabular-nums">{t.v}</div>
+                        <div className="text-label text-muted">{t.k}</div>
+                        <div className="whitespace-nowrap text-label font-bold tabular-nums">{t.v}</div>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
-              <h3 className="display mt-3 text-h3">{p.t}</h3>
             </article>
           ))}
             </div>
@@ -533,7 +530,7 @@ function Problem() {
                 {x.chips.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {x.chips.map((c) => (
-                      <span key={c} className="rounded-full bg-amber-w px-2.5 py-1 text-small font-semibold text-amber">
+                      <span key={c} className="rounded-full bg-amber-w px-2.5 py-1 text-label font-semibold text-amber">
                         {c}
                       </span>
                     ))}
@@ -615,7 +612,7 @@ function How() {
         {/* the name is two words, so it sits on the line with its
             description rather than floating alone over the diagram */}
         <FadeIn className="border-b border-line pb-6">
-          <div className="-mt-4 mb-5 flex">
+          <div className="-mt-4 mb-7 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
           </div>
           <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
@@ -755,7 +752,7 @@ function How() {
                   setI(0)
                   setLooping(true)
                 }}
-                className="bg-ink px-5 py-2.5 font-mono text-small uppercase tracking-[0.08em] text-lime transition-colors hover:bg-ink2"
+                className="rounded-full bg-ink px-5 py-2.5 text-small font-semibold text-white transition-colors hover:bg-ink2"
               >
                 {looping ? 'Stop' : 'Play the loop'}
               </button>
@@ -794,7 +791,7 @@ function Demo() {
           <h2 className="display mt-4 text-h2">
             Ready to transform your <span className="text-accent">lending</span>?
           </h2>
-          <a href={demo} className="mt-7 inline-block bg-ink px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-lime transition-colors hover:bg-ink2">
+          <a href={demo} className="mt-7 inline-block rounded-full bg-ink px-7 py-3.5 text-body font-semibold text-white transition-colors hover:bg-ink2">
             Request a demo
           </a>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
