@@ -790,7 +790,7 @@ function Demo() {
       <Container>
         <FadeIn>
           <div className="eyebrow text-accent">Making lending Saral</div>
-          <h2 className="display mx-auto mt-4 max-w-[18ch] text-h2 md:text-display">
+          <h2 className="display mt-4 text-h2 md:text-h1">
             Ready to transform your <span className="text-accent">lending</span>?
           </h2>
           <a href={demo} className="mt-7 inline-block rounded-full bg-ink px-7 py-3.5 text-body font-semibold text-white transition-colors hover:bg-ink2">
