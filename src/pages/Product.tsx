@@ -236,10 +236,12 @@ function Leaders() {
     <Section id="leaders">
       <Container>
         <FadeIn>
-          <div className="-mt-4 mb-7 flex justify-center">
+          {/* openers alternate centre / left down the page, so five
+              sections do not all start the same way */}
+          <div className="-mt-4 mb-5 flex">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Trusted by Indian lenders</span>
           </div>
-          <h2 className="display text-center text-h2 md:whitespace-nowrap">
+          <h2 className="display text-h2 md:whitespace-nowrap">
             Built for leaders who demand <span className="text-accent">precision</span>
           </h2>
         </FadeIn>
@@ -612,7 +614,7 @@ function How() {
         {/* the name is two words, so it sits on the line with its
             description rather than floating alone over the diagram */}
         <FadeIn className="border-b border-line pb-6">
-          <div className="-mt-4 mb-7 flex justify-center">
+          <div className="-mt-4 mb-5 flex">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
           </div>
           <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
