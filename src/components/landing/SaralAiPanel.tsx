@@ -1,7 +1,9 @@
 import { ArrowUp, Cpu, GraduationCap, Landmark, Lock, Plus, Table2, User, Users } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
-import { ROLES, type Starter } from '../../content/saral-ai'
-import { ACCEPT, ask, fileStarter, Mark, MicButton, useSpeech, type Role } from './SaralAiChat'
+import { ROLES, type Starter } from '../../content/chat'
+import { ACCEPT, ask, fileStarter } from '../../lib/chat'
+import { useSpeech } from '../../lib/speech'
+import { Mark, MicButton, type Role } from './SaralAiChat'
 
 /* The opening view, centred in the full-page sheet: who you are, a
    composer, and the questions that seat asks. Asking who you are on a

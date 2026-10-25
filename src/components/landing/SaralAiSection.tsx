@@ -1,8 +1,9 @@
 import { UploadCloud } from 'lucide-react'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import type { Starter } from '../../content/saral-ai'
-import { fileStarter, Mark, SaralAiChat, type Role } from './SaralAiChat'
+import type { Starter } from '../../content/chat'
+import { fileStarter } from '../../lib/chat'
+import { Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
 import { useNavigate } from 'react-router-dom'
 
@@ -33,10 +34,10 @@ export function SaralAiSection({
   const inView = useInView(stage, { amount: 0.25 })
   const [hint, setHint] = useState(false)
   useEffect(() => {
-    if (inView) { setHint(false); return }
+    if (inView) return
     const on = window.setTimeout(() => setHint(true), 2500)
     const off = window.setTimeout(() => setHint(false), 9000)
-    return () => { window.clearTimeout(on); window.clearTimeout(off) }
+    return () => { window.clearTimeout(on); window.clearTimeout(off); setHint(false) }
   }, [inView])
 
   /* Drop a file anywhere on the page: the conversation opens with it, or

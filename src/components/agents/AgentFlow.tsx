@@ -15,7 +15,7 @@ export type Rail = { label: string; icon: keyof typeof ICONS }
 export type Stage = { title: string; sub: string; icon?: keyof typeof ICONS }
 export type Metric = { label: string; value: string }
 
-export const ICONS = {
+const ICONS = {
   bureau: 'M3 20h18M5 20V8l7-4 7 4v12M10 20v-5h4v5',
   data: 'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6',
   doc: 'M7 3h7l5 5v13H7zM14 3v5h5M10 13h7M10 17h7',

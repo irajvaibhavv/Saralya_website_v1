@@ -20,9 +20,10 @@ import {
 } from 'lucide-react'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { ask, Mark, type Role } from '../components/landing/SaralAiChat'
-import { ROLES, type Starter } from '../content/saral-ai'
-import { GUARDS, TOOLS, WORKSPACE } from '../content/saralya-ai'
+import { Mark, type Role } from '../components/landing/SaralAiChat'
+import { ask } from '../lib/chat'
+import { ROLES, type Starter } from '../content/chat'
+import { GUARDS, TOOLS, WORKSPACE } from '../content/workspace'
 import { CONTACT_EMAIL } from '../content/site'
 
 /* Saralya AI is the surface behind the landing chat: the same Saarthi, with
@@ -74,13 +75,12 @@ const account = (subject: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeUR
 export function SaralyaAi() {
   const [tab, setTab] = useState<'ask' | 'tools'>('ask')
   const [seat, setSeat] = useState<Role | null>(null)
-  const [chats, setChats] = useState<Chat[]>([])
+  const [chats, setChats] = useState<Chat[]>(read)
   const [open, setOpen] = useState<string | null>(null)
   const [q, setQ] = useState('')
   const [thinking, setThinking] = useState(false)
   const thread = useRef<HTMLDivElement>(null)
 
-  useEffect(() => setChats(read()), [])
   useEffect(() => {
     thread.current?.scrollTo({ top: thread.current.scrollHeight, behavior: 'smooth' })
   }, [open, chats, thinking])

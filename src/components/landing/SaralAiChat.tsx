@@ -4,8 +4,10 @@ import type { FormEvent, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CONTACT_EMAIL, CONVICTIONS, MODULES } from '../../content/site'
-import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/saral-ai'
+import { BOOK_SIZES, CHALLENGES, DEPARTMENTS, ONBOARDING, ROLES, STAGES, STARTERS, type ChallengeId, type DeptId, type Starter } from '../../content/chat'
 import { ButtonLink } from '../ui/Button'
+import { ACCEPT, ask } from '../../lib/chat'
+import { useSpeech } from '../../lib/speech'
 
 /* Saral AI, the landing chat. It opens by asking who you are; each role
    gets the questions that seat asks most (scripted answers from site facts),
@@ -27,24 +29,6 @@ const FLOW: Step[] = ['dept', 'challenges', 'size', 'note']
 
 const HELLO = 'Hi, I’m Saral. I can help with credit risk, collections, RBI norms, compliance, or anything about our platform. What would you like to know?'
 
-// TODO: point at the model endpoint once it is exposed.
-export async function ask(_q: string): Promise<string> {
-  return 'That one needs the full model, which is being wired in. For now the founders read every question. Use “Write to us” and it reaches them today.'
-}
-
-/* Starting a conversation from files (the + in the opening view, or a drop
-   while the window is closed). */
-export function fileStarter(list: FileList): Starter | null {
-  const names = [...list].map((f) => f.name)
-  if (!names.length) return null
-  return {
-    q: names.length === 1 ? `Here is my file: ${names[0]}` : `Here are my files: ${names.join(', ')}`,
-    a: 'Got it. I will read this once the model is wired in; until then it stays in your browser. Tell me what you want checked and I will pass it on.',
-  }
-}
-
-// TODO: send to the upload endpoint once it exists; until then files stay in the browser.
-export const ACCEPT = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg'
 const kb = (n: number) => (n < 1048576 ? `${Math.max(1, Math.round(n / 1024))} KB` : `${(n / 1048576).toFixed(1)} MB`)
 
 const NOTE = STARTERS.find((s) => s.note)!
@@ -510,34 +494,6 @@ export function Mark({ className = '' }: { className?: string }) {
       S<span className="ml-[0.045em] mt-[0.21em] size-[0.21em] rounded-full bg-white" />
     </span>
   )
-}
-
-/* Speech to text through the browser's own recogniser (Chrome, Edge, Safari).
-   Interim words land in the box as they are heard; the button hides where
-   the API is missing. */
-type Recogniser = { lang: string; interimResults: boolean; onresult: (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void; onend: () => void; onerror: () => void; start: () => void; stop: () => void }
-const SR = typeof window !== 'undefined' ? ((window as unknown as { SpeechRecognition?: new () => Recogniser; webkitSpeechRecognition?: new () => Recogniser }).SpeechRecognition ?? (window as unknown as { webkitSpeechRecognition?: new () => Recogniser }).webkitSpeechRecognition) : undefined
-
-export function useSpeech(onText: (t: string) => void) {
-  const [listening, setListening] = useState(false)
-  const rec = useRef<Recogniser | null>(null)
-  const toggle = () => {
-    if (listening) {
-      rec.current?.stop()
-      return
-    }
-    if (!SR) return
-    const r = new SR()
-    r.lang = 'en-IN'
-    r.interimResults = true
-    r.onresult = (e) => onText(Array.from(e.results, (x) => x[0].transcript).join(''))
-    r.onend = () => setListening(false)
-    r.onerror = () => setListening(false)
-    rec.current = r
-    r.start()
-    setListening(true)
-  }
-  return { supported: !!SR, listening, toggle }
 }
 
 export function MicButton({ speech }: { speech: ReturnType<typeof useSpeech> }) {

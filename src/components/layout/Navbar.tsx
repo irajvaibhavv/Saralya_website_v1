@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
 import { ArrowRight, Bot, Layers, Menu, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { CONTACT_EMAIL } from '../../content/site'
 
@@ -33,7 +33,12 @@ export function Navbar() {
   const still = useReducedMotion()
 
   useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 12))
-  useEffect(() => setOpen(false), [location.pathname])
+  // close the mobile menu on navigation
+  const [path, setPath] = useState(location.pathname)
+  if (path !== location.pathname) {
+    setPath(location.pathname)
+    setOpen(false)
+  }
 
   // over the landing hero the nav sits on video, so it goes light until the page scrolls
   const light = location.pathname === '/' && !scrolled

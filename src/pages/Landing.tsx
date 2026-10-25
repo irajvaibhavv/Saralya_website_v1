@@ -5,7 +5,7 @@ import { SaralAiSection } from '../components/landing/SaralAiSection'
 import { ClosingCta } from '../components/layout/ClosingCta'
 import { Held } from '../components/ui/Reveal'
 import type { Role } from '../components/landing/SaralAiChat'
-import type { Starter } from '../content/saral-ai'
+import type { Starter } from '../content/chat'
 import { lenis, scrollToEl } from '../lib/scroll'
 
 /* The front door is four screens stacked: the reel, what the platform is,

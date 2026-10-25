@@ -13,7 +13,7 @@ import { scrollToEl } from '../lib/scroll'
    not built yet is a conversation, so every card ends at a demo. */
 
 /** every ask on this page goes to the same place */
-export const demo = (what: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Demo: ${what}`)}`
+const demo = (what: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Demo: ${what}`)}`
 
 export function Agents() {
   return (
