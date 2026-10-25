@@ -786,19 +786,19 @@ function How() {
 
 function Demo() {
   return (
-    <section id="demo" className="dots bg-ink py-16 text-center text-white md:py-24">
+    <section id="demo" className="border-t border-line bg-[radial-gradient(ellipse_70%_90%_at_10%_50%,#dcebe6_0%,transparent_60%),radial-gradient(ellipse_60%_90%_at_95%_40%,#eef5f2_0%,transparent_60%),linear-gradient(180deg,#f7faf9_0%,#eef4f2_100%)] py-16 text-center md:py-24">
       <Container>
         <FadeIn>
-          <div className="eyebrow text-accent3">Making lending Saral</div>
+          <div className="eyebrow text-accent">Making lending Saral</div>
           <h2 className="display mx-auto mt-4 max-w-[18ch] text-h2 md:text-display">
-            Ready to transform your <span className="text-accent3">lending</span>?
+            Ready to transform your <span className="text-accent">lending</span>?
           </h2>
-          <a href={demo} className="mt-7 inline-block rounded-full bg-white px-7 py-3.5 text-body font-semibold text-ink transition-colors hover:bg-wash">
+          <a href={demo} className="mt-7 inline-block rounded-full bg-ink px-7 py-3.5 text-body font-semibold text-white transition-colors hover:bg-ink2">
             Request a demo
           </a>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
             {['30 minutes', 'Built on your KPIs', 'Under NDA'].map((c) => (
-              <span key={c} className="rounded-full px-3 py-1 text-small text-white/70 ring-1 ring-white/20">
+              <span key={c} className="rounded-full px-3 py-1 text-small text-muted ring-1 ring-line2">
                 {c}
               </span>
             ))}
