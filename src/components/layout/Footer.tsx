@@ -31,7 +31,7 @@ const COLS = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-10 border-t-2 border-lime bg-ink text-white">
+    <footer className="relative border-t-2 border-lime bg-ink text-white">
       <Container className="py-14">
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>

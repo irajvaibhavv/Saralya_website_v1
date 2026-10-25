@@ -604,7 +604,7 @@ function How() {
   }, [looping, still, i])
 
   return (
-    <Section id="how" className="border-t border-line bg-bg">
+    <Section id="how" className="border-t border-line bg-bg pb-10 md:pb-12">
       <Container>
         {/* the write-up on the left, the agent architecture running beside
             it: rails in, the engine, the loop of steps, a decided file out */}
