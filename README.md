@@ -1,63 +1,95 @@
 # Saralya website
 
-Marketing site for [saralya.in](https://saralya.in): lending infrastructure for India's banks and NBFCs.
+Marketing site for [saralya.in](https://saralya.in), lending infrastructure for India's NBFCs.
+A single-page React app with no backend: copy and data are static TypeScript modules, and
+contact actions use `mailto:` links.
 
 ## Stack
 
-- Vite 8, React 19, TypeScript
-- Tailwind CSS v4 (CSS-first, tokens in `src/index.css`)
-- `motion/react` for animation, `lucide-react` for icons
-- React Router v7
+| Concern    | Choice                                                        |
+| ---------- | ------------------------------------------------------------- |
+| Build      | Vite 8, TypeScript 6                                          |
+| UI         | React 19, React Router 7                                      |
+| Styling    | Tailwind CSS 4 (CSS-first: tokens live in `src/index.css`)    |
+| Motion     | `motion/react` for animation, `lenis` for smooth scrolling    |
+| Icons      | `lucide-react`                                                |
+| Lint       | `oxlint`                                                      |
+| Hosting    | Vercel (`vercel.json` rewrites every path to `index.html`)    |
+
+Requires Node 20.19+ (Node 22 or 24 recommended).
 
 ## Getting started
 
-```
+```bash
 npm install
-npm run dev       # http://localhost:5173
-npm run build     # typecheck + production build to dist/
+npm run dev       # dev server on http://localhost:5173
+npm run build     # typecheck (tsc -b) + production build to dist/
 npm run preview   # serve the production build
 npm run lint      # oxlint
 ```
 
-Deploys on Vercel from `main`; `vercel.json` rewrites every route to `index.html` for the SPA router.
-
 ## Routes
 
-| Path          | Page                                                        |
-| ------------- | ----------------------------------------------------------- |
-| `/`           | Landing: Saral AI chat beside a short video reel            |
-| `/home`       | Full overview: hero, how it works, modules, benefits, team  |
-| `/products`   | The six Saral modules with looping visuals                  |
-| `/technology` | Architecture, integrations, compliance                      |
-| `/about`      | Founders and convictions                                    |
-| `/demo`       | Interactive sample decision                                 |
-| `/privacy`    | Privacy policy                                              |
+| Path          | Page file                | Purpose                                                    |
+| ------------- | ------------------------ | ---------------------------------------------------------- |
+| `/`           | `pages/Landing.tsx`      | Hero video, then the Saral Saarthi chat screen             |
+| `/products`   | `pages/Product.tsx`      | Platform: architecture, role dashboards, problem, solution |
+| `/agents`     | `pages/Agents.tsx`       | Agent platform tracks, use cases, compliance               |
+| `/privacy`    | `pages/Privacy.tsx`      | Privacy policy                                             |
+| `/saralya-ai` | `pages/SaralyaAi.tsx`    | Full-screen AI workspace (own chrome, no site nav/footer)  |
 
-## Project layout
+`/home` redirects to `/`, `/demo` to `/products#demo`, and unknown paths render the landing page.
+Every page except the landing is lazy-loaded and prefetched after first paint (`App.tsx`).
+
+## Project structure
 
 ```
 public/
-  img/                  photography used on /home and /about
-  video/                landing reel (reel.mp4 + poster)
+  img/                   photography and logos
+  video/                 landing hero video (1080p, 720p, poster)
 src/
-  main.tsx              React entry
-  App.tsx               router, page transitions, scroll/title handling
-  index.css             Tailwind import, design tokens, small utilities
-  content/
-    site.ts             all site copy and data: modules, pillars, compliance, founders
-    saral-ai.ts         the Saral AI script: departments, challenges, starter Q&A, onboarding
+  main.tsx               entry point
+  App.tsx                routes, page transitions, scroll restoration, document titles
+  index.css              Tailwind import, design tokens (@theme), custom utilities
+  content/               all copy and data, one file per page or feature
+    site.ts              shared data: contact email, product modules, company convictions
+    product.ts           /products
+    agents.ts            /agents data model (seats, wants, plans)
+    agent-platform.ts    /agents platform tracks
+    use-cases.ts         /agents use-case carousel
+    chat.ts              landing chat script (roles, starter questions, diagnostic)
+    workspace.ts         /saralya-ai tools and notices
+  lib/
+    scroll.ts            the single Lenis instance and scroll helpers
+    chat.ts              chat helpers: ask() stub, file starter, accepted file types
+    speech.ts            useSpeech(): browser speech-to-text
   components/
-    ui/                 primitives: Button, Section/Container/SectionHead, Reveal (scroll animations)
-    layout/             Navbar, Footer, PageHero, ClosingCta
-    landing/            SaralAiChat, VideoReel
-    home/               one component per section of /home
-    products/           ModuleVisuals: one looping visual per module
-  pages/                one file per route
+    ui/                  primitives: Button, Section/Container, Reveal (FadeIn, Held)
+    layout/              Navbar, Footer, PageHero, ClosingCta
+    landing/             hero, hero video, Saarthi chat screen and its parts
+    agents/              /agents sections, the animated AgentFlow diagram, phone mocks
+  pages/                 one component per route
 ```
 
 ## Conventions
 
-- All copy lives in `src/content/`. Components render it; they do not own words.
-- Claims about the product must be ones the founders will stand behind. Unverified numbers, customer names and logos stay out.
-- Animations respect `prefers-reduced-motion`.
-- Saral AI's free-text answers are a stub until the model endpoint exists (`ask()` in `SaralAiChat.tsx`). Captured notes go out by `mailto:` until a lead backend is added.
+- **Content is data.** Words, figures and lists live in `src/content/`; components render them.
+- **Design tokens only.** Use the colours and the type scale defined in the `@theme` block of
+  `src/index.css` (`text-label` … `text-mega`, `bg-ink`, `text-accent`, …) rather than arbitrary
+  values. `green`/`amber`/`red` mean pass/warn/fail and are never used decoratively.
+- **Typography.** Headings use the `display` utility (Clash Display); labels, tabs and buttons use
+  Geist Mono in caps; body text uses the sans stack.
+- **Motion.** Scroll reveals go through `FadeIn` in `components/ui/Reveal.tsx`. Programmatic
+  scrolling goes through `lib/scroll.ts`, never `window.scrollTo({ behavior: 'smooth' })`, which
+  conflicts with Lenis. Everything respects `prefers-reduced-motion`.
+- **Auto-rotating content pauses** on hover and keyboard focus.
+- **No third-party company names** (partners, bureaus, core-banking vendors) in copy. Standards
+  and regimes such as Account Aggregator, GSTN, RBI and DPDP are fine.
+
+## Not yet wired up
+
+- `ask()` in `src/lib/chat.ts` returns a placeholder until the model endpoint exists.
+- Uploaded files stay in the browser; there is no upload endpoint.
+- Demo requests, sign-ups and notes open the visitor's mail client (`mailto:`).
+- `/saralya-ai` stores conversations in `localStorage`; there are no accounts.
+- Copy awaiting confirmation is marked `TODO(content)`: run `grep -rn "TODO(content)" src`.

@@ -23,16 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 
-# Local tooling scratch
+# Local tooling and build snapshots
 .playwright-mcp/
 dist.zip
-
-# Frozen preview snapshots, one per version
 .v1-build/
 .v2-build/
 .v3-build/
-
-# Design prototype, not part of the site
 public/agent-flow.html
 
 # AI assistant notes, kept local
