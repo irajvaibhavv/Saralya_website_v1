@@ -169,7 +169,7 @@ function Three() {
                 {MODULES.map((m) => (
                   <div key={m.name} className="flex flex-col justify-center rounded-xl bg-bg px-3 py-2.5 ring-1 ring-line">
                     <div className="text-small font-semibold">{m.name}</div>
-                    <div className="text-label text-muted">{m.state}</div>
+                    <div className="text-small text-muted">{m.state}</div>
                   </div>
                 ))}
               </div>
@@ -186,7 +186,7 @@ function Three() {
                   <div key={s.k} className="flex flex-1 items-center gap-1.5">
                     <div className="flex flex-1 flex-col justify-center rounded-xl bg-white/[0.06] px-2 py-2.5 text-center ring-1 ring-white/10">
                       <div className="text-small font-bold text-accent3">{s.k}</div>
-                      <div className="text-label text-white/50">{s.v}</div>
+                      <div className="text-small text-white/50">{s.v}</div>
                     </div>
                     {i < SIGNALS.length - 1 && <span className="font-bold text-white/40">+</span>}
                   </div>
@@ -202,12 +202,12 @@ function Three() {
               <div className="mt-2.5 grid flex-1 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-2 rounded-xl bg-bg p-2 ring-1 ring-line">
                 <div className="flex flex-col justify-center px-1 text-center">
                   <div className="text-small font-bold">Your LOS / LMS</div>
-                  <div className="text-label text-muted">System of record</div>
+                  <div className="text-small text-muted">System of record</div>
                 </div>
                 <div className="self-center text-center font-mono text-label font-semibold text-accent">⇄ 2-way</div>
                 <div className="flex flex-col justify-center rounded-lg bg-accent px-1 py-1.5 text-center text-white">
                   <div className="text-small font-bold">Saralya agents</div>
-                  <div className="text-label text-white/70">System of intelligence</div>
+                  <div className="text-small text-white/70">System of intelligence</div>
                 </div>
               </div>
             </div>
