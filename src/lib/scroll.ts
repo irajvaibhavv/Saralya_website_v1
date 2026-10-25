@@ -25,8 +25,6 @@ export const lenis = new Lenis({
 })
 
 /* `force` so these still work while the landing stack holds Lenis. */
-export const scrollToY = (y: number, immediate = reduce) => lenis.scrollTo(y, { immediate, force: true })
-
 export const scrollToEl = (id: string, offset = 0) => {
   const el = document.getElementById(id)
   if (el) lenis.scrollTo(el, { immediate: reduce, offset, force: true })

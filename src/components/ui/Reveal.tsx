@@ -1,6 +1,6 @@
-import { animate, motion, useInView, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import type { ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 /* Small motion primitives shared across pages. Everything is scroll-triggered
    once (`viewport.once`) so pages don't re-animate while the user reads. */
@@ -28,94 +28,6 @@ export function FadeIn({
     >
       {children}
     </motion.div>
-  )
-}
-
-/** Parent that staggers its <Item> children as they scroll in. */
-export function Stagger({
-  children,
-  className,
-  gap = 0.05,
-  delay = 0,
-}: {
-  children: ReactNode
-  className?: string
-  gap?: number
-  delay?: number
-}) {
-  return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: '0px 0px -8% 0px' }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: gap, delayChildren: delay } } }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-export function Item({ children, className, y = 14 }: { children: ReactNode; className?: string; y?: number }) {
-  return (
-    <motion.div
-      className={className}
-      variants={{
-        hidden: { opacity: 0, y },
-        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
-      }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-/** Counts up from 0 to `to` when scrolled into view. */
-export function Counter({
-  to,
-  prefix = '',
-  suffix = '',
-  decimals = 0,
-  duration = 1.6,
-  className,
-}: {
-  to: number
-  prefix?: string
-  suffix?: string
-  decimals?: number
-  duration?: number
-  className?: string
-}) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-10% 0px' })
-  const reduce = useReducedMotion()
-  const [value, setValue] = useState(0)
-
-  useEffect(() => {
-    if (!inView) return
-    if (reduce) {
-      setValue(to)
-      return
-    }
-    const controls = animate(0, to, {
-      duration,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setValue(v),
-    })
-    return () => controls.stop()
-  }, [inView, to, duration, reduce])
-
-  const formatted = value.toLocaleString('en-IN', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  })
-
-  return (
-    <span ref={ref} className={className}>
-      {prefix}
-      {formatted}
-      {suffix}
-    </span>
   )
 }
 

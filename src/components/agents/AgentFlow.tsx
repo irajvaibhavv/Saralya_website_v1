@@ -384,34 +384,3 @@ export function AgentFlow({
   )
 }
 
-/** The frame the diagram sits in, with its header bar and caption row. */
-export function AgentFrame({ badge, out, children }: { badge: string; out?: Stage; children: React.ReactNode }) {
-  return (
-    <div className="overflow-hidden rounded-3xl bg-bg ring-1 ring-line">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-white px-5 py-4 md:px-7">
-        <span className="inline-flex items-center gap-2 rounded-full bg-wash px-3.5 py-2 font-mono text-label uppercase tracking-[0.14em] text-accent">
-          <span className="size-1.5 rounded-full bg-accent" />
-          {badge}
-        </span>
-        {out ? (
-          <span className="flex min-w-0 items-center gap-2.5">
-            <span className="shrink-0 rounded-full bg-green px-3 py-1 text-label font-bold text-white">{out.title}</span>
-            <span className="truncate text-label text-muted">{out.sub}</span>
-          </span>
-        ) : (
-          <span className="font-mono text-label uppercase tracking-[0.14em] text-hint">RBI-supervised by design</span>
-        )}
-      </div>
-
-      <div className="overflow-x-auto p-4 md:p-6">{children}</div>
-
-      {/* the four, as labels: the sentences under them came out on the lead's
-          instruction */}
-      <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-line bg-white px-6 py-5 md:px-7">
-        {['Knows your book', 'Decides in the open', 'Cannot cross the line', 'Lands on your desk'].map((t) => (
-          <span key={t} className="text-body font-semibold text-accent">{t}</span>
-        ))}
-      </div>
-    </div>
-  )
-}

@@ -125,8 +125,6 @@ export const WANTS = [
 
 export type WantId = (typeof WANTS)[number]['id']
 
-export const VOLUMES = [100, 500, 2000, 10000] as const
-
 export const READY: { name: string; img: string; seat: string; line: string }[] = [
   { name: 'Underwriting agent', img: '/img/agreement.jpg', seat: 'uw', line: 'Scores a thin-file MSME on cash flow, not only on a bureau score.' },
   { name: 'Field PD agent', img: '/img/ledger.jpg', seat: 'credit', line: 'Writes up the personal discussion from the visit, with photographs and location.' },
