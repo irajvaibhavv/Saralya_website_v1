@@ -70,11 +70,11 @@ function Hero() {
   return (
     <section className="dots bg-ink py-14 text-white md:py-20">
       <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.4fr_1fr]">
           <FadeIn>
             <div className="eyebrow text-accent3">Making lending Saral</div>
-            <h1 className="display mt-4 text-display">
-              The enterprise-grade <span className="text-accent3">operating system</span> for lenders
+            <h1 className="display mt-4 text-balance text-h1">
+              The enterprise&#8209;grade <span className="text-accent3">operating system</span> for lenders
             </h1>
             <p className="mt-4 max-w-[46ch] text-lede leading-relaxed text-white/70">
               The intelligence layer behind every lending decision.
