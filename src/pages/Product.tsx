@@ -416,7 +416,7 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem" tight>
+    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:py-8">
       <Container>
         <FadeIn>
           <div className="-mt-3 mb-5 flex justify-center">
@@ -429,17 +429,17 @@ function Problem() {
         </FadeIn>
 
         <div className="mt-5 grid gap-6 lg:grid-cols-2">
-          <div>
+          <div className="flex flex-col">
             <div className="eyebrow">What it looks like on the floor</div>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div className="mt-3 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
-            <article key={p.n} className="rounded-2xl bg-white p-4 ring-1 ring-line2">
-              <div className="grid h-[76px] place-items-center rounded-xl bg-bg p-2">
+            <article key={p.n} className="flex rounded-2xl bg-white p-4 ring-1 ring-line2">
+              <div className="grid min-h-[76px] flex-1 place-items-center rounded-xl bg-bg p-2">
                 {p.kind === 'blanks' && (
-                  <div className="grid size-full grid-cols-4 gap-1.5">
+                  <div className="grid size-full grid-cols-2 gap-1.5">
                     {BLANKS.map((b) => (
                       <div key={b} className="flex flex-col justify-between rounded-lg bg-white px-1.5 py-1.5 ring-1 ring-dashed ring-line2">
-                        <span className="text-label leading-tight text-muted">{b}</span>
+                        <span className="whitespace-nowrap text-label leading-tight text-muted">{b}</span>
                         <span aria-hidden className="block h-0.5 w-5 bg-line2" />
                       </div>
                     ))}
