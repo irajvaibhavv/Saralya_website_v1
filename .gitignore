@@ -34,3 +34,7 @@ dist.zip
 
 # Design prototype, not part of the site
 public/agent-flow.html
+
+# AI assistant notes, kept local
+CLAUDE.md
+.claude/
