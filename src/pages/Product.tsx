@@ -162,7 +162,7 @@ function Three() {
 
         <div className="grid gap-5 lg:grid-cols-3">
           <article className="flex flex-col rounded-2xl bg-white p-6 ring-1 ring-line2">
-            <h2 className="text-h3 font-semibold">Modular &amp; API-first</h2>
+            <h2 className="display text-h3">Modular &amp; API-first</h2>
             <div className="mt-4 flex flex-1 flex-col border-t border-line pt-4">
               <div className="font-mono text-label uppercase tracking-[0.14em] text-muted">Plug-and-play modules</div>
               <div className="mt-2.5 grid flex-1 grid-cols-2 gap-2">
@@ -177,7 +177,7 @@ function Three() {
           </article>
 
           <article className="flex flex-col rounded-2xl bg-ink p-6 text-white">
-            <h2 className="text-h3 font-semibold">Saralya Credit ML Model</h2>
+            <h2 className="display text-h3">Saralya Credit ML Model</h2>
             <p className="mt-1.5 text-small leading-relaxed text-white/70">Trained on Indian banking data.</p>
             <div className="mt-4 flex flex-1 flex-col border-t border-white/10 pt-4">
               <div className="font-mono text-label uppercase tracking-[0.14em] text-white/50">Three signals, one score</div>
@@ -196,7 +196,7 @@ function Three() {
           </article>
 
           <article className="flex flex-col rounded-2xl bg-white p-6 ring-1 ring-line2">
-            <h2 className="text-h3 font-semibold">Zero-disruption overlay</h2>
+            <h2 className="display text-h3">Zero-disruption overlay</h2>
             <div className="mt-4 flex flex-1 flex-col border-t border-line pt-4">
               <div className="font-mono text-label uppercase tracking-[0.14em] text-muted">Agents beside your stack</div>
               <div className="mt-2.5 grid flex-1 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-2 rounded-xl bg-bg p-2 ring-1 ring-line">
@@ -239,7 +239,7 @@ function Leaders() {
           <div className="-mt-4 mb-7 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Trusted by Indian lenders</span>
           </div>
-          <h2 className="display text-center text-h2 md:whitespace-nowrap md:text-h1">
+          <h2 className="display text-center text-h2 md:whitespace-nowrap">
             Built for leaders who demand <span className="text-accent">precision</span>
           </h2>
         </FadeIn>
@@ -486,8 +486,8 @@ function Problem() {
             <div className="eyebrow">All of this leads to</div>
             <div className="mt-3 grid gap-4">
             {PRESSURES.map((x) => (
-              <article key={x.t} className="flex items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-line2">
-                <div className="grid h-[84px] w-[224px] shrink-0 place-items-center rounded-xl bg-amber-w/40 p-2">
+              <article key={x.t} className="flex flex-col gap-4 sm:flex-row sm:items-center rounded-2xl bg-white p-4 ring-1 ring-line2">
+                <div className="grid h-[84px] w-full shrink-0 sm:w-[224px] place-items-center rounded-xl bg-amber-w/40 p-2">
                   {x.kind === 'nim' && (
                     <svg viewBox="0 0 280 112" role="img" aria-label="Yield falls towards the cost of funds, so the margin narrows" className="w-full">
                       <path d="M8 20 L272 44 L272 70 L8 76 Z" className="fill-amber-w" />
@@ -526,7 +526,7 @@ function Problem() {
                   )}
                 </div>
                 <div className="min-w-0">
-                <h3 className="text-body font-semibold">{x.t}</h3>
+                <h3 className="display text-h3">{x.t}</h3>
                 {x.chips.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {x.chips.map((c) => (
@@ -616,7 +616,7 @@ function How() {
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
           </div>
           <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
-            <h2 className="display whitespace-nowrap text-h2 md:text-h1">
+            <h2 className="display whitespace-nowrap text-h2">
               Saralya <span className="text-accent">OS</span>
             </h2>
             <p className="text-body leading-relaxed text-muted xl:whitespace-nowrap xl:pb-3.5">
@@ -787,7 +787,7 @@ function Demo() {
       <Container>
         <FadeIn>
           <div className="eyebrow text-accent">Making lending Saral</div>
-          <h2 className="display mt-4 text-h2 md:text-h1">
+          <h2 className="display mt-4 text-h2">
             Ready to transform your <span className="text-accent">lending</span>?
           </h2>
           <a href={demo} className="mt-7 inline-block rounded-full bg-ink px-7 py-3.5 text-body font-semibold text-white transition-colors hover:bg-ink2">

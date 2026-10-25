@@ -61,8 +61,8 @@ export function UseCases() {
     <Section tight id="use-cases">
       <Container>
         <FadeIn className="text-center">
-          <h2 className="display mx-auto text-h3 md:whitespace-nowrap md:text-h2">
-            End-to-end agentic <span className="font-hero font-normal italic text-accent">use cases for lenders</span>
+          <h2 className="display mx-auto text-h2 md:whitespace-nowrap">
+            End-to-end agentic <span className="text-accent">use cases for lenders</span>
           </h2>
         </FadeIn>
 
@@ -116,7 +116,7 @@ export function UseCases() {
                 <span className="bg-ink px-2 py-1 font-mono text-label text-lime">{String(i + 1).padStart(2, '0')}</span>
                 <span className="h-px flex-1 bg-line" />
               </div>
-              <h3 className="display max-w-[22ch] text-h3 md:text-h2">{u.title}</h3>
+              <h3 className="display max-w-[22ch] text-h3">{u.title}</h3>
               <ul className="mt-5 space-y-3">
                 {u.points.map((p) => (
                   <li key={p} className="flex gap-2.5 text-small leading-relaxed text-ink2">

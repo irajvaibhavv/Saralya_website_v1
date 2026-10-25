@@ -28,10 +28,9 @@ export function Agents() {
 }
 
 /* The hero is a solid block, not a page with decoration on it: ink field,
-   a lime disc and a lavender ring cropped by the edges, a rule grid, and
-   the three faces we already load played against each other — Clash for
-   the headline, Boska italic for the word it turns on, Geist Mono for the
-   labels. Every shape is flat: no blur, no glass, no glow. */
+   a lime disc and a lavender ring cropped by the edges, a rule grid, Clash
+   for the headline and Geist Mono for the labels. Every shape is flat: no
+   blur, no glass, no glow. */
 function Hero() {
   const go = () => scrollToEl('platform')
   return (
@@ -62,7 +61,7 @@ function Hero() {
 
             <h1 className="display mt-6 max-w-[14ch] text-display leading-[0.98]">
               Agents that do the work, on every desk in the{' '}
-              <span className="font-hero font-normal italic text-lime">building</span>
+              <span className="text-lime">building</span>
             </h1>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
@@ -168,9 +167,9 @@ function Steps() {
                 <span className="size-2 bg-ink" />
                 Not on the list?
               </div>
-              <h2 className="display mt-4 max-w-[16ch] text-h2 md:text-display">
+              <h2 className="display mt-4 max-w-[16ch] text-h2">
                 Build any other{' '}
-                <span className="font-hero font-normal italic">agent</span>
+                agent
               </h2>
 
               <div className="mt-7 flex flex-wrap gap-x-7 gap-y-2.5">

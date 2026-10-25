@@ -28,8 +28,8 @@ export function TwoDoors() {
               </span>
             </div>
 
-            <h2 className="display relative mt-4 whitespace-nowrap text-h3 md:text-h2">
-              Saralya for <span className="font-hero font-normal italic text-accent">enterprise</span>
+            <h2 className="display relative mt-4 text-h2 md:whitespace-nowrap">
+              Saralya for <span className="text-accent">enterprise</span>
             </h2>
 
             <ul className="relative mt-6 space-y-3.5">
@@ -62,8 +62,8 @@ export function TwoDoors() {
               </span>
             </div>
 
-            <h2 className="display relative mt-4 whitespace-nowrap text-h3 md:text-h2">
-              Build AI <span className="font-hero font-normal italic text-lime">agents</span>
+            <h2 className="display relative mt-4 text-h2 md:whitespace-nowrap">
+              Build AI <span className="text-lime">agents</span>
             </h2>
 
             <ul className="relative mt-6 space-y-3.5">

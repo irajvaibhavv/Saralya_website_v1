@@ -76,8 +76,8 @@ export function Platform() {
             <div className="absolute -right-24 bottom-0 size-64 rounded-full bg-accent/10" />
           </div>
 
-          <h2 className="display mx-auto text-center text-h2 md:text-display">
-            One agentic <span className="font-hero font-normal italic text-accent">platform</span>
+          <h2 className="display mx-auto text-center text-h2">
+            One agentic <span className="text-accent">platform</span>
           </h2>
 
           <div
@@ -122,7 +122,7 @@ export function Platform() {
         <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-start lg:gap-14">
           {/* the rows */}
           <motion.div key={t.id} initial={still ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-            <h3 className="text-h3 font-semibold">{t.title}</h3>
+            <h3 className="display text-h3">{t.title}</h3>
             <p className="mt-2 max-w-[52ch] text-small leading-relaxed text-muted">{t.lede}</p>
 
             <div className="mt-6">

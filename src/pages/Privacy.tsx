@@ -123,11 +123,11 @@ export function Privacy() {
         <div className="max-w-3xl space-y-10 rounded-3xl bg-white p-7 shadow-sm md:p-12">
           {BLOCKS.map((b) => (
             <section key={b.h}>
-              <h2 className="text-stat font-extrabold tracking-[-0.02em]">{b.h}</h2>
+              <h2 className="display text-stat">{b.h}</h2>
               <Body p={b.p} li={b.li} />
               {b.sub?.map((s) => (
                 <div key={s.h} className="mt-5">
-                  <h3 className="text-lede font-bold">{s.h}</h3>
+                  <h3 className="display text-lede">{s.h}</h3>
                   <Body p={s.p} li={s.li} />
                 </div>
               ))}
