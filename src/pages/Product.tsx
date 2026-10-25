@@ -80,10 +80,10 @@ function Hero() {
               The intelligence layer behind every lending decision.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href={demo} className="rounded-full bg-white px-7 py-3.5 text-body font-semibold text-ink transition-colors hover:bg-wash">
+              <a href={demo} className="bg-lime px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white">
                 Request a demo
               </a>
-              <a href="#how" className="rounded-full px-7 py-3.5 text-body font-semibold text-white ring-1 ring-white/35 transition hover:ring-white">
+              <a href="#how" className="border border-white/35 px-8 py-4 text-body font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink">
                 See how it works
               </a>
             </div>
@@ -273,7 +273,7 @@ function Leaders() {
             <button
               type="button"
               onClick={() => setRunning((r) => !r)}
-              className="mt-3 rounded-full bg-white px-5 py-2 text-small font-semibold text-ink2 ring-1 ring-line2 transition hover:ring-accent"
+              className="mt-3 bg-white px-4 py-2 font-mono text-label uppercase tracking-[0.1em] text-ink2 ring-1 ring-line2 transition hover:ring-accent"
             >
               {running ? 'Pause' : 'Play'}
             </button>
@@ -752,7 +752,7 @@ function How() {
                   setI(0)
                   setLooping(true)
                 }}
-                className="rounded-full bg-ink px-5 py-2.5 text-small font-semibold text-white transition-colors hover:bg-ink2"
+                className="bg-ink px-5 py-2.5 font-mono text-small uppercase tracking-[0.08em] text-lime transition-colors hover:bg-ink2"
               >
                 {looping ? 'Stop' : 'Play the loop'}
               </button>
@@ -791,7 +791,7 @@ function Demo() {
           <h2 className="display mt-4 text-h2">
             Ready to transform your <span className="text-accent">lending</span>?
           </h2>
-          <a href={demo} className="mt-7 inline-block rounded-full bg-ink px-7 py-3.5 text-body font-semibold text-white transition-colors hover:bg-ink2">
+          <a href={demo} className="mt-7 inline-block bg-ink px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-lime transition-colors hover:bg-ink2">
             Request a demo
           </a>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
