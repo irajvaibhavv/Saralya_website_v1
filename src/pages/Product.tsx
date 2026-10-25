@@ -26,15 +26,13 @@ import { AgentFlow, type Rail, type Stage } from '../components/agents/AgentFlow
 import { FadeIn } from '../components/ui/Reveal'
 import { Container, Section } from '../components/ui/Section'
 
-/* The product page, ported from the lead's own design: the operating
-   system in the hero, the three cards under it, the PQM each desk gets,
-   the problem it answers, the five agents around one borrower profile,
-   and the demo. Words and figures are his — see TODO in content/product.ts
-   for the two that still need a source. */
+/* /products: hero, architecture, role dashboards, the problem, the solution
+   (agent diagram and ring) and a demo request. Copy lives in
+   content/product.ts. */
 
 const demo = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Saralya demo request')}`
 
-/* status, never identity: the four tones the page uses */
+/* status tones used on this page */
 const TONE: Record<Tone, string> = {
   good: 'bg-green-w text-green',
   warn: 'bg-amber-w text-amber',
@@ -63,7 +61,7 @@ export function Product() {
   )
 }
 
-/* ── the operating system ─────────────────────────────────────────────── */
+/* ── hero ───────────────────────────────────────────────────────────── */
 
 function Hero() {
   const still = useReducedMotion()
@@ -89,7 +87,8 @@ function Hero() {
             </div>
           </FadeIn>
 
-          {/* the stack: decisions on top, your systems below, us between */}
+          {/* stack diagram: decisions on top, existing systems below, Saralya
+             between */}
           <FadeIn className="rounded-3xl bg-white/[0.03] p-6 ring-1 ring-white/10">
             <div className="font-mono text-label uppercase tracking-[0.16em] text-white/50">Every lending decision</div>
             <div className="mt-2.5 flex flex-wrap gap-2">
@@ -149,13 +148,13 @@ function Rails({ still, delay = 0 }: { still: boolean | null; delay?: number }) 
   )
 }
 
-/* ── modules, model, overlay ───────────────────────────────────────────── */
+/* ── architecture cards ────────────────────────────────────────────── */
 
 function Three() {
   return (
     <section className="border-b border-line bg-bg py-12 md:py-16">
       <Container>
-        {/* the chapter this section opens */}
+        {/* section label */}
         <div className="-mt-4 mb-7 flex justify-center">
           <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Architecture</span>
         </div>
@@ -218,7 +217,7 @@ function Three() {
   )
 }
 
-/* ── the PQM each desk gets ───────────────────────────────────────────── */
+/* ── role dashboards ───────────────────────────────────────────────── */
 
 function Leaders() {
   const [i, setI] = useState(0)
@@ -245,8 +244,7 @@ function Leaders() {
         </FadeIn>
 
         <div className="mt-10 grid gap-7 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
-          {/* min-w-0, or the scrolling strip of roles widens the page instead
-              of scrolling inside itself */}
+          {/* min-w-0 so the scrollable role strip doesn't widen the page */}
           <div className="min-w-0">
             <div role="group" aria-label="Choose a role" className="flex gap-1.5 overflow-x-auto pb-1.5 lg:flex-col lg:overflow-visible">
               {PERSONAS.map((x, n) => {
@@ -552,12 +550,10 @@ function Problem() {
   )
 }
 
-/* ── how it works: five agents, one profile ───────────────────────────── */
+/* ── the solution ──────────────────────────────────────────────────── */
 
-/* What the architecture diagram is handed. The bureaus the prototype named
-   by brand are one "Bureau" rail: we do not name third parties on the site.
-   The metrics stay words, not percentages — the founders have struck
-   unverifiable numbers before. */
+/* Diagram data. Bureaus appear as one generic rail (no third-party names) and
+   metrics are words, not unverified percentages. */
 const FLOW_RAILS: Rail[] = [
   { label: 'Bureau', icon: 'bureau' },
   { label: 'Account Aggregator', icon: 'data' },
@@ -603,14 +599,7 @@ function How() {
   return (
     <Section id="how" className="border-t border-line bg-bg pb-10 md:pb-12">
       <Container>
-        {/* the write-up on the left, the agent architecture running beside
-            it: rails in, the engine, the loop of steps, a decided file out */}
-        {/* The diagram is a 1240-wide landscape object. Beside a column of
-            copy it can only be shrunk, and the headline pays for it, so the
-            headline owns the first row at full size and the diagram owns the
-            one beneath it at its own. */}
-        {/* the name is two words, so it sits on the line with its
-            description rather than floating alone over the diagram */}
+        {/* the diagram is wide, so the heading takes its own row above it */}
         <FadeIn className="border-b border-line pb-6">
           <div className="-mt-4 mb-7 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
@@ -630,7 +619,7 @@ function How() {
           <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Saralya CML" />
         </FadeIn>
 
-        {/* the same engine read end to end: six stops */}
+        {/* lifecycle stages */}
         <FadeIn className="mt-4 flex flex-wrap items-stretch justify-center gap-2">
           {STAGES.map((s, n) => (
             <div key={s.name} className="flex items-stretch gap-2">
@@ -643,7 +632,7 @@ function How() {
         </FadeIn>
 
         <div className="mt-10 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
-          {/* the ring */}
+          {/* agent ring */}
           <div className="relative mx-auto aspect-square w-full max-w-[520px]">
             <svg viewBox="0 0 560 560" aria-hidden className="absolute inset-0 size-full overflow-visible">
               {[
@@ -721,7 +710,7 @@ function How() {
             ))}
           </div>
 
-          {/* the agent the ring is showing */}
+          {/* details for the active agent */}
           <div>
             <motion.div key={a.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
               <div className="flex flex-wrap items-center gap-3">
@@ -780,7 +769,7 @@ function How() {
   )
 }
 
-/* ── the ask ──────────────────────────────────────────────────────────── */
+/* ── demo request ──────────────────────────────────────────────────── */
 
 function Demo() {
   return (

@@ -2,7 +2,7 @@ import { PageHero } from '../components/layout/PageHero'
 import { Container } from '../components/ui/Section'
 import { scrollToEl } from '../lib/scroll'
 
-/* Ported from saralya.in/privacy-policy.html (mobile-app privacy policy). */
+/* Privacy policy for the Saralya mobile app. */
 
 type Block = { h: string; lead?: string; p?: string[]; sub?: { h: string; p?: string[]; li?: string[] }[]; li?: string[] }
 
@@ -102,9 +102,8 @@ const BLOCKS: Block[] = [
   { h: 'Changes to this policy', p: ['We may update this policy. Material changes will be communicated in the app and published here, with the “Last updated” date above revised.'] },
 ]
 
-/* The policy reads like a document, not a page: contents on the left that
-   stay put, numbered sections on the right, and the one fact everyone must
-   know before anything else (we are not the lender) set apart above them. */
+/* Layout: sticky contents list on large screens, numbered sections, and the
+   not-a-lender notice above them. */
 const id = (n: number) => `s-${n + 1}`
 
 export function Privacy() {

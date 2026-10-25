@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-/* Two doors at the foot of the landing page: the platform an NBFC buys, and
-   the agents it puts on each desk. Whole-card links, so the card is the
-   button. The three points on the left are the founders' own lines. */
+/* Two entry cards at the foot of the landing page: the platform and the agents.
+   Each whole card is a link. */
 const POINTS = ['Trained on banking data', 'Private by default', '4+ decades of experience, 200+ banks of pedigree']
 const AGENT_POINTS = ['Pick the desk and the work it takes off it', 'The agent comes back assembled', 'What it reads, what it decides, what it leaves in writing']
 

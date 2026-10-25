@@ -16,8 +16,8 @@ export function Section({
   className?: string
   id?: string
   tight?: boolean
-  /* so a section that rotates on its own can be held by a pointer or a
-     keyboard without every caller rebuilding the element */
+  /* pass-through props, e.g. hover/focus handlers that pause auto-rotating
+     content */
 } & Omit<ComponentPropsWithoutRef<'section'>, 'className' | 'id' | 'children'>) {
   return (
     <section

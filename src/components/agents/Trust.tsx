@@ -3,11 +3,8 @@ import { SEALS } from '../../content/agents'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-/* What the agent is held to. Labels only — the names are the content.
-
-   No list of cores, bureaus or vendors here: naming third parties implies a
-   partnership we have not verified, and the founders have struck exactly
-   that before. See the content flags in CLAUDE.md. */
+/* Compliance regimes the agents are built to. Standards only: no vendor, bureau
+   or core-banking names, since naming a third party implies a partnership. */
 
 const SEAL_ICONS = [Landmark, FileCheck2, Fingerprint, Lock, KeyRound, History]
 

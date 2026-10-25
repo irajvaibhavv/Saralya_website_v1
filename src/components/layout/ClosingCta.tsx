@@ -3,8 +3,8 @@ import { ButtonLink } from '../ui/Button'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-/* The default is the free diagnostic on an ink card; the landing page asks
-   for the demo on a soft mint band instead. */
+/* Closing call to action. Default: free diagnostic on a dark card. `demo`: demo
+   request on a light band. */
 export function ClosingCta({ demo = false }: { demo?: boolean }) {
   if (demo) {
     return (

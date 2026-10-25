@@ -4,15 +4,13 @@ import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { CONTACT_EMAIL } from '../../content/site'
 
-/* The menu reads as a numbered contents page: what we sell, what runs on
-   it, and who we are. Three words, no explaining. */
+/* Mobile menu items, shown numbered. */
 const LINKS = [
   { to: '/products', label: 'Product', icon: Layers },
   { to: '/agents', label: 'Agents', icon: Bot },
 ]
 
-/* over the landing video the mark is knocked out in white and lifted off
-   the footage by a shadow, so it needs no chip to sit on */
+/* white logo with a drop shadow when over the hero video */
 export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
   return (
     <Link to="/" aria-label="Saralya" className="inline-flex">
@@ -40,7 +38,7 @@ export function Navbar() {
     setOpen(false)
   }
 
-  // over the landing hero the nav sits on video, so it goes light until the page scrolls
+  // light navbar over the landing hero until the page scrolls
   const light = location.pathname === '/' && !scrolled
 
   return (
@@ -55,7 +53,7 @@ export function Navbar() {
         <div className="mx-auto flex h-[64px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
           <Logo light={light} />
 
-          {/* three pages do not belong behind a menu on a desktop */}
+          {/* desktop links */}
           <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
             {LINKS.map((l) => (
               <NavLink

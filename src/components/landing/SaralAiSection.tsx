@@ -7,11 +7,9 @@ import { Mark, SaralAiChat, type Role } from './SaralAiChat'
 import { SaralAiPanel } from './SaralAiPanel'
 import { useNavigate } from 'react-router-dom'
 
-/* Saral Saarthi is a screen, not a dialog. It sits below the reel and rides
-   up over it as the visitor scrolls — the hero is held in place by the
-   sticky stage in Landing, so this layer covers it the way one page covers
-   another. Scroll back and the reel returns. Files can be dropped anywhere
-   on the page. */
+/* Saral Saarthi screen on the landing page. It slides up over the hero (see
+   Landing.tsx). Files can be dropped anywhere on the page to start a
+   conversation. */
 
 export function SaralAiSection({
   pending,
@@ -26,9 +24,7 @@ export function SaralAiSection({
   onSeat: (r: Role | null) => void
   onReset: () => void
 }) {
-  /* The corner launcher rides over the reel and steps aside once Saarthi
-     is on screen; it is the shortcut for anyone who would rather not
-     scroll. */
+  /* Floating launcher shown over the hero; hidden once this screen is in view. */
   const go = useNavigate()
   const stage = useRef<HTMLElement>(null)
   const inView = useInView(stage, { amount: 0.25 })
@@ -40,8 +36,7 @@ export function SaralAiSection({
     return () => { window.clearTimeout(on); window.clearTimeout(off); setHint(false) }
   }, [inView])
 
-  /* Drop a file anywhere on the page: the conversation opens with it, or
-     takes it if one is already running. */
+  /* page-wide file drop: starts a conversation or adds to the open one */
   const [dragging, setDragging] = useState(false)
   const [dropped, setDropped] = useState<FileList | null>(null)
   useEffect(() => {
@@ -77,8 +72,7 @@ export function SaralAiSection({
   return (
     <>
       <section ref={stage} id="saarthi" className="relative flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center overflow-hidden bg-bg px-5 pt-14 pb-10 md:pb-0">
-        {/* the light half of the page, on the same grid and the same flat
-            shapes as the dark half above it */}
+        {/* background grid and shapes */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div
             className="absolute inset-0 opacity-[0.06]"
@@ -91,8 +85,8 @@ export function SaralAiSection({
           <div className="absolute -right-52 -top-56 size-[26rem] rounded-full border-[30px] border-lav/60" />
           <div className="absolute -bottom-64 -left-48 size-[24rem] rounded-full bg-accent/10" />
         </div>
-        {/* the conversation fills a tall stage; the opening desk is only as
-            tall as it needs to be, and the section centres it */}
+        {/* the chat gets a fixed tall stage; the opening view sizes to its
+           content */}
         <div className={`relative mx-auto w-full max-w-[1120px] ${pending ? 'h-[84svh]' : ''}`}>
           {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} onSeat={onSeat} />}
         </div>
@@ -128,7 +122,7 @@ export function SaralAiSection({
           <motion.button
             key="launch"
             type="button"
-            /* the corner launcher opens the full surface now, not the screen */
+            /* launcher opens the full workspace */
             onClick={() => go('/saralya-ai')}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}

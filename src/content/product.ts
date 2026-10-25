@@ -1,14 +1,9 @@
-/* The product page, as the lead designed it: the operating system, the
-   problem it answers, the five agents around one borrower profile, and the
-   PQM view each desk gets.
-
-   Every word here is the lead's own draft, ported from his HTML.
-
-   TODO(Vikas): two figures carry claims we have not verified — the CML is
-   described as trained on "6 mn anonymised loans", and the back-test line
-   says "18% more approvals at the same loss rate" on one NBFC's 2021–24
-   applications. Both need a source before launch. Dashboard numbers are
-   marked as sample data on the page itself. */
+/* Content for the /products page: hero stack, architecture cards, role
+   dashboards, the problem, the five agents and the lifecycle.
+   TODO(content): two claims need a source before launch: the CML trained on "6
+   mn anonymised loans", and "18% more approvals at the same loss rate" from one
+   NBFC's 2021–24 back-test. Dashboard figures are labelled as sample data on
+   the page. */
 
 /* status tone → how a chip reads. Status only, never identity. */
 export type Tone = 'good' | 'warn' | 'critical' | 'info' | 'neutral'
@@ -221,7 +216,7 @@ export type Agent = {
   no: number
   name: string
   role: string
-  /** the lead's own colour per agent, kept from his design */
+  /** colour per agent */
   color: string
   soft: string
   status: string

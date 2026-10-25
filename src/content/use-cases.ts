@@ -1,9 +1,6 @@
-/* The agents we run, one tab each: what the agent does, and the screen it
-   does it on. The screen is a mock built from this data — a stand-in until
-   the recordings of the real apps arrive.
-
-   TODO(Vishal): swap each `screen` for the recording of that agent once the
-   videos exist; the phone frame takes a video the same way it takes rows. */
+/* Use-case tabs: what each agent does and the mock screen it works on.
+   TODO(content): replace each `screen` with a recording once available; the
+   phone frame accepts a video the same way. */
 
 export type Screen = {
   /** what the app calls itself in the status row */
@@ -16,7 +13,7 @@ export type Screen = {
   says: string
   /** the agent's own name on the bar */
   agent: string
-  /** the call the agent makes, drawn as the dial the live demo draws */
+  /** the agent's decision, drawn as a score dial */
   verdict?: { call: string; score: number; of: number }
 }
 

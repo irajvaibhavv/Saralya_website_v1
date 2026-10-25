@@ -1,16 +1,14 @@
 import Lenis from 'lenis'
 
-/* One smooth-scroll driver for the whole site, so the wheel eases instead
-   of stepping and the stacked takeovers read as one continuous movement.
-   Every programmatic scroll goes through here too — a native
-   `scrollTo({ behavior: 'smooth' })` would fight Lenis's own loop. */
+/* Single Lenis smooth-scroll instance for the site. Route all programmatic
+   scrolling through it: native smooth scrolling would conflict with Lenis's
+   loop. */
 
-/* A refresh should land at the top of the page, not halfway down it. */
+/* always start at the top on refresh */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
 
-/* A `#section` link someone follows or pastes still jumps to that section.
-   Reloading on one, though, is someone starting the page again — so the
-   anchor is dropped and the page opens at the top. */
+/* keep #hash links working, but drop the hash on reload so the page opens at
+   the top */
 const navType = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type
 if (navType === 'reload' && window.location.hash) {
   history.replaceState(null, '', window.location.pathname + window.location.search)
@@ -24,17 +22,14 @@ export const lenis = new Lenis({
   smoothWheel: !reduce,
 })
 
-/* `force` so these still work while the landing stack holds Lenis. */
+/* `force` so this works while the landing stack has Lenis stopped */
 export const scrollToEl = (id: string, offset = 0) => {
   const el = document.getElementById(id)
   if (el) lenis.scrollTo(el, { immediate: reduce, offset, force: true })
 }
 
-/* Chrome puts the old offset back after the document loads, and does it
-   late — once images and fonts have given the page its real height, which
-   can be a second after `load`. One call to the top is not enough, so the
-   top is held briefly and given up the moment the visitor touches
-   anything. */
+/* Chrome restores the previous scroll offset late (after images and fonts
+   settle), so hold the top for up to 2s, releasing on any user input. */
 export const holdTop = () => {
   if (window.location.hash) return
   let released = false

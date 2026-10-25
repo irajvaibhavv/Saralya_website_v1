@@ -26,13 +26,9 @@ import { ROLES, type Starter } from '../content/chat'
 import { GUARDS, TOOLS, WORKSPACE } from '../content/workspace'
 import { CONTACT_EMAIL } from '../content/site'
 
-/* Saralya AI is the surface behind the landing chat: the same Saarthi, with
-   a conversation list, the tools, and room to read a long answer. Signing in
-   from the landing lands here.
-
-   No account exists yet, so there is no session to keep: conversations live
-   in this browser and the account buttons write to the founders. The tools
-   are doors, not runs — each one waits on the model endpoint. */
+/* /saralya-ai workspace: conversation list, tools and room for long answers. No
+   accounts exist yet: conversations are stored in localStorage and account
+   buttons open email. Tools wait on the model endpoint. */
 
 const KEY = 'saralya-ai-chats'
 const LIMIT = 4000
@@ -52,8 +48,8 @@ const write = (c: Chat[]) => {
   try {
     localStorage.setItem(KEY, JSON.stringify(c.slice(0, 40)))
   } catch {
-    /* private window, or storage full: the session still works, it just
-       does not outlive the tab */
+    /* storage unavailable (private window or quota): the session still works,
+       it just isn't saved */
   }
 }
 
@@ -87,10 +83,10 @@ export function SaralyaAi() {
 
   const current = chats.find((c) => c.id === open) ?? null
 
-  /* One answer, into the open conversation or into a new one. */
+  /* Add an answer to the open conversation, or start a new one. */
   const say = (turn: Turn) => {
-    /* one id for both the store and the open conversation: two Date.now()
-       calls can land in different milliseconds and split the thread */
+    /* one id for both state updates: two Date.now() calls can differ and split
+       the thread */
     const id = open ?? String(Date.now())
     setChats((prev) => {
       const was = prev.find((c) => c.id === id)

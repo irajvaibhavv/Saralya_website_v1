@@ -12,8 +12,8 @@ const Privacy = lazy(() => import('./pages/Privacy').then((m) => ({ default: m.P
 const Product = lazy(() => import('./pages/Product').then((m) => ({ default: m.Product })))
 const SaralyaAi = lazy(() => import('./pages/SaralyaAi').then((m) => ({ default: m.SaralyaAi })))
 
-/* Fetch the other pages once the landing has painted, so a click never waits
-   on a chunk mid-transition. */
+/* Prefetch the other pages after the landing paints so navigation never waits
+   on a chunk. */
 function preload() {
   const go = () => Promise.all([import('./pages/Agents'), import('./pages/Product'), import('./pages/Privacy')])
   ;(window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500)))(go)
@@ -33,10 +33,9 @@ function RouteEffects() {
   useEffect(() => {
     document.title = TITLES[pathname] ?? 'Saralya'
     if (hash) {
-      /* Lazy pages mount a beat after the URL changes; poll for the target,
-         and keep polling until the scroll actually lands on it — Lenis
-         clamps to the page height it last measured, which on a page that
-         is still mounting is far shorter than it will be. */
+      /* Lazy pages mount after the URL changes. Poll for the hash target until
+         the scroll lands on it: Lenis clamps to the page height it last
+         measured, which is short while a page is still mounting. */
       let tries = 0
       const id = window.setInterval(() => {
         const el = document.querySelector(hash)
@@ -50,8 +49,8 @@ function RouteEffects() {
       }, 80)
       return () => window.clearInterval(id)
     }
-    /* A lazy page mounts short and grows, so the window can end up where
-       the last page left it. Hold the top until it has its real height. */
+    /* A lazy page mounts short and grows; hold the top until it reaches its
+       real height. */
     holdTop()
   }, [pathname, hash])
   useEffect(preload, [])
@@ -87,8 +86,8 @@ function Pages() {
   )
 }
 
-/* Saralya AI is its own surface: it brings its own top bar and sidebar, so
-   the site chrome stands aside for it. */
+/* /saralya-ai renders its own top bar and sidebar, so the site navbar and
+   footer are hidden there. */
 function Chrome() {
   const app = useLocation().pathname.startsWith('/saralya-ai')
   return (

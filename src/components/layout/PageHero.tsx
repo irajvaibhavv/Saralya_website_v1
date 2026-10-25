@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { Container } from '../ui/Section'
 
-/** Compact top-of-page header used by every page except Home. */
+/** Page header with eyebrow, title and optional lede. */
 export function PageHero({
   eyebrow,
   title,

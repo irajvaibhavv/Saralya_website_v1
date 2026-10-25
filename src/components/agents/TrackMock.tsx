@@ -2,15 +2,11 @@ import { Check, CheckCheck, Mic, Video } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 
-/* What the four tracks look like while they run, built rather than filmed:
-   the WhatsApp journey that opens a file, the AI personal discussion, and
-   the portfolio-quality monitor. Each one loops.
+/* Animated mock-ups of each platform track, used until real recordings exist.
+   TODO(content): when a recording is ready, set `video` on its track in
+   content/agent-platform.ts and the panel plays it instead. */
 
-   TODO(Vishal): these stand in for the recordings. When a clip exists, set
-   `video` on that track in content/agent-platform.ts and the panel plays it
-   instead of this. */
-
-/** one beat of every mock, so the three keep the same pulse */
+/** shared animation period so the mocks stay in step */
 const BEAT = 1100
 
 function useBeats(n: number, pause = 2) {
@@ -31,7 +27,7 @@ export function TrackMock({ id }: { id: 'app' | 'workflow' | 'analytics' | 'cust
   return <Pqm />
 }
 
-/* ── the borrower journey, on the channel they already have ───────────── */
+/* ── borrower journey (WhatsApp) ────────────────────────────────────── */
 
 const THREAD: { from: 'them' | 'us'; text: string }[] = [
   { from: 'them', text: 'Namaste 🙏 I want a loan for my shop' },
@@ -78,7 +74,7 @@ function Whatsapp() {
   )
 }
 
-/* ── the personal discussion, run by an agent with a face ─────────────── */
+/* ── AI personal discussion (video call) ────────────────────────────── */
 
 const SAID = [
   'Tell me about the shop. How many years at this counter?',
@@ -145,7 +141,7 @@ function Interview() {
   )
 }
 
-/* ── the book, read every morning ─────────────────────────────────────── */
+/* ── portfolio monitor ─────────────────────────────────────────────── */
 
 const PILLARS = [
   { label: 'Delinquency', weight: '30%', fill: 0.82 },
@@ -240,7 +236,7 @@ function Pqm() {
   )
 }
 
-/* ── a problem, said once, assembled into an agent ────────────────── */
+/* ── custom agent builder ──────────────────────────────────────────── */
 
 const BUILD = [
   { k: 'Reads', v: 'Ledger · NACH returns · promise-to-pay log' },
@@ -315,7 +311,7 @@ function Custom() {
   )
 }
 
-/* The frame the two phone mocks share. */
+/* Phone frame shared by the phone mocks. */
 function Phone({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="relative">

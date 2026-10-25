@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react'
 
-/* Speech to text through the browser's own recogniser (Chrome, Edge, Safari).
-   Interim words land in the box as they are heard; the button hides where
-   the API is missing. */
+/* Speech-to-text via the browser's SpeechRecognition API (Chrome, Edge,
+   Safari). `supported` is false where the API is missing. */
 type Recogniser = { lang: string; interimResults: boolean; onresult: (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void; onend: () => void; onerror: () => void; start: () => void; stop: () => void }
 const SR = typeof window !== 'undefined' ? ((window as unknown as { SpeechRecognition?: new () => Recogniser; webkitSpeechRecognition?: new () => Recogniser }).SpeechRecognition ?? (window as unknown as { webkitSpeechRecognition?: new () => Recogniser }).webkitSpeechRecognition) : undefined
 

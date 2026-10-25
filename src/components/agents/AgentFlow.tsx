@@ -1,15 +1,11 @@
 import { motion, useReducedMotion } from 'motion/react'
 
-/* Sources → the agent → a loop of specialist steps → what comes out.
+/* Animated architecture diagram: data rails → agent engine → loop of specialist
+   steps → outcome.
 
-   Nothing in here sits still. The rails feed the engine along curved
-   streams, the engine's net pulses and carries light along its edges, dots
-   run the rim, and each step on the loop lights as the marker reaches it.
-   One CYCLE drives the loop so the lighting never drifts out of step with
-   the marker.
-
-   Everything is placed off the geometry block below, so the layout survives
-   whatever number of rails or steps it is handed. */
+   A single CYCLE drives the loop so step highlights stay in sync with the
+   marker. All positions derive from the geometry block below, so any number of
+   rails or steps lays out correctly. */
 
 export type Rail = { label: string; icon: keyof typeof ICONS }
 export type Stage = { title: string; sub: string; icon?: keyof typeof ICONS }
@@ -62,7 +58,7 @@ function pulse(hit: number, w: number, lo: number, hi: number) {
 
 const line = (x1: number, x2: number, y: number) => `M ${x1} ${y} L ${x2} ${y}`
 
-/* the engine's net: three loose layers of cells, in box-relative space */
+/* engine network: three loose layers of nodes, in box-relative units */
 const NET_NODES: [number, number, number][] = [
   [0.24, 0.17, 6.5],
   [0.24, 0.39, 10],
@@ -80,8 +76,7 @@ const NET_EDGES: [number, number][] = [
   [0, 4], [1, 4], [1, 5], [2, 5], [2, 6], [3, 6], [1, 6], [0, 5],
   [4, 7], [4, 8], [5, 8], [5, 9], [6, 9], [6, 10], [5, 7], [4, 10],
 ]
-/* the net is stretched to the card's own edges, so it fills the panel
-   rather than floating in the middle of it */
+/* stretch the network to the card edges */
 const SPAN = (k: 0 | 1) => {
   const vs = NET_NODES.map((n) => n[k])
   return [Math.min(...vs), Math.max(...vs)] as const
@@ -131,8 +126,7 @@ export function AgentFlow({
   outcome: Stage
   metrics: Metric[]
   loopLabel?: string
-  /** beside a column of copy the diagram has to scale rather than scroll,
-      so it gives up its minimum width and keeps all four parts */
+  /** compact: scale down with the container instead of scrolling horizontally */
   compact?: boolean
 }) {
   const reduce = useReducedMotion()
@@ -176,7 +170,7 @@ export function AgentFlow({
           <stop offset="0.72" stopColor="#4cc3a5" stopOpacity="0.1" />
           <stop offset="1" stopColor="#4cc3a5" stopOpacity="0.02" />
         </radialGradient>
-        {/* the cells read as spheres: lit top-left, deep at the base */}
+        {/* radial fill so nodes read as spheres */}
         <radialGradient id="agCellDeep" cx="0.35" cy="0.3" r="0.8">
           <stop offset="0" stopColor="#35b296" />
           <stop offset="1" stopColor="#0b5f4f" />
@@ -209,7 +203,7 @@ export function AgentFlow({
         )
       })}
 
-      {/* 2 — the agent: a net, quietly working */}
+      {/* 2 — the agent engine */}
       <ellipse cx={BOX.x + BOX.w / 2} cy={BOX.y + BOX.h / 2} rx={BOX.w * 1.05} ry={BOX.h * 0.62} fill="url(#agAmbient)">
         {!reduce && <animate attributeName="opacity" values="0.35;0.7;0.35" dur="6s" repeatCount="indefinite" />}
       </ellipse>
@@ -258,7 +252,7 @@ export function AgentFlow({
         strokeLinecap="round"
       />
 
-      {/* 3 — the loop: dots run the rim, each step lights as they pass */}
+      {/* 3 — the step loop */}
       <circle cx={LOOP.cx} cy={LOOP.cy} r={HUB_R} fill="url(#agHub)">
         {!reduce && <animate attributeName="r" values={`${HUB_R};${HUB_R + 7};${HUB_R}`} dur="4.2s" repeatCount="indefinite" />}
       </circle>
@@ -298,7 +292,7 @@ export function AgentFlow({
       {degs.map((deg, i) => {
         const p = onLoop(deg)
         const above = deg === 270
-        /* the marker passes here at this point of the cycle */
+        /* point in the cycle where the marker reaches this step */
         const hit = i / degs.length
         const s = shown[i]
         const halo = pulse(hit, 0.055, 0, 0.55)
@@ -353,9 +347,8 @@ export function AgentFlow({
         strokeLinecap="round"
       />
 
-      {/* 4 — what comes out. Beside a column of copy only the call itself
-          fits, so the metrics panel stands down and the call rides the
-          arrow out of the loop. */}
+      {/* 4 — outcome. In compact mode the metrics panel is dropped and the
+         outcome label rides the exit arrow. */}
       <text x={MET.x} y={48} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
         Outcomes
       </text>

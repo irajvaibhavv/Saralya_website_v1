@@ -8,34 +8,30 @@ import { WAVE } from './Platform'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-/* The agents, one at a time, each with the screen it works on. The tabs
-   move on their own every few seconds — the visitor who waits sees all
-   five; the visitor who clicks takes over and the wait restarts. */
+/* Use-case carousel: one agent per tab, with the screen it works on. Auto-
+   advances; a click takes over and restarts the timer. */
 
-/* One field per agent, so six tabs do not read as the same green card six
-   times. All three are brand colours: the teal, the petrol beside it, and
-   the lavender the agent surfaces carry. */
+/* panel background per agent, cycling through brand colours */
 const FIELDS = ['bg-accent', 'bg-petrol', 'bg-lav2', 'bg-accent2', 'bg-petrol', 'bg-lav2']
 
-/** how long one agent holds the stage */
+/** ms each agent stays on screen */
 const DWELL = 3200
 
-/** how long one view of the board pack holds */
+/** ms each board-pack view stays on screen */
 const BOARD = 2400
 
 export function UseCases() {
   const [i, setI] = useState(0)
-  /* anyone reading or tabbing through holds the stage where it is */
+  /* pause while the user hovers or focuses inside */
   const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const u = USE_CASES[i]
 
-  /* the board agent has four views of its own to get through, so it holds
-     the stage for all four rather than being cut off after the first */
+  /* the board-pack agent stays up long enough to show all four of its views */
   const boards = 4
   const dwell = u.board ? BOARD * boards : DWELL
 
-  /* the lit rule is parked under the strip and moved to the chosen tab */
+  /* a single highlight element that slides to the active tab */
   const strip = useRef<HTMLDivElement>(null)
   const [mark, setMark] = useState({ x: 0, y: 0, w: 0 })
   useLayoutEffect(() => {
@@ -66,8 +62,7 @@ export function UseCases() {
           </h2>
         </FadeIn>
 
-        {/* the tabs, as a rule with one lit: the rule is one element that
-            slides to the chosen tab, so the strip reads as a track */}
+        {/* tab strip; the active marker is one element that slides between tabs */}
         <div
           role="tablist"
           ref={strip}
@@ -158,12 +153,11 @@ export function UseCases() {
   )
 }
 
-/* The phone: a frame, the agent's work as rows, and the agent speaking at
-   the foot of it. A recording drops into the same frame when one exists. */
+/* Phone mock: the agent's task list plus its status line. A recording can
+   replace the rows later. */
 function PhoneScreen({ screen }: { screen: Screen }) {
   const still = useReducedMotion()
-  /* the rows run while the agent holds the stage, so the frame reads as a
-     recording rather than a still */
+  /* rows animate while this agent is active */
   const [step, setStep] = useState(still ? screen.rows.length : 0)
   useEffect(() => {
     if (still) return
@@ -173,7 +167,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
 
   return (
     <div className="relative">
-      {/* the rim: an accent halo behind the handset, so it reads as lit */}
+      {/* accent halo behind the handset */}
       <div aria-hidden className="pointer-events-none absolute -inset-8 rounded-[3.5rem] bg-white/50 blur-3xl" />
       <div className="relative w-[300px] rounded-[2.6rem] bg-ink p-2.5 shadow-[0_40px_80px_-30px_rgba(13,22,20,0.75)] ring-1 ring-white/30">
       <div className="overflow-hidden rounded-[2.1rem] bg-white">
@@ -234,8 +228,8 @@ function PhoneScreen({ screen }: { screen: Screen }) {
             })}
           </ul>
 
-          {/* the agent speaks once it has read the file; the room for the
-              line is held from the start so nothing below it moves */}
+          {/* status line appears after the rows finish; its space is reserved to
+             avoid layout shift */}
           <div className="mt-2.5 min-h-[72px]">
           <AnimatePresence>
             {step >= screen.rows.length - 1 &&
@@ -284,8 +278,8 @@ function PhoneScreen({ screen }: { screen: Screen }) {
   )
 }
 
-/* The decision lands the way it landed in the old live demo: the dial
-   fills, the score counts up to it, and the call arrives on a green pill. */
+/* Decision result: the dial fills, the score counts up, then the outcome pill
+   appears. */
 const R = 26
 const C = 2 * Math.PI * R
 

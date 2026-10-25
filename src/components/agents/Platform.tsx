@@ -6,31 +6,27 @@ import { TrackMock } from './TrackMock'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
-/* One platform, four places it works. The tab picks the track, the rows
-   open one at a time, and the panel beside them plays that track running.
-   Until the recordings land the panel says which one is coming. */
+/* Agent platform tabs: each tab is a track, its rows open one at a time, and
+   the panel plays that track's recording (or a placeholder until one exists). */
 
-/** how long a row stays open; the tab turns once every row has had a turn */
+/** ms each row stays open; the tab advances after every row has had a turn */
 const DWELL = 3600
 
 const TAB_ICONS = { app: Smartphone, workflow: Workflow, analytics: BarChart3, custom: Sparkles } as const
 
-/** the comb of waves every panel wears, drawn once */
+/** wave pattern shared by every panel background */
 export const WAVE =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='26'%3E%3Cpath d='M0 13 Q 15 3 30 13 T 60 13 T 90 13 T 120 13' fill='none' stroke='white' stroke-opacity='0.22' stroke-width='2'/%3E%3C/svg%3E\")"
 
 export function Platform() {
   const [track, setTrack] = useState(0)
   const [open, setOpen] = useState(0)
-  /* the strip stops walking while a pointer is on it, so a tab never moves
-     out from under the cursor; the rest of the band is free to scroll past */
+  /* pause auto-advance while the pointer is over the tab strip */
   const [held, setHeld] = useState(false)
   const still = useReducedMotion()
   const t = TRACKS[track]
 
-  /* the strip walks itself through the four tracks and loops; a click
-     restarts the wait rather than ending it, and a pointer over the band
-     holds it where it is */
+  /* auto-advance through the tracks; a click restarts the timer */
   useEffect(() => {
     if (still || held) return
     const id = window.setTimeout(() => {
@@ -41,8 +37,7 @@ export function Platform() {
     return () => window.clearTimeout(id)
   }, [still, held, open, t])
 
-  /* the ink block is one element parked under the strip; it moves to the
-     chosen tab rather than being redrawn inside it */
+  /* a single highlight element that slides to the active tab */
   const strip = useRef<HTMLDivElement>(null)
   const [mark, setMark] = useState({ x: 0, y: 0, w: 0, h: 0 })
   useLayoutEffect(() => {
@@ -70,7 +65,7 @@ export function Platform() {
     >
       <Container>
         <FadeIn>
-          {/* the band's own geometry: one ring and one disc, cropped flat */}
+          {/* decorative shapes */}
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute -left-40 top-10 size-[30rem] rounded-full border-[30px] border-lav/50" />
             <div className="absolute -right-24 bottom-0 size-64 rounded-full bg-accent/10" />
@@ -139,9 +134,7 @@ export function Platform() {
                       <span className={`text-body font-semibold transition-colors ${on ? 'text-ink' : 'text-muted'}`}>{item.title}</span>
                       <ChevronDown className={`size-4 shrink-0 text-muted transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? 'rotate-180' : ''}`} />
                     </button>
-                    {/* the accent rule under the open row, the way the rest of
-                        the site marks a live item */}
-                    {/* the rule fills while this row holds the panel */}
+                    {/* progress rule under the open row */}
                     <motion.span
                       key={`rule-${t.id}-${i}-${on}`}
                       initial={{ scaleX: on && !still ? 0 : on ? 1 : 0 }}
@@ -182,7 +175,7 @@ export function Platform() {
               transition={{ duration: 0.35 }}
               className={`relative grid place-items-center overflow-hidden p-7 ring-1 ring-ink/10 ${t.tint}`}
             >
-              {/* the field behind the device: flat colour, combed with waves */}
+              {/* panel background behind the device */}
               <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
               <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
               {t.video ? (

@@ -2,12 +2,9 @@ import { ArrowUpRight } from 'lucide-react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-/* The board pack the monthly review agent writes: four things a CEO or CRO
-   actually opens on the 1st. The tabs advance on their own until the
-   visitor takes over. Figures are illustrative.
-
-   This used to be a section of its own on the overview page; it is the
-   agent's screen now, so it carries no heading of its own. */
+/* Board pack produced by the monthly review agent: four views a CEO or CRO
+   reads on the 1st. Tabs auto-advance until the user picks one. All figures are
+   illustrative. */
 
 const TABS = [
   { id: 'vintage', label: 'Vintage', head: 'Which cohort is aging badly.', module: 'Saral Drishti' },
@@ -98,12 +95,9 @@ export function BoardPack({ every = 5200 }: { every?: number }) {
 
 const SPRING = { type: 'spring', stiffness: 120, damping: 20 } as const
 
-/* 1: vintage curves — cumulative 90+ DPD against months on book, one line
-   per disbursal cohort. This is how a credit team actually reads a book:
-   the shape of the curve, not the height of a bar. Figures illustrative.
-
-   Each cohort is drawn from its 12-month peak: delinquency piles up fast
-   and flattens, so a power curve below 1 is the honest shape. */
+/* 1: vintage curves — cumulative 90+ DPD by months on book, one line per
+   disbursal cohort. Curves follow a power law below 1: delinquency builds fast,
+   then flattens. */
 const MOB = 12
 const Y_MAX = 4
 const curve = (peak: number) => Array.from({ length: MOB + 1 }, (_, m) => peak * (m / MOB) ** 0.78)
@@ -194,8 +188,7 @@ function Vintage() {
   )
 }
 
-/* 2: roll-rate — where each bucket actually went this month. A single bar
-   only says how much held; the split says what to do about it. */
+/* 2: roll rates — where each delinquency bucket moved this month */
 const FLOWS = [
   { from: 'Current', cured: 0, held: 94, fwd: 6 },
   { from: 'SMA-0', cured: 31, held: 30, fwd: 39 },
@@ -249,7 +242,7 @@ function RollRate() {
   )
 }
 
-/* 3: early warning: the book as a grid, stressed accounts light up */
+/* 3: early warning — the book as a grid, stressed accounts highlighted */
 function Watch() {
   const flags = new Set([7, 13, 29, 34, 51, 62, 68])
   const warn = new Set([4, 19, 41, 56])
@@ -281,7 +274,7 @@ function Watch() {
   )
 }
 
-/* 4: recovery: resolution rate by strategy */
+/* 4: recovery rate by collection strategy */
 function Recover() {
   const R = 34
   const C = 2 * Math.PI * R

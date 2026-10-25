@@ -1,11 +1,10 @@
 import { CONTACT_EMAIL } from './site'
 
-/* Saral AI: the landing-page chat. Starter questions with scripted answers,
-   plus the guided diagnostic that ends in a note. Scripted today; the
-   free-text box is the seam where the model plugs in. */
+/* Script for the landing chat: starter questions with scripted answers and the
+   guided diagnostic that ends in a note. */
 
-/* `first` = the challenges this department feels first; they lead the list
-   and `ask` is the question in their words. */
+/* `first`: challenges listed first for this department. `ask`: the question in
+   their words. */
 export const DEPARTMENTS = [
   { id: 'credit', label: 'Credit / Risk', ask: 'Where does a file lose the most time today?', first: ['tat', 'tabs', 'fraud'] },
   { id: 'collections', label: 'Collections', ask: 'What do you find out too late?', first: ['stress', 'field', 'mis'] },
@@ -18,10 +17,8 @@ export type DeptId = (typeof DEPARTMENTS)[number]['id']
 
 export const STAGES = ['Appraise', 'Screen', 'Watch', 'Recover', 'Report', 'Comply'] as const
 
-/* Each challenge maps to a lifecycle stage, a module, one vendor-neutral tip
-   the visitor can act on without buying anything, and `does`: the same thing
-   written as the work an agent takes off their desk (used by the Agents
-   section). */
+/* Each challenge maps to a lifecycle stage, a module, a vendor-neutral tip, and
+   `does`: the same work phrased as a task an agent takes on. */
 export const CHALLENGES = [
   { id: 'tat', label: 'Turnaround is days, not minutes', stage: 0, module: 'M1', next: { to: '/demo', label: 'Watch a decision in minutes' }, does: 'Pulls bureau, Account Aggregator and GSTN on one consent, and puts a scored file on your desk.', tip: 'Decide on data first, verify later. Bureau + AA + GSTN in one pull covers most of the file; push physical checks post-sanction on small tickets.' },
   { id: 'tabs', label: 'Bureau, GST and bank data live in five tabs', stage: 0, module: 'M1', does: 'Collapses five tabs into one file view: bureau, bank, GST, MCA.', tip: 'One consent, one pull. Account Aggregator already covers all nine FI types: stop asking borrowers for PDF statements.' },
@@ -36,20 +33,17 @@ export type ChallengeId = (typeof CHALLENGES)[number]['id']
 
 export const BOOK_SIZES = ['Under ₹100 Cr', '₹100–500 Cr', '₹500–2,000 Cr', '₹2,000 Cr+'] as const
 
-/* The two chips every role sees after its own questions. */
+/* chips shown to every role after its own questions */
 export type Starter = { q: string; a: string; link?: { to: string; label: string }; note?: true }
 export const STARTERS: Starter[] = [
   { q: 'Get a note for my NBFC', a: '', note: true },
   { q: 'Write to us', a: 'The founders read every message and reply the same day.', link: { to: `mailto:${CONTACT_EMAIL}?subject=Question%20from%20the%20website`, label: 'Email the founders' } },
 ]
 
-/* Who is asking, in the order the lead set: the lender first, then the
-   people around the loan. Each role carries the questions that seat asks
-   most, and nothing shows until one is picked.
-
-   TODO(Vikas): the borrower, DSA and learning answers are general lending
-   information written here, not founder-approved copy. Read them before
-   launch. */
+/* Roles, lender first. Each carries its most common questions; none show until
+   a role is picked.
+   TODO(content): borrower, DSA and learning answers are general lending
+   information; review before launch. */
 export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hello: string; qs: Starter[] }[] = [
   {
     id: 'nbfc',
@@ -179,7 +173,7 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
 ]
 export type RoleId = (typeof ROLES)[number]['id']
 
-/* What the NBFC's first 30 days look like: the onboarding journey. */
+/* Onboarding timeline for a new NBFC's first 30 days. */
 export const ONBOARDING = [
   { day: 'Day 1', title: '20-minute walkthrough', body: 'On your book, your products, your core. No deck.' },
   { day: 'Week 1', title: 'Sandbox on your data', body: 'A sample file from your core, decisions back through one API.' },

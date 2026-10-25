@@ -9,15 +9,15 @@ import { ButtonLink } from '../ui/Button'
 import { ACCEPT, ask } from '../../lib/chat'
 import { useSpeech } from '../../lib/speech'
 
-/* Saral AI, the landing chat. It opens by asking who you are; each role
-   gets the questions that seat asks most (scripted answers from site facts),
-   plus "Get a note for my NBFC", the guided diagnostic that ends in a
-   personal note, and "Write to us". `ask()` is where the model plugs in. */
+/* Saral AI landing chat. Asks the visitor's role, then offers that role's
+   common questions (scripted answers), a guided diagnostic that ends in a
+   personalised note, and a contact option. Free-text questions go through
+   `ask()` in lib/chat.ts. */
 
 type Msg = { from: 'ai' | 'you'; text: string; link?: { to: string; label: string }; files?: { name: string; size: number }[]; gated?: true }
 
-/* Answers open with their first lines; the rest is behind a sign-in. The
-   gate is presentational for now: any address opens every answer. */
+/* Answers show a teaser; the full text sits behind a sign-in. The gate is
+   presentational: any email unlocks it. */
 const TEASER = 150
 const teaser = (t: string) => {
   if (t.length <= TEASER) return t
@@ -87,7 +87,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
     setReady(false)
   }
 
-  /* A question handed in from the landing page (a card or the composer) is asked as-is. */
+  /* a question passed in from the landing page is asked as-is */
   const taken = useRef<Starter | null>(null)
   useEffect(() => {
     if (!pending || taken.current === pending) return
@@ -100,7 +100,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
       setStep('role')
     }
     starter(pending)
-    // starter() is rebuilt each render; the ref guard is what keeps this to one run.
+    // starter() is recreated every render; the ref guard limits this to one run
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pending])
   useEffect(() => { onMessages?.(msgs.length) }, [msgs.length, onMessages])
@@ -110,7 +110,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
     if (!dropped || gotFiles.current === dropped) return
     gotFiles.current = dropped
     attach(dropped)
-    // attach() is rebuilt each render; the ref guard is what keeps this to one run.
+    // attach() is recreated every render; the ref guard limits this to one run
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropped])
 
@@ -454,7 +454,7 @@ function Note({ who, chosen, custom, mail }: { who: string; chosen: (typeof CHAL
   )
 }
 
-/* For investors and the curious: what we believe, then where to go next. */
+/* Investor view: what we believe, then where to go next. */
 function Explainer() {
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-6 space-y-3">
@@ -487,7 +487,7 @@ function Chips({ children, label }: { children: ReactNode; label?: string }) {
   )
 }
 
-/* The wordmark's initial and dot, same lockup as the nav logo. */
+/* The logo's "S" mark, matching the navbar wordmark. */
 export function Mark({ className = '' }: { className?: string }) {
   return (
     <span className={`flex items-start pl-[0.13em] font-extrabold leading-none tracking-[-0.06em] ${className}`}>
@@ -511,11 +511,10 @@ export function MicButton({ speech }: { speech: ReturnType<typeof useSpeech> }) 
   )
 }
 
-/* The sign-in: the page dims and one card asks for a work email. Any
-   address opens every answer for now. */
+/* Sign-in modal: asks for a work email. Any address unlocks answers for now. */
 function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => void; onUnlock: () => void }) {
   const [email, setEmail] = useState('')
-  /* signed in, so the conversation continues on its own surface */
+  /* after sign-in, continue on the /saralya-ai workspace */
   const go = useNavigate()
   useEffect(() => {
     if (!open) return
@@ -577,7 +576,7 @@ function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => voi
   )
 }
 
-/* Three dots that breathe while Saral AI thinks. */
+/* Typing indicator. */
 function Dots() {
   return (
     <span className="flex h-[21px] items-center gap-1">
@@ -610,7 +609,7 @@ function Chip({ children, on, onClick, tone }: { children: ReactNode; on?: boole
 function Typed({ text, onDone }: { text: string; onDone: () => void }) {
   const reduced = useReducedMotion()
   const [n, setN] = useState(reduced ? text.length : 0)
-  const done = useRef(false) // onDone is a fresh closure each parent render; fire it once
+  const done = useRef(false) // onDone changes identity every parent render; call it once
   useEffect(() => {
     if (n >= text.length) {
       if (!done.current) {

@@ -1,10 +1,7 @@
-/* Saralya AI: the signed-in surface behind the landing chat. Everything the
-   page says lives here. The tools are described, not built — each card is a
-   door to a run that the model endpoint will serve.
-
-   TODO(Vikas): the free-run allowances (5 runs, 2 runs, "about 4 answers,
-   12k tokens") are placeholders, and so is the split between what is free
-   and what needs an account. Confirm before launch. */
+/* Content for the /saralya-ai workspace. Tools are described, not implemented;
+   each will call the model endpoint.
+   TODO(content): free-run allowances (5 runs, 2 runs, ~4 answers / 12k tokens)
+   and the free vs account split are placeholders. */
 
 export type Tool = {
   id: string
@@ -27,7 +24,7 @@ export const TOOLS: Tool[] = [
   { id: 'policy', icon: 'policy', name: 'Credit policy to rules', body: 'Turn a credit policy PDF into decision rules.', gate: 'account', note: 'Uses tokens · 1 free run' },
 ]
 
-/* What has to be said on every screen of this surface. */
+/* notices shown on every workspace screen */
 export const GUARDS = [
   { icon: 'spark', title: 'An AI assistant that can be wrong', body: 'Saralya AI is an assistant, not a lender or a human adviser. It gives general information, not a loan offer, and not financial, legal or investment advice.' },
   { icon: 'bank', title: 'Not a lender', body: 'Saralya is a technology provider, not a lender. Nothing here is a loan offer.' },

@@ -5,24 +5,23 @@ import { HeroReel } from './HeroReel'
 import { Link } from 'react-router-dom'
 import { lenis } from '../../lib/scroll'
 
-/* One screen: the reel behind, the claim low over it, one button. The reel
-   itself opens Saral Saarthi — a click anywhere on it pulls the next screen
-   up the same way a scroll does. */
+/* Landing hero: background video, headline and CTAs. Clicking the video
+   advances to the Saarthi screen. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
 const rise = (delay: number) => ({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.55, ease: EASE, delay } })
 
-/** the shards fly for this long before the overlay is taken away */
+/** ms the shatter animation runs before the overlay is removed */
 const BREAK = 820
-/** how the frame is cut up */
+/** shatter grid */
 const COLS = 8
 const ROWS = 5
 
-/** one shard's throw, fixed per tile so a re-run looks the same */
+/** per-tile trajectory, fixed so replays look identical */
 const throwOf = (n: number) => {
   const col = n % COLS
   const row = Math.floor(n / COLS)
-  /* out from the middle of the frame, so the whole thing bursts */
+  /* fly outward from the centre */
   const dx = (col - (COLS - 1) / 2) / COLS
   const dy = (row - (ROWS - 1) / 2) / ROWS
   const spin = ((n * 37) % 90) - 45
@@ -33,18 +32,16 @@ export function Hero() {
   const still = useReducedMotion()
   const [shards, setShards] = useState<string | null>(null)
 
-  /* Clicking the reel breaks it: the frame is grabbed off the video, cut
-     into tiles, and thrown outwards while Saarthi is put underneath. The
-     overlay is portalled to the body — inside the hero it would be painted
-     under the Saarthi screen, which is its own stacking layer. */
+  /* Shatter transition: grab the current video frame, cut it into tiles and
+     animate them outward while the page scrolls to Saarthi. Portalled to <body>
+     because the Saarthi screen is its own stacking context. */
   const open = () => {
     const screens = document.querySelectorAll<HTMLElement>('[data-screen]')
     const to = screens[0]?.offsetHeight ?? window.innerHeight
     const land = () => lenis.scrollTo(to, { force: true, immediate: true })
     if (still) return land()
 
-    /* the frame as it stands, drawn once; if the video will not give it up
-       the page just travels, as it did before */
+    /* if the frame can't be captured, just scroll */
     const video = document.querySelector<HTMLVideoElement>('video')
     let shot: string | null = null
     try {
@@ -110,7 +107,7 @@ export function Hero() {
         document.body,
       )}
 
-      {/* the reel is the door: click it and Saarthi rides up */}
+      {/* click the video to advance */}
       <button
         type="button"
         onClick={open}
@@ -121,7 +118,6 @@ export function Hero() {
       </button>
 
       <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
-        {/* the frame stays open above; the title sits low like a film card */}
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
           <motion.div
             {...rise(0)}

@@ -2,8 +2,8 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import type { ReactNode } from 'react'
 import { useEffect, useRef } from 'react'
 
-/* Small motion primitives shared across pages. Everything is scroll-triggered
-   once (`viewport.once`) so pages don't re-animate while the user reads. */
+/* Scroll-triggered motion primitives. Animations run once so content doesn't
+   re-animate while being read. */
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -31,15 +31,12 @@ export function FadeIn({
   )
 }
 
-/* A screen held at the top of the window while the next one pulls up over
-   it: as that happens it settles back and dims, so the arriving screen
-   reads as a page laid over it rather than a cut. Stacking order is the
-   caller's: give each one a higher z-index than the last.
+/* Sticky screen that scales down and dims as the next screen slides over it.
+   Callers set stacking order via `z`.
 
-   A stuck screen cannot say where it rests: its `top` is pinned to zero
-   and `offsetTop` moves with the scroll. So the resting place is measured
-   while it is still below the line — on mount, on resize, and on any frame
-   it is plainly not stuck. */
+   A stuck element's offsetTop moves with the scroll, so its resting position is
+   measured while it is still below the top: on mount, on resize, and on any
+   frame where it isn't stuck. */
 export function Held({ id, className, z, children, ...attrs }: { id?: string; className?: string; z?: number; children: ReactNode } & Record<string, unknown>) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
@@ -62,7 +59,7 @@ export function Held({ id, className, z, children, ...attrs }: { id?: string; cl
   const covered = useTransform(scrollY, (y) => {
     const el = ref.current
     if (!el) return 0
-    /* comfortably below the line, so this frame can be trusted */
+    /* not stuck yet, so this measurement is reliable */
     const top = el.getBoundingClientRect().top
     if (top > 50) rest.current = top + y
     return Math.min(Math.max((y - rest.current) / (el.offsetHeight || 1), 0), 1)

@@ -1,26 +1,20 @@
-/* The /agents page. Four pieces of data:
-   SEATS  — the desks an agent can sit at, credit side and sales side. Every
-            agent is the same five layers; only the labels change.
-   WANTS  — what someone can ask an agent to take off their desk, what it
-            looks like the morning after, and what it saves. Minutes are per
-            file, hours are per month. They are MARGINAL, not absolute:
-            `tat` carries the whole data-gathering saving and the wants that
-            overlap it are scored only for what they add on top, so ticking
-            everything cannot inflate the total. Deliberately conservative,
-            and the arithmetic is shown on screen, because a saving we can't
-            defend is worse than no number at all.
-   READY  — the agents someone can start from instead of a blank form.
-   PLANS  — how it is bought once they have built one.
-
-   TODO(Vikas): the savings in WANTS and every figure in PLANS are
-   placeholders. Confirm both before launch. */
+/* Data for the /agents page.
+     SEATS — roles an agent can serve (credit and sales side).
+     WANTS — tasks an agent can take on and the time each saves. Savings are
+       marginal, not absolute: `tat` carries the full data-gathering saving and
+       overlapping wants count only what they add, so selecting everything can't
+       inflate the total.
+     READY — prebuilt agents.
+     PLANS — indicative pricing tiers.
+   TODO(content): the savings in WANTS and every figure in PLANS are
+   placeholders; confirm before launch. */
 
 export type Seat = {
   id: string
   label: string
   short: string
   sees: string[]
-  /** the five this desk is asked; the only ones it is shown */
+  /** the five wants shown for this seat */
   does: WantId[]
   cannot: string[]
   actsIn: string[]
@@ -90,16 +84,15 @@ export const SEATS: Seat[] = [
   },
 ]
 
-/* `node` is the short name used on the flywheel rim; a sentence will not fit
-   there. `brief` is the line this want puts in tomorrow morning's message.
-   `perFile` is minutes saved on each file; `perMonth` is hours saved a month
-   regardless of volume. A want has one or the other, never both. */
+/* `node`: short label for the diagram rim. `brief`: line in the next-morning
+   summary. `perFile`: minutes saved per file; `perMonth`: hours saved per
+   month. A want sets one of the two, never both. */
 export type Want = {
   id: string
   label: string
   node: string
   brief: string
-  /** credit side or sales side, so the list can be read at a glance */
+  /** credit or sales side */
   side: 'credit' | 'sales'
   module: string | null
   perFile?: number
@@ -137,8 +130,7 @@ export const READY: { name: string; img: string; seat: string; line: string }[] 
   { name: 'Inspection agent', img: '/img/files.jpg', seat: 'uw', line: 'Generates CRILC and NBS-9 from the ledger instead of retyping them.' },
 ]
 
-/* How an agent is bought once it has been built. Indicative only — the real
-   number depends on the book, which is why every tier ends in a conversation. */
+/* Pricing tiers, indicative only; each tier ends in a conversation. */
 export const PLANS = [
   {
     id: 'pilot',
@@ -166,9 +158,8 @@ export const PLANS = [
   },
 ]
 
-/* The regimes an agent is held to. No list of cores, bureaus or vendors:
-   naming third parties implies a partnership nobody has verified, and the
-   founders have struck that before. */
+/* Compliance regimes. Standards only: no vendor names, since naming a third
+   party implies a partnership. */
 export const SEALS = [
   'RBI MD-FRM 2024',
   'RBI DLD 2025',

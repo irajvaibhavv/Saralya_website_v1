@@ -5,17 +5,13 @@ import { ACCEPT, ask, fileStarter } from '../../lib/chat'
 import { useSpeech } from '../../lib/speech'
 import { Mark, MicButton, type Role } from './SaralAiChat'
 
-/* The opening view, centred in the full-page sheet: who you are, a
-   composer, and the questions that seat asks. Asking who you are on a
-   screen of its own only added a page between the visitor and the box,
-   so it lives here: no seat picked, no questions.
+/* Opening view of the Saarthi screen: role picker, composer, and the selected
+   role's starter questions.
+   TODO(content): confirm the three claims under the heading (in-house credit ML
+   model, spreadsheet analytics, data encrypted in the lender's tenant) before
+   launch. */
 
-   TODO(Vikas): three claims sit under the heading as labels — our own
-   credit ML model, sheets come back as analytics, data encrypted in the
-   lender's own tenant. Confirm all three before launch, and note that
-   free-text ask() is still scripted until the model endpoint lands. */
-
-/* One icon per seat, by id. */
+/* icon per role id */
 const SEAT_ICONS: Record<string, typeof User> = {
   nbfc: Landmark,
   borrower: User,
@@ -23,7 +19,7 @@ const SEAT_ICONS: Record<string, typeof User> = {
   learn: GraduationCap,
 }
 
-/* Why ask here rather than a general assistant. */
+/* Reasons to use Saarthi over a general assistant. */
 const EDGE = [
   { icon: Cpu, title: 'Credit ML model', body: 'Anonymised Indian banking data, tuned on RBI directions' },
   { icon: Table2, title: 'Sheets in, analytics out', body: 'Drop your files and get the analytics back' },
@@ -42,7 +38,7 @@ export function SaralAiPanel({
   const [q, setQ] = useState('')
   const speech = useSpeech(setQ)
 
-  /* a file picked here opens the conversation with it */
+  /* attaching a file starts the conversation with it */
   const attach = (list: FileList | null) => {
     const s = list && fileStarter(list)
     if (s) onAsk(s)
@@ -69,9 +65,7 @@ export function SaralAiPanel({
         AI Desk for lenders
       </h2>
       <p className="relative -mt-1 text-lede leading-relaxed text-muted">Your lending intelligence, in one secure workspace</p>
-      {/* the ask block, left-aligned under the heading: who you are, the
-          box, and the questions that seat asks. It carries its own top
-          margin so the air sits between the two groups, not under them. */}
+      {/* role picker, composer and starter questions */}
       <div className="relative mt-2 w-full">
         <span className="font-mono text-label uppercase tracking-[0.14em] text-hint">I am…</span>
         <div role="group" aria-label="I am a" className="mt-3 flex flex-wrap gap-2.5">
@@ -112,7 +106,7 @@ export function SaralAiPanel({
           </button>
         </form>
 
-        {/* nothing until a seat is picked; then the questions that seat asks */}
+        {/* starter questions appear once a role is picked */}
         {seat && (
           <>
             <span className="mt-4 block font-mono text-label uppercase tracking-[0.14em] text-hint">Or try</span>
@@ -132,8 +126,7 @@ export function SaralAiPanel({
           </>
         )}
 
-        {/* the proof sits at the foot, under the thing it is proof of, so
-            the screen ends on content rather than on empty wash */}
+        {/* trust points */}
         <div className="mt-5 grid w-full gap-2.5 border-t border-line pt-5 sm:grid-cols-3">
           {EDGE.map((e) => (
             <div

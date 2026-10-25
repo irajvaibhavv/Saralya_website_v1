@@ -8,11 +8,10 @@ import { FadeIn } from '../components/ui/Reveal'
 import { Container, Section } from '../components/ui/Section'
 import { scrollToEl } from '../lib/scroll'
 
-/* The page shows the agents we run, working, rather than asking anyone to
-   assemble one: three tracks, each with its own recording. An agent we have
-   not built yet is a conversation, so every card ends at a demo. */
+/* /agents: platform tracks, use cases and compliance, ending in a demo request
+   for custom agents. */
 
-/** every ask on this page goes to the same place */
+/** mailto link for demo requests */
 const demo = (what: string) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Demo: ${what}`)}`
 
 export function Agents() {
@@ -27,15 +26,12 @@ export function Agents() {
   )
 }
 
-/* The hero is a solid block, not a page with decoration on it: ink field,
-   a lime disc and a lavender ring cropped by the edges, a rule grid, Clash
-   for the headline and Geist Mono for the labels. Every shape is flat: no
-   blur, no glass, no glow. */
+/* Agents hero: dark band with flat decorative shapes and a sample API request. */
 function Hero() {
   const go = () => scrollToEl('platform')
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white">
-      {/* the shapes, all solid, all cropped by the frame */}
+      {/* decorative shapes */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div
           className="absolute inset-0 opacity-[0.12]"
@@ -89,15 +85,13 @@ function Hero() {
         </div>
       </Container>
 
-      {/* the band ends on a hard lime rule, not a fade */}
+      {/* lime rule at the bottom edge */}
       <div aria-hidden className="h-2 w-full bg-lime" />
     </section>
   )
 }
 
-/* The same shape the builder below produces, written as the call that makes
-   it. Uses the POST /v1/... idiom already on /home. The response lands a
-   beat later, so the block reads as a request rather than a picture. */
+/* Sample API request; the response line appears after a short delay. */
 const CALL: [string, string][] = [
   ['{', ''],
   ['  "seat"', '"underwriter"'],
@@ -124,7 +118,7 @@ function AgentCall() {
               <span className="text-white/45">{k}</span>
               {v && <span className="text-white/30">: </span>}
               <span className="text-accent3">{v}</span>
-              {/* no comma on the last pair: it has to be valid JSON */}
+              {/* no trailing comma, so the sample stays valid JSON */}
               {v && i < CALL.length - 2 && <span className="text-white/30">,</span>}
             </span>
           ))}
@@ -146,7 +140,7 @@ function AgentCall() {
   )
 }
 
-/* Anything not on the list is a conversation, not a configurator. */
+/* Closing block: request a custom agent. */
 const BRING = ['Which desk it sits at', 'What it must decide', 'What it leaves in writing']
 
 function Steps() {
@@ -154,7 +148,7 @@ function Steps() {
     <Section>
       <Container>
         <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
-          {/* two discs and a rule, cropped: the same vocabulary as the hero */}
+          {/* decorative shapes */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
             <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />

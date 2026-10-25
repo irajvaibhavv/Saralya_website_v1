@@ -7,8 +7,8 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
-/* Copy is sourced from saralya.in and the founder-approved corrections brief
-   (see CLAUDE.md → Content sources). Keep claims to what appears there. */
+/* Site-wide copy and contact details. Keep claims to what has been approved for
+   publication. */
 
 export const CONTACT_EMAIL = 'info@saralya.in'
 

@@ -1,11 +1,7 @@
-/* The four places a Saralya agent works: inside the borrower's app, inside
-   the officer's day, and on top of the book. Each one is shown running, in
-   its own recording.
-
-   TODO(Vishal): the three recordings. `video` is the file under /video and
-   `poster` its still; until they land the panel says what is coming. The
-   borrower app, the AI personal-discussion platform the branch officer runs,
-   and the portfolio-quality monitor. */
+/* Agent platform tracks: in the borrower's app, in the officer's workflow, and
+   across the portfolio. Each track plays a recording.
+   TODO(content): recordings pending. Set `video` (file under /video) and
+   `poster` per track; until then the panel shows a placeholder. */
 
 export type Track = {
   id: 'app' | 'workflow' | 'analytics' | 'custom'
@@ -15,9 +11,9 @@ export type Track = {
   items: { title: string; body: string }[]
   video: string | null
   poster: string | null
-  /** the flat field the device sits on: one token, no new colours */
+  /** panel background token */
   tint: string
-  /** what the recording shows, until the recording is here */
+  /** placeholder caption shown until the recording exists */
   waiting: string
 }
 
