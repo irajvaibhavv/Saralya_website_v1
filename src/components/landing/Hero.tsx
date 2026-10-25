@@ -133,7 +133,7 @@ export function Hero() {
 
           <motion.h1 {...rise(0.1)} className="display text-display leading-[1.0] text-white">
             Making Lending{' '}
-            <span className="text-lime">Saral</span>{' '}
+            <em className="font-hero font-normal italic text-lime">Saral</em>{' '}
             for Bharat.
           </motion.h1>
 

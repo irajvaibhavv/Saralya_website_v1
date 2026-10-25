@@ -9,6 +9,8 @@
   --font-sans: Tahoma, Verdana, "Satoshi", system-ui, sans-serif;
   /* headlines only: Satoshi sets text well but says nothing on its own */
   --font-display: "Clash Display", "Satoshi", system-ui, sans-serif;
+  /* the landing headline alone: a serif on the brand word, against the reel */
+  --font-hero: "Boska", "Clash Display", Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
   /* One type scale. Every size on the site is one of these ten. */
