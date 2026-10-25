@@ -1,13 +1,14 @@
 import { PageHero } from '../components/layout/PageHero'
 import { Container } from '../components/ui/Section'
+import { scrollToEl } from '../lib/scroll'
 
 /* Ported from saralya.in/privacy-policy.html (mobile-app privacy policy). */
 
-type Block = { h: string; p?: string[]; sub?: { h: string; p?: string[]; li?: string[] }[]; li?: string[] }
+type Block = { h: string; lead?: string; p?: string[]; sub?: { h: string; p?: string[]; li?: string[] }[]; li?: string[] }
 
 const BLOCKS: Block[] = [
   {
-    h: '1. What we collect',
+    h: 'What we collect',
     sub: [
       {
         h: 'Personal information',
@@ -39,7 +40,7 @@ const BLOCKS: Block[] = [
     ],
   },
   {
-    h: '2. How your information is used',
+    h: 'How your information is used',
     li: [
       'KYC verification: identity checks required before a regulated lender can disburse a loan',
       'Credit assessment: evaluating your application, by the lender',
@@ -50,7 +51,7 @@ const BLOCKS: Block[] = [
     p: ['We do not use your data for advertising, and we do not sell it. The app contains no advertising software and collects no advertising identifier.'],
   },
   {
-    h: '3. Consent',
+    h: 'Consent',
     p: [
       'Every optional data category is off by default. Nothing is pre-ticked and nothing is bundled. You grant each category separately on the permissions screen, and can review or withdraw any of them later from Data Permissions in the app.',
       'Withdrawing consent stops further collection in that category. It does not retroactively delete data already used to reach a lending decision, which the lender is required to retain.',
@@ -58,7 +59,7 @@ const BLOCKS: Block[] = [
     ],
   },
   {
-    h: '4. Storage and security',
+    h: 'Storage and security',
     li: ["All data is transmitted over HTTPS, with certificates validated against your device's trust store", 'Data is stored on servers in India', 'Access is restricted to authorised personnel'],
     p: [
       "On your device: the app stores your session and your in-progress application locally, so losing signal does not cost you the form you have just filled. This local store relies on the operating system's app sandbox and is not separately encrypted. It is excluded from Android cloud backups, and sessions expire after 30 days. Keep your device locked, and avoid rooting or jailbreaking it.",
@@ -66,12 +67,12 @@ const BLOCKS: Block[] = [
     ],
   },
   {
-    h: '5. Who your data is shared with',
+    h: 'Who your data is shared with',
     li: ['The lender whose loan you applied for, who is the decision-maker', 'Credit bureaus such as CIBIL and Equifax, for credit assessment, by the lender', 'Regulatory authorities, where required by law'],
   },
   {
-    h: '6. Your rights',
-    p: ['Under the Digital Personal Data Protection Act, 2023, you may:'],
+    h: 'Your rights',
+    lead: 'Under the Digital Personal Data Protection Act, 2023, you may:',
     li: [
       'Access the personal data held about you',
       'Request correction of inaccurate or incomplete data',
@@ -82,7 +83,7 @@ const BLOCKS: Block[] = [
     ],
   },
   {
-    h: '7. Permissions',
+    h: 'Permissions',
     li: [
       'Camera: capture PAN, Aadhaar and selfie; requested at the document scan step',
       'Location (while in use): address verification and fraud checks; requested at the KYC address step',
@@ -92,47 +93,76 @@ const BLOCKS: Block[] = [
     ],
     p: ['All permissions are requested at the point they are needed. Declining any of them leaves the app usable, with that step handled another way. The app requests no access to your contacts, call logs, SMS messages, calendar or microphone.'],
   },
-  { h: '8. Children', p: ['The app is for applicants aged 18 and over. We do not knowingly collect data from children.'] },
+  { h: 'Children', p: ['The app is for applicants aged 18 and over. We do not knowingly collect data from children.'] },
   {
-    h: '9. Contact us',
-    p: ['For privacy queries, to exercise any right above, or to raise a grievance:'],
+    h: 'Contact us',
+    lead: 'For privacy queries, to exercise any right above, or to raise a grievance:',
     li: ['Email: info@saralya.in', 'Saralya Tech Solutions Private Limited, Delhi NCR, India'],
   },
-  { h: '10. Changes to this policy', p: ['We may update this policy. Material changes will be communicated in the app and published here, with the “Last updated” date above revised.'] },
+  { h: 'Changes to this policy', p: ['We may update this policy. Material changes will be communicated in the app and published here, with the “Last updated” date above revised.'] },
 ]
+
+/* The policy reads like a document, not a page: contents on the left that
+   stay put, numbered sections on the right, and the one fact everyone must
+   know before anything else (we are not the lender) set apart above them. */
+const id = (n: number) => `s-${n + 1}`
 
 export function Privacy() {
   return (
     <>
-      <PageHero
-        eyebrow="Legal"
-        title="Privacy Policy"
-        lede={
-          <>
-            For the Saralya mobile application · Last updated September 2026.
-            <br />
-            <br />
-            Saralya is not a lender. Saralya Tech Solutions Private Limited builds and operates this app. Loans are
-            offered, sanctioned and disbursed by the RBI-regulated entity whose name and registration number are shown
-            to you inside the app before you accept any offer. That entity, not Saralya, decides your application and
-            holds your loan.
-          </>
-        }
-      />
+      <PageHero eyebrow="Legal" title="Privacy Policy" lede="For the Saralya mobile application · Last updated September 2026" />
       <Container className="pb-20">
-        <div className="max-w-3xl space-y-10 rounded-3xl bg-white p-7 shadow-sm md:p-12">
-          {BLOCKS.map((b) => (
-            <section key={b.h}>
-              <h2 className="display text-stat">{b.h}</h2>
-              <Body p={b.p} li={b.li} />
-              {b.sub?.map((s) => (
-                <div key={s.h} className="mt-5">
-                  <h3 className="display text-lede">{s.h}</h3>
-                  <Body p={s.p} li={s.li} />
-                </div>
-              ))}
-            </section>
-          ))}
+        <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+          <nav aria-label="Contents" className="hidden lg:block">
+            <div className="sticky top-24">
+              <div className="eyebrow mb-4">Contents</div>
+              <ol className="space-y-1 border-l border-line">
+                {BLOCKS.map((b, n) => (
+                  <li key={b.h}>
+                    <button
+                      type="button"
+                      onClick={() => scrollToEl(id(n), -88)}
+                      className="-ml-px flex w-full gap-3 border-l border-transparent py-1.5 pl-4 text-left text-small text-muted transition-colors hover:border-accent hover:text-ink"
+                    >
+                      <span className="font-mono text-label text-muted/60 tabular-nums">{String(n + 1).padStart(2, '0')}</span>
+                      {b.h}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </nav>
+
+          <div className="max-w-3xl">
+            <aside className="flex gap-4 rounded-2xl bg-ink p-6 text-white md:p-7">
+              <span aria-hidden className="mt-1.5 size-2 shrink-0 bg-lime" />
+              <p className="text-body leading-relaxed text-white/80">
+                <strong className="font-semibold text-white">Saralya is not a lender.</strong> Saralya Tech Solutions
+                Private Limited builds and operates this app. Loans are offered, sanctioned and disbursed by the
+                RBI-regulated entity whose name and registration number are shown to you inside the app before you accept
+                any offer. That entity, not Saralya, decides your application and holds your loan.
+              </p>
+            </aside>
+
+            {BLOCKS.map((b, n) => (
+              <section key={b.h} id={id(n)} className="border-b border-line py-10 last:border-b-0">
+                <div className="font-mono text-label text-accent tabular-nums">{String(n + 1).padStart(2, '0')}</div>
+                <h2 className="display mt-2 text-h3">{b.h}</h2>
+                {b.lead && <p className="mt-3 text-body leading-relaxed text-muted">{b.lead}</p>}
+                <Body p={b.p} li={b.li} />
+                {b.sub && (
+                  <div className="mt-6 grid gap-4">
+                    {b.sub.map((s) => (
+                      <div key={s.h} className="rounded-2xl bg-bg p-5 ring-1 ring-line">
+                        <h3 className="display text-lede">{s.h}</h3>
+                        <Body p={s.p} li={s.li} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            ))}
+          </div>
         </div>
       </Container>
     </>
@@ -143,9 +173,12 @@ function Body({ p, li }: { p?: string[]; li?: string[] }) {
   return (
     <>
       {li && (
-        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-body text-ink2">
+        <ul className="mt-3 space-y-2 text-body text-ink2">
           {li.map((x) => (
-            <li key={x}>{x}</li>
+            <li key={x} className="flex gap-3">
+              <span aria-hidden className="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-accent" />
+              {x}
+            </li>
           ))}
         </ul>
       )}
