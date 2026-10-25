@@ -231,7 +231,7 @@ export function SaralAiChat({ pending, seat, dropped, onMessages }: { pending?: 
       </div>
 
       {/* conversation */}
-      <div ref={pane} data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto overscroll-contain scroll-quiet p-4">
+      <div ref={pane} data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
         <div className="space-y-3">
           {msgs.map((m, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 10, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 420, damping: 30 }} className={`flex items-start gap-3 ${m.from === 'you' ? 'justify-end' : ''}`}>

@@ -109,15 +109,10 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: clip; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
-/* inner scroll panes: the gutter is always reserved so content never jumps
-   when it overflows, and the thumb only shows under the cursor or focus */
-@utility scroll-quiet {
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  &:hover, &:focus-within { scrollbar-color: var(--color-line2) transparent; }
-}
-
+/* the landing pages a screen at a time, so the page scrollbar only jumps;
+   hidden there, the page still scrolls and takes the full width */
+html:has([data-screen]) { scrollbar-width: none; }
+html:has([data-screen])::-webkit-scrollbar { display: none; }
 body {
   @apply bg-white text-ink font-sans antialiased;
   font-size: 15px;
