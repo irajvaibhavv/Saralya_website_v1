@@ -9,19 +9,19 @@ import {
   GraduationCap,
   Landmark,
   ListChecks,
-  Lock,
   Paperclip,
   Plus,
   Scale,
   ShieldCheck,
   Sparkles,
+  UploadCloud,
   User,
   Users,
 } from 'lucide-react'
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useEffectEvent, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { Mark, type Role } from '../components/landing/SaralAiChat'
-import { ask } from '../lib/chat'
+import { ACCEPT, ask, fileStarter } from '../lib/chat'
 import { ROLES, type Starter } from '../content/chat'
 import { GUARDS, TOOLS, WORKSPACE } from '../content/workspace'
 import { CONTACT_EMAIL } from '../content/site'
@@ -111,6 +111,42 @@ export function SaralyaAi() {
 
   const starter = (s: Starter) => say({ q: s.q, a: s.a })
 
+  /* attached or dropped files open (or continue) a conversation */
+  const attach = (list: FileList | null) => {
+    const s = list && fileStarter(list)
+    if (!s) return
+    setTab('ask')
+    say(s)
+  }
+  const onDrop = useEffectEvent(attach)
+
+  /* page-wide drag and drop */
+  const [dragging, setDragging] = useState(false)
+  useEffect(() => {
+    let depth = 0
+    const has = (e: DragEvent) => [...(e.dataTransfer?.types ?? [])].includes('Files')
+    const enter = (e: DragEvent) => { if (has(e)) { depth++; setDragging(true) } }
+    const leave = (e: DragEvent) => { if (has(e) && --depth <= 0) { depth = 0; setDragging(false) } }
+    const over = (e: DragEvent) => { if (has(e)) e.preventDefault() }
+    const drop = (e: DragEvent) => {
+      if (!has(e)) return
+      e.preventDefault()
+      depth = 0
+      setDragging(false)
+      onDrop(e.dataTransfer!.files)
+    }
+    window.addEventListener('dragenter', enter)
+    window.addEventListener('dragleave', leave)
+    window.addEventListener('dragover', over)
+    window.addEventListener('drop', drop)
+    return () => {
+      window.removeEventListener('dragenter', enter)
+      window.removeEventListener('dragleave', leave)
+      window.removeEventListener('dragover', over)
+      window.removeEventListener('drop', drop)
+    }
+  }, [])
+
   const fresh = () => {
     setOpen(null)
     setQ('')
@@ -119,6 +155,15 @@ export function SaralyaAi() {
   return (
     <div className="min-h-[100svh] bg-bg text-ink">
       <TopBar tab={tab} onTab={setTab} />
+      {dragging && (
+        <div className="pointer-events-none fixed inset-0 z-50 grid place-items-center bg-ink/40 p-6 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-3 rounded-3xl border-2 border-dashed border-white/70 bg-white/10 px-12 py-10 text-center text-white">
+            <UploadCloud className="size-10" strokeWidth={1.6} />
+            <div className="text-h3 font-semibold tracking-tight">Drop to attach</div>
+            <div className="text-body text-white/75">MIS sheets, bank statements, policy documents.</div>
+          </div>
+        </div>
+      )}
 
       <div className="mx-auto flex w-full max-w-[1500px] gap-0">
         <Sidebar chats={chats} open={open} onOpen={(id) => { setOpen(id); setTab('ask') }} onFresh={fresh} />
@@ -140,7 +185,7 @@ export function SaralyaAi() {
                 </div>
               ))}
               {thinking && <p className="text-body text-hint">Saarthi is reading…</p>}
-              <Composer q={q} onQ={setQ} onSubmit={submit} busy={thinking} />
+              <Composer q={q} onQ={setQ} onSubmit={submit} busy={thinking} onFiles={attach} />
             </div>
           ) : (
             <Ask
@@ -151,6 +196,7 @@ export function SaralyaAi() {
               onSubmit={submit}
               busy={thinking}
               onStarter={starter}
+              onFiles={attach}
               onTools={() => setTab('tools')}
             />
           )}
@@ -272,6 +318,7 @@ function Ask({
   onSubmit,
   busy,
   onStarter,
+  onFiles,
   onTools,
 }: {
   seat: Role | null
@@ -281,6 +328,7 @@ function Ask({
   onSubmit: (e: FormEvent) => void
   busy: boolean
   onStarter: (s: Starter) => void
+  onFiles: (list: FileList | null) => void
   onTools: () => void
 }) {
   return (
@@ -329,7 +377,7 @@ function Ask({
         </p>
       </div>
 
-      <Composer q={q} onQ={onQ} onSubmit={onSubmit} busy={busy} />
+      <Composer q={q} onQ={onQ} onSubmit={onSubmit} busy={busy} onFiles={onFiles} />
 
       {seat && (
         <section className="mt-10">
@@ -371,7 +419,8 @@ function Ask({
   )
 }
 
-function Composer({ q, onQ, onSubmit, busy }: { q: string; onQ: (s: string) => void; onSubmit: (e: FormEvent) => void; busy: boolean }) {
+function Composer({ q, onQ, onSubmit, busy, onFiles }: { q: string; onQ: (s: string) => void; onSubmit: (e: FormEvent) => void; busy: boolean; onFiles: (list: FileList | null) => void }) {
+  const picker = useRef<HTMLInputElement>(null)
   return (
     <>
       <form onSubmit={onSubmit} className="mt-5 rounded-2xl bg-white p-3.5 ring-1 ring-line transition focus-within:ring-accent">
@@ -390,10 +439,24 @@ function Composer({ q, onQ, onSubmit, busy }: { q: string; onQ: (s: string) => v
           className="w-full resize-none bg-transparent text-body outline-none placeholder:text-hint"
         />
         <div className="mt-3 flex items-center justify-between gap-4 border-t border-line2 pt-3">
-          <span className="flex items-center gap-1.5 text-small text-hint" title="Files open with an account">
+          <button
+            type="button"
+            onClick={() => picker.current?.click()}
+            className="flex items-center gap-1.5 rounded-lg px-2 py-1 text-small text-muted transition-colors hover:bg-wash hover:text-accent"
+          >
             <Paperclip className="size-4" /> Attach
-            <Lock className="size-3" />
-          </span>
+          </button>
+          <input
+            ref={picker}
+            type="file"
+            multiple
+            accept={ACCEPT}
+            hidden
+            onChange={(e) => {
+              onFiles(e.target.files)
+              e.target.value = ''
+            }}
+          />
           <div className="flex items-center gap-3">
             <span className="font-mono text-label text-hint">
               {q.length} / {LIMIT}
