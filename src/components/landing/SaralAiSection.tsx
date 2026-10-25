@@ -75,7 +75,7 @@ export function SaralAiSection({
 
   return (
     <>
-      <section ref={stage} id="saarthi" className="relative flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center overflow-hidden bg-bg px-5 pt-14">
+      <section ref={stage} id="saarthi" className="relative flex h-full min-h-[100svh] scroll-mt-0 flex-col justify-center overflow-hidden bg-bg px-5 pt-14 pb-10 md:pb-0">
         {/* the light half of the page, on the same grid and the same flat
             shapes as the dark half above it */}
         <div aria-hidden className="pointer-events-none absolute inset-0">

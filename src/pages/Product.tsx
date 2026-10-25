@@ -625,7 +625,8 @@ function How() {
           </div>
         </FadeIn>
 
-        <FadeIn className="mt-9">
+        {/* too wide to read on a phone; the stage chips below carry it there */}
+        <FadeIn className="mt-9 hidden md:block">
           <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Saralya CML" />
         </FadeIn>
 

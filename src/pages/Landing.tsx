@@ -173,7 +173,7 @@ export function Landing() {
           <Hero />
         </Held>
 
-        <div data-screen className="sticky top-0 z-30 h-[100svh] overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
+        <div data-screen className="relative z-30 md:sticky md:top-0 md:h-[100svh] md:overflow-hidden bg-bg shadow-[0_-30px_60px_-30px_rgba(13,22,20,0.45)] motion-reduce:static motion-reduce:h-auto">
           <SaralAiSection pending={pending} seat={seat} onAsk={ask} onSeat={setSeat} onReset={() => setPending(null)} />
         </div>
 
