@@ -423,9 +423,6 @@ function Problem() {
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The problem</span>
           </div>
           <h2 className="display text-center text-h2">21st-century capital. 19th-century cockpit</h2>
-          <p className="mt-2 text-center text-lede leading-relaxed text-muted xl:whitespace-nowrap">
-            You are held accountable for every basis point of NIM and GNPA, yet your teams are forced to fly without precision instruments.
-          </p>
         </FadeIn>
 
         <div className="mt-5 grid gap-6 lg:grid-cols-2">
