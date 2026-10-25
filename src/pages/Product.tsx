@@ -416,10 +416,10 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:py-8">
+    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-20">
       <Container>
         <FadeIn>
-          <div className="-mt-3 mb-5 flex justify-center">
+          <div className="-mt-3 mb-3 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The problem</span>
           </div>
           <h2 className="display text-center text-h2">21st-century capital. 19th-century cockpit</h2>
