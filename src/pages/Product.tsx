@@ -418,7 +418,7 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-20">
+    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-16">
       <Container>
         <FadeIn>
           <div className="-mt-3 mb-3 flex justify-center">
@@ -432,14 +432,14 @@ function Problem() {
             <div className="eyebrow">What it looks like on the floor</div>
             <div className="mt-3 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
-            <article key={p.n} className="flex rounded-2xl bg-white p-4 ring-1 ring-line2">
+            <article key={p.n} className="flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line2">
               <div className="grid min-h-[76px] flex-1 place-items-center rounded-xl bg-bg p-2">
                 {p.kind === 'blanks' && (
                   <div className="grid size-full grid-cols-2 gap-1.5">
                     {BLANKS.map((b) => (
                       <div key={b} className="flex flex-col justify-between rounded-lg bg-white px-1.5 py-1.5 ring-1 ring-dashed ring-line2">
-                        <span className="whitespace-nowrap text-label leading-tight text-muted">{b}</span>
-                        <span aria-hidden className="block h-0.5 w-5 bg-line2" />
+                        <span className="whitespace-nowrap text-small leading-tight text-muted">{b}</span>
+                        <span className="font-mono text-stat leading-none text-muted/50" aria-label="not tracked">—</span>
                       </div>
                     ))}
                   </div>
@@ -449,7 +449,7 @@ function Problem() {
                     <div className="flex items-center justify-between">
                       {CHAIN.map((c, n) => (
                         <div key={c} className="flex items-center gap-1">
-                          <span className="text-label text-muted">{c}</span>
+                          <span className="text-small text-muted">{c}</span>
                           {n < CHAIN.length - 1 && <span className="text-line2">›</span>}
                         </div>
                       ))}
@@ -461,8 +461,8 @@ function Problem() {
                 )}
                 {p.kind === 'leaves' && (
                   <div className="flex w-full flex-wrap items-center justify-center gap-1.5">
-                    {LEAVES.map((l) => (
-                      <span key={l} className="w-fit rounded-full bg-white px-3 py-1 text-label ring-1 ring-dashed ring-line2">
+                    {LEAVES.map((l, n) => (
+                      <span key={l} style={{ opacity: 1 - n * 0.3 }} className="w-fit rounded-full bg-white px-3 py-1 text-small ring-1 ring-dashed ring-line2">
                         {l}
                       </span>
                     ))}
@@ -472,13 +472,14 @@ function Problem() {
                   <div className="grid size-full grid-cols-3 gap-1">
                     {TRUTHS.map((t) => (
                       <div key={t.k} className="rounded-lg bg-white px-1.5 py-1 ring-1 ring-line2">
-                        <div className="text-label text-muted">{t.k}</div>
-                        <div className="whitespace-nowrap text-label font-bold tabular-nums">{t.v}</div>
+                        <div className="text-small text-muted">{t.k}</div>
+                        <div className="whitespace-nowrap text-small font-bold tabular-nums">{t.v}</div>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
+              <h3 className="display mt-3 text-h3">{p.t}</h3>
             </article>
           ))}
             </div>
@@ -532,7 +533,7 @@ function Problem() {
                 {x.chips.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {x.chips.map((c) => (
-                      <span key={c} className="rounded-full bg-amber-w px-2.5 py-1 text-label font-semibold text-amber">
+                      <span key={c} className="rounded-full bg-amber-w px-2.5 py-1 text-small font-semibold text-amber">
                         {c}
                       </span>
                     ))}
