@@ -61,6 +61,7 @@ export function Platform() {
   return (
     <Section
       id="platform"
+      tight
       className="relative isolate overflow-hidden bg-lav-w"
     >
       <Container>
@@ -83,7 +84,7 @@ export function Platform() {
             onMouseLeave={() => setHeld(false)}
             onFocusCapture={() => setHeld(true)}
             onBlurCapture={() => setHeld(false)}
-            className="relative mx-auto mt-8 flex w-fit flex-wrap justify-center border border-ink/15 bg-white/60"
+            className="relative mx-auto mt-6 flex w-fit flex-wrap justify-center border border-ink/15 bg-white/60"
           >
             <motion.span
               aria-hidden
@@ -114,7 +115,7 @@ export function Platform() {
           </div>
         </FadeIn>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-start lg:gap-14">
+        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-center lg:gap-14">
           {/* the rows */}
           <motion.div key={t.id} initial={still ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
             <h3 className="display text-h3">{t.title}</h3>
@@ -165,34 +166,33 @@ export function Platform() {
             </div>
           </motion.div>
 
-          {/* the recording */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={t.id}
-              initial={still ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              transition={{ duration: 0.35 }}
-              className={`relative grid place-items-center overflow-hidden p-7 ring-1 ring-ink/10 ${t.tint}`}
-            >
-              {/* panel background behind the device */}
-              <span aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: WAVE }} />
-              <span aria-hidden className="pointer-events-none absolute -left-20 -top-24 size-64 rounded-full bg-white/20 blur-3xl" />
-              {t.video ? (
-                <video
-                  src={t.video}
-                  poster={t.poster ?? undefined}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="size-full rounded-2xl object-cover shadow-lg"
-                />
-              ) : (
-                <TrackMock id={t.id} />
-              )}
-            </motion.div>
-          </AnimatePresence>
+          {/* the recording, standing on the page */}
+          <div className="relative grid place-items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={t.id}
+                initial={still ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                transition={{ duration: 0.35 }}
+                className="relative"
+              >
+                {t.video ? (
+                  <video
+                    src={t.video}
+                    poster={t.poster ?? undefined}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-[460px] max-w-full rounded-2xl object-cover shadow-lg"
+                  />
+                ) : (
+                  <TrackMock id={t.id} step={open} />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </Container>
     </Section>

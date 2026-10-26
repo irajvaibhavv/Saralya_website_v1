@@ -11,8 +11,6 @@ export type Track = {
   items: { title: string; body: string }[]
   video: string | null
   poster: string | null
-  /** panel background token */
-  tint: string
   /** placeholder caption shown until the recording exists */
   waiting: string
 }
@@ -31,7 +29,6 @@ export const TRACKS: Track[] = [
     ],
     video: null,
     poster: null,
-    tint: 'bg-accent',
     waiting: 'The borrower app, recorded end to end',
   },
   {
@@ -47,7 +44,6 @@ export const TRACKS: Track[] = [
     ],
     video: null,
     poster: null,
-    tint: 'bg-petrol',
     waiting: 'The AI personal-discussion platform, as a branch officer runs it',
   },
   {
@@ -63,7 +59,6 @@ export const TRACKS: Track[] = [
     ],
     video: null,
     poster: null,
-    tint: 'bg-lav2',
     waiting: 'The portfolio-quality monitor, on a live book',
   },
   {
@@ -79,7 +74,6 @@ export const TRACKS: Track[] = [
     ],
     video: null,
     poster: null,
-    tint: 'bg-petrol',
     waiting: 'An agent assembled from one lender’s problem, start to finish',
   },
 ]
