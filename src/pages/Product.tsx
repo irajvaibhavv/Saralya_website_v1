@@ -1,3 +1,4 @@
+import { ArrowRight, Check } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import {
@@ -63,25 +64,54 @@ export function Product() {
 
 /* ── hero ───────────────────────────────────────────────────────────── */
 
+/* Same dark band, shapes, buttons and lime rule as the /agents hero, so the
+   two pages open alike. */
 function Hero() {
   const still = useReducedMotion()
   return (
-    <section className="dots bg-ink py-14 text-white md:py-20">
-      <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-[1.4fr_1fr]">
+    <section className="relative isolate overflow-hidden bg-ink text-white">
+      {/* decorative shapes */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundSize: '96px 96px',
+          }}
+        />
+        <div className="absolute -bottom-72 -left-60 size-[26rem] rounded-full bg-lav" />
+        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[32px] border-lime/70" />
+        <div className="absolute right-[12%] top-0 h-28 w-px bg-lime" />
+        <div className="absolute bottom-0 left-[46%] h-20 w-px bg-lav" />
+      </div>
+
+      <Container className="relative py-14 md:py-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_minmax(0,460px)] lg:gap-14">
           <FadeIn>
-            <div className="eyebrow text-accent3">Making lending Saral</div>
-            <h1 className="display mt-4 text-balance text-h1">
-              The enterprise&#8209;grade <span className="text-accent3">operating system</span> for lenders
+            <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime">
+              <span className="size-2 bg-lime" />
+              Making lending Saral
+            </div>
+
+            <h1 className="display mt-6 text-balance text-h1 leading-[1.02]">
+              The enterprise&#8209;grade <span className="text-lime">operating system</span> for lenders
             </h1>
-            <p className="mt-4 max-w-[46ch] text-lede leading-relaxed text-white/70">
+            <p className="mt-5 max-w-[46ch] text-lede leading-relaxed text-white/70">
               The intelligence layer behind every lending decision.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href={demo} className="rounded-full bg-white px-7 py-3.5 text-body font-semibold text-ink transition-colors hover:bg-wash">
+
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a
+                href={demo}
+                className="bg-lime px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime"
+              >
                 Request a demo
               </a>
-              <a href="#how" className="rounded-full px-7 py-3.5 text-body font-semibold text-white ring-1 ring-white/35 transition hover:ring-white">
+              <a
+                href="#how"
+                className="border border-white/35 px-8 py-4 text-body font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lav"
+              >
                 See how it works
               </a>
             </div>
@@ -89,11 +119,11 @@ function Hero() {
 
           {/* stack diagram: decisions on top, existing systems below, Saralya
              between */}
-          <FadeIn className="rounded-3xl bg-white/[0.03] p-6 ring-1 ring-white/10">
+          <FadeIn className="min-w-0 border-l-8 border-lime bg-[#0a110f] p-6 ring-1 ring-white/15">
             <div className="font-mono text-label uppercase tracking-[0.16em] text-white/50">Every lending decision</div>
             <div className="mt-2.5 flex flex-wrap gap-2">
               {DECISIONS.map((d) => (
-                <span key={d} className="rounded-full px-3.5 py-1.5 text-small text-white/90 ring-1 ring-white/25">
+                <span key={d} className="px-3.5 py-1.5 text-small text-white/90 ring-1 ring-white/25">
                   {d}
                 </span>
               ))}
@@ -101,11 +131,11 @@ function Hero() {
 
             <Rails still={still} />
 
-            <div className="rounded-2xl bg-accent2/60 p-4 ring-1 ring-accent3/60">
+            <div className="bg-accent2/60 p-4 ring-1 ring-accent3/60">
               <div className="font-mono text-label uppercase tracking-[0.16em] text-accent3">Saralya · intelligence layer</div>
               <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
                 {LAYER.map((l) => (
-                  <span key={l} className="rounded-xl bg-white/10 px-3.5 py-3 text-body font-semibold leading-snug">
+                  <span key={l} className="bg-white/10 px-3.5 py-3 text-body font-semibold leading-snug">
                     {l}
                   </span>
                 ))}
@@ -116,7 +146,7 @@ function Hero() {
 
             <div className="flex flex-wrap gap-2">
               {SYSTEMS.map((s) => (
-                <span key={s} className="rounded-lg bg-white/[0.06] px-3 py-1.5 text-small text-white/70">
+                <span key={s} className="bg-white/[0.06] px-3 py-1.5 text-small text-white/70">
                   {s}
                 </span>
               ))}
@@ -125,6 +155,9 @@ function Hero() {
           </FadeIn>
         </div>
       </Container>
+
+      {/* lime rule at the bottom edge */}
+      <div aria-hidden className="h-2 w-full bg-lime" />
     </section>
   )
 }
@@ -155,7 +188,7 @@ function Three() {
     <section className="border-b border-line bg-bg py-12 md:py-16">
       <Container>
         {/* section label */}
-        <div className="-mt-4 mb-7 flex justify-center">
+        <div className="mb-4 flex justify-center">
           <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Architecture</span>
         </div>
 
@@ -221,21 +254,23 @@ function Three() {
 
 function Leaders() {
   const [i, setI] = useState(0)
-  const [running, setRunning] = useState(true)
   const still = useReducedMotion()
   const p = PERSONAS[i]
 
+  /* autoplay through the roles, no pause button (asked for directly); a click
+     jumps and restarts the timer */
   useEffect(() => {
-    if (!running || still) return
+    if (still) return
     const id = window.setTimeout(() => setI((n) => (n + 1) % PERSONAS.length), 5000)
     return () => window.clearTimeout(id)
-  }, [running, still, i])
+  }, [still, i])
 
   return (
-    <Section id="leaders">
+    /* one screen on desktop, set like the problem and solution sections */
+    <Section id="leaders" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-6">
       <Container>
         <FadeIn>
-          <div className="-mt-4 mb-7 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">Trusted by Indian lenders</span>
           </div>
           <h2 className="display text-center text-h2 md:whitespace-nowrap">
@@ -243,7 +278,7 @@ function Leaders() {
           </h2>
         </FadeIn>
 
-        <div className="mt-10 grid gap-7 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+        <div className="mt-6 grid gap-7 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
           {/* min-w-0 so the scrollable role strip doesn't widen the page */}
           <div className="min-w-0">
             <div role="group" aria-label="Choose a role" className="flex gap-1.5 overflow-x-auto pb-1.5 lg:flex-col lg:overflow-visible">
@@ -255,7 +290,7 @@ function Leaders() {
                     type="button"
                     aria-pressed={on}
                     onClick={() => setI(n)}
-                    className={`flex shrink-0 items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-left transition lg:shrink ${on ? 'bg-white ring-1 ring-accent' : 'bg-bg ring-1 ring-line hover:ring-line2'}`}
+                    className={`flex shrink-0 items-center justify-between gap-3 rounded-xl px-4 py-2 text-left transition lg:shrink ${on ? 'bg-white ring-1 ring-accent' : 'bg-bg ring-1 ring-line hover:ring-line2'}`}
                   >
                     <span>
                       <span className="block whitespace-nowrap text-body font-semibold">{x.role}</span>
@@ -268,13 +303,6 @@ function Leaders() {
                 )
               })}
             </div>
-            <button
-              type="button"
-              onClick={() => setRunning((r) => !r)}
-              className="mt-3 rounded-full bg-white px-5 py-2 text-small font-semibold text-ink2 ring-1 ring-line2 transition hover:ring-accent"
-            >
-              {running ? 'Pause' : 'Play'}
-            </button>
           </div>
 
           <Board p={p} />
@@ -322,7 +350,7 @@ function Board({ p }: { p: Persona }) {
 
           {p.chart.type === 'plan' && (
             <div className="mt-3">
-              <div className="flex h-[140px] items-end gap-2.5 border-b border-line">
+              <div className="flex h-[132px] items-end gap-2.5 border-b border-line">
                 {p.chart.cols.map((c) => (
                   <div key={c.m} className="relative h-full flex-1">
                     <motion.div
@@ -385,7 +413,7 @@ function Board({ p }: { p: Persona }) {
                   <span>Status</span>
                 </div>
                 {p.chart.trows.map((t) => (
-                  <div key={t.id} className="grid grid-cols-[1.7fr_1fr_0.8fr_1.5fr] items-center gap-2 border-b border-line2/50 py-2.5 text-small">
+                  <div key={t.id} className="grid grid-cols-[1.7fr_1fr_0.8fr_1.5fr] items-center gap-2 border-b border-line2/50 py-2 text-small">
                     <span className="font-mono text-label">{t.id}</span>
                     <span>{t.p}</span>
                     <span className="text-right tabular-nums">{t.amt}</span>
@@ -414,10 +442,10 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-20">
+    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-8 lg:pb-8">
       <Container>
         <FadeIn>
-          <div className="-mt-3 mb-3 flex justify-center">
+          <div className="mb-4 flex justify-center">
             <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The problem</span>
           </div>
           <h2 className="display text-center text-h2">21st-century capital. 19th-century cockpit</h2>
@@ -541,10 +569,6 @@ function Problem() {
             </div>
           </div>
         </div>
-
-        <p className="display mx-auto mt-5 max-w-[860px] text-center text-h3">
-          The fix isn’t more people. It’s an <span className="text-accent">operating system</span>.
-        </p>
       </Container>
     </Section>
   )
@@ -580,218 +604,221 @@ const FLOW_METRICS = [
 
 function How() {
   const [i, setI] = useState(0)
-  const [looping, setLooping] = useState(false)
   const a = AGENTS[i]
   const still = useReducedMotion()
 
+  /* the ring walks the loop on its own, every 2s, and keeps going under the
+     pointer (asked for directly); a click jumps and restarts the timer */
   useEffect(() => {
-    if (!looping || still) return
-    const id = window.setTimeout(() => {
-      if (i + 1 >= AGENTS.length) {
-        setLooping(false)
-        return
-      }
-      setI(i + 1)
-    }, 2600)
+    if (still) return
+    const id = window.setTimeout(() => setI((i + 1) % AGENTS.length), 2000)
     return () => window.clearTimeout(id)
-  }, [looping, still, i])
+  }, [still, i])
 
   return (
-    <Section id="how" className="border-t border-line bg-bg pb-10 md:pb-12">
-      <Container>
-        {/* the diagram is wide, so the heading takes its own row above it */}
-        <FadeIn className="border-b border-line pb-6">
-          <div className="-mt-4 mb-7 flex justify-center">
-            <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
-          </div>
-          <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)] xl:items-end xl:gap-10">
-            <h2 className="display whitespace-nowrap text-h2">
+    <>
+      {/* one screen on desktop, laid out like the problem section it answers:
+          tag, centred heading, then the diagram and the lifecycle under it */}
+      <Section id="how" tight className="flex flex-col justify-center bg-[linear-gradient(to_bottom,#fff,transparent_14%,transparent_86%,#fff),radial-gradient(ellipse_95%_85%_at_50%_55%,var(--color-wash2)_0%,#fff_100%)] lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-6">
+        <Container>
+          <FadeIn className="text-center">
+            <div className="mb-4 flex justify-center">
+              <span className="bg-ink px-3.5 py-2 font-mono text-small uppercase tracking-[0.16em] text-lime">The solution</span>
+            </div>
+            <h2 className="display text-h2">
               Saralya <span className="text-accent">OS</span>
             </h2>
-            <p className="text-body leading-relaxed text-muted xl:whitespace-nowrap xl:pb-3.5">
+            <p className="mx-auto mt-2 max-w-[62ch] text-body leading-relaxed text-muted lg:max-w-none">
               The OS that improves with every lending decision: from a system of record to a system of intelligence.
             </p>
-          </div>
-        </FadeIn>
+          </FadeIn>
 
-        {/* too wide to read on a phone; the stage chips below carry it there */}
-        <FadeIn className="mt-9 hidden md:block">
-          <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Saralya CML" />
-        </FadeIn>
+          {/* too wide to read on a phone; the stage chips below carry it there */}
+          <FadeIn className="mt-4 hidden md:block">
+            <AgentFlow compact rails={FLOW_RAILS} stages={FLOW_STAGES} outcome={FLOW_OUTCOME} metrics={FLOW_METRICS} loopLabel="Saralya CML" />
+          </FadeIn>
 
-        {/* lifecycle stages */}
-        <FadeIn className="mt-4 flex flex-wrap items-stretch justify-center gap-2">
-          {STAGES.map((s, n) => (
-            <div key={s.name} className="flex items-stretch gap-2">
-              <div className="flex items-center rounded-xl bg-white px-4 py-2.5 ring-1 ring-line2">
-                <span className="whitespace-nowrap text-body font-semibold">{s.name}</span>
-              </div>
-              {n < STAGES.length - 1 && <span aria-hidden className="self-center text-line2">›</span>}
-            </div>
-          ))}
-        </FadeIn>
-
-        <div className="mt-10 grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
-          {/* agent ring */}
-          <div className="relative mx-auto aspect-square w-full max-w-[520px]">
-            <svg viewBox="0 0 560 560" aria-hidden className="absolute inset-0 size-full overflow-visible">
-              {[
-                'M280 184 L280 122',
-                'M371.3 250.3 L430.3 231.2',
-                'M336.4 357.7 L372.9 407.8',
-                'M223.6 357.7 L187.1 407.8',
-                'M188.7 250.3 L129.7 231.2',
-              ].map((d) => (
-                <path key={d} d={d} className="stroke-line2" strokeWidth="1.5" strokeDasharray="4 5" fill="none" />
-              ))}
-              {ARC_PATHS.map((d, n) => (
-                <path
-                  key={d}
-                  d={d}
-                  fill="none"
-                  strokeLinecap="round"
-                  stroke={n === i ? AGENTS[n].color : '#c9d5d1'}
-                  strokeWidth={n === i ? 3 : 2}
-                />
-              ))}
-            </svg>
-
-            <div className="absolute left-1/2 top-1/2 flex aspect-square w-[32%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-full bg-ink p-2 text-center text-white">
-              <span className="font-mono text-label uppercase tracking-[0.16em] text-accent3">Shared</span>
-              <span className="text-small font-semibold leading-tight md:text-body">Borrower profile</span>
-            </div>
-
-            {ARC_LABELS.map((l, n) => (
-              <div
-                key={l}
-                className="arc-label absolute hidden -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-label font-semibold sm:block"
-                style={{ left: `${AGENTS[n].arc.x}%`, top: `${AGENTS[n].arc.y}%`, color: n === i ? AGENTS[n].color : '#5d6b67' }}
-              >
-                {l}
+          {/* lifecycle stages */}
+          <FadeIn className="mt-3 flex flex-wrap items-stretch justify-center gap-2">
+            {STAGES.map((s, n) => (
+              <div key={s.name} className="flex items-stretch gap-2">
+                <div className="flex items-center rounded-lg bg-white px-3 py-1.5 ring-1 ring-line2">
+                  <span className="whitespace-nowrap text-small font-semibold">{s.name}</span>
+                </div>
+                {n < STAGES.length - 1 && <span aria-hidden className="self-center text-line2">›</span>}
               </div>
             ))}
+          </FadeIn>
+        </Container>
+      </Section>
 
-            {AGENTS.map((x, n) => {
-              const on = n === i
-              return (
-                <button
-                  key={x.name}
-                  type="button"
-                  aria-pressed={on}
-                  aria-label={`Agent ${x.no}, ${x.name}`}
-                  onClick={() => {
-                    setLooping(false)
-                    setI(n)
-                  }}
-                  className="absolute grid aspect-square w-[max(44px,13.6%)] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-h3 font-bold transition"
-                  style={{
-                    left: `${x.at.x}%`,
-                    top: `${x.at.y}%`,
-                    border: `2px solid ${x.color}`,
-                    background: on ? x.color : '#ffffff',
-                    color: on ? '#ffffff' : x.color,
-                    boxShadow: on ? `0 0 0 6px ${x.soft}` : 'none',
-                  }}
-                >
-                  {x.no}
-                </button>
-              )
-            })}
-
-            {AGENTS.map((x) => (
-              <div
-                key={`${x.name}-label`}
-                aria-hidden
-                className="absolute -translate-x-1/2 whitespace-nowrap text-small font-semibold"
-                style={{ left: `${x.label.x}%`, top: `${x.label.y}%` }}
-              >
-                {x.name}
-              </div>
-            ))}
-          </div>
-
-          {/* details for the active agent */}
-          <div>
-            <motion.div key={a.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-full text-body font-bold text-white" style={{ background: a.color }}>
-                  {a.no}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-h3 font-semibold">{a.name}</span>
-                  <span className="block text-small text-muted">{a.role}</span>
-                </span>
-                <span className={`whitespace-nowrap rounded-full px-3 py-1 text-small font-semibold ${TONE[a.tone]}`}>{a.status}</span>
-              </div>
-              <p className="mt-3.5 text-lede leading-relaxed text-ink2">{a.does}</p>
-              <div className="mt-3.5 flex flex-wrap gap-2">
-                {a.kpis.map((k) => (
-                  <span key={k} className="rounded-full bg-wash px-3 py-1.5 text-small font-semibold text-accent2">
-                    {k}
-                  </span>
+      <Section className="border-t-0 pt-0 pb-10 md:pt-0 md:pb-12">
+        <Container>
+          <div className="grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
+            {/* agent ring */}
+            <div className="relative mx-auto aspect-square w-full max-w-[520px]">
+              <svg viewBox="0 0 560 560" aria-hidden className="absolute inset-0 size-full overflow-visible">
+                {[
+                  'M280 184 L280 122',
+                  'M371.3 250.3 L430.3 231.2',
+                  'M336.4 357.7 L372.9 407.8',
+                  'M223.6 357.7 L187.1 407.8',
+                  'M188.7 250.3 L129.7 231.2',
+                ].map((d) => (
+                  <path key={d} d={d} className="stroke-line2" strokeWidth="1.5" strokeDasharray="4 5" fill="none" />
                 ))}
-              </div>
-            </motion.div>
+                {ARC_PATHS.map((d, n) => (
+                  <path
+                    key={d}
+                    d={d}
+                    fill="none"
+                    strokeLinecap="round"
+                    stroke={n === i ? AGENTS[n].color : '#c9d5d1'}
+                    strokeWidth={n === i ? 3 : 2}
+                  />
+                ))}
+              </svg>
 
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  if (looping) return setLooping(false)
-                  setI(0)
-                  setLooping(true)
-                }}
-                className="rounded-full bg-ink px-5 py-2.5 text-small font-semibold text-white transition-colors hover:bg-ink2"
-              >
-                {looping ? 'Stop' : 'Play the loop'}
-              </button>
-              <span className="font-mono text-label uppercase tracking-[0.1em] text-muted">Step {i + 1} of 5</span>
+              <div className="absolute left-1/2 top-1/2 flex aspect-square w-[32%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-full bg-ink p-2 text-center text-white">
+                <span className="font-mono text-label uppercase tracking-[0.16em] text-accent3">Shared</span>
+                <span className="text-small font-semibold leading-tight md:text-body">Borrower profile</span>
+              </div>
+
+              {ARC_LABELS.map((l, n) => (
+                <div
+                  key={l}
+                  className="arc-label absolute hidden -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-label font-semibold sm:block"
+                  style={{ left: `${AGENTS[n].arc.x}%`, top: `${AGENTS[n].arc.y}%`, color: n === i ? AGENTS[n].color : '#5d6b67' }}
+                >
+                  {l}
+                </div>
+              ))}
+
+              {AGENTS.map((x, n) => {
+                const on = n === i
+                return (
+                  <button
+                    key={x.name}
+                    type="button"
+                    aria-pressed={on}
+                    aria-label={`Agent ${x.no}, ${x.name}`}
+                    onClick={() => setI(n)}
+                    className="absolute grid aspect-square w-[max(44px,13.6%)] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-h3 font-bold transition"
+                    style={{
+                      left: `${x.at.x}%`,
+                      top: `${x.at.y}%`,
+                      border: `2px solid ${x.color}`,
+                      background: on ? x.color : '#ffffff',
+                      color: on ? '#ffffff' : x.color,
+                      boxShadow: on ? `0 0 0 6px ${x.soft}` : 'none',
+                    }}
+                  >
+                    {x.no}
+                  </button>
+                )
+              })}
+
+              {AGENTS.map((x) => (
+                <div
+                  key={`${x.name}-label`}
+                  aria-hidden
+                  className="absolute -translate-x-1/2 whitespace-nowrap text-small font-semibold"
+                  style={{ left: `${x.label.x}%`, top: `${x.label.y}%` }}
+                >
+                  {x.name}
+                </div>
+              ))}
+            </div>
+
+            {/* details for the active agent */}
+            <div>
+              <motion.div key={a.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full text-body font-bold text-white" style={{ background: a.color }}>
+                    {a.no}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-h3 font-semibold">{a.name}</span>
+                    <span className="block text-small text-muted">{a.role}</span>
+                  </span>
+                </div>
+                <p className="mt-3.5 text-lede leading-relaxed text-ink2">{a.does}</p>
+                <div className="mt-3.5 flex flex-wrap gap-2">
+                  {a.kpis.map((k) => (
+                    <span key={k} className="rounded-full bg-wash px-3 py-1.5 text-small font-semibold text-accent2">
+                      {k}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+
+              <div className="mt-5 font-mono text-label uppercase tracking-[0.1em] text-muted">Step {i + 1} of 5</div>
             </div>
           </div>
-        </div>
 
-        <div className="mt-10">
-          <h3 className="display text-h2">Every problem, fixed at the source</h3>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {FIXES.map((f) => (
-              <article key={f.problem} className="flex flex-col rounded-2xl bg-white p-5 ring-1 ring-line2">
-                <div className="font-mono text-label uppercase tracking-[0.14em] text-amber">Today</div>
-                <p className="mt-1.5 text-small text-muted">{f.problem}</p>
-                <div className="mt-3 font-mono text-label uppercase tracking-[0.14em] text-accent">With Saralya</div>
-                <p className="mt-1.5 text-body font-semibold leading-snug">{f.fix}</p>
-                <div className="mt-auto border-t border-line pt-3 text-h3 font-bold text-accent2">{f.kpi}</div>
-              </article>
-            ))}
+          <div className="mt-20">
+            <h3 className="display text-center text-[40px] leading-tight">Every problem, fixed at the source</h3>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {FIXES.map((f) => (
+                <article key={f.problem} className="flex flex-col rounded-2xl bg-white p-5 ring-1 ring-line2">
+                  <div className="font-mono text-label uppercase tracking-[0.14em] text-amber">Today</div>
+                  <p className="mt-1.5 text-small text-muted">{f.problem}</p>
+                  <div className="mt-3 font-mono text-label uppercase tracking-[0.14em] text-accent">With Saralya</div>
+                  <p className="mt-1.5 text-body font-semibold leading-snug">{f.fix}</p>
+                  <div className="mt-auto border-t border-line pt-3 text-h3 font-bold text-accent2">{f.kpi}</div>
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </>
   )
 }
 
 /* ── demo request ──────────────────────────────────────────────────── */
 
+/* Same lime block as the closing block on /agents, so both pages end alike. */
 function Demo() {
   return (
-    <section id="demo" className="border-t border-line bg-[radial-gradient(ellipse_70%_90%_at_10%_50%,#dcebe6_0%,transparent_60%),radial-gradient(ellipse_60%_90%_at_95%_40%,#eef5f2_0%,transparent_60%),linear-gradient(180deg,#f7faf9_0%,#eef4f2_100%)] py-16 text-center md:py-24">
+    <Section id="demo">
       <Container>
-        <FadeIn>
-          <div className="eyebrow text-accent">Making lending Saral</div>
-          <h2 className="display mt-4 text-h2">
-            Ready to transform your <span className="text-accent">lending</span>?
-          </h2>
-          <a href={demo} className="mt-7 inline-block rounded-full bg-ink px-7 py-3.5 text-body font-semibold text-white transition-colors hover:bg-ink2">
-            Request a demo
-          </a>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {['30 minutes', 'Built on your KPIs', 'Under NDA'].map((c) => (
-              <span key={c} className="rounded-full px-3 py-1 text-small text-muted ring-1 ring-line2">
-                {c}
-              </span>
-            ))}
+        <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
+          {/* decorative shapes */}
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
+            <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />
+            <div className="absolute left-0 top-0 h-full w-2 bg-ink" />
+          </div>
+
+          <div className="relative grid items-end gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
+            <div>
+              <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-ink/70">
+                <span className="size-2 bg-ink" />
+                Making lending Saral
+              </div>
+              <h2 className="display mt-4 max-w-[18ch] text-h2">Ready to transform your lending?</h2>
+
+              <div className="mt-7 flex flex-wrap gap-x-7 gap-y-2.5">
+                {['30 minutes', 'Built on your KPIs', 'Under NDA'].map((b) => (
+                  <span key={b} className="flex items-center gap-2 text-small font-semibold text-ink/80">
+                    <Check className="size-3.5" strokeWidth={3} />
+                    {b}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <a
+              href={demo}
+              className="group inline-flex items-center gap-2.5 self-start bg-ink px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-lime transition hover:bg-ink2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink lg:self-end"
+            >
+              Request a demo
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
           </div>
         </FadeIn>
       </Container>
-    </section>
+    </Section>
   )
 }

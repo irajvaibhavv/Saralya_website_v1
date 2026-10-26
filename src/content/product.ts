@@ -219,8 +219,6 @@ export type Agent = {
   /** colour per agent */
   color: string
   soft: string
-  status: string
-  tone: Tone
   does: string
   kpis: string[]
   /** where the node and its labels sit on the ring, in % */
@@ -236,8 +234,6 @@ export const AGENTS: Agent[] = [
     role: 'Onboarding · like your sales officer',
     color: '#17775f',
     soft: 'rgba(23,119,95,0.18)',
-    status: 'Live',
-    tone: 'good',
     does: 'Fills the application with the borrower by voice, no typing.',
     kpis: ['Fewer repeat visits', 'Lower CAC'],
     at: { x: 50, y: 14.29 },
@@ -250,8 +246,6 @@ export const AGENTS: Agent[] = [
     role: 'Credit signals · like your credit analyst',
     color: '#1e6fa8',
     soft: 'rgba(30,111,168,0.18)',
-    status: 'Live',
-    tone: 'good',
     does: 'Scores the risk with the CML, and shows the reasons.',
     kpis: ['Faster credit decisions', 'Explainable approvals'],
     at: { x: 83.96, y: 38.96 },
@@ -264,8 +258,6 @@ export const AGENTS: Agent[] = [
     role: 'Personal discussion · like your field investigator',
     color: '#3b4fb8',
     soft: 'rgba(59,79,184,0.18)',
-    status: 'Live',
-    tone: 'good',
     does: 'Tests the borrower’s story against their data. Some files skip the field visit.',
     kpis: ['Fewer field visits', 'More files per officer'],
     at: { x: 71, y: 78.89 },
@@ -278,8 +270,6 @@ export const AGENTS: Agent[] = [
     role: 'Borrower co-pilot · on the borrower’s phone',
     color: '#b0500c',
     soft: 'rgba(176,80,12,0.18)',
-    status: 'In development',
-    tone: 'info',
     does: 'Helps the borrower in their own language, and flags stress early.',
     kpis: ['Repeat loans', 'Early warnings'],
     at: { x: 29, y: 78.89 },
@@ -292,8 +282,6 @@ export const AGENTS: Agent[] = [
     role: 'Collections · like your collections officer',
     color: '#8a6d12',
     soft: 'rgba(138,109,18,0.2)',
-    status: 'Live',
-    tone: 'good',
     does: 'Sends each overdue account to the channel most likely to recover it.',
     kpis: ['Collection efficiency', 'Lower cost to collect'],
     at: { x: 16.04, y: 38.96 },

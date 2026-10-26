@@ -32,7 +32,6 @@ const TILE = { x: 44, size: 52, gap: 14, rowGap: 30, cols: 2 }
 const BOX = { x: 310, y: 72, w: 172, h: 300, r: 42 }
 const LOOP = { cx: 770, cy: 222, rx: 172, ry: 112 }
 const NODE_R = 30
-const HUB_R = 74
 const MET = { x: 1042, ys: [130, 224, 318] }
 const CYCLE = 5.4
 
@@ -151,25 +150,6 @@ export function AgentFlow({
       className={`block h-auto w-full ${compact ? '' : 'min-w-[980px]'}`}
       role="img" aria-label="Your rails feed the agent, the work runs as a loop, a decision comes out">
       <defs>
-        <filter id="agGlow" x="-200%" y="-200%" width="500%" height="500%">
-          <feGaussianBlur stdDeviation="3" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <filter id="agSoft" x="-60%" y="-60%" width="220%" height="220%">
-          <feDropShadow dx="0" dy="10" stdDeviation="16" floodColor="#107a66" floodOpacity="0.18" />
-        </filter>
-        <radialGradient id="agAmbient">
-          <stop offset="0" stopColor="#4cc3a5" stopOpacity="0.45" />
-          <stop offset="1" stopColor="#4cc3a5" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="agHub">
-          <stop offset="0" stopColor="#4cc3a5" stopOpacity="0.22" />
-          <stop offset="0.72" stopColor="#4cc3a5" stopOpacity="0.1" />
-          <stop offset="1" stopColor="#4cc3a5" stopOpacity="0.02" />
-        </radialGradient>
         {/* radial fill so nodes read as spheres */}
         <radialGradient id="agCellDeep" cx="0.35" cy="0.3" r="0.8">
           <stop offset="0" stopColor="#35b296" />
@@ -204,10 +184,7 @@ export function AgentFlow({
       })}
 
       {/* 2 — the agent engine */}
-      <ellipse cx={BOX.x + BOX.w / 2} cy={BOX.y + BOX.h / 2} rx={BOX.w * 1.05} ry={BOX.h * 0.62} fill="url(#agAmbient)">
-        {!reduce && <animate attributeName="opacity" values="0.35;0.7;0.35" dur="6s" repeatCount="indefinite" />}
-      </ellipse>
-      <rect x={BOX.x} y={BOX.y} width={BOX.w} height={BOX.h} rx={BOX.r} fill="url(#agBox)" stroke="var(--color-accent)" strokeWidth={1.5} filter="url(#agSoft)" />
+      <rect x={BOX.x} y={BOX.y} width={BOX.w} height={BOX.h} rx={BOX.r} fill="url(#agBox)" stroke="var(--color-accent)" strokeWidth={1.5} />
 
       {NET_EDGES.map(([a, b], i) => {
         const p = net(a)
@@ -253,9 +230,6 @@ export function AgentFlow({
       />
 
       {/* 3 — the step loop */}
-      <circle cx={LOOP.cx} cy={LOOP.cy} r={HUB_R} fill="url(#agHub)">
-        {!reduce && <animate attributeName="r" values={`${HUB_R};${HUB_R + 7};${HUB_R}`} dur="4.2s" repeatCount="indefinite" />}
-      </circle>
       <Glyph icon="bars" x={LOOP.cx} y={LOOP.cy - 20} scale={1.1} />
       <text x={LOOP.cx} y={LOOP.cy + 22} textAnchor="middle" className="fill-ink2 text-[15px]">
         {loopLabel}
@@ -267,7 +241,7 @@ export function AgentFlow({
           <path d={rim} fill="none" stroke="var(--color-accent)" strokeWidth={2.4} strokeLinecap="round" strokeDasharray="2 20" opacity={0.65}>
             <animate attributeName="stroke-dashoffset" from="22" to="0" dur="1.1s" repeatCount="indefinite" />
           </path>
-          <circle r={5.5} fill="var(--color-accent)" filter="url(#agGlow)">
+          <circle r={5.5} fill="var(--color-accent)">
             <animateMotion dur={`${CYCLE}s`} repeatCount="indefinite" path={rim} calcMode="linear" />
           </circle>
         </>
