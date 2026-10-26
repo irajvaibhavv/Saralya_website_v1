@@ -119,18 +119,9 @@ export function Hero() {
 
       <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
-          <motion.div
-            {...rise(0)}
-            className="mb-5 flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime [text-shadow:none]"
-          >
-            <span aria-hidden className="size-2 bg-lime" />
-            Lending infrastructure for Bharat
-          </motion.div>
-
-          <motion.h1 {...rise(0.1)} className="display text-display leading-[1.0] text-white">
+          <motion.h1 {...rise(0)} className="display text-display leading-[1.0] text-white">
             Making Lending{' '}
-            <em className="font-hero font-normal italic text-lime">Saral</em>{' '}
-            for Bharat.
+            <em className="font-hero font-normal italic text-lime">Saral</em>.
           </motion.h1>
 
           <motion.div {...rise(0.25)} className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
