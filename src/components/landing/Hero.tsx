@@ -117,23 +117,23 @@ export function Hero() {
         <span className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </button>
 
-      <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-10 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-12">
+      <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-20 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-28">
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
           <motion.h1 {...rise(0)} className="display text-display leading-[1.0] text-white">
             Making Lending{' '}
             <em className="font-hero font-normal italic text-lime">Saral</em>.
           </motion.h1>
 
-          <motion.div {...rise(0.25)} className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
+          <motion.div {...rise(0.25)} className="pointer-events-auto mt-12 flex flex-wrap items-center gap-3">
             <Link
               to="/agents"
-              className="bg-lime px-6 py-3 text-body font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime"
+              className="bg-lime px-5 py-2.5 text-small font-bold uppercase tracking-[0.06em] text-ink transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime"
             >
               AI agents
             </Link>
             <Link
               to="/products"
-              className="border border-white/40 px-6 py-3 text-body font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lav"
+              className="border border-white/40 px-5 py-2.5 text-small font-semibold text-white transition hover:border-lav hover:bg-lav hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lav"
             >
               See the platform
             </Link>
