@@ -142,8 +142,6 @@ export function Hero() {
         </div>
 
       </div>
-
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2 bg-lime" />
     </section>
   )
 }

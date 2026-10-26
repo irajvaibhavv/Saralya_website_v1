@@ -1,26 +1,46 @@
+import { ArrowRight } from 'lucide-react'
 import { CONTACT_EMAIL } from '../../content/site'
 import { ButtonLink } from '../ui/Button'
 import { FadeIn } from '../ui/Reveal'
 import { Container, Section } from '../ui/Section'
 
 /* Closing call to action. Default: free diagnostic on a dark card. `demo`: demo
-   request on a light band. */
+   request on a lime band. */
 export function ClosingCta({ demo = false }: { demo?: boolean }) {
   if (demo) {
+    /* same lime block as the closing blocks on /agents and /products */
     return (
-      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_70%_90%_at_10%_50%,#dcebe6_0%,transparent_60%),radial-gradient(ellipse_60%_90%_at_95%_40%,#eef5f2_0%,transparent_60%),linear-gradient(180deg,#f7faf9_0%,#eef4f2_100%)] py-14 md:py-20">
+      <Section>
         <Container>
-          <FadeIn className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-            <div>
-              <h2 className="display max-w-2xl text-h2">Ready to see what Saralya can do for your NBFC?</h2>
-              <p className="mt-2.5 text-lede text-muted">Get a personalised demo and explore use cases for your business.</p>
+          <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
+            {/* decorative shapes */}
+            <div aria-hidden className="pointer-events-none absolute inset-0">
+              <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
+              <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />
+              <div className="absolute left-0 top-0 h-full w-2 bg-ink" />
             </div>
-            <ButtonLink to={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`} variant="ink" size="lg" arrow className="shrink-0">
-              Book a demo
-            </ButtonLink>
+
+            <div className="relative grid items-end gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
+              <div>
+                <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-ink/70">
+                  <span className="size-2 bg-ink" />
+                  Making lending Saral
+                </div>
+                <h2 className="display mt-4 max-w-[20ch] text-h2">Ready to see what Saralya can do for your NBFC?</h2>
+                <p className="mt-4 text-body font-semibold text-ink/80">Get a personalised demo and explore use cases for your business.</p>
+              </div>
+
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=Demo%20request`}
+                className="group inline-flex items-center gap-2.5 self-start bg-ink px-8 py-4 text-body font-bold uppercase tracking-[0.06em] text-lime transition hover:bg-ink2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink lg:self-end"
+              >
+                Book a demo
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
           </FadeIn>
         </Container>
-      </section>
+      </Section>
     )
   }
 
