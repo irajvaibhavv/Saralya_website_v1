@@ -100,9 +100,10 @@
 
 :root { color-scheme: light; }
 
-/* Sizes are rem, so the whole layout scales with this. 16px up to a 1440px
-   viewport, then it grows with the screen (MacBooks report 1512–1728px). */
-html { font-size: clamp(16px, 1.111vw, 20px); }
+/* Sizes are rem, so the whole layout scales with this: 16px up to a ~1333px
+   viewport, then in proportion to the screen, so a 1920px monitor looks like
+   a scaled-up laptop rather than a laptop layout floating in white space. */
+html { font-size: max(16px, 1.2vw); }
 
 /* Lenis drives the scroll; the native smooth behaviour would race its loop */
 html.lenis, html.lenis body { height: auto; }
