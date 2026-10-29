@@ -314,9 +314,9 @@ export const STAGES: { name: string; how: string; chip: string; tone: Tone }[] =
 
 /* ── the problem, and what fixes it ───────────────────────────────────── */
 export const PROBLEMS = [
-  { n: '01', t: 'The field is unmeasured', kind: 'blanks' as const },
-  { n: '02', t: 'Decisions run on people', kind: 'chain' as const },
-  { n: '03', t: 'Judgement walks out', kind: 'leaves' as const },
+  { n: '01', t: 'You can’t measure your field', kind: 'blanks' as const },
+  { n: '02', t: 'Every decision runs on people', kind: 'chain' as const },
+  { n: '03', t: 'Your best judgement walks out the door', kind: 'leaves' as const },
   { n: '04', t: 'Six versions of the truth', kind: 'truths' as const },
 ]
 

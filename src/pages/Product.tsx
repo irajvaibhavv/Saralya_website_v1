@@ -456,7 +456,7 @@ function Problem() {
             <div className="eyebrow">What it looks like on the floor</div>
             <div className="mt-3 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
-            <article key={p.n} className="flex rounded-2xl bg-white p-4 ring-1 ring-line2">
+            <article key={p.n} className="flex flex-col rounded-2xl bg-white p-4 ring-1 ring-line2">
               <div className="grid min-h-[4.75rem] flex-1 place-items-center rounded-xl bg-bg p-2">
                 {p.kind === 'blanks' && (
                   <div className="grid size-full grid-cols-2 gap-1.5">
@@ -503,6 +503,7 @@ function Problem() {
                   </div>
                 )}
               </div>
+              <h3 className={`display mt-3 whitespace-nowrap text-center text-[0.875rem] ${p.n === '03' ? '-ml-2' : ''}`}>{p.t}</h3>
             </article>
           ))}
             </div>
