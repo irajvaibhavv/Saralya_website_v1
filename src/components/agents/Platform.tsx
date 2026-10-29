@@ -68,7 +68,7 @@ export function Platform() {
         <FadeIn>
           {/* decorative shapes */}
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute -left-40 top-10 size-[30rem] rounded-full border-[30px] border-lav/50" />
+            <div className="absolute -left-40 top-10 size-[30rem] rounded-full border-[1.875rem] border-lav/50" />
             <div className="absolute -right-24 bottom-0 size-64 rounded-full bg-accent/10" />
           </div>
 
@@ -115,7 +115,7 @@ export function Platform() {
           </div>
         </FadeIn>
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-center lg:gap-14">
+        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,38.75rem)] lg:items-center lg:gap-14">
           {/* the rows */}
           <motion.div key={t.id} initial={still ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
             <h3 className="display text-h3">{t.title}</h3>
@@ -185,7 +185,7 @@ export function Platform() {
                     muted
                     loop
                     playsInline
-                    className="w-[460px] max-w-full rounded-2xl object-cover shadow-lg"
+                    className="w-[28.75rem] max-w-full rounded-2xl object-cover shadow-lg"
                   />
                 ) : (
                   <TrackMock id={t.id} step={open} />

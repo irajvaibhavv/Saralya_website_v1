@@ -147,7 +147,7 @@ export function AgentFlow({
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
-      className={`block h-auto w-full ${compact ? '' : 'min-w-[980px]'}`}
+      className={`block h-auto w-full ${compact ? '' : 'min-w-[61.25rem]'}`}
       role="img" aria-label="Your rails feed the agent, the work runs as a loop, a decision comes out">
       <defs>
         {/* radial fill so nodes read as spheres */}
@@ -166,7 +166,7 @@ export function AgentFlow({
       </defs>
 
       {/* 1 — the rails, each streaming into the engine */}
-      <text x={TILE.x} y={48} className="fill-muted font-mono text-[10.5px] font-bold uppercase tracking-[0.16em]">
+      <text x={TILE.x} y={48} className="fill-muted font-mono text-[0.65625rem] font-bold uppercase tracking-[0.16em]">
         Your rails
       </text>
       {tiles.map((r, i) => {
@@ -212,7 +212,7 @@ export function AgentFlow({
         )
       })}
 
-      <text x={BOX.x + BOX.w / 2} y={BOX.y + BOX.h - 46} textAnchor="middle" className="fill-muted font-mono text-[11px] tracking-[0.04em]">
+      <text x={BOX.x + BOX.w / 2} y={BOX.y + BOX.h - 46} textAnchor="middle" className="fill-muted font-mono text-[0.6875rem] tracking-[0.04em]">
         Reading…
       </text>
       <rect x={BOX.x + 36} y={BOX.y + BOX.h - 34} width={BOX.w - 72} height={6} rx={3} fill="var(--color-line)" />
@@ -231,7 +231,7 @@ export function AgentFlow({
 
       {/* 3 — the step loop */}
       <Glyph icon="bars" x={LOOP.cx} y={LOOP.cy - 20} scale={1.1} />
-      <text x={LOOP.cx} y={LOOP.cy + 22} textAnchor="middle" className="fill-ink2 text-[15px]">
+      <text x={LOOP.cx} y={LOOP.cy + 22} textAnchor="middle" className="fill-ink2 text-[0.9375rem]">
         {loopLabel}
       </text>
 
@@ -296,7 +296,7 @@ export function AgentFlow({
               </g>
             </g>
 
-            <text x={p.x} y={above ? p.y - NODE_R - 16 : p.y + NODE_R + 26} textAnchor="middle" className="fill-ink text-[15px] font-semibold">
+            <text x={p.x} y={above ? p.y - NODE_R - 16 : p.y + NODE_R + 26} textAnchor="middle" className="fill-ink text-[0.9375rem] font-semibold">
               {s.title}
             </text>
             <text
@@ -304,7 +304,7 @@ export function AgentFlow({
               y={above ? p.y - NODE_R - 34 : p.y + NODE_R + 44}
               textAnchor="middle"
               opacity={0}
-              className="fill-muted text-[12px] transition-opacity group-hover:opacity-100"
+              className="fill-muted text-[0.75rem] transition-opacity group-hover:opacity-100"
             >
               {s.sub}
             </text>
@@ -323,11 +323,11 @@ export function AgentFlow({
 
       {/* 4 — outcome. In compact mode the metrics panel is dropped and the
          outcome label rides the exit arrow. */}
-      <text x={MET.x} y={48} className="fill-hint font-mono text-[10.5px] uppercase tracking-[0.16em]">
+      <text x={MET.x} y={48} className="fill-hint font-mono text-[0.65625rem] uppercase tracking-[0.16em]">
         Outcomes
       </text>
       <line x1={MET.x} y1={70} x2={W - 28} y2={70} stroke="var(--color-line)" />
-      <text x={MET.x} y={98} className="fill-ink text-[15px] font-semibold">
+      <text x={MET.x} y={98} className="fill-ink text-[0.9375rem] font-semibold">
         {outcome.title}
       </text>
       {metrics.slice(0, 3).map((m, i) => (
@@ -339,10 +339,10 @@ export function AgentFlow({
           transition={{ duration: 0.45, delay: 0.3 + i * 0.12 }}
         >
           <line x1={MET.x} y1={MET.ys[i] - 22} x2={W - 28} y2={MET.ys[i] - 22} stroke="var(--color-line)" />
-          <text x={MET.x} y={MET.ys[i]} className="fill-muted text-[13px]">
+          <text x={MET.x} y={MET.ys[i]} className="fill-muted text-[0.8125rem]">
             {m.label}
           </text>
-          <text x={MET.x} y={MET.ys[i] + 32} className="fill-accent text-[28px] font-bold">
+          <text x={MET.x} y={MET.ys[i] + 32} className="fill-accent text-[1.75rem] font-bold">
             {m.value}
           </text>
         </motion.g>

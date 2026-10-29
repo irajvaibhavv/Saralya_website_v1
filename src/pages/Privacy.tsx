@@ -111,7 +111,7 @@ export function Privacy() {
     <>
       <PageHero eyebrow="Legal" title="Privacy Policy" lede="For the Saralya mobile application · Last updated September 2026" />
       <Container className="pb-20">
-        <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+        <div className="grid gap-10 lg:grid-cols-[13.75rem_minmax(0,1fr)] lg:gap-16">
           <nav aria-label="Contents" className="hidden lg:block">
             <div className="sticky top-24">
               <div className="eyebrow mb-4">Contents</div>

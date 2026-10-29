@@ -72,7 +72,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative isolate -mt-[65px] overflow-hidden bg-[#0a0a0b] pt-[65px] text-white">
+    <section className="relative isolate -mt-[4.0625rem] overflow-hidden bg-[#0a0a0b] pt-[4.0625rem] text-white">
       <HeroReel />
 
       {createPortal(
@@ -117,7 +117,7 @@ export function Hero() {
         <span className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </button>
 
-      <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1240px] flex-col justify-end px-5 pb-20 pt-24 sm:px-8 lg:min-h-[calc(100svh-64px)] lg:px-10 lg:pb-28">
+      <div className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[77.5rem] flex-col justify-end px-5 pb-20 pt-24 sm:px-8 lg:min-h-[calc(100svh-4rem)] lg:px-10 lg:pb-28">
         <div className="max-w-3xl [text-shadow:0_4px_10px_rgba(0,0,0,0.6)]">
           <motion.h1 {...rise(0)} className="display text-display leading-[1.0] text-white">
             Making Lending{' '}

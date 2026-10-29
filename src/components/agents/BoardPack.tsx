@@ -76,7 +76,7 @@ export function BoardPack({ every = 5200 }: { every?: number }) {
               </Link>
             </div>
 
-            <div className="mt-6 min-h-[356px]">
+            <div className="mt-6 min-h-[22.25rem]">
               <AnimatePresence mode="wait">
                 <motion.div key={tab.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
                   {active === 0 && <Vintage />}
@@ -121,23 +121,23 @@ function Vintage() {
 
   return (
     <div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-[220px] w-full" role="img" aria-label="Cumulative 90+ DPD by disbursal cohort">
+      <svg viewBox={`0 0 ${W} ${H}`} className="h-[13.75rem] w-full" role="img" aria-label="Cumulative 90+ DPD by disbursal cohort">
         {/* the grid, in percent */}
         {[1, 2, 3, 4].map((g) => (
           <g key={g}>
             <line x1={PAD.l} x2={W - PAD.r} y1={y(g)} y2={y(g)} className="stroke-line" strokeWidth="1" strokeDasharray="3 5" />
-            <text x={PAD.l - 8} y={y(g) + 3.5} textAnchor="end" className="fill-hint font-mono text-[10px]">
+            <text x={PAD.l - 8} y={y(g) + 3.5} textAnchor="end" className="fill-hint font-mono text-[0.625rem]">
               {g}%
             </text>
           </g>
         ))}
         <line x1={PAD.l} x2={W - PAD.r} y1={y(0)} y2={y(0)} className="stroke-line2" strokeWidth="1" />
         {[3, 6, 9, 12].map((m) => (
-          <text key={m} x={x(m)} y={H - 8} textAnchor="middle" className="fill-hint font-mono text-[10px]">
+          <text key={m} x={x(m)} y={H - 8} textAnchor="middle" className="fill-hint font-mono text-[0.625rem]">
             {m}
           </text>
         ))}
-        <text x={PAD.l} y={H - 8} textAnchor="start" className="fill-hint font-mono text-[10px]">
+        <text x={PAD.l} y={H - 8} textAnchor="start" className="fill-hint font-mono text-[0.625rem]">
           months on book
         </text>
 
@@ -168,7 +168,7 @@ function Vintage() {
               <motion.text
                 x={x(MOB) + 9}
                 y={y(end) + 3.5}
-                className={`font-mono text-[11px] ${c.hot ? 'fill-red font-bold' : 'fill-muted'}`}
+                className={`font-mono text-[0.6875rem] ${c.hot ? 'fill-red font-bold' : 'fill-muted'}`}
                 initial={reduce ? undefined : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.95 + i * 0.12 }}
@@ -252,7 +252,7 @@ function Watch() {
         {Array.from({ length: 72 }, (_, i) => (
           <motion.span
             key={i}
-            className={`aspect-square rounded-[5px] ${flags.has(i) ? 'bg-red' : warn.has(i) ? 'bg-amber' : 'bg-bg2'}`}
+            className={`aspect-square rounded-[0.3125rem] ${flags.has(i) ? 'bg-red' : warn.has(i) ? 'bg-amber' : 'bg-bg2'}`}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.008, duration: 0.3 }}

@@ -42,13 +42,13 @@ function Hero() {
           }}
         />
         <div className="absolute -bottom-72 -left-60 size-[26rem] rounded-full bg-lav" />
-        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[32px] border-lime/70" />
+        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[2rem] border-lime/70" />
         <div className="absolute right-[12%] top-0 h-28 w-px bg-lime" />
         <div className="absolute bottom-0 left-[46%] h-20 w-px bg-lav" />
       </div>
 
       <Container className="relative py-14 md:py-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_minmax(0,500px)] lg:gap-16">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_minmax(0,31.25rem)] lg:gap-16">
           <FadeIn>
             <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime">
               <span className="size-2 bg-lime" />
@@ -150,7 +150,7 @@ function Steps() {
         <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
           {/* decorative shapes */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
+            <div className="absolute -right-24 -top-28 size-80 rounded-full border-[1.75rem] border-ink/10" />
             <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />
             <div className="absolute left-0 top-0 h-full w-2 bg-ink" />
           </div>

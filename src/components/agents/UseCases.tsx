@@ -169,7 +169,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
     <div className="relative">
       {/* accent halo behind the handset */}
       <div aria-hidden className="pointer-events-none absolute -inset-8 rounded-[3.5rem] bg-white/50 blur-3xl" />
-      <div className="relative w-[300px] rounded-[2.6rem] bg-ink p-2.5 shadow-[0_40px_80px_-30px_rgba(13,22,20,0.75)] ring-1 ring-white/30">
+      <div className="relative w-[18.75rem] rounded-[2.6rem] bg-ink p-2.5 shadow-[0_2.5rem_5rem_-1.875rem_rgba(13,22,20,0.75)] ring-1 ring-white/30">
       <div className="overflow-hidden rounded-[2.1rem] bg-white">
         <div className="flex items-center justify-between px-4 pb-2 pt-3">
           <span className="font-mono text-label text-hint">9:41</span>
@@ -188,7 +188,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
           </span>
         </div>
 
-        <div className="min-h-[382px] border-t border-line2 px-4 py-3.5">
+        <div className="min-h-[23.875rem] border-t border-line2 px-4 py-3.5">
           <div className="text-small font-semibold leading-snug">{screen.title}</div>
           <div className="mt-1 line-clamp-1 font-mono text-label text-hint">{screen.sub}</div>
 
@@ -230,7 +230,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
 
           {/* status line appears after the rows finish; its space is reserved to
              avoid layout shift */}
-          <div className="mt-2.5 min-h-[72px]">
+          <div className="mt-2.5 min-h-[4.5rem]">
           <AnimatePresence>
             {step >= screen.rows.length - 1 &&
               (screen.verdict ? (
@@ -300,7 +300,7 @@ function Verdict({ verdict, says, still }: { verdict: NonNullable<Screen['verdic
       transition={{ duration: 0.3 }}
       className="flex items-center gap-3 rounded-xl bg-wash2 px-3 py-2"
     >
-      <div className="relative size-[60px] shrink-0">
+      <div className="relative size-[3.75rem] shrink-0">
         <svg width="60" height="60" viewBox="0 0 60 60" className="-rotate-90">
           <circle cx="30" cy="30" r={R} fill="none" stroke="var(--color-line)" strokeWidth="6" />
           <motion.circle

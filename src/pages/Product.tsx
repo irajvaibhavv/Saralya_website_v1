@@ -81,13 +81,13 @@ function Hero() {
           }}
         />
         <div className="absolute -bottom-72 -left-60 size-[26rem] rounded-full bg-lav" />
-        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[32px] border-lime/70" />
+        <div className="absolute -right-40 -top-52 size-[42rem] rounded-full border-[2rem] border-lime/70" />
         <div className="absolute right-[12%] top-0 h-28 w-px bg-lime" />
         <div className="absolute bottom-0 left-[46%] h-20 w-px bg-lav" />
       </div>
 
       <Container className="relative py-14 md:py-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_minmax(0,460px)] lg:gap-14">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_minmax(0,28.75rem)] lg:gap-14">
           <FadeIn>
             <div className="flex items-center gap-2.5 font-mono text-label uppercase tracking-[0.22em] text-lime">
               <span className="size-2 bg-lime" />
@@ -170,7 +170,7 @@ function Rails({ still, delay = 0 }: { still: boolean | null; delay?: number }) 
         <span key={d} className="relative w-px bg-accent3/35">
           {!still && (
             <motion.span
-              className="absolute -left-[3px] size-[7px] rounded-full bg-accent3"
+              className="absolute -left-[0.1875rem] size-[0.4375rem] rounded-full bg-accent3"
               animate={{ y: [20, -20], opacity: [0, 1, 1, 0] }}
               transition={{ duration: 2.4, repeat: Infinity, delay: d + delay, ease: 'linear' }}
             />
@@ -267,7 +267,7 @@ function Leaders() {
 
   return (
     /* one screen on desktop, set like the problem and solution sections */
-    <Section id="leaders" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-6">
+    <Section id="leaders" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-4rem)] lg:pt-6 lg:pb-6">
       <Container>
         <FadeIn>
           <div className="mb-4 flex justify-center">
@@ -278,7 +278,7 @@ function Leaders() {
           </h2>
         </FadeIn>
 
-        <div className="mt-6 grid gap-7 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+        <div className="mt-6 grid gap-7 lg:grid-cols-[minmax(0,18.75rem)_minmax(0,1fr)]">
           {/* min-w-0 so the scrollable role strip doesn't widen the page */}
           <div className="min-w-0">
             <div role="group" aria-label="Choose a role" className="flex gap-1.5 overflow-x-auto pb-1.5 lg:flex-col lg:overflow-visible">
@@ -350,7 +350,7 @@ function Board({ p }: { p: Persona }) {
 
           {p.chart.type === 'plan' && (
             <div className="mt-3">
-              <div className="flex h-[132px] items-end gap-2.5 border-b border-line">
+              <div className="flex h-[8.25rem] items-end gap-2.5 border-b border-line">
                 {p.chart.cols.map((c) => (
                   <div key={c.m} className="relative h-full flex-1">
                     <motion.div
@@ -386,7 +386,7 @@ function Board({ p }: { p: Persona }) {
               {p.chart.rows.map((r) => {
                 const max = Math.max(...(p.chart as { rows: typeof r[] }).rows.map((x) => x.n))
                 return (
-                  <div key={r.k} className="grid grid-cols-[minmax(92px,150px)_minmax(0,1fr)_56px] items-center gap-2.5">
+                  <div key={r.k} className="grid grid-cols-[minmax(5.75rem,9.375rem)_minmax(0,1fr)_3.5rem] items-center gap-2.5">
                     <span className={`justify-self-start text-small ${r.chip && r.tone ? `rounded px-2 py-0.5 font-semibold ${TONE[r.tone]}` : ''}`}>{r.k}</span>
                     <span className="h-2.5 rounded bg-wash2">
                       <motion.span
@@ -405,7 +405,7 @@ function Board({ p }: { p: Persona }) {
 
           {p.chart.type === 'table' && (
             <div className="mt-3 overflow-x-auto">
-              <div className="min-w-[480px]">
+              <div className="min-w-[30rem]">
                 <div className="grid grid-cols-[1.7fr_1fr_0.8fr_1.5fr] gap-2 border-b border-line py-1.5 font-mono text-label uppercase tracking-[0.06em] text-muted">
                   <span>File</span>
                   <span>Product</span>
@@ -442,7 +442,7 @@ function Board({ p }: { p: Persona }) {
 
 function Problem() {
   return (
-    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-64px)] lg:pt-8 lg:pb-8">
+    <Section id="problem" tight className="flex flex-col justify-center lg:min-h-[calc(100svh-4rem)] lg:pt-8 lg:pb-8">
       <Container>
         <FadeIn>
           <div className="mb-4 flex justify-center">
@@ -457,7 +457,7 @@ function Problem() {
             <div className="mt-3 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
           {PROBLEMS.map((p) => (
             <article key={p.n} className="flex rounded-2xl bg-white p-4 ring-1 ring-line2">
-              <div className="grid min-h-[76px] flex-1 place-items-center rounded-xl bg-bg p-2">
+              <div className="grid min-h-[4.75rem] flex-1 place-items-center rounded-xl bg-bg p-2">
                 {p.kind === 'blanks' && (
                   <div className="grid size-full grid-cols-2 gap-1.5">
                     {BLANKS.map((b) => (
@@ -513,15 +513,15 @@ function Problem() {
             <div className="mt-3 grid gap-4">
             {PRESSURES.map((x) => (
               <article key={x.t} className="flex flex-col gap-4 sm:flex-row sm:items-center rounded-2xl bg-white p-4 ring-1 ring-line2">
-                <div className="grid h-[84px] w-full shrink-0 sm:w-[224px] place-items-center rounded-xl bg-amber-w/40 p-2">
+                <div className="grid h-[5.25rem] w-full shrink-0 sm:w-[14rem] place-items-center rounded-xl bg-amber-w/40 p-2">
                   {x.kind === 'nim' && (
                     <svg viewBox="0 0 280 112" role="img" aria-label="Yield falls towards the cost of funds, so the margin narrows" className="w-full">
                       <path d="M8 20 L272 44 L272 70 L8 76 Z" className="fill-amber-w" />
                       <path d="M8 20 L272 44" className="stroke-accent" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                       <path d="M8 76 L272 70" className="stroke-amber" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-                      <text x="10" y="13" className="fill-accent text-[14px] font-semibold">Yield</text>
-                      <text x="10" y="94" className="fill-amber text-[14px] font-semibold">Cost of funds</text>
-                      <text x="264" y="61" textAnchor="end" className="fill-amber text-[15px] font-bold">NIM ↓</text>
+                      <text x="10" y="13" className="fill-accent text-[0.875rem] font-semibold">Yield</text>
+                      <text x="10" y="94" className="fill-amber text-[0.875rem] font-semibold">Cost of funds</text>
+                      <text x="264" y="61" textAnchor="end" className="fill-amber text-[0.9375rem] font-bold">NIM ↓</text>
                     </svg>
                   )}
                   {x.kind === 'unit' && (
@@ -546,8 +546,8 @@ function Problem() {
                     <svg viewBox="0 0 280 112" role="img" aria-label="Headcount rises in step with the loan book" className="w-full">
                       <path d="M10 96 C 90 86, 170 56, 268 16" className="stroke-accent" strokeWidth="2.5" fill="none" strokeLinecap="round" />
                       <path d="M10 104 C 90 95, 170 66, 268 28" className="stroke-amber" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeDasharray="5 5" />
-                      <text x="266" y="9" textAnchor="end" className="fill-accent text-[14px] font-semibold">Loan book</text>
-                      <text x="10" y="22" className="fill-amber text-[14px] font-semibold">Headcount</text>
+                      <text x="266" y="9" textAnchor="end" className="fill-accent text-[0.875rem] font-semibold">Loan book</text>
+                      <text x="10" y="22" className="fill-amber text-[0.875rem] font-semibold">Headcount</text>
                     </svg>
                   )}
                 </div>
@@ -619,7 +619,7 @@ function How() {
     <>
       {/* one screen on desktop, laid out like the problem section it answers:
           tag, centred heading, then the diagram and the lifecycle under it */}
-      <Section id="how" tight className="flex flex-col justify-center bg-[linear-gradient(to_bottom,#fff,transparent_14%,transparent_86%,#fff),radial-gradient(ellipse_95%_85%_at_50%_55%,var(--color-wash2)_0%,#fff_100%)] lg:min-h-[calc(100svh-64px)] lg:pt-6 lg:pb-6">
+      <Section id="how" tight className="flex flex-col justify-center bg-[linear-gradient(to_bottom,#fff,transparent_14%,transparent_86%,#fff),radial-gradient(ellipse_95%_85%_at_50%_55%,var(--color-wash2)_0%,#fff_100%)] lg:min-h-[calc(100svh-4rem)] lg:pt-6 lg:pb-6">
         <Container>
           <FadeIn className="text-center">
             <div className="mb-4 flex justify-center">
@@ -656,7 +656,7 @@ function How() {
         <Container>
           <div className="grid items-center gap-10 rounded-3xl bg-white p-6 ring-1 ring-line2 md:p-9 lg:grid-cols-2">
             {/* agent ring */}
-            <div className="relative mx-auto aspect-square w-full max-w-[520px]">
+            <div className="relative mx-auto aspect-square w-full max-w-[32.5rem]">
               <svg viewBox="0 0 560 560" aria-hidden className="absolute inset-0 size-full overflow-visible">
                 {[
                   'M280 184 L280 122',
@@ -703,7 +703,7 @@ function How() {
                     aria-pressed={on}
                     aria-label={`Agent ${x.no}, ${x.name}`}
                     onClick={() => setI(n)}
-                    className="absolute grid aspect-square w-[max(44px,13.6%)] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-h3 font-bold transition"
+                    className="absolute grid aspect-square w-[max(2.75rem,13.6%)] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-h3 font-bold transition"
                     style={{
                       left: `${x.at.x}%`,
                       top: `${x.at.y}%`,
@@ -757,7 +757,7 @@ function How() {
           </div>
 
           <div className="mt-20">
-            <h3 className="display text-center text-[40px] leading-tight">Every problem, fixed at the source</h3>
+            <h3 className="display text-center text-[2.5rem] leading-tight">Every problem, fixed at the source</h3>
             <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {FIXES.map((f) => (
                 <article key={f.problem} className="flex flex-col rounded-2xl bg-white p-5 ring-1 ring-line2">
@@ -786,7 +786,7 @@ function Demo() {
         <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
           {/* decorative shapes */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
+            <div className="absolute -right-24 -top-28 size-80 rounded-full border-[1.75rem] border-ink/10" />
             <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />
             <div className="absolute left-0 top-0 h-full w-2 bg-ink" />
           </div>

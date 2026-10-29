@@ -17,7 +17,7 @@ export function Logo({ light, full }: { light?: boolean; full?: boolean }) {
       <img
         src={light ? '/img/logo-white.png' : full ? '/img/logo-full.png' : '/img/logo.png'}
         alt="Saralya, Credit Simplified"
-        className={`${full ? (light ? 'h-9' : 'h-16') : 'h-7'} w-auto ${light && !full ? 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]' : ''}`}
+        className={`${full ? (light ? 'h-9' : 'h-16') : 'h-7'} w-auto ${light && !full ? 'drop-shadow-[0_0.125rem_0.375rem_rgba(0,0,0,0.55)]' : ''}`}
       />
     </Link>
   )
@@ -50,7 +50,7 @@ export function Navbar() {
             : 'bg-transparent border-transparent'
         }`}
       >
-        <div className="mx-auto flex h-[64px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex h-[4rem] max-w-[77.5rem] items-center justify-between px-5 sm:px-8 lg:px-10">
           <Logo light={light} />
 
           {/* desktop links */}
@@ -108,7 +108,7 @@ export function Navbar() {
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-x-0 top-full origin-top-right px-4 pt-2 md:hidden"
           >
-            <div className="overflow-hidden bg-white p-2 shadow-[0_30px_70px_-30px_rgba(13,22,20,0.45)] ring-1 ring-line">
+            <div className="overflow-hidden bg-white p-2 shadow-[0_1.875rem_4.375rem_-1.875rem_rgba(13,22,20,0.45)] ring-1 ring-line">
               {LINKS.map((l, i) => (
                 <motion.div
                   key={l.to}

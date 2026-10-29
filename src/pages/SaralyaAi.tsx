@@ -165,14 +165,14 @@ export function SaralyaAi() {
         </div>
       )}
 
-      <div className="mx-auto flex w-full max-w-[1500px] gap-0">
+      <div className="mx-auto flex w-full max-w-[93.75rem] gap-0">
         <Sidebar chats={chats} open={open} onOpen={(id) => { setOpen(id); setTab('ask') }} onFresh={fresh} />
 
         <main className="min-w-0 flex-1 px-5 py-7 md:px-8">
           {tab === 'tools' ? (
             <Tools />
           ) : current ? (
-            <div ref={thread} className="mx-auto w-full max-w-[760px]">
+            <div ref={thread} className="mx-auto w-full max-w-[47.5rem]">
               {current.turns.map((t, i) => (
                 <div key={i} className="mb-7">
                   <div className="ml-auto w-fit max-w-[80%] rounded-2xl rounded-br-md bg-accent px-4 py-2.5 text-small text-white">{t.q}</div>
@@ -209,7 +209,7 @@ export function SaralyaAi() {
 function TopBar({ tab, onTab }: { tab: string; onTab: (t: 'ask' | 'tools') => void }) {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-[1500px] items-center gap-6 px-5 py-3 md:px-6">
+      <div className="mx-auto flex w-full max-w-[93.75rem] items-center gap-6 px-5 py-3 md:px-6">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-2 text-lede font-semibold tracking-tight">
             Saralya
@@ -264,7 +264,7 @@ function Sidebar({
   onFresh: () => void
 }) {
   return (
-    <aside className="hidden w-[248px] shrink-0 flex-col justify-between border-r border-line px-3.5 py-5 lg:flex">
+    <aside className="hidden w-[15.5rem] shrink-0 flex-col justify-between border-r border-line px-3.5 py-5 lg:flex">
       <div>
         <button
           type="button"
@@ -332,7 +332,7 @@ function Ask({
   onTools: () => void
 }) {
   return (
-    <div className="mx-auto w-full max-w-[880px]">
+    <div className="mx-auto w-full max-w-[55rem]">
       <div className="flex items-center gap-2.5">
         <span className="size-1.5 rounded-full bg-green animate-pulse-ring" />
         <span className="font-mono text-label uppercase tracking-[0.14em] text-muted">Saralya AI · Free</span>
@@ -481,7 +481,7 @@ function Composer({ q, onQ, onSubmit, busy, onFiles }: { q: string; onQ: (s: str
 
 function Tools() {
   return (
-    <div className="mx-auto w-full max-w-[880px]">
+    <div className="mx-auto w-full max-w-[55rem]">
       <div className="font-mono text-label uppercase tracking-[0.14em] text-hint">Beyond answers</div>
       <h1 className="display mt-1.5 text-h3 md:text-h2">What Saralya AI can do</h1>
       <p className="mt-2.5 max-w-[62ch] text-body leading-relaxed text-muted">

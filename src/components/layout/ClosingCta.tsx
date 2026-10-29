@@ -15,7 +15,7 @@ export function ClosingCta({ demo = false }: { demo?: boolean }) {
           <FadeIn className="relative overflow-hidden bg-lime px-7 py-12 text-ink md:px-14 md:py-16">
             {/* decorative shapes */}
             <div aria-hidden className="pointer-events-none absolute inset-0">
-              <div className="absolute -right-24 -top-28 size-80 rounded-full border-[28px] border-ink/10" />
+              <div className="absolute -right-24 -top-28 size-80 rounded-full border-[1.75rem] border-ink/10" />
               <div className="absolute -bottom-32 right-[18%] size-56 rounded-full bg-ink/10" />
               <div className="absolute left-0 top-0 h-full w-2 bg-ink" />
             </div>

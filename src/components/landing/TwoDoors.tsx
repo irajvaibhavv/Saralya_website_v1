@@ -16,9 +16,9 @@ export function TwoDoors() {
           {/* the platform */}
           <Link
             to="/products"
-            className="group relative flex min-h-[392px] flex-col overflow-hidden bg-wash2 p-8 ring-1 ring-accent/25 transition-colors duration-300 hover:ring-accent md:p-10"
+            className="group relative flex min-h-[24.5rem] flex-col overflow-hidden bg-wash2 p-8 ring-1 ring-accent/25 transition-colors duration-300 hover:ring-accent md:p-10"
           >
-            <span aria-hidden className="pointer-events-none absolute -right-24 -top-28 size-64 rounded-full border-[26px] border-accent/15" />
+            <span aria-hidden className="pointer-events-none absolute -right-24 -top-28 size-64 rounded-full border-[1.625rem] border-accent/15" />
 
             <div className="relative flex items-start justify-between gap-4">
               <span className="font-mono text-label uppercase tracking-[0.16em] text-accent2">The platform</span>
@@ -49,10 +49,10 @@ export function TwoDoors() {
           {/* the agents */}
           <Link
             to="/agents"
-            className="group relative flex min-h-[392px] flex-col overflow-hidden bg-ink p-8 text-white ring-1 ring-ink transition-colors duration-300 md:p-10"
+            className="group relative flex min-h-[24.5rem] flex-col overflow-hidden bg-ink p-8 text-white ring-1 ring-ink transition-colors duration-300 md:p-10"
           >
-            <span aria-hidden className="pointer-events-none absolute -right-40 -top-44 size-72 rounded-full border-[28px] border-white/10" />
-            <span aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 size-64 rounded-full border-[28px] border-lav/50" />
+            <span aria-hidden className="pointer-events-none absolute -right-40 -top-44 size-72 rounded-full border-[1.75rem] border-white/10" />
+            <span aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 size-64 rounded-full border-[1.75rem] border-lav/50" />
 
             <div className="relative flex items-start justify-between gap-4">
               <span className="font-mono text-label uppercase tracking-[0.16em] text-lime">The agents</span>

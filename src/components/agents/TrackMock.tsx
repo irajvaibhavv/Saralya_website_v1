@@ -270,7 +270,7 @@ function PdNote() {
               <span className={`grid size-4 shrink-0 place-items-center rounded-full ${i < n ? 'bg-accent text-white' : 'bg-line2 text-white'}`}>
                 <Check className="size-2.5" strokeWidth={3} />
               </span>
-              <span className="w-[76px] shrink-0 font-mono text-label uppercase tracking-[0.08em] text-hint">{p.k}</span>
+              <span className="w-[4.75rem] shrink-0 font-mono text-label uppercase tracking-[0.08em] text-hint">{p.k}</span>
               <span className={`min-w-0 flex-1 truncate text-small ${i < n ? 'text-ink2' : 'text-hint'}`}>{p.v}</span>
             </li>
           ))}
@@ -321,7 +321,7 @@ function Pqm() {
           <ul className="min-w-0 flex-1 space-y-1.5">
             {PILLARS.map((p, i) => (
               <li key={p.label} className="flex items-center gap-2">
-                <span className={`w-[92px] shrink-0 truncate text-small ${i < n ? 'text-ink2' : 'text-hint'}`}>{p.label}</span>
+                <span className={`w-[5.75rem] shrink-0 truncate text-small ${i < n ? 'text-ink2' : 'text-hint'}`}>{p.label}</span>
                 <Bar fill={i < n ? p.fill : 0} />
                 <span className="font-mono text-label text-hint">{p.weight}</span>
               </li>
@@ -362,7 +362,7 @@ function Officers() {
     <Fade>
       <div className="px-4 py-3.5">
         <Head title="Officer and branch performance" meta="This month" />
-        <div className="mt-3 grid grid-cols-[1fr_44px_48px_88px] gap-x-2 font-mono text-label uppercase tracking-[0.08em] text-hint">
+        <div className="mt-3 grid grid-cols-[1fr_2.75rem_3rem_5.5rem] gap-x-2 font-mono text-label uppercase tracking-[0.08em] text-hint">
           <span>Officer</span>
           <span>Files</span>
           <span>TAT</span>
@@ -372,7 +372,7 @@ function Officers() {
           {OFFICERS.map((o, i) => (
             <li
               key={o.name}
-              className={`grid grid-cols-[1fr_44px_48px_88px] items-center gap-x-2 rounded-lg px-2 py-1.5 text-small transition-colors duration-300 ${
+              className={`grid grid-cols-[1fr_2.75rem_3rem_5.5rem] items-center gap-x-2 rounded-lg px-2 py-1.5 text-small transition-colors duration-300 ${
                 i >= n ? 'text-hint' : o.slow && n > OFFICERS.length ? 'bg-amber-w text-ink' : 'text-ink2'
               }`}
             >
@@ -383,7 +383,7 @@ function Officers() {
             </li>
           ))}
         </ul>
-        <div className="mt-3 min-h-[60px]">
+        <div className="mt-3 min-h-[3.75rem]">
           {n > OFFICERS.length && (
             <Rise className="rounded-lg bg-wash px-3 py-2 text-small leading-relaxed text-ink2">
               Aligarh files wait 2.7 days at document check. Coach that stage, not the month.
@@ -423,7 +423,7 @@ function Warnings() {
             </li>
           ))}
         </ul>
-        <div className="mt-3 min-h-[44px]">
+        <div className="mt-3 min-h-[2.75rem]">
           {n > ALERTS.length && (
             <Rise className="rounded-lg bg-ink px-3 py-2.5 text-small font-semibold text-white">
               4 accounts to call first, sorted by amount at risk
@@ -453,7 +453,7 @@ function Pack() {
             </li>
           ))}
         </ul>
-        <div className="mt-3 min-h-[60px]">
+        <div className="mt-3 min-h-[3.75rem]">
           {n > PACK.length && (
             <Note tag="Sent" title="On the CRO’s desk, 7:00 on the 1st" body="Nobody assembled it." />
           )}
@@ -504,7 +504,7 @@ function Custom({ row }: { row: number }) {
     <Fade>
       <div className="px-4 py-3.5">
         <div className="font-mono text-label uppercase tracking-[0.14em] text-hint">Your problem</div>
-        <p className="mt-1.5 min-h-[60px] rounded-xl bg-wash px-3 py-2.5 text-small leading-snug text-ink">
+        <p className="mt-1.5 min-h-[3.75rem] rounded-xl bg-wash px-3 py-2.5 text-small leading-snug text-ink">
           {PROBLEM.slice(0, typed)}
           {typed < PROBLEM.length && <span className="ml-0.5 inline-block h-3.5 w-px animate-pulse bg-ink align-middle" />}
         </p>
@@ -526,7 +526,7 @@ function Custom({ row }: { row: number }) {
                 <span className={`grid size-5 shrink-0 place-items-center rounded-full ${on ? 'bg-accent text-white' : 'bg-line2 text-white'}`}>
                   <Check className="size-3" strokeWidth={3} />
                 </span>
-                <span className={`w-[68px] shrink-0 font-mono text-label uppercase tracking-[0.1em] ${on ? 'text-accent2' : 'text-hint'}`}>{b.k}</span>
+                <span className={`w-[4.25rem] shrink-0 font-mono text-label uppercase tracking-[0.1em] ${on ? 'text-accent2' : 'text-hint'}`}>{b.k}</span>
                 <span className={`min-w-0 flex-1 truncate text-small ${on ? 'text-ink2' : 'text-hint'}`}>{b.v}</span>
               </li>
             )
@@ -563,7 +563,7 @@ function useTyped(on: boolean) {
 
 function Phone({ label, dark, children }: { label: string; dark?: boolean; children: React.ReactNode }) {
   return (
-    <div className="relative w-[320px] max-w-full rounded-[2.8rem] bg-ink p-2.5 shadow-[0_50px_90px_-35px_rgba(13,22,20,0.8)] ring-1 ring-white/30">
+    <div className="relative w-[20rem] max-w-full rounded-[2.8rem] bg-ink p-2.5 shadow-[0_3.125rem_5.625rem_-2.1875rem_rgba(13,22,20,0.8)] ring-1 ring-white/30">
       <div className="overflow-hidden rounded-[2.3rem] bg-white">
         <div className={`flex items-center justify-between px-5 pb-2 pt-3 ${dark ? 'bg-ink' : ''}`}>
           <span className={`font-mono text-label ${dark ? 'text-white/60' : 'text-hint'}`}>9:41</span>
@@ -580,7 +580,7 @@ function Phone({ label, dark, children }: { label: string; dark?: boolean; child
             <span className="font-mono text-label text-muted">Live</span>
           </span>
         </div>
-        <div className="relative h-[410px]">
+        <div className="relative h-[25.625rem]">
           <AnimatePresence initial={false}>{children}</AnimatePresence>
         </div>
       </div>
@@ -590,7 +590,7 @@ function Phone({ label, dark, children }: { label: string; dark?: boolean; child
 
 function Browser({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="w-[460px] max-w-full overflow-hidden rounded-2xl bg-white shadow-[0_50px_90px_-35px_rgba(13,22,20,0.7)] ring-1 ring-ink/10">
+    <div className="w-[28.75rem] max-w-full overflow-hidden rounded-2xl bg-white shadow-[0_3.125rem_5.625rem_-2.1875rem_rgba(13,22,20,0.7)] ring-1 ring-ink/10">
       <div className="flex items-center gap-2 border-b border-line2 bg-wash2 px-3 py-2">
         <span className="flex gap-1">
           {['bg-red', 'bg-amber', 'bg-green'].map((c) => (
@@ -599,7 +599,7 @@ function Browser({ label, children }: { label: string; children: React.ReactNode
         </span>
         <span className="mx-auto rounded-full bg-white px-3 py-0.5 font-mono text-label text-muted ring-1 ring-line2">{label}</span>
       </div>
-      <div className="relative h-[380px]">
+      <div className="relative h-[23.75rem]">
         <AnimatePresence initial={false}>{children}</AnimatePresence>
       </div>
     </div>

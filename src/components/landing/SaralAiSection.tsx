@@ -82,12 +82,12 @@ export function SaralAiSection({
               backgroundSize: '96px 96px',
             }}
           />
-          <div className="absolute -right-52 -top-56 size-[26rem] rounded-full border-[30px] border-lav/60" />
+          <div className="absolute -right-52 -top-56 size-[26rem] rounded-full border-[1.875rem] border-lav/60" />
           <div className="absolute -bottom-64 -left-48 size-[24rem] rounded-full bg-accent/10" />
         </div>
         {/* the chat gets a fixed tall stage; the opening view sizes to its
            content */}
-        <div className={`relative mx-auto w-full max-w-[1120px] ${pending ? 'h-[84svh]' : ''}`}>
+        <div className={`relative mx-auto w-full max-w-[70rem] ${pending ? 'h-[84svh]' : ''}`}>
           {pending ? <SaralAiChat pending={pending} seat={seat} dropped={dropped} /> : <SaralAiPanel onAsk={onAsk} seat={seat} onSeat={onSeat} />}
         </div>
 
@@ -109,7 +109,7 @@ export function SaralAiSection({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4, transition: { duration: 0.15 } }}
-            className="fixed bottom-[76px] right-5 z-[90] max-w-[240px] rounded-xl bg-white px-3.5 py-2.5 text-small leading-snug text-ink2 shadow-md sm:bottom-[84px] sm:right-6"
+            className="fixed bottom-[4.75rem] right-5 z-[90] max-w-[15rem] rounded-xl bg-white px-3.5 py-2.5 text-small leading-snug text-ink2 shadow-md sm:bottom-[5.25rem] sm:right-6"
           >
             Ask me anything about credit risk, collections or RBI norms.
             <span className="absolute -bottom-1 right-6 size-2 rotate-45 bg-white" />

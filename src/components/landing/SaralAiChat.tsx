@@ -544,7 +544,7 @@ function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => voi
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             onClick={(e) => e.stopPropagation()}
             onSubmit={(e) => { e.preventDefault(); if (!email.trim()) return; onUnlock(); go('/saralya-ai') }}
-            className="relative w-full max-w-[400px] rounded-3xl bg-white p-7 text-ink shadow-[0_40px_100px_-30px_rgba(20,20,32,0.5)]"
+            className="relative w-full max-w-[25rem] rounded-3xl bg-white p-7 text-ink shadow-[0_2.5rem_6.25rem_-1.875rem_rgba(20,20,32,0.5)]"
           >
             <button type="button" onClick={onClose} aria-label="Close" className="absolute right-3 top-3 grid size-9 place-items-center rounded-full text-muted hover:bg-bg hover:text-ink">
               <X className="size-4" />
@@ -579,7 +579,7 @@ function SignIn({ open, onClose, onUnlock }: { open: boolean; onClose: () => voi
 /* Typing indicator. */
 function Dots() {
   return (
-    <span className="flex h-[21px] items-center gap-1">
+    <span className="flex h-[1.3125rem] items-center gap-1">
       {[0, 1, 2].map((i) => (
         <motion.span key={i} className="size-1.5 rounded-full bg-accent" animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }} transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }} />
       ))}
