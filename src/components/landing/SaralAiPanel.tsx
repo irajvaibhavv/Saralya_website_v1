@@ -1,5 +1,5 @@
 import { ArrowUp, Cpu, GraduationCap, Landmark, Lock, Plus, Table2, User, Users } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { ROLES, type Starter } from '../../content/chat'
 import { ACCEPT, ask, fileStarter } from '../../lib/chat'
 import { useSpeech } from '../../lib/speech'
@@ -35,7 +35,24 @@ export function SaralAiPanel({
   onSeat: (r: Role | null) => void
 }) {
   const [q, setQ] = useState('')
+  const [hintIdx, setHintIdx] = useState(0)
   const speech = useSpeech(setQ)
+
+  /* rotate the composer placeholder through the seat's starter questions so the
+     input itself hints at what to ask. no seat → the generic lending prompt. */
+  useEffect(() => {
+    setHintIdx(0)
+    if (!seat) return
+    const id = setInterval(() => setHintIdx((n) => n + 1), 3500)
+    return () => clearInterval(id)
+  }, [seat])
+
+  const starters = seat?.qs ?? []
+  const hint = speech.listening
+    ? 'Listening…'
+    : starters.length
+      ? `Try: ${starters[hintIdx % starters.length].q}`
+      : 'Ask anything about lending…'
 
   /* attaching a file starts the conversation with it */
   const attach = (list: FileList | null) => {
@@ -94,7 +111,7 @@ export function SaralAiPanel({
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder={speech.listening ? 'Listening…' : 'Ask anything about lending…'}
+            placeholder={hint}
             aria-label="Ask Saral AI"
             autoFocus
             className="min-w-0 flex-1 bg-transparent px-2 text-body outline-none placeholder:text-hint [@media(min-height:800px)]:text-lede"
@@ -108,17 +125,17 @@ export function SaralAiPanel({
         {/* starter questions appear once a role is picked */}
         {seat && (
           <>
-            <span className="mt-4 block font-mono text-label uppercase tracking-[0.14em] text-hint">Or try</span>
-            <div className="mt-2 grid items-stretch gap-2.5 sm:grid-cols-3">
-              {seat.qs.slice(0, 3).map((s) => (
+            <span className="mt-4 block font-mono text-label uppercase tracking-[0.14em] text-hint">Try</span>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {seat.qs.slice(0, 4).map((s) => (
                 <button
                   key={s.q}
                   type="button"
                   onClick={() => onAsk(s)}
-                  className="flex h-full flex-col justify-between border border-line bg-white px-4 py-3.5 text-left transition hover:border-accent"
+                  className="group inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 text-left text-small text-ink2 transition hover:border-accent hover:text-ink"
                 >
-                  <span className="block text-small leading-snug text-ink">{s.q}</span>
-                  <span className="mt-2 block font-mono text-label uppercase tracking-[0.12em] text-accent">Ask this &#8594;</span>
+                  <span className="truncate max-w-[22rem]">{s.q}</span>
+                  <ArrowUp className="size-3.5 rotate-45 shrink-0 text-accent transition-transform group-hover:translate-x-0.5" strokeWidth={2} />
                 </button>
               ))}
             </div>
