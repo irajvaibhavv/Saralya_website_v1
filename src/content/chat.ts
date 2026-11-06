@@ -95,31 +95,6 @@ export const ROLES: { id: string; label: string; asks: string; dept: DeptId; hel
     ],
   },
   {
-    id: 'borrower',
-    label: 'Borrower',
-    asks: 'Eligibility, score, documents',
-    dept: 'other',
-    hello: 'Borrowers ask me how much they can get, and why a score moved.',
-    qs: [
-      {
-        q: 'My salary is ₹65,000 a month with a ₹9,000 car EMI. How much home loan can I get?',
-        a: 'Most lenders cap all your EMIs together at 50–60% of take-home pay. On ₹65,000 that is roughly ₹32,000–₹39,000, less the ₹9,000 you already pay, so about ₹23,000–₹30,000 of new EMI. At prevailing home-loan rates over 20 years that is broadly ₹25–35 lakh, before the lender’s own policy and the property valuation.',
-      },
-      {
-        q: 'My CIBIL score dropped by 40 points. What could have caused it?',
-        a: 'Usually one of four things: a payment reported late, card usage above about 30% of the limit, several loan enquiries in a short window, or an old account closed along with the history behind it. The report names the account that moved, and an error can be disputed with the bureau.',
-      },
-      {
-        q: 'What documents do I need for a home loan as a salaried employee?',
-        a: 'Identity and address proof, three months of salary slips, six to twelve months of bank statements, Form 16 or the last two years’ returns, and the property papers. Statements shared over Account Aggregator come straight from your bank, so there is nothing to scan.',
-      },
-      {
-        q: 'Why was my loan application rejected?',
-        a: 'Ask the lender for the reason, in writing. The common ones are obligations above the income cap, a thin or damaged bureau file, income that cannot be evidenced, and an address or employment that could not be verified.',
-      },
-    ],
-  },
-  {
     id: 'dsa',
     label: 'DSA / advisor',
     asks: 'Files, rejections, turnaround',

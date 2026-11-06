@@ -14,7 +14,6 @@ import { Mark, MicButton, type Role } from './SaralAiChat'
 /* icon per role id */
 const SEAT_ICONS: Record<string, typeof User> = {
   nbfc: Landmark,
-  borrower: User,
   dsa: Users,
   learn: GraduationCap,
 }
