@@ -5,7 +5,7 @@
 
 export type Tool = {
   id: string
-  icon: 'emi' | 'compare' | 'checklist' | 'statement' | 'readiness' | 'memo' | 'portfolio' | 'policy'
+  icon: 'emi' | 'compare' | 'checklist' | 'statement' | 'readiness' | 'memo' | 'portfolio' | 'policy' | 'sna'
   name: string
   body: string
   /** 'free' needs nothing; 'account' opens with a free account */
@@ -14,14 +14,12 @@ export type Tool = {
 }
 
 export const TOOLS: Tool[] = [
-  { id: 'emi', icon: 'emi', name: 'EMI & eligibility', body: 'What you can borrow, and what it costs each month.', gate: 'free', note: 'Free · no account needed' },
-  { id: 'compare', icon: 'compare', name: 'Compare loan offers', body: 'The true cost of two or three offers, side by side.', gate: 'free', note: 'Free · no account needed' },
-  { id: 'checklist', icon: 'checklist', name: 'Document checklist', body: 'Exactly what to keep ready for your loan.', gate: 'account', note: 'Uses tokens · 5 free runs' },
-  { id: 'statement', icon: 'statement', name: 'Bank statement snapshot', body: 'Read a statement the way an underwriter does.', gate: 'account', note: 'Uses tokens · 1 free run' },
-  { id: 'readiness', icon: 'readiness', name: 'Saral readiness report', body: 'A Saral-style credit read on your profile.', gate: 'account', note: 'Uses tokens · 1 free run' },
-  { id: 'memo', icon: 'memo', name: 'Credit memo draft', body: 'A structured credit appraisal from your case notes.', gate: 'account', note: 'Uses tokens · 1 free run' },
-  { id: 'portfolio', icon: 'portfolio', name: 'Portfolio quality snapshot', body: 'PAR, NPA and concentration from your loan tape.', gate: 'account', note: 'Uses tokens · 2 free runs' },
+  { id: 'statement', icon: 'statement', name: 'Bank statement analysis', body: 'Get a detailed analysis of your bank statements.', gate: 'account', note: 'Uses tokens · 1 free run' },
+  { id: 'readiness', icon: 'readiness', name: 'Saral report', body: 'Get a detailed underwriting report.', gate: 'account', note: 'Uses tokens · 1 free run' },
+  { id: 'memo', icon: 'memo', name: 'Credit memo draft', body: 'Structured CAM reports.', gate: 'account', note: 'Uses tokens · 1 free run' },
+  { id: 'portfolio', icon: 'portfolio', name: 'Portfolio quality monitor', body: 'Get a detailed report of your portfolio.', gate: 'account', note: 'Uses tokens · 2 free runs' },
   { id: 'policy', icon: 'policy', name: 'Credit policy to rules', body: 'Turn a credit policy PDF into decision rules.', gate: 'account', note: 'Uses tokens · 1 free run' },
+  { id: 'sna', icon: 'sna', name: 'Get your SNA analytics', body: 'Early-warning NPA signals.', gate: 'account', note: 'Uses tokens · 2 free runs' },
 ]
 
 /* notices shown on every workspace screen */

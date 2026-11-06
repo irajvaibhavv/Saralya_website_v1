@@ -1,4 +1,5 @@
 import {
+  Activity,
   ArrowRight,
   BarChart3,
   Banknote,
@@ -63,6 +64,7 @@ const TOOL_ICONS = {
   memo: FileText,
   portfolio: BarChart3,
   policy: FileCheck2,
+  sna: Activity,
 } as const
 const GUARD_META = [
   { icon: AlertTriangle },
@@ -556,10 +558,9 @@ function Tools() {
   return (
     <div className="relative mx-auto w-full max-w-[74rem]">
       <div className="font-mono text-label uppercase tracking-[0.14em] text-hint">Tools</div>
-      <h1 className="display mt-1.5 text-h2 md:text-h1">Work it out, the way a lender would.</h1>
+      <h1 className="display mt-1.5 text-h2 md:text-h1">Underwriting, monitoring and CAM tools for NBFCs.</h1>
       <p className="mt-4 max-w-[46rem] text-body leading-relaxed text-muted">
-        Calculators are free for everyone. The reports open with a free account and use tokens from your
-        free allowance. Your first question needs no account at all.
+        Bank statements, CAM drafts, SMA signals and portfolio monitoring. First run free; a free account saves history and uses tokens.
       </p>
       <ToolCards />
       <Guards />
@@ -569,34 +570,32 @@ function Tools() {
 
 function ToolCards() {
   return (
-    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {TOOLS.map((t) => {
+    <div className="mt-12 border-t border-line">
+      {TOOLS.map((t, i) => {
         const Icon = TOOL_ICONS[t.icon]
         return (
           <a
             key={t.id}
             href={account(`Saralya AI · ${t.name}`)}
-            className="group flex flex-col rounded-2xl bg-white p-6 ring-1 ring-line transition hover:-translate-y-0.5 hover:ring-accent/40 hover:shadow-[0_18px_36px_-18px_rgba(0,95,75,0.35)]"
+            className="group grid grid-cols-[auto_1fr_auto] items-center gap-6 border-b border-line py-7 transition hover:bg-wash md:grid-cols-[4rem_1fr_auto_auto] md:gap-9 md:py-8"
           >
-            <div className="flex items-start justify-between gap-3">
-              <span className="grid size-11 place-items-center rounded-xl bg-wash text-accent transition-colors group-hover:bg-green-w">
-                <Icon className="size-5" strokeWidth={1.7} />
-              </span>
-              <span
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-label uppercase tracking-[0.1em] ${t.gate === 'free' ? 'bg-green-w text-green' : 'bg-wash text-muted'}`}
-              >
+            <span className="font-mono text-h3 text-line2 transition-colors group-hover:text-accent">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div className="min-w-0">
+              <h3 className="display text-h3 text-ink">{t.name}</h3>
+              <p className="mt-1.5 max-w-[42rem] text-body leading-relaxed text-muted">{t.body}</p>
+            </div>
+            <div className="hidden items-center gap-6 md:flex">
+              <Icon className="size-6 text-accent" strokeWidth={1.7} />
+              <span className="inline-flex items-center gap-1.5 font-mono text-label uppercase tracking-[0.1em] text-muted">
                 {t.gate === 'account' && <Lock className="size-2.5" strokeWidth={2} />}
                 {t.gate === 'free' ? 'Free' : 'Free account'}
               </span>
             </div>
-            <h3 className="display mt-6 text-h3 text-ink">{t.name}</h3>
-            <p className="mt-2 text-small leading-relaxed text-muted">{t.body}</p>
-            <div className="mt-6 flex items-center justify-between border-t border-line pt-4">
-              <span className="font-mono text-label uppercase tracking-[0.12em] text-hint">{t.note}</span>
-              <span className="inline-flex items-center gap-1 text-small font-semibold text-ink transition group-hover:text-accent">
-                Start <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={2} />
-              </span>
-            </div>
+            <span className="grid size-10 place-items-center text-accent transition-transform group-hover:translate-x-1">
+              <ArrowRight className="size-5" strokeWidth={1.8} />
+            </span>
           </a>
         )
       })}
@@ -725,21 +724,15 @@ function ToolGrid({ limit }: { limit?: number }) {
 }
 
 function Guards() {
-  const labels = ['Heads up', 'For clarity', 'Stay private'] as const
   return (
     <section className="mt-10">
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-hint">
         {GUARDS.map((g, i) => {
           const { icon: Icon } = GUARD_META[i]
           return (
-            <div
-              key={g.title}
-              className="flex items-center gap-3 rounded-xl border-l-4 border-accent/40 bg-wash px-4 py-3"
-            >
-              <span className="size-1.5 shrink-0 rounded-full bg-accent" />
-              <Icon className="size-4 shrink-0 text-accent" strokeWidth={1.9} />
-              <span className="text-small leading-tight text-ink2">{g.title}</span>
-              <span className="ml-auto font-mono text-label uppercase tracking-[0.12em] text-hint">{labels[i]}</span>
+            <div key={g.title} className="flex items-center gap-2">
+              <Icon className="size-3 shrink-0" strokeWidth={1.6} />
+              <span className="text-label leading-tight">{g.title}</span>
             </div>
           )
         })}
