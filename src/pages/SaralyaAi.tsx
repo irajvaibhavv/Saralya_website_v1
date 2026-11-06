@@ -406,7 +406,7 @@ function Sidebar({
       <div className="rounded-2xl bg-ink p-4 text-white">
         <div className="font-mono text-label uppercase tracking-[0.14em] text-accent3">Keep them</div>
         <p className="mt-2 text-small leading-relaxed text-white/70">
-          These live on this browser only. Save them to a free account and read every answer in full.
+          Your current chat will not be saved. Make a free account to save history of chat.
         </p>
         <a
           href={account('Saralya AI account')}
