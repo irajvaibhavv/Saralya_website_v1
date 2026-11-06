@@ -329,9 +329,6 @@ function TopBar({
               {t}
             </button>
           ))}
-          <span className="hidden px-4 py-2 font-mono text-small uppercase tracking-[0.08em] text-hint md:block" title="Next on the list">
-            Workspace
-          </span>
         </nav>
 
         <div className="flex items-center gap-2">
